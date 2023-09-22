@@ -22,7 +22,7 @@
 \toprule
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
-Date1 & Name(s) & Description of changes\\
+11/22/23 & David & Added first draft for tech and coding standard\\
 Date2 & Name(s) & Description of changes\\
 ... & ... & ...\\
 \bottomrule
@@ -53,20 +53,54 @@ you will be able to overcome this risk?
 
 \section{Technology}
 
+As a result of our system being a pretty complex full-stack application, it will be built
+using several different tools and technologies, across both the frontend and the backend.
+\\~\\
+\textbf{Frontend}
+
 \begin{itemize}
-\item Specific programming language
-\item Specific linter tool (if appropriate)
-\item Specific unit testing framework
-\item Investigation of code coverage measuring tools
-\item Specific plans for Continuous Integration (CI), or an explanation that CI
-  is not being done
-\item Specific performance measuring tools (like Valgrind), if
-  appropriate
-\item Libraries you will likely be using?
-\item Tools you will likely be using?
+	\item Programming language - Typescript
+	\item Unit testing framework - Jest
+	\item Frontend web framework - React\\
 \end{itemize}
 
+\textbf{Backend}
+
+\begin{itemize}
+	\item Programming language - Python
+	\item Linter - Flake8, Mypy, autoflake
+	\item Unit testing framework - pytest
+	\item Backend web framework(s) - Django, FastAPI\\
+\end{itemize}
+
+In addition to the technologies mentioned above, we will be using a few tools that will help us 
+develop our app more efficiently and effectively. First, we will containerize our app
+by using docker, which will make it easier to test and deploy our application (also use of docker desktop for running/testing
+our application locally). Furthermore, for our continous 
+integration pipeline, we will be using github actions to run automated tests and linting for both the frontend and backend 
+services/code, and to build our docker images. Finally, we plan to use firebase as our cloud environment, which
+is where our application will actually run. \\
+
+There are also a few tools/technologies that still need to be decided upon. We will need to have some database to store
+client information. It is likely that this will be a relational database, and will be one of Postgres, MySQL, or SQLite.
+Additionally, it is possible that we will need to use some existing library/tool for parsing trial eligibility criteria, however this 
+will become more clear in the following weeks (i.e., an advanced parsing library, or existing NLP designed for healthcare systems).
+
 \section{Coding Standard}
+
+For all of our python code/services, we will be following the Pep8 coding standard, and we will be enforcing this 
+with the help of the flake8 linter. We will also be using mypy, which will enforce strict typing (which is usually not present/mandatory
+in python), meaning all of our function parameters, return types, class variables, etc.. will need to have its type defined. Finally, we will
+have docstrings present in each module, to give a brief description of what the main purpose of the module is.\\
+
+For the frontend code we will not be following any formal coding standard, but we will be following best practices
+when coding in typescript and when using React. Some of these best practices include - 
+
+\begin{itemize}
+	\item use functional components
+	\item don't use inline-styles
+	\item maintain a proper import structure (third-party imports first --> internal imports below)
+\end{itemize}
 
 \section{Project Scheduling}
 
