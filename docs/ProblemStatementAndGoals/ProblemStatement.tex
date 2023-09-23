@@ -2,6 +2,7 @@
 
 \usepackage{tabularx}
 \usepackage{booktabs}
+\usepackage{float}
 
 \title{Problem Statement and Goals\\\progname}
 
@@ -22,9 +23,7 @@
 \toprule
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
-Date1 & Name(s) & Description of changes\\
-Date2 & Name(s) & Description of changes\\
-... & ... & ...\\
+2023-09-23 & Alan Scott & Added goals and stretch goals\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -51,6 +50,42 @@ Use abstraction so that you can avoid details.}
 
 \section{Goals}
 
+\begin{table}[H]
+\centering
+\begin{tabular}{| p{3cm} | p{5cm} | p{5cm} |}
+\hline
+Goal & Explanation & Reasoning \\
+\hline  \hline
+Data Collection & The system should collect personal and medical information from the client. This data will be stored in a remote repository. & The data will need to be accessible by the system to allow for the matching of patients to studies. \\
+\hline
+Study Listing & Clinicians should be able to create listings for studies in need of patients containing details of the study. & Clinicians will need a method in which they can recruit appropriate patients for their studies.  \\
+\hline
+Remote Access & Users should be able to access the system through a web application over the internet, regardless of location. & Making the system readily available to the end users over the internet will maximize the accessibility of the system and improves the end user experience. \\
+\hline
+Security & The system should store user data in a manner such that it is only accessible by the intended parties. & Stored data will pertain to personal and medical data, which is subject to high standards of data security. \\
+\hline
+Ease of Use & The user interface should be easy to understand by patients and clinicians alike. The interface should be intuitive to the point where users do not need to be taught how to use it. & The interface will be used by end users with a varied range of technical ability. Therefore, the interface should be as easy to use as possible. \\
+\hline
+Multiple Views & There should be different views for the system interface depending on the user group to which a user belongs. For example, patients seeking studies will have a different interface than clinicians seeking patients. & Patients and clinicians will have different uses for the system, and will therefore need separate views for their differing use cases. \\
+\hline
+
+
+\end{tabular}
+\end{table}
+
 \section{Stretch Goals}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{| p{3cm} | p{5cm} | p{5cm} |}
+\hline
+Goal & Explanation & Reasoning \\
+\hline  \hline
+Expanded Search & The system should allow users to search for studies from multiple repositories. & The system should be scalable to include other repositories to pull studies from additional or external sources. \\
+\hline
+System Availability & The system should be virtually always available to the end users. & Maximizing uptime will make the system more accessible to users and increase the quality of the end user experience. \\
+\hline
+\end{tabular}
+\end{table}
 
 \end{document}
