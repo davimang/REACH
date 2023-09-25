@@ -26,6 +26,7 @@
 09/22/23 & David & Added first draft for tech and coding standard\\
 09/23/23 & Deep & Added first draft for proof of concept plan and project schedule\\
 09/24/23 & Anika & Added draft for intro and sections 1 - 4 \\
+09/25/23 & Anika & Made changes based on sync with project supervisors \\
 ... & ... & ...\\
 \bottomrule
 \end{tabularx}
@@ -190,10 +191,16 @@ When the ticket is complete and the developer wishes to merge into the master br
 	This should also spin up docker containers from the images in order to do any environment testing before merging to main.
 	\item Provided tests are passed, linting is successful, and the spun up environment does not error out, the developer will create a pull request.
 	\item The developer will move the ticket into the "In Review" column of the sprint board.
-	\item The dev team will review the pull request, provide feedback and request changes if necessary. 
+	\item The team will review the pull request, provide feedback and request changes if necessary. 
 	\item Once the pull request is approved by the rest of the dev team, the developer will merge into the master branch.
+	\item The developer will make sure to delete the branch they were working on after merge.
 	\item The scrum master will move the ticket into the "Done" column of the sprint board.
 \end{enumerate}
+
+In the case of merge conflicts prior to merge, developers are expected to rebase, and pull in changes from the master branch.
+If a developer is unable to resolve a merge conflict, they should reach out to the team for assistance. 
+From there, the developers who were working on the same file will work together to resolve the merge conflict. 
+A pull request cannot be merged if conflicts exist.\\
 
 \begin{itemize}
 	\item How will you be using git, including branches, pull request, etc.?
@@ -205,7 +212,7 @@ When the ticket is complete and the developer wishes to merge into the master br
 
 The main risks for the success of this project are; none of the members of the team have deployed a web app from scratch before, and that the data provided by the clinical is often in natural language. Since none of the team members have deployed a web app from scratch this may be a risk as we are not certain of all the steps which must be taken to publish a web app. The data provided by the clinical trials being in natural language also is a risk as we will have to research and use a natural language processor to extract the relevant data points. 
 
-Therfore to demonstrate that we can overcome these risks our proof of concept demonstrations will have to both be deployed and able to be ascessed from a device that is not running the source code, and the application must be able to extract the requirements for the clinical trial from the data source. Also the application should be able to display the retreived requiremnts in a GUI of some fashion.
+Therefore to demonstrate that we can overcome these risks our proof of concept demonstrations will have to both be deployed and able to be ascessed from a device that is not running the source code, and the application must be able to extract the requirements for the clinical trial from the data source. Also the application should be able to display the retreived requiremnts in a GUI of some fashion.
 
 \section{Technology}
 
