@@ -28,6 +28,7 @@
 2023-09-24 & Aamina Hussain & Added problem statement \\
 2023-09-25 & Alan Scott & Updated goals based on meeting with supervisor \\
 2023-09-25 & Aamina Hussain & Updated problem statement after meeting with supervisor \\
+2023-09-25 & Alan Scott & Removed some goals that were better suited as non-functional requirements \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -92,21 +93,15 @@ Hardware: A computer or smartphone that the user can use to access the web appli
 \centering
 \begin{tabular}{| p{3cm} | p{5cm} | p{5cm} |}
 \hline
-Goal & Explanation & Reasoning \\
+Goal & Explanation & Importance \\
 \hline  \hline
-Data Collection & The system should collect personal and medical information from the client. This data will be stored in a remote repository. & The data will need to be accessible by the system to allow for the matching of patients to studies. \\
+Data Collection & The system should collect personal and medical information from the client. This data will be stored in a remote repository. & The collection of data from the patient will allow the application to effectively match the patient with the most appropriate studies. \\
 \hline
 Reliant on Existing Repositories & The application should pull the details of studies from an existing repository of studies. & Since the application does not contain the studies themselves, the studies will need to be pulled from an external repository. \\
 \hline
 Remote Access & Users should be able to access the application through a web application over the internet, regardless of location. & Making the application readily available to the end users over the internet will maximize the accessibility of the application and improves the end user experience. \\
 \hline
-Security & The application should store user data in a manner such that it is only accessible by the intended parties. & While the data stored should be anonymized, the medical information is still sensitive and should therefore be protected. \\
-\hline
-Ease of Use & The user interface should be easy to understand by patients and clinicians alike. The interface should be intuitive to the point where users do not need to be taught how to use it. & The interface will be used by end users with a varied range of technical ability. Therefore, the interface should be as easy to use as possible. \\
-\hline
 Multiple Views & There should be different views for the application interface depending on the user group to which a user belongs. & Patients and clinicians will have different uses for the application, and will therefore need separate views for their differing use cases. \\
-\hline
-Speed & The application should load and react to user input quickly. &  Slow loading times will negatively impact the end user experience, potentially to the point of them leaving the site. Fast loading times contribute to positive user experience. \\
 \hline
 
 \end{tabular}
