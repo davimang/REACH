@@ -203,7 +203,7 @@ A pull request cannot be merged if conflicts exist.\\
 
 \section{Proof of Concept Demonstration Plan}
 
-The main risks for the success of this project are; none of the members of the team have deployed a web app from scratch before, and that the data provided by the clinical is often in natural language. Since none of the team members have deployed a web app from scratch this may be a risk as we are not certain of all the steps which must be taken to publish a web app. The data provided by the clinical trials being in natural language also is a risk as we will have to research and use a natural language processor to extract the relevant data points. 
+The main risks for the success of this project are; none of the members of the team have deployed a web app from scratch before, and that the eligibility criteria provided by the clinical trial is often in natural language. Since none of the team members have deployed a web app from scratch this may be a risk as we are not certain of all the steps which must be taken to publish a web app. The data provided by the clinical trials being in natural language also is a risk as we will have to research and use a natural language processor to extract the relevant data points. 
 
 Therefore to demonstrate that we can overcome these risks our proof of concept demonstrations will have to both be deployed and able to be ascessed from a device that is not running the source code, and the application must be able to extract the requirements for the clinical trial from the data source. Also the application should be able to display the retreived requiremnts in a GUI of some fashion.
 
@@ -211,16 +211,20 @@ Therefore to demonstrate that we can overcome these risks our proof of concept d
 
 As a result of our system being a pretty complex full-stack application, it will be built
 using several different tools and technologies, across both the frontend and the backend.
-\\~\\
-\textbf{Frontend}
+\begin{flushleft}
+	\textbf{Frontend}	
+\end{flushleft}
 
 \begin{itemize}
 	\item Programming language - Typescript
+	\item Linter - ESLint
 	\item Unit testing framework - Jest
 	\item Frontend web framework - React\\
 \end{itemize}
 
-\textbf{Backend}
+\begin{flushleft}
+	\textbf{Backend}	
+\end{flushleft}
 
 \begin{itemize}
 	\item Programming language - Python
@@ -250,13 +254,17 @@ in python), meaning all of our function parameters, return types, class variable
 have docstrings present in each module, to give a brief description of what the main purpose of the module is.\\
 
 For the frontend code we will not be following any formal coding standard, but we will be following best practices
-when coding in typescript and when using React. Some of these best practices include - 
-
+when coding in typescript and when using React. Some of these best practices include:
 \begin{itemize}
 	\item use functional components
 	\item don't use inline-styles
-	\item maintain a proper import structure (third-party imports first --> internal imports below)
+	\item maintain a proper import structure
+	\item code checked/fixed by ESLint
 \end{itemize}
+
+This is not an exhaustive list, but it highlights some of the best practices that we will follow when using typescript/React.\\
+(credit to - https://www.makeuseof.com/must-follow-react-practices/).
+
 
 \section{Project Scheduling}
 
