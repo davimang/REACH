@@ -70,7 +70,7 @@ They are also responsible for ensuring that the meeting progresses at a decent p
 They will also cross off completed action items from previous meetings.\\
 
 \noindent \textbf{\underline{Scrum Master:} Anika.} \\
-\noindent While this role will be elaborated upon in the "Team Member Roles" section, the scrum master is responsible for updating the Jira in accordance with (applicable) new action items as well as any new information about current Jira issues.
+\noindent While this role will be elaborated upon in the ``Team Member Roles" section, the scrum master is responsible for updating the Jira in accordance with (applicable) new action items as well as any new information about current Jira issues.
 They will also be responsible for ensuring that all action items are assigned to a member and have a due date.\\
 
 
@@ -84,14 +84,14 @@ In order to facilitate communication between all team members, the following too
 	Git issues provide a centralized location for all meeting information and allow for ease of maintenance as well as updates. 
 	Generally, Git issues should not be used as a primary form of communication.
 	 Comments under issues MAY be addressed, but team members should expect to discuss via chat or meeting instead.
-	For further details on agendas please see the "Team Meeting Plan" section.\\
+	For further details on agendas please see the ``Team Meeting Plan" section.\\
 	\item \textbf{\underline{Teams}} \\
 	Teams will be used for all virtual meetings and as the primary method of (chat-based) communication 
 	Meetings should be scheduled ahead of time on Teams in order to appear on all members' Teams calendars.
 	Syncs are scheduled as recurring meetings on Teams, but can be cancelled or rescheduled as needed.
 	Meetings should only be used for longer updates and discussions, and should not be used for quick updates or questions.
 	The team will use the Teams chat for quicker updates and minor roadblocks or questions.
-	For further details on meetings please see the "Team Meeting Plan" section. \\
+	For further details on meetings please see the ``Team Meeting Plan" section. \\
 	\item \textbf{\underline{Google Calendar}} \\
 	The team will use a shared Google calendar which will be updated any time a new deadline, meeting, or action is set. 
 	Updates to the calendar are the responsibility of all team members and shall be managed diligently. \\
@@ -129,24 +129,24 @@ In order to facilitate communication between all team members, the following too
 
 	\item \textbf{\underline{Front-end SMEs:} Aamina and Anika} \\
 	Front-end SMEs will be the members of the team with the most knowledge and experience in hosting web applications and front-end work. 
-	These members will set the "predetermined standards" for completion of the front-end work. 
+	These members will set the ``predetermined standards" for completion of the front-end work. 
 	While all members will work on front-end development, the front-end SMEs will be responsible for ensuring that the front-end is completed according to the SRS and design plans. 
 	These SMEs will also be the first-point of contact for any questions or advice about front-end development for the project.\\
 
 	\item \textbf{\underline{Back-end SMEs:} Alan and David} \\
 	Back-end SMEs will be the members of the team with the most knowledge and experience in the back-end work. 
-	These members will set the "predetermined standards" for completion of the back-end work.
+	These members will set the ``predetermined standards" for completion of the back-end work.
 	While all members will work on back-end development, the back-end SMEs will be responsible for ensuring that the back-end is completed according to the SRS and design plans.
 	These SMEs will also be the first-point of contact for any questions or advice about back-end development for the project.\\
 
 	\item \textbf{\underline{Testing SMEs:} Deep} \\
 	Testing SMEs will be the members of the team with the most knowledge and experience in testing.
-	These members will set the "predetermined standards" for completion of all components of testing. 
+	These members will set the ``predetermined standards" for completion of all components of testing. 
 	While all members will work on writing tests for their own code, the testing SMEs will be responsible for ensuring that the testing is completed according to the SRS and Test Plan. 
 	These SMEs will also be the first-point of contact for any questions or advice about testing for the project.\\
 
 	\item \textbf{\underline{Scribe:} Any} \\
-	For more information on the scribe role, please see the "Team Meeting Plan" section.\\
+	For more information on the scribe role, please see the ``Team Meeting Plan" section.\\
 
 	\item \textbf{\underline{Developer:} All} \\
 	The developer role is the default role for all team members. 
@@ -176,8 +176,7 @@ For each sprint, tickets will be visible on a issue-tracking (Kanban) board with
 
 The following steps describe the process for a developer wanting to work on a ticket that they have been assigned in this sprint:
 \begin{enumerate}
-	\item The developer will move the ticket into
-	\item The developer will move the ticket into the "In Progress" column of sprint board.
+	\item The developer will move the ticket into the ``In Progress" column of sprint board.
 	\item The developer will pull any new changes from the master branch. 
 	\item The developer will copy the assigned branch name from the ticket and create a new branch with that name.
 	\item The developer will make changes to the code base in accordance with the ticket.
@@ -186,15 +185,15 @@ The following steps describe the process for a developer wanting to work on a ti
 
 When the ticket is complete and the developer wishes to merge into the master branch, the following steps should be taken:
 \begin{enumerate}
-	\item The will move the ticket into the "In Test" column of sprint board.
+	\item The will move the ticket into the ``In Test" column of sprint board.
 	\item The developer will run the automated testing and linting pipeline in the CI environment.
 	This should also spin up docker containers from the images in order to do any environment testing before merging to main.
 	\item Provided tests are passed, linting is successful, and the spun up environment does not error out, the developer will create a pull request.
-	\item The developer will move the ticket into the "In Review" column of the sprint board.
+	\item The developer will move the ticket into the ``In Review" column of the sprint board.
 	\item The team will review the pull request, provide feedback and request changes if necessary. 
 	\item Once the pull request is approved by the rest of the dev team, the developer will merge into the master branch.
 	\item The developer will make sure to delete the branch they were working on after merge.
-	\item The scrum master will move the ticket into the "Done" column of the sprint board.
+	\item The scrum master will move the ticket into the ``Done" column of the sprint board.
 \end{enumerate}
 
 In the case of merge conflicts prior to merge, developers are expected to rebase, and pull in changes from the master branch.
