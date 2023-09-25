@@ -33,23 +33,23 @@
 
 
 \noindent The following document outlines the development plan for REACH.
-As the scope of the project is further elborated upon, 
+As the scope of the project is further elaborated upon, 
 this document will be revised in order to reflect the most updated plan for the project.\\
 
 
 \section{Team Meeting Plan} 
 Team meetings will occur at least once a week, during the scheduled tutorial time Mondays from 2:30 PM - 4:30 PM ET.
 All members are expected to attend these meetings, that will be referred to as development (dev) team syncs. 
-If a member has a timing conflict, they must notify the rest of the team as soon as possible, in order to allow for recheduling.
+If a member has a timing conflict, they must notify the rest of the team as soon as possible, in order to allow for rescheduling.
 Any additional dev team syncs will occur based on member schedule and are not mandatory unless otherwise specified.\\
 
 On a biweekly basis, the team will meet with the project supervisors to discuss progress and gain clarity on any roadblocks, this is called the stakeholder sync. 
-The timing for these meetings depends on the avialability of the project supervisors and can be subject to change. 
+The timing for these meetings depends on the availability of the project supervisors and can be subject to change. 
 Although attendance for the stakeholder sync is not mandatory, it is highly encouraged. 
 As with the dev sync, team members should notify the team of any scheduling conflicts although rescheduling may not be possible due to the busy schedules of project supervisors. \\
 
 Depending on team availability, meetings may occur on campus or virtually. 
-Given the travel time for certain team members, virtual meetings are preffered.\\
+Given the travel time for certain team members, virtual meetings are preferred.\\
 
 \noindent \textbf{\underline{AGENDAS:}} \\
 
@@ -87,7 +87,7 @@ In order to facilitate communication between all team members, the following too
 	\item \textbf{\underline{Teams}} \\
 	Teams will be used for all virtual meetings and as the primary method of (chat-based) communication 
 	Meetings should be scheduled ahead of time on Teams in order to appear on all members' Teams calendars.
-	Syncs are scheduled as reccuring meetings on Teams, but can be cancelled or rescheduled as needed.
+	Syncs are scheduled as recurring meetings on Teams, but can be cancelled or rescheduled as needed.
 	Meetings should only be used for longer updates and discussions, and should not be used for quick updates or questions.
 	The team will use the Teams chat for quicker updates and minor roadblocks or questions.
 	For further details on meetings please see the "Team Meeting Plan" section. \\
@@ -114,7 +114,7 @@ In order to facilitate communication between all team members, the following too
 	and request that the member updates their documentation.\\
 	
 	\item \textbf{\underline{Scrum Master:} Anika} \\
-	The scrum master will be esponsible for updating the Jira in accordance with (applicable) new action items as well as any new information about current Jira issues. 
+	The scrum master will be responsible for updating the Jira in accordance with (applicable) new action items as well as any new information about current Jira issues. 
 	They will be responsible for making sure that there are dates and completion times on action items through Jira issues. 
 	They will collaborate with the lead QA for Git to ensure that there is linkage between Jira issues and git commits. 
 	If a member is not completing assigned issues on time and according to predetermined standards, the scrum master will first 
@@ -159,17 +159,17 @@ The team will work as a cohesive unit in order to create Jira issues (which are 
 From there the project manager will take the lead on deciding priorities and deadlines for the tickets. 
 The scrum master will be responsible for dragging tickets into a sprint in a manner that is consistent with those deadlines.\\
 
-For each sprint, tickets will be visible on a kanban board with 5 columns:
+For each sprint, tickets will be visible on a issue-tracking (Kanban) board with 5 columns:
 
 \begin{itemize}
 	\item \textbf{\underline{To Do:}} Tickets that have not yet been started in any capacity but are assigned to a sprint.
-	\item \textbf{\underline{In Analysis:}} Tickets for which the asignee/asigned developer has begun brainstorming an implementation. 
-	\item \textbf{\underline{In Progress:}} Tickets that the asignee/asigned developer has begun working on.
-	\item \textbf{\underline{In Test:}} Tickets that the asignee/asigned developer is testing in order to ascertain readiness for merge.
-	\item \textbf{\underline{In Review:}} Tickets that the asignee/asigned developer has completed and is ready to be merged into the master branch.
+	\item \textbf{\underline{In Analysis:}} Tickets for which the assignee/assigned developer has begun brainstorming an implementation. 
+	\item \textbf{\underline{In Progress:}} Tickets that the assignee/assigned developer has begun working on.
+	\item \textbf{\underline{In Test:}} Tickets that the assignee/assigned developer is testing in order to ascertain readiness for merge.
+	\item \textbf{\underline{In Review:}} Tickets that the assignee/assigned developer has completed and is ready to be merged into the master branch.
 	These tickets are in review because they are expected to be reviewed by other team members prior to merging into the main branch. 
-	At this point the developer should have a merge request in place and should be ready to merge at the end of the sprint.
-	\item \textbf{\underline{Done:}} Tickets that have been merged into the master branch.
+	At this point the developer should have a pull request in place and should be ready to merge.
+	\item \textbf{\underline{Done:}} Tickets that have been merged into the master branch. 
 \end{itemize} 
 
 
@@ -181,14 +181,18 @@ The following steps describe the process for a developer wanting to work on a ti
 	\item The developer will copy the assigned branch name from the ticket and create a new branch with that name.
 	\item The developer will make changes to the code base in accordance with the ticket.
 	\item The developer will commit their changes to their branch with a detailed commit message. 
-	\item 
 \end{enumerate}
 
 When the ticket is complete and the developer wishes to merge into the master branch, the following steps should be taken:
 \begin{enumerate}
-	\item The developer will run all their
+	\item The will move the ticket into the "In Test" column of sprint board.
+	\item The developer will run the automated testing and linting pipeline in the CI environment.
+	This should also spin up docker containers from the images in order to do any environment testing before merging to main.
+	\item Provided tests are passed, linting is successful, and the spun up environment does not error out, the developer will create a pull request.
 	\item The developer will move the ticket into the "In Review" column of the sprint board.
-	\item 
+	\item The dev team will review the pull request, provide feedback and request changes if necessary. 
+	\item Once the pull request is approved by the rest of the dev team, the developer will merge into the master branch.
+	\item The scrum master will move the ticket into the "Done" column of the sprint board.
 \end{enumerate}
 
 \begin{itemize}
@@ -201,7 +205,7 @@ When the ticket is complete and the developer wishes to merge into the master br
 
 The main risks for the success of this project are; none of the members of the team have deployed a web app from scratch before, and that the data provided by the clinical is often in natural language. Since none of the team members have deployed a web app from scratch this may be a risk as we are not certain of all the steps which must be taken to publish a web app. The data provided by the clinical trials being in natural language also is a risk as we will have to research and use a natural language processor to extract the relevant data points. 
 
-Therfore to demonstate that we can overcome these risks our proof of concept demonstations will have to both be deployed and able to be ascessed from a device that is not running the source code, and the application must be able to extract the requirements for the clinical trial from the data source. Also the application should be able to display the retreived requiremnts in a GUI of some fashion.
+Therfore to demonstrate that we can overcome these risks our proof of concept demonstrations will have to both be deployed and able to be ascessed from a device that is not running the source code, and the application must be able to extract the requirements for the clinical trial from the data source. Also the application should be able to display the retreived requiremnts in a GUI of some fashion.
 
 \section{Technology}
 
