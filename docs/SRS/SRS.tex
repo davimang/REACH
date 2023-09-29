@@ -175,9 +175,45 @@ the query).\\
 Traces to any FR that requires user information \\~\\
 \addtocounter{NFR_Counter}{1}
 
+\noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
+The system shall be available to users 99\% of the time.\\
+\textbf{Rationale:}
+Since users will likely make infrequent visits to the platform, it is necessary that the platform will be available at those 
+times (i.e., if the system is frequently unavailable, it increases the chances that users will never use the platform).\\
+\textbf{Fit criterion:}
+The system shall experience no more than 15 hours of downtime throughout the year.\\
+\textbf{Traceability:}
+N/A
+\addtocounter{NFR_Counter}{1}
+
 \subsection{Operational and Environmental Requirements}
 
 \subsection{Maintainability and Support Requirements}
+
+
+\noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
+The system shall be easy to fix in the event it experiences unexpected downtime.\\
+\textbf{Rationale:}
+While it may not happen often, an unexpected system failure is definitely possible. As the time it takes 
+to fix the issue increases, so does the number of users negatively affected.\\
+\textbf{Fit criterion:}
+On average, it should take less than 1 hour to restore the system in the event of a failure.\\
+\textbf{Traceability:}
+N/A \\~\\
+\addtocounter{NFR_Counter}{1}
+
+
+\noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
+The system shall be adaptable to new requirements.\\
+\textbf{Rationale:}
+It is likely new requirements will be discovered once users begin to use the platform, and there will be a need/desire to 
+implement these quickly and effectively.\\
+\textbf{Fit criterion:}
+The system must satisfy all of its existing requirements after the implementation of a new requirement/feature.\\
+\textbf{Traceability:}
+N/A
+\addtocounter{NFR_Counter}{1}
+
 
 \subsection{Security Requirements}
 
@@ -230,6 +266,8 @@ issues that should be considered for every engineering project.
 \subsection{User Documentation and Training}
 
 \subsection{Waiting Room}
+
+N/A
 
 \subsection{Ideas for Solutions}
 
