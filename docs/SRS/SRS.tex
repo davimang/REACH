@@ -70,6 +70,11 @@ to the template, you should explicitly state what modifications were made.
 
 \subsection{Naming Conventions and Terminology}
 
+\begin{itemize}
+    \item Platform - The web system/application.
+    \item Heavy traffic - When many users are accessing the platform at one time.
+\end{itemize}
+
 \subsection{Relevant Facts and Assumptions}
 
 User characteristics should go under assumptions.
@@ -105,6 +110,39 @@ The system shall not take longer than 2 seconds to load and display a set of tri
 **Traces to functional requirements related to searching for trials, displaying trials, getting data from repositories.** \\~\\
 \addtocounter{NFR_Counter}{1}
 
+\noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
+The system shall remain performant during times of heavy traffic.\\
+\textbf{Rationale:}
+The system will experience varying amounts of traffic, and it should be prepared to handle all cases (heavy traffic being the 
+one to likely cause issues).\\
+\textbf{Fit criterion:}
+The system shall satisfy all other performance requirements/criteria mentioned, for up to 1000 concurrent users.\\
+\textbf{Traceability:}
+Traces to pretty much all FRs that are mentioned in the other performance requirements \\~\\
+\addtocounter{NFR_Counter}{1}
+
+\noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
+The systems UI elements shall acknowledge all forms of user input in a timely manner.\\
+\textbf{Rationale:}
+Timely response from the system is necessary for a good user experience. Additionally, things like keyboard
+shortcuts should be just as performant as using a mouse (and vice-versa).\\
+\textbf{Fit criterion:}
+The system shall take less than 150ms to acknowledge user input, and make it clear to the user that it has registered the request.\\
+\textbf{Traceability:}
+Traces to any FR that requires user input of some form \\~\\
+\addtocounter{NFR_Counter}{1}
+
+
+\noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
+The system shall efficiently store/retrieve user data from the database.\\
+\textbf{Rationale:}
+For the system to remain performant, it must handle data efficiently, especially as the total number of users increase.\\
+\textbf{Fit criterion:}
+The system shall take no longer than 500ms when querying the database for user info (includes query execution time + any overhead of executing 
+the query).\\
+\textbf{Traceability:}
+Traces to any FR that requires user information \\~\\
+\addtocounter{NFR_Counter}{1}
 
 \subsection{Operational and Environmental Requirements}
 
