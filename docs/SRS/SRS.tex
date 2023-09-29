@@ -116,7 +116,8 @@ The system shall remain performant during times of heavy traffic.\\
 The system will experience varying amounts of traffic, and it should be prepared to handle all cases (heavy traffic being the 
 one to likely cause issues).\\
 \textbf{Fit criterion:}
-The system shall satisfy all other performance requirements/criteria mentioned, for up to 1000 concurrent users.\\
+Any system API call shall take less than 1 second to respond for up to 1000 concurrent users, and less than 2 seconds to respond for anything 
+greater (assuming the system will not see $>10000$ users).\\
 \textbf{Traceability:}
 Traces to pretty much all FRs that are mentioned in the other performance requirements \\~\\
 \addtocounter{NFR_Counter}{1}
