@@ -97,6 +97,37 @@ User characteristics should go under assumptions.
 
 \subsection{Usability and Humanity Requirements}
 
+\textbf{NFR-\the\value{NFR_Counter}:}
+The application interface shall be intuitive to use to a point where users do not require a tutorial or help from another person. \\
+\textbf{Rationale:}
+The interface will be used by users with a wide range of technical ability, so making the interface as easy to learn as possible will make the application maximally accessible. \\
+\textbf{Fit criterion:}
+95\% of users tested should be able to accomplish the main function of the application without need for outside intervention. \\
+\textbf{Traceability:}
+Traces to functional requirements involving the user interface. \\~\\
+\addtocounter{NFR_Counter}{1}
+
+\noindent\textbf{NFR-\the\value{NFR_Counter}:}
+The application interface shall only include the minimum necessary elements for the system to function effectively. \\
+\textbf{Rationale:}
+The simplicity of the system is important to ensure that the system is easy for all users to interact with. \\
+\textbf{Fit criterion:}
+Testers should not be able to identify any element of the user interface that does not serve any immediate and apparent use. \\
+\textbf{Traceability:}
+Traces to functional requirements involving the user interface. \\~\\
+\addtocounter{NFR_Counter}{1}
+
+\noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
+The text and image elements of the user interface should be large enough such that  \\
+\textbf{Rationale:}
+Due to the nature of the system, it can be expected that users of varying visual aptitude will be interacting with the user interface. Making the interface visually accessible will ensure that users of non-perfect optical perscriptions are not excluded from its use. \\
+\textbf{Fit criterion:}
+A user with a prescription of less than 4 diopters should be able to effectively use the interface without the use of perscription glasses. Alternatively, a perfectly sighted individual should be able to read the interface 1 meter away from their computer monitor without issue. \\
+\textbf{Traceability:}
+ \\~\\
+\addtocounter{NFR_Counter}{1}
+
+
 \subsection{Performance Requirements}
 
 \textbf{NFR-\the\value{NFR_Counter}:}
@@ -133,7 +164,6 @@ The system shall take less than 150ms to acknowledge user input, and make it cle
 Traces to any FR that requires user input of some form \\~\\
 \addtocounter{NFR_Counter}{1}
 
-
 \noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
 The system shall efficiently store/retrieve user data from the database.\\
 \textbf{Rationale:}
@@ -152,8 +182,29 @@ Traces to any FR that requires user information \\~\\
 \subsection{Security Requirements}
 
 \subsection{Cultural Requirements}
+\noindent\textbf{NFR-\the\value{NFR_Counter}:}
+The interface shall be useable by users who speak a language other than English or French.  \\
+\textbf{Rationale:}
+Restricting the interface's language to only official languages will exclude many ethnic minorities from being able to access clinical studies. Making the program multilingual will ensure that a minimal number of ethnic minorities will be excluded. \\
+\textbf{Fit criterion:}
+Users who speak the languages in the top 5 most spoken non-official languages in Canada should be able to use the interface without issue. \\
+\textbf{Traceability:}
+Traces to functional requirements involving the user interface. \\~\\
+\addtocounter{NFR_Counter}{1}
 
 \subsection{Legal Requirements}
+
+\noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
+The system shall remain performant during times of heavy traffic.\\
+\textbf{Rationale:}
+The system will experience varying amounts of traffic, and it should be prepared to handle all cases (heavy traffic being the 
+one to likely cause issues).\\
+\textbf{Fit criterion:}
+Any system API call shall take less than 1 second to respond for up to 1000 concurrent users, and less than 2 seconds to respond for anything 
+greater (assuming the system will not see $>10000$ users).\\
+\textbf{Traceability:}
+Traces to pretty much all FRs that are mentioned in the other performance requirements \\~\\
+\addtocounter{NFR_Counter}{1}
 
 \subsection{Health and Safety Requirements}
 
