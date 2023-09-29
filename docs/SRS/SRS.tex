@@ -11,6 +11,10 @@
     urlcolor=blue
 }
 \usepackage[round]{natbib}
+\newcounter{NFR_Counter}
+\addtocounter{NFR_Counter}{1}
+\newcounter{FR_Counter}
+\addtocounter{FR_Counter}{1}
 
 \title{Software Requirements Specification\\\progname}
 
@@ -48,7 +52,7 @@ Date 2 & 1.1 & Notes\\
 This document describes the requirements for ....  The template for the Software
 Requirements Specification (SRS) is a subset of the Volere
 template~\citep{RobertsonAndRobertson2012}.  If you make further modifications
-to the template, you should explicity state what modifications were made.
+to the template, you should explicitly state what modifications were made.
 
 \section{Project Drivers}
 
@@ -89,6 +93,18 @@ User characteristics should go under assumptions.
 \subsection{Usability and Humanity Requirements}
 
 \subsection{Performance Requirements}
+
+\textbf{NFR-\the\value{NFR_Counter}:}
+The system shall load and display trials to the user in a timely manner.\\
+\textbf{Rationale:}
+In addition to obvious usability reasons, there is a potential for users (especially clinicians) to rapidly
+change the criteria for eligibility, meaning the time spent waiting for trials to load can grow very fast if it is slow.\\
+\textbf{Fit criterion:}
+The system shall not take longer than 2 seconds to load and display a set of trials, during any given search made by a user.\\
+\textbf{Traceability:}
+**Traces to functional requirements related to searching for trials, displaying trials, getting data from repositories.** \\~\\
+\addtocounter{NFR_Counter}{1}
+
 
 \subsection{Operational and Environmental Requirements}
 
