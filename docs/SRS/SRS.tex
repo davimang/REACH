@@ -73,6 +73,7 @@ to the template, you should explicitly state what modifications were made.
 \begin{itemize}
     \item Platform - The web system/application.
     \item Heavy traffic - When many users are accessing the platform at one time.
+    \item NIST - National Institute of Standards and Technology
 \end{itemize}
 
 \subsection{Relevant Facts and Assumptions}
@@ -90,6 +91,64 @@ User characteristics should go under assumptions.
 \subsubsection{Individual Product Use Cases}
 
 \subsection{Functional Requirements}
+
+\textbf{FR-\the\value{FR_Counter}:}
+The system shall enable the user to create an account before signing in to the application. Account credentials must include 
+an email and a password satisfying the NIST password guidelines.\\
+\textbf{Rationale:}
+Many application features will be reliant on a user account/email. Additionally, to ensure the safety/security of sensitive information,
+it is important to enforce strict password guidelines. \\
+\textbf{Fit criterion:}
+The system shall log the user in to their newly created account upon successful creation. \\~\\
+\addtocounter{FR_Counter}{1}
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall ensure the same email cannot be used across multiple accounts.\\
+\textbf{Rationale:}
+The email needs to be a unique identifier of an account.\\
+\textbf{Fit criterion:}
+The system shall inform a user if the email they entered is already in use under another account. \\~\\
+\addtocounter{FR_Counter}{1}
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall enable a user to sign in to an existing account.\\
+\textbf{Rationale:}
+To use all of the application features a user must be signed in to their account.\\
+\textbf{Fit criterion:}
+The system shall log the user into the application upon validation of the credentials they entered. If invalid credentials are entered,
+the user should be informed of this error. \\~\\
+\addtocounter{FR_Counter}{1}
+
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall enable a user to sign in to the application as a guest.\\
+\textbf{Rationale:}
+Some features of the application do not require a full account, so the user should have the option to sign in as a guest
+if they only require a subset of the application's features.\\
+\textbf{Fit criterion:}
+The system shall log the user into the application as a guest upon entering an identifier for the current session. \\~\\
+\addtocounter{FR_Counter}{1}
+
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall enable a user to reset their password before signing in to the application.\\
+\textbf{Rationale:}
+It is likely some users will forget their password, and will need to reset it to be able to log back into their account.\\
+\textbf{Fit criterion:}
+The system shall send the user an email (to the email tied to the account they are trying to log into), allowing them to 
+create a new password. The user should be logged into their account upon entering a new, valid password.\\~\\
+\addtocounter{FR_Counter}{1}
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall prompt a user to enter information about themselves and their medical history 
+upon creation of an account (i.e., first time signing on).\\
+\textbf{Rationale:}
+The system must know information about the user to match them to potential clinical trials, and it must store this information for 
+the future.\\
+\textbf{Fit criterion:}
+After a user signs on for the first time, they should be asked to enter their date of birth, height, weight, gender, and 
+current address. Additionally, they should be asked to enter any medications they take, and any medical conditions that they have.\\~\\
+\addtocounter{FR_Counter}{1}
 
 \section{Non-functional Requirements}
 
@@ -136,7 +195,7 @@ The system shall load and display trials to the user in a timely manner.\\
 In addition to obvious usability reasons, there is a potential for users (especially clinicians) to rapidly
 change the criteria for eligibility, meaning the time spent waiting for trials to load can grow very fast if it is slow.\\
 \textbf{Fit criterion:}
-The system shall not take longer than 2 seconds to load and display a set of trials, during any given search made by a user.\\
+The system shall not take longer than 5 seconds to load and display a set of trials, during any given search made by a user.\\
 \textbf{Traceability:}
 **Traces to functional requirements related to searching for trials, displaying trials, getting data from repositories.** \\~\\
 \addtocounter{NFR_Counter}{1}
