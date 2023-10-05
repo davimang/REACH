@@ -3,6 +3,9 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{ {./images/} }
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -149,6 +152,22 @@ the future.\\
 After a user signs on for the first time, they should be asked to enter their date of birth, height, weight, gender, and 
 current address. Additionally, they should be asked to enter any medications they take, and any medical conditions that they have.\\~\\
 \addtocounter{FR_Counter}{1}
+
+\noindent{\textbf{State machine for user login/signup:}}
+\begin{itemize}
+    \item Precondition - User is on the initial page of the app
+    \item Postcondition - User is logged in to application
+    \item Intermediary States:
+    \begin{itemize}
+        \item User is in the process of signing in
+        \item User is in the process of creating an account
+        \item User is in the process of resetting their password
+    \end{itemize} 
+\end{itemize}
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{Signup_state_machine}
+\end{figure}
 
 \section{Non-functional Requirements}
 
