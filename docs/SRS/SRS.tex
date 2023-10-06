@@ -52,7 +52,7 @@ Date 2 & 1.1 & Notes\\
 
 \pagenumbering{arabic}
 
-This document describes the requirements for ....  The template for the Software
+This document describes the requirements for the web application REACH. The template for the Software
 Requirements Specification (SRS) is a subset of the Volere
 template~\citep{RobertsonAndRobertson2012}.  If you make further modifications
 to the template, you should explicitly state what modifications were made.
@@ -142,16 +142,15 @@ The system shall send the user an email (to the email tied to the account they a
 create a new password. The user should be logged into their account upon entering a new, valid password.\\~\\
 \addtocounter{FR_Counter}{1}
 
+
 \noindent{\textbf{FR-\the\value{FR_Counter}:}}
-The system shall prompt a user to enter information about themselves and their medical history 
-upon creation of an account (i.e., first time signing on).\\
+The system shall enable a user to sign out of the application.\\
 \textbf{Rationale:}
-The system must know information about the user to match them to potential clinical trials, and it must store this information for 
-the future.\\
+Users should be able to sign out for both security reasons, and practical reasons.\\
 \textbf{Fit criterion:}
-After a user signs on for the first time, they should be asked to enter their date of birth, height, weight, gender, and 
-current address. Additionally, they should be asked to enter any medications they take, and any medical conditions that they have.\\~\\
+The system shall return the user to the main landing page upon signing out of their account.\\~\\
 \addtocounter{FR_Counter}{1}
+
 
 \noindent{\textbf{State machine for user login/signup:}}
 \begin{itemize}
@@ -168,6 +167,34 @@ current address. Additionally, they should be asked to enter any medications the
 \begin{figure}[H]
 \includegraphics[width=\textwidth]{Signup_state_machine}
 \end{figure}
+
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall prompt a user to enter information about themselves and their medical history 
+upon creation of an account (i.e., first time signing on).\\
+\textbf{Rationale:}
+The system must know information about the user to match them to potential clinical trials.\\
+\textbf{Fit criterion:}
+After a user signs on for the first time, they should be asked to enter their date of birth, height, weight, gender, and 
+current address. Additionally, they should be asked to enter any medications they take, and any medical conditions that they have.\\~\\
+\addtocounter{FR_Counter}{1}
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall store the information entered by a user with an account in the database.\\
+\textbf{Rationale:}
+The system shall only need to ask users with an account for their information once.\\
+\textbf{Fit criterion:}
+The system shall be able to retrieve the information tied to a users account after they have signed out of the application. \\~\\
+\addtocounter{FR_Counter}{1}
+
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall enable a user to update the personal information tied to their account.\\
+\textbf{Rationale:}
+Personal characteristics and circumstances are always changing, and a user should be able to make these changes in the application.\\
+\textbf{Fit criterion:}
+The updates made by the user shall be reflected in both the UI (for the user to see) and in the database.\\~\\
+\addtocounter{FR_Counter}{1}
 
 \section{Non-functional Requirements}
 
