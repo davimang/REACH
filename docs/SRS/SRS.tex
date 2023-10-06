@@ -77,6 +77,7 @@ to the template, you should explicitly state what modifications were made.
     \item Platform - The web system/application.
     \item Heavy traffic - When many users are accessing the platform at one time.
     \item NIST - National Institute of Standards and Technology
+    \item Diopter - Measure of eyeglass perscription, specifically the optical power of the lens. 1 diopter = 1m$^{-1}$
 \end{itemize}
 
 \subsection{Relevant Facts and Assumptions}
@@ -92,6 +93,18 @@ User characteristics should go under assumptions.
 \subsubsection{Work Partitioning}
 
 \subsubsection{Individual Product Use Cases}
+
+\begin{enumerate}
+
+\item \textit{Patient Account Creation}. A patient creates an account to store their clinical data. The user first selects to create an account. They provide a username and password, along with their email. Once this is verfied, they input their information (weight, height, birthday, medical conditions, address). Upon entering valid inputs, the user is informed that their account is created and they are logged in.
+
+\item \textit{Patient Login}. A patient logs into their account. When a patient clicks the login button, they are presented with the login menu. Once they input their credentials and login, the system verifies that their details are valid and logs them in. If not, the user is informed of the incorrect credentials and is prompted to try again.
+
+\item \textit{Patient Search For Studies}. A patient searches for available studies based on their conditions. A user inputs their medical conditions into the search and the application retrieves a list of studies from the repository, which are then filtered based on the patient's attributes and conditions. The user selects a given study and hits apply, giving them the option to send an email through the site directly to the organizer.
+
+\item \textit{Patient Profile Modification}. A patient modifies their profile to change certain attributes (weight, height, birthday, medical conditions, address). The patient selects the UI element that opens their profile and modifies the respective fields. They save and the server updates their information on the database.
+
+\end{enumerate}
 
 \subsection{Functional Requirements}
 
