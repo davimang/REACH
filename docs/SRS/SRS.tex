@@ -4,6 +4,7 @@
 \usepackage{tabularx}
 \usepackage{hyperref}
 \usepackage{graphicx}
+\usepackage{array}
 \usepackage{float}
 \graphicspath{ {./images/} }
 \hypersetup{
@@ -116,6 +117,33 @@ It is assumed that users of the application will vary in age, ability, and how m
 \end{figure}
 
 \subsubsection{Work Partitioning}
+\begin{table}[H]
+\begin{tabular}{|c|p{3cm}|p{4cm}|p{3cm}|}
+\hline
+\textbf{Event Number} & \textbf{Event Name}         & \textbf{Input}              & \textbf{Output}                  \\ \hline
+1            & Search             & Keyboard and mouse & Trial list              \\ \hline
+2            & Login              & Keyboard and mouse & Logged-in view          \\ \hline
+3            & Create account     & Keyboard mouse & User account            \\ \hline
+4            & Opening FAQ        & Mouse              & FAQ page                \\ \hline
+5            & Updating user data & Keyboard and mouse & Updated user data entry \\ \hline
+6            & Sending email      & Keyboard and mouse & Sent email              \\ \hline
+\end{tabular}
+\caption{Work Partitioning Events}
+\end{table}
+
+\begin{table}[H]
+\begin{tabular}{|c|p {11cm}|}
+\hline
+\textbf{Event Number} & \textbf{Summary}                                                                                                            \\ \hline
+1            & The user can use their mouse to navigate to the search fields, use their keyboard to enter data, and click submit. \\ \hline
+2            & The user, through mouse and keyboard input, can enter their login details in the login screen.                     \\ \hline
+3            & The user can enter their new login details through mouse and keyboard in the account creation dialogue.            \\ \hline
+4            & The user can click on the FAQ option to arrive at the FAQ page.                                                    \\ \hline
+5            & The user can use their mouse and keyboard to navigate to their profile and update their user data.                 \\ \hline
+6            & The user can use their mouse and keyboard to send an email to the trial coordinator.                               \\ \hline
+\end{tabular}
+\caption{Work Partitioning Summaries}
+\end{table}
 
 \subsubsection{Individual Product Use Cases}
 
