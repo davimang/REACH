@@ -96,7 +96,9 @@ The project must not use more than \$750.
     \item Platform - The web system/application.
     \item Heavy traffic - When many users are accessing the platform at one time.
     \item NIST - National Institute of Standards and Technology
-    \item Diopter - Measure of eyeglass perscription, specifically the optical power of the lens. 1 diopter = 1m$^{-1}$
+    \item Patient - An individual with a given medical condition(s) who is seeking to enroll in medical research studies.
+    \item Clinician - A medical care provider enrolling a patient in research studies on their behalf.
+    \item Organizer - Person or organization seeking patients for their research study.
 \end{itemize}
 
 \subsection{Relevant Facts and Assumptions}
@@ -119,9 +121,19 @@ It is assumed that users of the application will vary in age, ability, and how m
 
 \item \textit{Patient Login}. A patient logs into their account. When a patient clicks the login button, they are presented with the login menu. Once they input their credentials and login, the system verifies that their details are valid and logs them in. If not, the user is informed of the incorrect credentials and is prompted to try again.
 
-\item \textit{Patient Search For Studies}. A patient searches for available studies based on their conditions. A user inputs their medical conditions into the search and the application retrieves a list of studies from the repository, which are then filtered based on the patient's attributes and conditions. The user selects a given study and hits apply, giving them the option to send an email through the site directly to the organizer.
+\item \textit{Input Search Parameters}. The user inputs search parameters into the search fields to filter available studies. This use case is optional as a logged in user will automatically search by their saved paraters.
 
-\item \textit{Patient Profile Modification}. A patient modifies their profile to change certain attributes (weight, height, birthday, medical conditions, address). The patient selects the UI element that opens their profile and modifies the respective fields. They save and the server updates their information on the database.
+\item \textit{Search for Studies}. Using input parameters, studies are retrieved from the repository, filtered, and displayed to the user. 
+
+\item \textit{Send Email to Organizer}. Once a patient selects a study, they can use the application to send an email to the organizer of the study.
+
+\item \textit{Patient Profile Modification}. A patient modifies their profile to change certain attributes (weight, height, birthday, medical conditions, address). The patient selects the UI element that opens their profile and modifies the respective fields. They save and the server updates their information on the database. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{PatientUseCase.png}
+\caption{Patient use case diagram}
+\end{figure}
 
 \end{enumerate}
 
@@ -414,7 +426,7 @@ Traces to functional requirements involving the user interface. \\~\\
 
 \subsection{Legal Requirements}
 \noindent\textbf{NFR-\the\value{NFR_Counter}:}
-The system shall be compliant with the \textit{Personal Health Information Privacy Act, 2004}  \\
+The system shall conform to regulations regarding the collection, storage, and usage of medical information.  \\
 \textbf{Rationale:}
 Since the data stored pertains to personal medical information, we are legally required to manage the data in such a way that protects the personal information of the patients. \\
 \textbf{Fit criterion:}
