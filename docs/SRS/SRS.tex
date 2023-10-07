@@ -39,11 +39,11 @@
 
 \begin{table}[bp]
 \caption{\bf Revision History}
-\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\begin{tabularx}{\textwidth}{p{3cm}p{3cm}X}
+\toprule {\bf Date} & {\bf Developer(s)} & {\bf Change}\\
 \midrule
 Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+October 6, 2023 & Aamina Hussain & Added look and feel NFRs\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -256,6 +256,26 @@ The system shall contain and display information about medical trials, and answe
 
 \subsection{Look and Feel Requirements}
 
+\textbf{NFR-\the\value{NFR_Counter}:}
+The system's interface must be formatted neatly and not be cluttered. \\
+\textbf{Rationale:}
+The user should find the appearance of the system's interface attractive to further their interest in using the system. \\
+\textbf{Fit criterion:}
+The different sections of the interface will be in-line with each other. Repeated or grouped sections will have consistent measurements and styling. \\
+\textbf{Traceability:}
+Traces to functional requirements involving the user interface. \\~\\
+\addtocounter{NFR_Counter}{1}
+
+\noindent\textbf{NFR-\the\value{NFR_Counter}:}
+The font and colors of the system's interface must be simple and allow users to easily read the text or interpret the images. \\
+\textbf{Rationale:}
+If the interface is not simple, it may cause the users to strain their eyes or distract them from the main content displayed on the interface. \\
+\textbf{Fit criterion:}
+The interface will utilize solid colors with no patterns. The font used for the interface will be Roboto. \\
+\textbf{Traceability:}
+Traces to functional requirements involving the user interface. \\~\\
+\addtocounter{NFR_Counter}{1}
+
 \subsection{Usability and Humanity Requirements}
 
 \textbf{NFR-\the\value{NFR_Counter}:}
@@ -279,13 +299,13 @@ Traces to functional requirements involving the user interface. \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
-The text and image elements of the user interface should be large enough such that  \\
+Users are able to read the UI text without issue. \\
 \textbf{Rationale:}
-Due to the nature of the system, it can be expected that users of varying visual aptitude will be interacting with the user interface. Making the interface visually accessible will ensure that users of non-perfect optical perscriptions are not excluded from its use. \\
+The average user cannot make full use of the features if they find it difficult to read the instructions, options, or descriptions. \\
 \textbf{Fit criterion:}
-A user with a prescription of less than 4 diopters should be able to effectively use the interface without the use of perscription glasses. Alternatively, a perfectly sighted individual should be able to read the interface 1 meter away from their computer monitor without issue. \\
+The UI text size will be 12 pt. \\
 \textbf{Traceability:}
- \\~\\
+Traces to functional requirements involving the user interface. \\~\\
 \addtocounter{NFR_Counter}{1}
 
 
