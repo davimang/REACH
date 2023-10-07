@@ -3,6 +3,10 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{float}
+\graphicspath{ {./images/} }
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -39,8 +43,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+2023-10-06 & 1.0 & Initial revision of SRS\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -49,7 +52,7 @@ Date 2 & 1.1 & Notes\\
 
 \pagenumbering{arabic}
 
-This document describes the requirements for ....  The template for the Software
+This document describes the requirements for the web application REACH. The template for the Software
 Requirements Specification (SRS) is a subset of the Volere
 template~\citep{RobertsonAndRobertson2012}.  If you make further modifications
 to the template, you should explicitly state what modifications were made.
@@ -58,42 +61,292 @@ to the template, you should explicitly state what modifications were made.
 
 \subsection{The Purpose of the Project}
 
+The purpose of this project is to create a web application, REACH, which will help people find and apply to clinical trials that they are eligible for. Currently there is no intuitive path between researchers and patients which patients can use to apply to a clinical trial. Existing databases of these clinical trials are often hard to navigate, especially for those who do not have experience with medical terminology. The completed application will allow users to find clinical trials for which they may be eligible, and give users a method of contacting the research coordinator for that trial.
+
 \subsection{The Stakeholders}
 
-\subsubsection{The Client}
+\subsubsection{The Clients}
+
+The clients for this project are our project supervisors: Dr. Terrence Ho, and Dr. Cieran Scallan. 
 
 \subsubsection{The Customers}
 
+The customers for this project are people who are looking to take part in a clinical trial.
+
 \subsubsection{Other Stakeholders}
 
+Other stakeholders for this project are researchers who will be contacted by patients using this application.
+
 \subsection{Mandated Constraints}
+
+The constraints for this project are:
+
+\subsubsection{Implementation Constraints}
+The project must be accessible from the web with the need for installation of any applications other than a web browser.
+
+\subsubsection{Schedule Constraints}
+The project must be completed within the 8 month period of the school year.
+
+\subsubsection{Budget Constraints}
+The project must not use more than \$750.
 
 \subsection{Naming Conventions and Terminology}
 
 \begin{itemize}
     \item Platform - The web system/application.
     \item Heavy traffic - When many users are accessing the platform at one time.
+    \item NIST - National Institute of Standards and Technology
+    \item Patient - An individual with a given medical condition(s) who is seeking to enroll in medical research studies.
+    \item Clinician - A medical care provider enrolling a patient in research studies on their behalf.
+    \item Organizer - Person or organization seeking patients for their research study.
 \end{itemize}
 
 \subsection{Relevant Facts and Assumptions}
 
-User characteristics should go under assumptions.
+It is assumed that users of the application will vary in age, ability, and how much experience they have in using web applications. 
 
 \section{Functional Requirements}
 
 \subsection{The Scope of the Work and the Product}
 
 \subsubsection{The Context of the Work}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{Context.png}
+\caption{Work Context Diagram}
+\end{figure}
 
 \subsubsection{Work Partitioning}
+\begin{table}[H]
+\begin{tabular}{|c|p{3cm}|p{4cm}|p{3cm}|}
+\hline
+\textbf{Event Number} & \textbf{Event Name}         & \textbf{Input}              & \textbf{Output}                  \\ \hline
+1            & Search             & Keyboard and mouse & Trial list              \\ \hline
+2            & Login              & Keyboard and mouse & Logged-in view          \\ \hline
+3            & Create account     & Keyboard mouse & User account            \\ \hline
+4            & Opening FAQ        & Mouse              & FAQ page                \\ \hline
+5            & Updating user data & Keyboard and mouse & Updated user data entry \\ \hline
+6            & Sending email      & Keyboard and mouse & Sent email              \\ \hline
+\end{tabular}
+\caption{Work Partitioning Events}
+\end{table}
+
+\begin{table}[H]
+\begin{tabular}{|c|p {11cm}|}
+\hline
+\textbf{Event Number} & \textbf{Summary}                                                                                                            \\ \hline
+1            & The user can use their mouse to navigate to the search fields, use their keyboard to enter data, and click submit. \\ \hline
+2            & The user, through mouse and keyboard input, can enter their login details in the login screen.                     \\ \hline
+3            & The user can enter their new login details through mouse and keyboard in the account creation dialogue.            \\ \hline
+4            & The user can click on the FAQ option to arrive at the FAQ page.                                                    \\ \hline
+5            & The user can use their mouse and keyboard to navigate to their profile and update their user data.                 \\ \hline
+6            & The user can use their mouse and keyboard to send an email to the trial coordinator.                               \\ \hline
+\end{tabular}
+\caption{Work Partitioning Summaries}
+\end{table}
 
 \subsubsection{Individual Product Use Cases}
 
+\begin{enumerate}
+
+\item \textit{Patient Account Creation}. A patient creates an account to store their clinical data. The user first selects to create an account. They provide a username and password, along with their email. Once this is verified, they input their information (weight, height, birthday, medical conditions, address). Upon entering valid inputs, the user is informed that their account is created and they are logged in.
+
+\item \textit{Patient Login}. A patient logs into their account. When a patient clicks the login button, they are presented with the login menu. Once they input their credentials and login, the system verifies that their details are valid and logs them in. If not, the user is informed of the incorrect credentials and is prompted to try again.
+
+\item \textit{Clinician Accesses System}. A clinician clicks the \texttt{clinician access} button and is granted access.
+
+\item \textit{Input Search Parameters}. The user inputs search parameters into the search fields to filter available studies. This use case is optional as a logged in user will automatically search by their saved parameters.
+
+\item \textit{Advanced Input Search Parameters}. A clinician inputs search parameters into the advanced search fields to filter available studies.
+
+\item \textit{Search for Studies}. Using input parameters, studies are retrieved from the repository, filtered, and displayed to the user. 
+
+\item \textit{Send Email to Organizer}. Once a user selects a study, they can use the provided template and contact information to send an email to the organizer of the study.
+
+\item \textit{Patient Profile Modification}. A patient modifies their profile to change certain attributes (weight, height, birthday, medical conditions, address). The patient selects the UI element that opens their profile and modifies the respective fields. They save and the server updates their information on the database. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{PatientUseCase.png}
+\caption{Patient Use Case Diagram}
+\end{figure}
+
+\end{enumerate}
+
 \subsection{Functional Requirements}
+
+\textbf{FR-\the\value{FR_Counter}:}
+The system shall enable the user to create an account before signing in to the application. Account credentials must include 
+an email and a password satisfying the NIST password guidelines.\\
+\textbf{Rationale:}
+Many application features will be reliant on a user account/email. Additionally, to ensure the safety/security of sensitive information,
+it is important to enforce strict password guidelines. \\
+\textbf{Fit criterion:}
+The system shall log the user in to their newly created account upon successful creation. \\~\\
+\addtocounter{FR_Counter}{1}
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall ensure the same email cannot be used across multiple accounts.\\
+\textbf{Rationale:}
+The email needs to be a unique identifier of an account.\\
+\textbf{Fit criterion:}
+The system shall inform a user if the email they entered is already in use under another account. \\~\\
+\addtocounter{FR_Counter}{1}
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall enable a user to sign in to an existing account.\\
+\textbf{Rationale:}
+To use all of the application features a user must be signed in to their account.\\
+\textbf{Fit criterion:}
+The system shall log the user into the application upon validation of the credentials they entered. If invalid credentials are entered,
+the user should be informed of this error. \\~\\
+\addtocounter{FR_Counter}{1}
+
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall enable a user to sign in to the application as a guest.\\
+\textbf{Rationale:}
+Some features of the application do not require a full account, so the user should have the option to sign in as a guest
+if they only require a subset of the application's features.\\
+\textbf{Fit criterion:}
+The system shall log the user into the application as a guest upon entering an identifier for the current session. \\~\\
+\addtocounter{FR_Counter}{1}
+
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall enable a user to reset their password before signing in to the application.\\
+\textbf{Rationale:}
+It is likely some users will forget their password, and will need to reset it to be able to log back into their account.\\
+\textbf{Fit criterion:}
+The system shall send the user an email (to the email tied to the account they are trying to log into), allowing them to 
+create a new password. The user should be logged into their account upon entering a new, valid password.\\~\\
+\addtocounter{FR_Counter}{1}
+
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall enable a user to sign out of the application.\\
+\textbf{Rationale:}
+Users should be able to sign out for both security reasons, and practical reasons.\\
+\textbf{Fit criterion:}
+The system shall return the user to the main landing page upon signing out of their account.\\~\\
+\addtocounter{FR_Counter}{1}
+
+
+\noindent{\textbf{State machine for user login/signup:}}
+\begin{itemize}
+    \item Precondition - User is on the initial page of the app
+    \item Postcondition - User is logged in to application
+    \item Intermediary States:
+    \begin{itemize}
+        \item User is in the process of signing in
+        \item User is in the process of creating an account
+        \item User is in the process of resetting their password
+    \end{itemize} 
+\end{itemize}
+
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{Signup_state_machine}
+\end{figure}
+
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall prompt a user to enter information about themselves and their medical history 
+upon creation of an account (i.e., first time signing on), or when a user signs on as a guest.\\
+\textbf{Rationale:}
+The system must know information about the user to match them to potential clinical trials.\\
+\textbf{Fit criterion:}
+After a user signs on for the first time, they should be asked to enter their date of birth, height, weight, gender, and 
+current address. Additionally, they should be asked to enter any medications they take, and any medical conditions that they have.\\~\\
+\addtocounter{FR_Counter}{1}
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall store the information entered by a user with an account in the database.\\
+\textbf{Rationale:}
+The system shall only need to ask users with an account for their information once.\\
+\textbf{Fit criterion:}
+The system shall be able to retrieve the information tied to a users account after they have signed out of the application. \\~\\
+\addtocounter{FR_Counter}{1}
+
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall enable a user to update the personal information tied to their account.\\
+\textbf{Rationale:}
+Personal characteristics and circumstances are always changing, and a user should be able to make these changes in the application.\\
+\textbf{Fit criterion:}
+The updates made by the user shall be reflected in both the UI (for the user to see) and in the database.\\~\\
+\addtocounter{FR_Counter}{1}
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall create an email template for the user to send their interest in participating in a trial to the research coordinator.\\
+\textbf{Rationale:}
+Users may not know what they need to include in the email, so the template should simplify this process.\\
+\textbf{Fit criterion:}
+The system shall output an email template. The email template shall include all relevant information that the user has provided and details about the trial they wish to participate in.\\~\\
+\addtocounter{FR_Counter}{1}
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall notify the user when new medical trials matching their specifications are available, if requested by the user.\\
+\textbf{Rationale:}
+New medical trials matching the users specifications which the user may want to participate in may be started after the user searches initially, this feature means the user would not have to search every couple of days for new trials.\\
+\textbf{Fit criterion:}
+The system shall notify the user about new trials with parameters that they specified.\\~\\
+\addtocounter{FR_Counter}{1}
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall include frequently asked questions and information about how medical trials work.\\
+\textbf{Rationale:}
+Users may not be aware of how medical trials work exactly, and this may cause confusion for the user when searching for a medical trial.\\
+\textbf{Fit criterion:}
+The system shall contain and display information about medical trials, and answers to questions the users may commonly have.\\~\\
+\addtocounter{FR_Counter}{1}
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall allow the user to search for medical studies based on their health conditions.\\
+\textbf{Rationale:}
+Searching for studies is the primary purpose of the application.\\
+\textbf{Fit criterion:}
+The system shall query and filter medical trials from a repository of medical studies.\\~\\
+\addtocounter{FR_Counter}{1}
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall display to the user the results of their trial search, complete with information about the search, the distance to their location, and the option to contact the organizer of the clinical trial. \\
+\textbf{Rationale:}
+Users must be able to see the trials for which they searched, and be given information pertaining to each result.\\
+\textbf{Fit criterion:}
+The system shall display a listing of trials based on a user search.\\~\\
+\addtocounter{FR_Counter}{1}
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall allow a signed-in user to automatically enter their conditions and other information into the search parameters. \\
+\textbf{Rationale:}
+This will save users time when performing multiple searches, and fulfils the purpose of having a login system.\\
+\textbf{Fit criterion:}
+The system shall automatically populate search fields for a logged-in user with their saved information. \\~\\
+\addtocounter{FR_Counter}{1}
 
 \section{Non-functional Requirements}
 
 \subsection{Look and Feel Requirements}
+
+\textbf{NFR-\the\value{NFR_Counter}:}
+The system's interface must be formatted neatly and not be cluttered. \\
+\textbf{Rationale:}
+The user should find the appearance of the system's interface attractive to further their interest in using the system. \\
+\textbf{Fit criterion:}
+The different sections of the interface will be in-line with each other. Repeated or grouped sections will have consistent measurements and styling. \\
+\textbf{Traceability:}
+FR-1, FR-3, FR-4, FR-5, FR-6, FR-7, FR-9, FR-12, FR-13, FR-14, FR-15 \\~\\
+\addtocounter{NFR_Counter}{1}
+
+\noindent\textbf{NFR-\the\value{NFR_Counter}:}
+The font and colors of the system's interface must be simple and allow users to easily read the text or interpret the images. \\
+\textbf{Rationale:}
+If the interface is not simple, it may cause the users to strain their eyes or distract them from the main content displayed on the interface. \\
+\textbf{Fit criterion:}
+The interface will utilize solid colors with no patterns. The font used for the interface will be Roboto. \\
+\textbf{Traceability:}
+FR-1, FR-3, FR-4, FR-5, FR-6, FR-7, FR-9, FR-12, FR-13, FR-14, FR-15 \\~\\
+\addtocounter{NFR_Counter}{1}
 
 \subsection{Usability and Humanity Requirements}
 
@@ -104,7 +357,7 @@ The interface will be used by users with a wide range of technical ability, so m
 \textbf{Fit criterion:}
 95\% of users tested should be able to accomplish the main function of the application without need for outside intervention. \\
 \textbf{Traceability:}
-Traces to functional requirements involving the user interface. \\~\\
+FR-1, FR-3, FR-4, FR-5, FR-6, FR-7, FR-9, FR-12, FR-13, FR-14, FR-15 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \noindent\textbf{NFR-\the\value{NFR_Counter}:}
@@ -114,17 +367,17 @@ The simplicity of the system is important to ensure that the system is easy for 
 \textbf{Fit criterion:}
 Testers should not be able to identify any element of the user interface that does not serve any immediate and apparent use. \\
 \textbf{Traceability:}
-Traces to functional requirements involving the user interface. \\~\\
+FR-1, FR-3, FR-4, FR-5, FR-6, FR-7, FR-9, FR-12, FR-13, FR-14, FR-15 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
-The text and image elements of the user interface should be large enough such that  \\
+Users are able to read the UI text without issue. \\
 \textbf{Rationale:}
-Due to the nature of the system, it can be expected that users of varying visual aptitude will be interacting with the user interface. Making the interface visually accessible will ensure that users of non-perfect optical perscriptions are not excluded from its use. \\
+The average user cannot make full use of the features if they find it difficult to read the instructions, options, or descriptions. \\
 \textbf{Fit criterion:}
-A user with a prescription of less than 4 diopters should be able to effectively use the interface without the use of perscription glasses. Alternatively, a perfectly sighted individual should be able to read the interface 1 meter away from their computer monitor without issue. \\
+The UI text size will be 12 pt. \\
 \textbf{Traceability:}
- \\~\\
+FR-1, FR-3, FR-4, FR-5, FR-6, FR-7, FR-9, FR-12, FR-13, FR-14, FR-15 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 
@@ -136,9 +389,9 @@ The system shall load and display trials to the user in a timely manner.\\
 In addition to obvious usability reasons, there is a potential for users (especially clinicians) to rapidly
 change the criteria for eligibility, meaning the time spent waiting for trials to load can grow very fast if it is slow.\\
 \textbf{Fit criterion:}
-The system shall not take longer than 2 seconds to load and display a set of trials, during any given search made by a user.\\
+The system shall not take longer than 5 seconds to load and display a set of trials, during any given search made by a user.\\
 \textbf{Traceability:}
-**Traces to functional requirements related to searching for trials, displaying trials, getting data from repositories.** \\~\\
+R-13, R-14, R-15 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
@@ -161,7 +414,7 @@ shortcuts should be just as performant as using a mouse (and vice-versa).\\
 \textbf{Fit criterion:}
 The system shall take less than 150ms to acknowledge user input, and make it clear to the user that it has registered the request.\\
 \textbf{Traceability:}
-Traces to any FR that requires user input of some form \\~\\
+FR-1, FR-3, FR-4. FR-5, FR-6, FR-7, FR-9, FR-13, FR-14, R-15 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
@@ -172,7 +425,7 @@ For the system to remain performant, it must handle data efficiently, especially
 The system shall take no longer than 500ms when querying the database for user info (includes query execution time + any overhead of executing 
 the query).\\
 \textbf{Traceability:}
-Traces to any FR that requires user information \\~\\
+FR-1, FR-2, FR-3, FR-4, FR-5, FR-8, FR-9, FR-15 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
@@ -187,6 +440,26 @@ N/A
 \addtocounter{NFR_Counter}{1}
 
 \subsection{Operational and Environmental Requirements}
+
+\noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
+The system shall interface with data from ClinicalTrials.gov and/or some other medical trials repositories.\\
+\textbf{Rationale:}
+The system needs to gather trials from a preexisting data source so that it can match patients to them.\\
+\textbf{Fit criterion:}
+The system should have a similar number(within order of magnitude) of currently running clinical trials as ClinicalTrials.gov for users to search from.\\
+\textbf{Traceability:}
+FR-13 \\~\\
+\addtocounter{NFR_Counter}{1}
+
+\noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
+The system shall be able to be used on any most modern devices which are capable of browsing the web.\\
+\textbf{Rationale:}
+Users will likely use a large variety of devices from phones to PCs, so it is necessary to support them, (i.e. users are less likely to use the application if it doesn't work on mobile).\\
+\textbf{Fit criterion:}
+The system shall work on at least 80\% of devices which have web browsers and were released in the last 5 years.\\
+\textbf{Traceability:}
+N/A \\~\\
+\addtocounter{NFR_Counter}{1}
 
 \subsection{Maintainability and Support Requirements}
 
@@ -228,18 +501,18 @@ Restricting the interface's language to only official languages will exclude man
 \textbf{Fit criterion:}
 Users who speak the languages in the top 5 most spoken non-official languages in Canada should be able to use the interface without issue. \\
 \textbf{Traceability:}
-Traces to functional requirements involving the user interface. \\~\\
+FR-1, FR-3, FR-4, FR-5, FR-6, FR-7, FR-9, FR-12, FR-13, FR-14, FR-15 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \subsection{Legal Requirements}
 \noindent\textbf{NFR-\the\value{NFR_Counter}:}
-The system shall be compliant with the \textit{Personal Health Information Privacy Act, 2004}  \\
+The system shall conform to regulations regarding the collection, storage, and usage of medical information.  \\
 \textbf{Rationale:}
 Since the data stored pertains to personal medical information, we are legally required to manage the data in such a way that protects the personal information of the patients. \\
 \textbf{Fit criterion:}
 The system should be able to pass an independent audit to ensure the data is being collected and secured in an appropriate manner. \\
 \textbf{Traceability:}
-Traces to requirements involving user input (specifically medical data input) and security requirements. \\~\\
+FR-7, FR-8, FR-9, FR-13, FR-14, FR-15. \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \subsection{Health and Safety Requirements}
@@ -251,13 +524,27 @@ issues that should be considered for every engineering project.
 
 \subsection{Open Issues}
 
+N/A
+
 \subsection{Off-the-Shelf Solutions}
+
+There are currently some websites with a repository of active research studies and clinical trials that users can search through, such as 
+\href{https://clinicaltrials.gov/}{clinicaltrials.gov}. These current solutions display the studies and allow the users to filter them based 
+on some general information such as condition, treatment, age, etc.
 
 \subsection{New Problems}
 
+N/A
+
 \subsection{Tasks}
 
+Please refer to the \textit{Project Scheduling} section in our
+\href{https://github.com/davimang/REACH/blob/main/docs/DevelopmentPlan/DevelopmentPlan.pdf}{Development Plan}.
+
+
 \subsection{Migration to the New Product}
+
+N/A. REACH will be a new, standalone product.
 
 \subsection{Risks}
 
@@ -271,6 +558,20 @@ N/A
 
 \subsection{Ideas for Solutions}
 
+\subsection{Anticipated Changes}
+
+Below are some changes that could potentially be made to future 
+revisions of the SRS for this application, depending on several factors,
+such as unexpected costs/issues arising during development (or even the lack 
+of expected costs/issues during development).
+
+\begin{itemize}
+    \item Two different types of accounts - one for patients and one for clinicians
+    \item Clinician account specifically designed for finding clinical trials on behalf of patients
+    \item Clinician account enables saving patient's information (i.e., clinicians can have their own personal database of patients)
+    \item The types of information collected should be expected to change frequently, especially as development begins and users begin testing the application
+\end{itemize}
+
 \bibliographystyle{plainnat}
 
 \bibliography{SRS}
@@ -279,13 +580,67 @@ N/A
 
 \section{Appendix}
 
-This section has been added to the Volere template.  This is where you can place
-additional information.
+\textbf{Reflection:}\\
+
+\noindent{Below are some skills that all the team members will need to acquire, two ways the team can learn the skill, and how the team actually plans on developing/learning the skill.:}\\
+\begin{itemize}
+    \item How to deploy apps to the cloud
+    \begin{itemize}
+        \item Free videos/tutorial's on YouTube (or other similar platforms)
+        \item Documentation surrounding the cloud platform (or platform's) of interest
+    \end{itemize} 
+    \item How to use existing NLPs to parse/process data
+    \begin{itemize}
+        \item Online classes related to Machine learning and natural language processing
+        \item Free videos/tutorial's on YouTube (or other similar platforms)\\
+    \end{itemize} 
+\end{itemize}
+
+\noindent{For both of the skills mentioned above, the team has collectively decided to use YouTube (and other free resources) to develop 
+the skills, since there is an abundance of information available, which would likely be more than enough for what is needed
+for the application being developed.}\\
+
+Additionally, below is a skill that each individual will need to develop, two ways they can learn that skill:\\
+\begin{itemize}
+    \item David - Typescript
+    \begin{itemize}
+        \item Free videos/tutorials on YouTube (or other similar platforms)
+        \item Websites such as "codeacademy" or "freecodecamp"
+        \item Typescript documentation
+    \end{itemize}
+    \item Deep - React
+    \begin{itemize}
+        \item Free videos/tutorials on YouTube (or other similar platforms)
+        \item Online classes on platforms like "Courseera"
+    \end{itemize}
+    \item Alan - Django
+    \begin{itemize}
+        \item Free videos/tutorials on YouTube (or other similar platforms)
+        \item Online classes on platforms like "Courseera"
+    \end{itemize}
+    \item Aamina - Backend development in python
+    \begin{itemize}
+        \item Free videos/tutorials on YouTube (or other similar platforms)
+        \item Online classes on platforms like "Courseera"
+        \item Textbooks
+    \end{itemize}
+    \item Anika - 
+\end{itemize}
+
+How each member is actually planning on learning the skill:\\
+\begin{itemize}
+    \item David - Will use YouTube, due to the abundance of videos/tutorials made on Typescript
+    \item Deep - Will use online classes in a more formalized setting (like "Courseera") since it is more structured than something like youtube, and React is a complex tool to learn.
+    \item Alan - Similar to React, Django is a pretty complex web platform, so will use online classes due to the structure it provides.
+    \item Aamina - Similar to Typescript, will use YouTube due to the abundance of videos made on Python/backend development in python.
+    \item Anika - 
+\end{itemize}
+
+
 
 \subsection{Symbolic Parameters}
 
-The definition of the requirements will likely call for SYMBOLIC\_CONSTANTS.
-Their values are defined in this section for easy maintenance.
+N/A
 
 
 \end{document}
