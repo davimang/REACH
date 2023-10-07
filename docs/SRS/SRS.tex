@@ -42,8 +42,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+2023-10-06 & 1.0 & Initial revision of SRS\\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -96,6 +95,9 @@ The project must not use more than \$750.
     \item Platform - The web system/application.
     \item Heavy traffic - When many users are accessing the platform at one time.
     \item NIST - National Institute of Standards and Technology
+    \item Patient - An individual with a given medical condition(s) who is seeking to enroll in medical research studies.
+    \item Clinician - A medical care provider enrolling a patient in research studies on their behalf.
+    \item Organizer - Person or organization seeking patients for their research study.
 \end{itemize}
 
 \subsection{Relevant Facts and Assumptions}
@@ -107,6 +109,7 @@ It is assumed that users of the application will vary in age, ability, and how m
 \subsection{The Scope of the Work and the Product}
 
 \subsubsection{The Context of the Work}
+This project is primarily based around matching patients with medical conditions to appropriate medical studies corresponding to their medical condition. This matching is done either by the patient or on behalf of a patient by their clinician. The system will allow the users to search for trials based on their medical conditions, and will allow them to store their data for ease of search. The system will return a listing of trials to which the patient can apply.
 
 \subsubsection{Work Partitioning}
 
@@ -118,9 +121,19 @@ It is assumed that users of the application will vary in age, ability, and how m
 
 \item \textit{Patient Login}. A patient logs into their account. When a patient clicks the login button, they are presented with the login menu. Once they input their credentials and login, the system verifies that their details are valid and logs them in. If not, the user is informed of the incorrect credentials and is prompted to try again.
 
-\item \textit{Patient Search For Studies}. A patient searches for available studies based on their conditions. A user inputs their medical conditions into the search and the application retrieves a list of studies from the repository, which are then filtered based on the patient's attributes and conditions. The user selects a given study and hits apply, giving them the option to send an email through the site directly to the organizer.
+\item \textit{Input Search Parameters}. The user inputs search parameters into the search fields to filter available studies. This use case is optional as a logged in user will automatically search by their saved paraters.
 
-\item \textit{Patient Profile Modification}. A patient modifies their profile to change certain attributes (weight, height, birthday, medical conditions, address). The patient selects the UI element that opens their profile and modifies the respective fields. They save and the server updates their information on the database.
+\item \textit{Search for Studies}. Using input parameters, studies are retrieved from the repository, filtered, and displayed to the user. 
+
+\item \textit{Send Email to Organizer}. Once a patient selects a study, they can use the application to send an email to the organizer of the study.
+
+\item \textit{Patient Profile Modification}. A patient modifies their profile to change certain attributes (weight, height, birthday, medical conditions, address). The patient selects the UI element that opens their profile and modifies the respective fields. They save and the server updates their information on the database. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{PatientUseCase.png}
+\caption{Patient use case diagram}
+\end{figure}
 
 \end{enumerate}
 
@@ -251,6 +264,30 @@ Users may not be aware of how medical trials work exactly, and this may cause co
 The system shall contain and display information about medical trials, and answers to questions the users may commonly have.\\~\\
 \addtocounter{FR_Counter}{1}
 
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall allow the user to search for medical studies based on their health conditions.\\
+\textbf{Rationale:}
+Searching for studies is the primary purpose of the application.\\
+\textbf{Fit criterion:}
+The system shall query and filter medical trials from a repository of medical studies.\\~\\
+\addtocounter{FR_Counter}{1}
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall display to the user the results of their trial search, complete with information about the search, the distance to their location, and the option to contact the organizer of the clinical trial. \\
+\textbf{Rationale:}
+Users must be able to see the trials for which they searched, and be given information pertaining to each result.\\
+\textbf{Fit criterion:}
+The system shall display a listing of trials based on a user search.\\~\\
+\addtocounter{FR_Counter}{1}
+
+\noindent{\textbf{FR-\the\value{FR_Counter}:}}
+The system shall allow a signed-in user to automatically enter their conditions and other information into the search parameters. \\
+\textbf{Rationale:}
+This will save users time when performing multiple searches, and fulfils the purpose of having a login system.\\
+\textbf{Fit criterion:}
+The system shall automatically populate search fields for a logged-in user with their saved information. \\~\\
+\addtocounter{FR_Counter}{1}
+
 \section{Non-functional Requirements}
 
 \subsection{Look and Feel Requirements}
@@ -262,7 +299,7 @@ The user should find the appearance of the system's interface attractive to furt
 \textbf{Fit criterion:}
 The different sections of the interface will be in-line with each other. Repeated or grouped sections will have consistent measurements and styling. \\
 \textbf{Traceability:}
-Traces to functional requirements involving the user interface. \\~\\
+FR-1, FR-3, FR-4, FR-5, FR-6, FR-7, FR-9, FR-12, FR-13, FR-14, FR-15 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \noindent\textbf{NFR-\the\value{NFR_Counter}:}
@@ -272,7 +309,7 @@ If the interface is not simple, it may cause the users to strain their eyes or d
 \textbf{Fit criterion:}
 The interface will utilize solid colors with no patterns. The font used for the interface will be Roboto. \\
 \textbf{Traceability:}
-Traces to functional requirements involving the user interface. \\~\\
+FR-1, FR-3, FR-4, FR-5, FR-6, FR-7, FR-9, FR-12, FR-13, FR-14, FR-15 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \subsection{Usability and Humanity Requirements}
@@ -284,7 +321,7 @@ The interface will be used by users with a wide range of technical ability, so m
 \textbf{Fit criterion:}
 95\% of users tested should be able to accomplish the main function of the application without need for outside intervention. \\
 \textbf{Traceability:}
-Traces to functional requirements involving the user interface. \\~\\
+FR-1, FR-3, FR-4, FR-5, FR-6, FR-7, FR-9, FR-12, FR-13, FR-14, FR-15 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \noindent\textbf{NFR-\the\value{NFR_Counter}:}
@@ -294,7 +331,7 @@ The simplicity of the system is important to ensure that the system is easy for 
 \textbf{Fit criterion:}
 Testers should not be able to identify any element of the user interface that does not serve any immediate and apparent use. \\
 \textbf{Traceability:}
-Traces to functional requirements involving the user interface. \\~\\
+FR-1, FR-3, FR-4, FR-5, FR-6, FR-7, FR-9, FR-12, FR-13, FR-14, FR-15 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
@@ -304,7 +341,7 @@ The average user cannot make full use of the features if they find it difficult 
 \textbf{Fit criterion:}
 The UI text size will be 12 pt. \\
 \textbf{Traceability:}
-Traces to functional requirements involving the user interface. \\~\\
+FR-1, FR-3, FR-4, FR-5, FR-6, FR-7, FR-9, FR-12, FR-13, FR-14, FR-15 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 
@@ -318,7 +355,7 @@ change the criteria for eligibility, meaning the time spent waiting for trials t
 \textbf{Fit criterion:}
 The system shall not take longer than 5 seconds to load and display a set of trials, during any given search made by a user.\\
 \textbf{Traceability:}
-**Traces to functional requirements related to searching for trials, displaying trials, getting data from repositories.** \\~\\
+R-13, R-14, R-15 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
@@ -341,7 +378,7 @@ shortcuts should be just as performant as using a mouse (and vice-versa).\\
 \textbf{Fit criterion:}
 The system shall take less than 150ms to acknowledge user input, and make it clear to the user that it has registered the request.\\
 \textbf{Traceability:}
-Traces to any FR that requires user input of some form \\~\\
+FR-1, FR-3, FR-4. FR-5, FR-6, FR-7, FR-9, FR-13, FR-14, R-15 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
@@ -352,7 +389,7 @@ For the system to remain performant, it must handle data efficiently, especially
 The system shall take no longer than 500ms when querying the database for user info (includes query execution time + any overhead of executing 
 the query).\\
 \textbf{Traceability:}
-Traces to any FR that requires user information \\~\\
+FR-1, FR-2, FR-3, FR-4, FR-5, FR-8, FR-9, FR-15 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
@@ -375,7 +412,7 @@ The system needs to gather trials from a preexisting data source so that it can 
 \textbf{Fit criterion:}
 The system should have a similar number(within order of magnitude) of currently running clinical trials as ClinicalTrials.gov for users to search from.\\
 \textbf{Traceability:}
-Any FRs which retrieve data from a data source \\~\\
+FR-13 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
@@ -428,18 +465,18 @@ Restricting the interface's language to only official languages will exclude man
 \textbf{Fit criterion:}
 Users who speak the languages in the top 5 most spoken non-official languages in Canada should be able to use the interface without issue. \\
 \textbf{Traceability:}
-Traces to functional requirements involving the user interface. \\~\\
+FR-1, FR-3, FR-4, FR-5, FR-6, FR-7, FR-9, FR-12, FR-13, FR-14, FR-15 \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \subsection{Legal Requirements}
 \noindent\textbf{NFR-\the\value{NFR_Counter}:}
-The system shall be compliant with the \textit{Personal Health Information Privacy Act, 2004}  \\
+The system shall conform to regulations regarding the collection, storage, and usage of medical information.  \\
 \textbf{Rationale:}
 Since the data stored pertains to personal medical information, we are legally required to manage the data in such a way that protects the personal information of the patients. \\
 \textbf{Fit criterion:}
 The system should be able to pass an independent audit to ensure the data is being collected and secured in an appropriate manner. \\
 \textbf{Traceability:}
-Traces to requirements involving user input (specifically medical data input) and security requirements. \\~\\
+FR-7, FR-8, FR-9, FR-13, FR-14, FR-15. \\~\\
 \addtocounter{NFR_Counter}{1}
 
 \subsection{Health and Safety Requirements}
