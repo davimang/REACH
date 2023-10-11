@@ -490,7 +490,30 @@ N/A
 
 \subsection{Security Requirements}
 \noindent\textbf{NFR-\the\value{NFR_Counter}:}
+The interface shall ensure that the (account holding) users creates a strong password
+according to the NIST guidelines for strong password creation.  \\
+\textbf{Rationale:}
+The NIST is a reputable organization creating strong standards for all manners of security compliance. 
+Following their standards for password creation will ensure that the users' accounts are secure. \\
+\textbf{Fit criterion:}
+The interface shall not allow the user to create an account with a password that does not meet the NIST guidelines.
+All passwords will be 12 characters long with at least one uppercase letter, one lowercase letter, one number, and one special character. 
+Additionally, the interface will recommend against using common passwords, or known words. \\
+\textbf{Traceability:}
+FR-1, FR-5\\~\\
+\addtocounter{NFR_Counter}{1}
 
+\noindent\textbf{NFR-\the\value{NFR_Counter}:}
+The system shall ensure database access is controlled by a password and cannot be accessed by anyone except for the database manager.  \\
+\textbf{Rationale:}
+Although the development team should initially have access to the database for testing purposes. 
+Only a database manager should be able to access individual account information. 
+Role-based Access Control (RBAC) can increase security and ensure information is not dispersed unnecessarily to team members.    \\
+\textbf{Fit criterion:}
+The system will have admin roles for database access and shall ensure that there is authentication with strong credentials. 
+The system will also restrict database access to known IPs to ensure personnel authorization. \\
+\textbf{Traceability:}
+FR-8, FR-9\\~\\
 \addtocounter{NFR_Counter}{1}
 
 \subsection{Cultural Requirements}
