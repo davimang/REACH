@@ -7,6 +7,8 @@
 \usepackage{pdflscape}
 \usepackage{multirow}
 \usepackage{geometry}
+\usepackage{makecell}
+
 
 \hypersetup{
     colorlinks=true,       % false: boxed links; true: colored links
@@ -94,9 +96,9 @@ this potential failure mode.}
     \hline
     Component & Failure modes & Effects & Causes & Action & SR & Ref. \\
     \hline
-    \multirow{3}{=}{Trial Fetching/Matching} & {External Api's unavailable} & {System is unable to search for trials} & {System failure on the API providers side, scheduled maintenance, API access method changed} & {Make application unavailable during scheduled maintenance, prevent users from searching if API is down} & {Place Holder} & {Place Holder} \\\cline{2-7}
-    & {Mismatch in trials being recommended} & {User attempts to sign up for ineligible trial} & {} & {Display a warning/disclaimer with respect to signing up for trials} & {Place Holder} & {Place Holder} \\\cline{2-7}
-    & {User eligible for "too many" trials} & {Too many emails being sent to user and it could make it more difficult for a user to find a trial they really like.} & {Not enough data entered by user.} & {Inform user if they haven't entered enough data to get a good search.} & {Place Holder} & {Place Holder}
+    \multirow{3}{=}{Trial Fetching/Matching} & {External Api's unavailable} & {System is unable to search for trials} & {System failure on the API providers side, scheduled maintenance, API access method changed} & {Make application unavailable during scheduled maintenance, prevent users from searching if API is down.. our own internal database of trials?} & {SR-1} & {HT-1} \\\cline{2-7}
+    & {Mismatch in trials being recommended} & {User attempts to sign up for ineligible trial} & {} & {Display a warning/disclaimer with respect to signing up for trials} & {SR-2, SR-5} & {HT-2} \\\cline{2-7}
+    & {User eligible for "too many" trials} & {Too many emails being sent to user and it could make it more difficult for a user to find a trial they really like.} & {Not enough data entered by user.} & {Inform user if they haven't entered enough data to get a good search.} & {SR-3, SR-4, SR5} & {HT-3}
     \\\hline
     Place holder & Place holder & Place holder & Place holder & Place holder & Place holder & Place holder \\
     \hline
@@ -108,8 +110,28 @@ this potential failure mode.}
 
 \section{Safety and Security Requirements}
 
-\wss{Newly discovered requirements.  These should also be added to the SRS.  (A
-rationale design process how and why to fake it.)}
+\noindent{\textbf{SR-1:}}
+The system shall periodically store new trials into an internal database, and remove trials that are no longer active.\\
+\textbf{Rationale:} 
+In case of external API failure, there should be some redundancy. Keeping a small "cache" of active trials can ensure the system is never
+completely down, due to an external failure.
+
+\noindent{\textbf{SR-2:}}
+The system shall give users a "confidence rating" when matching trials.\\
+\textbf{Rationale:} 
+
+\noindent{\textbf{SR-3:}}
+The system shall enable the user to put a limit on the number of emails they can receive per day.\\
+\textbf{Rationale:}
+
+\noindent{\textbf{SR-4:}}
+The system shall define a pre-set limit number of emails that will be sent to an individual each day.\\
+\textbf{Rationale:}
+
+\noindent{\textbf{SR-5:}}
+The system shall inform a user if it is likely that they have not entered a sufficient amount of information to get accurate search results or narrow down the search in any way.\\
+\textbf{Rationale:}
+
 
 \section{Roadmap}
 
