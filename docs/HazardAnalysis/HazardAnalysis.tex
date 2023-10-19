@@ -86,8 +86,6 @@ you could assume a part will never fail, but it is generally better to include
 this potential failure mode.}
 
 \section{Failure Mode and Effect Analysis}
-
-
     
 \begin{table}[htbp]
     \small
@@ -96,8 +94,8 @@ this potential failure mode.}
     \hline
     Component & Failure modes & Effects & Causes & Action & SR & Ref. \\
     \hline
-    \multirow{3}{=}{Trial Fetching/Matching} & {External Api's unavailable} & {System is unable to search for trials} & {System failure on the API providers side, scheduled maintenance, API access method changed} & {Make application unavailable during scheduled maintenance, prevent users from searching if API is down.. our own internal database of trials?} & {SR-1} & {HT-1} \\\cline{2-7}
-    & {Mismatch in trials being recommended} & {User attempts to sign up for ineligible trial} & {} & {Display a warning/disclaimer with respect to signing up for trials} & {SR-2, SR-5} & {HT-2} \\\cline{2-7}
+    \multirow{3}{=}{Trial Fetching/Matching} & {External Api's unavailable} & {System is unable to search for trials} & {System failure on the API providers side, scheduled maintenance, and API access method changed} & {Keep an internal database of trials.} & {SR-1} & {HT-1} \\\cline{2-7}
+    & {Mismatch in trials being recommended} & {User attempts to sign up for ineligible trial} & {Not enough/invalid information entered by user} & {Display a warning/disclaimer with respect to signing up for trials. Display a confidence rating for each matched trial.} & {SR-2, SR-5} & {HT-2} \\\cline{2-7}
     & {User eligible for "too many" trials} & {Too many emails being sent to user and it could make it more difficult for a user to find a trial they really like.} & {Not enough data entered by user.} & {Inform user if they haven't entered enough data to get a good search.} & {SR-3, SR-4, SR5} & {HT-3}
     \\\hline
     Place holder & Place holder & Place holder & Place holder & Place holder & Place holder & Place holder \\
@@ -114,24 +112,27 @@ this potential failure mode.}
 The system shall periodically store new trials into an internal database, and remove trials that are no longer active.\\
 \textbf{Rationale:} 
 In case of external API failure, there should be some redundancy. Keeping a small "cache" of active trials can ensure the system is never
-completely down, due to an external failure.
+completely down, due to an external failure.\\~\\
 
 \noindent{\textbf{SR-2:}}
 The system shall give users a "confidence rating" when matching trials.\\
 \textbf{Rationale:} 
+It will be nearly impossible for the system to match every single eligible trial perfectly, and the user should know this.\\~\\
 
 \noindent{\textbf{SR-3:}}
 The system shall enable the user to put a limit on the number of emails they can receive per day.\\
 \textbf{Rationale:}
+Some users may only want 1 email per day, and some users may want 10 emails per day. Each user should be able to decide this.\\~\\
 
 \noindent{\textbf{SR-4:}}
 The system shall define a pre-set limit number of emails that will be sent to an individual each day.\\
 \textbf{Rationale:}
+If a user doesn't set a limit (whether on purpose or by accident), the system could not handle sending thousands of emails to each user every day. A limit for this reason, is necessary.\\~\\
 
 \noindent{\textbf{SR-5:}}
 The system shall inform a user if it is likely that they have not entered a sufficient amount of information to get accurate search results or narrow down the search in any way.\\
 \textbf{Rationale:}
-
+Some users may not realize the importance of entering sufficient and accurate information. Additionally, some may forget.\\~\\
 
 \section{Roadmap}
 
