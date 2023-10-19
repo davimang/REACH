@@ -6,6 +6,7 @@
 \usepackage{float}
 \usepackage{pdflscape}
 \usepackage{multirow}
+\usepackage{geometry}
 
 \hypersetup{
     colorlinks=true,       % false: boxed links; true: colored links
@@ -14,6 +15,8 @@
     filecolor=magenta,      % color of file links
     urlcolor=cyan           % color of external links
 }
+
+\geometry{margin=1.25in}
 
 \title{Hazard Analysis\\\progname}
 
@@ -40,7 +43,7 @@
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
 Date1 & Name(s) & Description of changes\\
-Date2 & Name(s) & Description of changes\\
+October 18, 2023 & Aamina Hussain & Added sections 1, 2, and 4\\
 ... & ... & ...\\
 \bottomrule
 \end{tabularx}
@@ -57,14 +60,23 @@ Date2 & Name(s) & Description of changes\\
 \wss{You are free to modify this template.}
 
 \section{Introduction}
+This document includes a hazard analysis for the web application REACH. REACH will allow users 
+to find clinical trials or research studies they are eligible to participate in. It pulls in information about these studies 
+from existing external public databases. This document will analyze and record any hazards to the system REACH. In this case, 
+a hazard is a property of a system, together with the condition of the environment the system is in, which can cause harm or 
+damage and results in a loss. This definition of hazard is from Nancy Leveson's work.
 
 \wss{You can include your definition of what a hazard is here.}
 
 \section{Scope and Purpose of Hazard Analysis}
+The scope and purpose of this hazard analysis is to identify any system hazards and which components they are related to. This 
+includes analyzing the causes and effects of the hazard and the recommended actions to mitigate the hazard, as well as documenting 
+the resulting safety and security requirements.
 
 \section{System Boundaries and Components}
 
 \section{Critical Assumptions}
+N/A. There are no critical assumptions being made about the software or system.
 
 \wss{These assumptions that are made about the software or system.  You should
 minimize the number of assumptions that remove potential hazards.  For instance,
