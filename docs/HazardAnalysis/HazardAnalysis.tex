@@ -115,7 +115,7 @@ N/A. There are no critical assumptions being made about the software or system.
     \hline
     \multirow{3}{=}{Trial Fetching/Matching} & {External Api's unavailable} & {System is unable to search for trials} & {System failure on the API providers side, scheduled maintenance, and API access method changed} & {Keep an internal database of trials.} & {SR-1} & {HT-1} \\\cline{2-7}
     & {Mismatch in trials being recommended} & {User attempts to sign up for ineligible trial} & {Not enough/invalid information entered by user} & {Display a warning/disclaimer with respect to signing up for trials. Display a confidence rating for each matched trial.} & {SR-2, SR-5} & {HT-2} \\\cline{2-7}
-    & {User eligible for "too many" trials} & {Too many emails being sent to user and it could make it more difficult for a user to find a trial they really like.} & {Not enough data entered by user.} & {Inform user if they haven't entered enough data to get a good search.} & {SR-3, SR-4, SR5} & {HT-3} \\
+    & {User eligible for ``too many" trials} & {Too many emails being sent to user and it could make it more difficult for a user to find a trial they really like.} & {Not enough data entered by user.} & {Inform user if they haven't entered enough data to get a good search.} & {SR-3, SR-4, SR5} & {HT-3} \\
     \hline
     Database & Database unavailable & System is unavailable to login users and retrieve users' user data for searching & System failure on hosting side, database maintenance, database accesses updated or cancelled & Constrain users to guest access. & SR-6 & HT-4 \\ \\\cline{2-7}
     & Unauthorized user accesses the database & User data, including medical data, is may be comprised. Potential legal consequences in case of data breach & Insuffient database security protocols, leak of access credentials & Bring database online, restrict database access. Notify users in the event of a data breach. & SR-7 & HT-5 \\
@@ -135,11 +135,11 @@ N/A. There are no critical assumptions being made about the software or system.
 \noindent{\textbf{SR-1:}}
 The system shall periodically store new trials into an internal database, and remove trials that are no longer active.\\
 \textbf{Rationale:} 
-In case of external API failure, there should be some redundancy. Keeping a small "cache" of active trials can ensure the system is never
+In case of external API failure, there should be some redundancy. Keeping a small ``cache" of active trials can ensure the system is never
 completely down, due to an external failure.\\~\\
 
 \noindent{\textbf{SR-2:}}
-The system shall give users a "confidence rating" when matching trials.\\
+The system shall give users a ``confidence rating" when matching trials.\\
 \textbf{Rationale:} 
 It will be nearly impossible for the system to match every single eligible trial perfectly, and the user should know this.\\~\\
 
