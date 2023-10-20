@@ -48,6 +48,7 @@ October 18, 2023 & Aamina Hussain & Added sections 1, 2, and 4\\
 October 19, 2023 & David Moroniti & Added trial hazards + SR's\\
 October 19, 2023 & Alan Scott & Added additional trial hazards + SR's \\
 October 20, 2023 & David Moroniti & Add roadmap\\
+October 20, 2023 & Deep Raj & Added additional trial hazards + SR's \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -122,7 +123,8 @@ N/A. There are no critical assumptions being made about the software or system.
   Login Authentication  & User is unable to login & User is unable to access their profile and autofill search parameters. & User forgets password, password authentication is down, database is unavailable & User is given the option to to change password if password is incorrect, otherwise the user can still use guest access. & FR-4, FR-5 & HT-6 \\\cline{2-7}
   & Unauthorized user logs into a user's account. & Unauthorized user gains access to their medical data and can search on their behalf. & Insufficient password strength, login authentication bug. & Require strong passwords, inform users of login attempts from new locations. & NFR-15, SR-8 & HT-7 \\
     \hline
-Placeholder & Placeholder & Placeholder & Placeholder & Placeholder & Placeholder & Placeholder \\
+  General  & User loses internet connection & User is unable to search for trials. User is unable to update personal data. & User's device lost connection to internet, or ISP outage.& Data is stored locally untill it is uploaded to the database. Application Displays a warning that it is unable to contact the internet. &  SR-9, SR-10 & HT-8 \\\cline{2-7}
+  & Application Crashes & User may lose unsaved data. & Programming error, hardware failure, user device malfunction. & User is informed that unsaved data may have been lost when the application is launched again. &  SR-11 & HT-9 \\
     \hline
     \end{tabular}}
 \end{table}
@@ -171,7 +173,20 @@ The system shall inform the user when their account is accessed from a location 
 \textbf{Rationale:}
 Informing the user of a new login location will allow them to verify whether an unauthorized user has accessed their account, allowing them to update their password and take further steps if needed. \\~\\
 
+\noindent{\textbf{SR-9:}}
+The system shall store all user data locally until it is uploaded to the database. \\
+\textbf{Rationale:}
+If there is no internet connection data can be saved locally until internet access is available again.\\~\\
 
+\noindent{\textbf{SR-10:}}
+The system shall inform the user when the internet is unavailable. \\
+\textbf{Rationale:}
+Informing the user when the internet is unavailable allows them to check why and potentially address the issue. \\~\\
+
+\noindent{\textbf{SR-11:}}
+The system shall inform the user when the application was closed unexpectedly previously and that unsaved data may have been lost. \\
+\textbf{Rationale:}
+Informing the user when the application previously closed unexpectedly allows them to check if any changes they made recently to their personal data were saved. \\~\\
 
 
 \section{Roadmap}
