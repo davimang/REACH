@@ -113,7 +113,7 @@ N/A. There are no critical assumptions being made about the software or system.
     \hline
     Component & Failure modes & Effects & Causes & Action & SR & Ref. \\
     \hline
-    \multirow{3}{=}{Trial Fetching/Matching} & {External Api's unavailable} & {System is unable to search for trials} & {System failure on the API providers side, scheduled maintenance, and API access method changed} & {Keep an internal database of trials.} & {SR-1} & {HT-1} \\\cline{2-7}
+    \multirow{3}{=}{Trial Fetching/Matching} & {External API's unavailable} & {System is unable to search for trials} & {System failure on the API providers side, scheduled maintenance, and API access method changed} & {Keep an internal database of trials.} & {SR-1} & {HT-1} \\\cline{2-7}
     & {Mismatch in trials being recommended} & {User attempts to sign up for ineligible trial} & {Not enough/invalid information entered by user} & {Display a warning/disclaimer with respect to signing up for trials. Display a confidence rating for each matched trial.} & {SR-2, SR-5} & {HT-2} \\\cline{2-7}
     & {User eligible for ``too many" trials} & {Too many emails being sent to user and it could make it more difficult for a user to find a trial they really like.} & {Not enough data entered by user.} & {Inform user if they haven't entered enough data to get a good search.} & {SR-3, SR-4, SR5} & {HT-3} \\
     \hline
