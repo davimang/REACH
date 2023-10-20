@@ -75,11 +75,21 @@ the resulting safety and security requirements.
 The system boundary for REACH consists of the following:
 \begin{enumerate}
     \item The web application itself with all of its front and back end components.
+    \begin{itemize}
+        \item The database for user information with secure storage and retrieval.
+        \item The user authentication subsystem.
+        \item The trial searching and filtering subsystem.
+        \item The email generation subsystem
+        \item The user notification subsystem.
+    \end{itemize}
+    \item External public databases that the web application pulls information from. 
+    While the team has no control over these databases, their data is used by REACH.
+    \item Devices that the web application is accessed from.
+    This includes mobile devices, tablets, and computers.
+
 \end{enumerate}
 
-\begin{itemize}
-    \item the web application itself
-\end{itemize}
+
 
 \section{Critical Assumptions}
 N/A. There are no critical assumptions being made about the software or system.
