@@ -79,16 +79,24 @@ The system boundary for REACH consists of the following:
         \item The database for user information with secure storage and retrieval.
         \item The user authentication subsystem.
         \item The trial searching and filtering subsystem.
-        \item The email generation subsystem
+        \item The email generation subsystem.
         \item The user notification subsystem.
     \end{itemize}
     \item External public databases that the web application pulls information from. 
     While the team has no control over these databases, their data is used by REACH.
     \item Devices that the web application is accessed from.
     This includes mobile devices, tablets, and computers.
-
 \end{enumerate}
 
+As such, the system boundary 
+includes the web application itself, the external public databases, 
+and the devices that the web application is accessed from.
+Although the physical devices are not part of the system, 
+they are included because, as the environment, they are the means of accessing the web application.
+
+%sources of inspiration:
+% https://github.com/paezha/PyERT-BLACK/blob/main/docs/Rev1/HazardAnalysis/HazardAnalysis.tex
+% https://gitlab.cas.mcmaster.ca/courses/capstone/-/blob/main/SamplesOfStudentWork/HazardAnalysis/Capstone%20Intelligence%20-%20Hazard%20Analysis.pdf?ref_type=heads
 
 
 \section{Critical Assumptions}
