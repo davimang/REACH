@@ -1,3 +1,13 @@
+## Ignore node_modules folder
+node_modules/
+
+## Ignore environment variables and secrets
+.env
+
+## Ignore build folder
+/dist
+/build
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
