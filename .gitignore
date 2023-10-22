@@ -277,3 +277,18 @@ TSWLatexianTemp*
 
 # DS_Store file from Mac computers
 .DS_Store
+
+#virtual envs
+venv
+.venv
+env
+.env
+
+# Django stuff:
+*.log
+*.pot
+db.sqlite3
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
