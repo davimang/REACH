@@ -3,12 +3,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
 
-    entry: './src/FE/index.js',
-
-    output: {
-        path: path.join(__dirname, '/dist'),
-        filename: 'bundle.js'
-    },
+    entry: './src/FE/index.tsx',
 
     plugins: [
         new HTMLWebpackPlugin({
@@ -27,8 +22,17 @@ module.exports = {
                         presets: ['@babel/preset-env', '@babel/preset-react']
                         }
                 }
+            },
+            {
+                test: /\.(ts|tsx)$/,
+                exclude: /node_modules/,
+                use: ['ts-loader']
             }
         ]
+    },
+
+    resolve: {
+        extensions: ['.tsx', '.ts', '.jsx', '.js', "..."]
     }
 
 }
