@@ -216,7 +216,7 @@ as a Rev 0 demo for the supervisor.}
 \wss{Include a blurb here to explain why the subsections below
   cover the requirements.  References to the SRS would be good here.}
 
-\subsubsection{Area of Testing1}
+\subsubsection{Authentication}
 
 \wss{It would be nice to have a blurb here to explain why the subsections below
   cover the requirements.  References to the SRS would be good here.  If a section
@@ -227,33 +227,84 @@ as a Rev 0 demo for the supervisor.}
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{AT-1\\}
 
-Control: Manual versus Automatic
+Control: Automatic
 					
-Initial State: 
+Initial State: User is not signed in to the application, and is about to create an account.
 					
-Input: 
+Input: A valid, unique email, and a valid password satisfying the NIST guidelines
 					
-Output: \wss{The expected result for the given inputs}
+Output: The user's account should be created successfully, and a 201 CREATED response should be returned.
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+Test Case Derivation: As stated in FR-1 and FR-2, the system must only allow a user to create an account if the email is unique (i.e., not 
+used by some other user yet), and if their password satisfies the NIST guidelines. Since the inputs to this test case satisfy these 
+requirements, the response should be a success.
 					
-How test will be performed: 
+How test will be performed: Pre define a valid username and password. Automated test to pass in these values and check the return value/output.
 					
-\item{test-id2\\}
+\item{AT-2\\}
 
-Control: Manual versus Automatic
+Control: Automatic
 					
-Initial State: 
+Initial State: User is not signed in to the application, and is about to create an account.
 					
-Input: 
+Input: An email that is already attached to another account, and a valid password.
 					
-Output: \wss{The expected result for the given inputs}
+Output: The user's account should not be created and a response stating this failure should be returned.
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+Test Case Derivation: From FR-2, the email must be unique. Since it is not unique in this test case, the account should not 
+be created.
 
-How test will be performed: 
+How test will be performed: Pre define an invalid email. Automated test to pass in these values and check the return value/output.
+
+\item{AT-3\\}
+
+Control: Automatic
+					
+Initial State: User is not signed in to the application, and is about to create an account.
+					
+Input: A valid, unique, email, and a password that does not satisfy the NIST guidelines.
+					
+Output: The user's account should not be created and a response stating this failure should be returned.
+
+Test Case Derivation: From FR-1, the password must abide by the NIST guidelines. Since it does not in this test case, the account should not 
+be created.
+
+How test will be performed: Pre define an invalid password. Automated test to pass in these values and check the return value/output.
+
+
+\item{AT-4\\}
+
+Control: Automatic
+					
+Initial State: User is not signed in to the application, and is about to log in to the application.
+					
+Input: A valid, unique, email, and a password that satisfies the NIST guidelines, which are tied to an account.
+					
+Output: The user should be logged in to the application.
+
+Test Case Derivation: From FR-3, if the credentials are correct, a user should be logged in to the application.
+
+How test will be performed: Pre define a valid username and password tied to an account. Automated test to pass in these values and check the return value/output.
+
+
+\item{AT-5\\}
+
+Control: Automatic
+					
+Initial State: User is not signed in to the application, and is about to log in to the application.
+					
+Input: An email that is not tied to an account, with a password that satisfies NIST guidelines (but can be any valid password).
+					
+Output: The user should not be logged in to the application.
+
+Test Case Derivation: From FR-3, a user is only logged in to an account if the credentials are correct. Since the email is not valid,
+they should not be logged in.
+
+How test will be performed: Pre define a random email/password. Automated test to pass in these values and check the return value/output.
+
+
 
 \end{enumerate}
 
