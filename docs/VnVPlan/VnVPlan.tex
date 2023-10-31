@@ -369,41 +369,55 @@ How test will be performed: Manually sign out of the application, and verify tha
 \wss{Static tests, review, inspections, and walkthroughs, will not follow the
 format for the tests given below.}
 
-\subsubsection{Area of Testing1}
+\subsubsection{Performance}
 		
 \paragraph{Title for Test}
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{PT-1\\}
 
-Type: Functional, Dynamic, Manual, Static etc.
+Type: Dynamic, Manual
 					
-Initial State: 
+Initial State: User has entered their information for their and is about to search for eligible trials.
 					
-Input/Condition: 
+Input/Condition: All possible information filled in.
 					
-Output/Result: 
+Output/Result: The system should load the trials and display them to the user in less than 5 seconds.
 					
-How test will be performed: 
+How test will be performed: In an existing account with all information categories filled in by the user, manually search for eligible trials, 
+and keep track of how long it takes for the trials to load.
 					
-\item{test-id2\\}
+\item{PT-2\\}
 
-Type: Functional, Dynamic, Manual, Static etc.
+Type: Dynamic, Manual
 					
-Initial State: 
+Initial State: N/A
 					
-Input: 
+Input/Condition: API key available to authenticate against the API.
 					
-Output: 
+Output/Result: API calls should respond in less than 1 second.
 					
-How test will be performed: 
+How test will be performed: Using locust, simulate 1000 users concurrently searching for trials, and manually track 
+the max time recorded for a response from the API.
 
 \end{enumerate}
 
-\subsubsection{Area of Testing2}
+\subsubsection{Maintainability}
 
-...
+\begin{enumerate}
+
+\item{MT-1\\}
+
+Type: Static, Manual
+					
+How test will be performed: Manually run linters on code before merging a PR.
+
+Rationale: This will ensure code is following the proper standards, which will help increase the maintainability of the system.
+Also, this will be performed manually for the reason of conserving resources (i.e., could setup some workflow to automatically lint 
+code every time some code is pushed to the GitHub Repo, however this could be costly).
+
+\end{enumerate}
 
 \subsection{Traceability Between Test Cases and Requirements}
 
