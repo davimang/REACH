@@ -6,6 +6,6 @@ venv:
 install:
 	pip install -r requirements.txt
 
-#run django web server (will run on port 8000)
+#run api in docker. *must have docker-compose installed, although most likely will come with docker installation
 run:
-	python manage.py runserver
+	docker-compose up

@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    container_name: api
+    volumes:
+      - .:/api
+    ports:
+      - "8000:8000"
