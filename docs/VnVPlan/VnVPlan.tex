@@ -3,6 +3,7 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
+\usepackage{float}
 \hypersetup{
     colorlinks,
     citecolor=blue,
@@ -170,40 +171,23 @@ verified.  Techniques for this include review and mutation testing.}
 
 \subsection{Automated Testing and Verification Tools}
 
-\wss{What tools are you using for automated testing.  Likely a unit testing
-  framework and maybe a profiling tool, like ValGrind.  Other possible tools
-  include a static analyzer, make, continuous integration tools, test coverage
-  tools, etc.  Explain your plans for summarizing code coverage metrics.
-  Linters are another important class of tools.  For the programming language
-  you select, you should look at the available linters.  There may also be tools
-  that verify that coding standards have been respected, like flake9 for
-  Python.}
+For the backend (i.e., python service(s)), we will be using pytest as our unit testing framework. Additionally,
+we will be using tavern (an API testing framework built on top of pytest) to test our API. These API tests will
+ideally run at scheduled intervals (i.e., nightly, weekly... whatever is reasonable for the resources available), which can be 
+done with the use of GitHub actions. Furthermore, we will be using several static analyzers to ensure code quality and maintainability. These 
+static analyzers include flake8 (which ensures the code will follow the pep8 coding standard), mypy (which ensures strict typing in python,
+and the use of comments+docstrings), and autoflake (which ensures there are no unused packages/imports in a python file). Finally, for analyzing 
+code coverage in our python service(s), we will use coverage.py, which produces useful coverage reports after running tests using pytest.\\
 
-\wss{If you have already done this in the development plan, you can point to
-that document.}
-
-\wss{The details of this section will likely evolve as you get closer to the
-  implementation.}
+For the frontend, nothing has changed from the development plan (i.e., using jest for unit testing + code coverage, and ESLint for linting).
 
 \subsection{Software Validation Plan}
 
-\wss{If there is any external data that can be used for validation, you should
-  point to it here.  If there are no plans for validation, you should state that
-  here.}
-
-\wss{You might want to use review sessions with the stakeholder to check that
-the requirements document captures the right requirements.  Maybe task based
-inspection?}
-
-\wss{For those capstone teams with an external supervisor, the Rev 0 demo should 
-be used as an opportunity to validate the requirements.  You should plan on 
-demonstrating your project to your supervisor shortly after the scheduled Rev 0 demo.  
-The feedback from your supervisor will be very useful for improving your project.}
-
-\wss{For teams without an external supervisor, user testing can serve the same purpose 
-as a Rev 0 demo for the supervisor.}
-
-\wss{This section might reference back to the SRS verification section.}
+To validate our software system/requirements, there are a few steps that will be taken. First, continuing to meet with our clients (supervisors) while developing
+the early parts of the application will help ensure the system is on the right track. Furthermore, upon completing of the revision 0 demo, we will
+demo the system to our clients, enabling them to ask questions, provide feedback, and ensure the system has the correct requirements. At this
+time we will also encourage our clients to use the platform directly (since it will be deployed, they will be able to easily access it) and give additional feedback post revision 0 demo,
+which will hopefully bring light to new and improved requirements that can be implemented for revision 1. 
 
 \section{System Test Description}
 	
@@ -463,7 +447,6 @@ code every time some code is pushed to the GitHub Repo, however this could be co
 
 \end{enumerate}
 
-
 \subsubsection{Legal}
 
 \begin{enumerate}
@@ -485,8 +468,31 @@ How test will be performed: Users are asked to input their search criteria, and 
 
 \subsection{Traceability Between Test Cases and Requirements}
 
-\wss{Provide a table that shows which test cases are supporting which
-  requirements.}
+\begin{table}[H]
+  \begin{tabular}{|p{7cm}|p{7cm}|}
+  \hline
+  Test case & Requirement(s)\\
+  \hline
+  AT-1 & FR-1, FR-2\\
+  \hline
+  AT-2 & FR-2\\
+  \hline
+  AT-3 & FR-1\\
+  \hline
+  AT-4 & FR-3\\
+  \hline
+  AT-5 & FR-3\\
+  \hline
+  AT-6 & FR-5\\
+  \hline
+  AT-7 & FR-5\\
+  \hline
+  AT-8 & FR-6\\
+  \hline
+  AT-9 & FR-7\\
+  \hline
+  \end{tabular}
+\end{table}
 
 \section{Unit Test Description}
 
