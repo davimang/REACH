@@ -350,6 +350,21 @@ Test Case Derivation: From FR-6, a user should be able to log out of the applica
 How test will be performed: Manually sign out of the application, and verify that it works.
 
 
+\item{AT-9}
+
+Control: Manual
+					
+Initial State: User has created an account for the first time, or is logging in as a guest.
+					
+Input: N/A
+					
+Output: The user is prompted to enter their personal data.
+
+Test Case Derivation: From FR-7, a user is prompted to enter personal information when creating an account or logging in as a guest.
+
+How test will be performed: Mnaually create an account and sign in as a guest, and verify the user is prompted.
+
+
 \end{enumerate}
 
 \subsubsection{Area of Testing2}
@@ -368,6 +383,35 @@ How test will be performed: Manually sign out of the application, and verify tha
 
 \wss{Static tests, review, inspections, and walkthroughs, will not follow the
 format for the tests given below.}
+
+
+\subsubsection{Useability}
+
+\begin{enumerate}
+
+\item{UT-1}
+
+Control: Dynamic, Manual
+					
+Initial State: The user starts on the home screen.
+
+Test Case Derivation: From NFR-3, NFR-4, and NFR, regarding the learnability, simplicity, and legibility of the user interface.
+
+How test will be performed: Have the user sign in, search, and browse results without outside help. 95\% of users should be able to accomplish this.
+
+
+\item{UT-2}
+
+Control: Dynamic, Manual
+					
+Initial State: The user starts on the home screen. The selected language should be set to the default (English).
+
+Test Case Derivation: From NFR-17, regarding accessibility of the application users who do not speak an official language.
+
+How test will be performed: Users of the next five most spoken languages other than English and French should be selected. They should be instructed to change to their preferred language and then should login, search, and browse results. 95\% of users should not report any issues navigating the interface.
+
+
+\end{enumerate}
 
 \subsubsection{Performance}
 		
@@ -416,6 +460,26 @@ How test will be performed: Manually run linters on code before merging a PR.
 Rationale: This will ensure code is following the proper standards, which will help increase the maintainability of the system.
 Also, this will be performed manually for the reason of conserving resources (i.e., could setup some workflow to automatically lint 
 code every time some code is pushed to the GitHub Repo, however this could be costly).
+
+\end{enumerate}
+
+
+\subsubsection{Legal}
+
+\begin{enumerate}
+\item{LT-1}
+
+Control: Dynamic, Manual
+					
+Initial State: The user is at the search screen.
+
+Input: User search criteria.
+
+Output: Option prompting user for consent.
+
+Test Case Derivation: From NFR-18, regarding the collection of user consent before using or storing user data.
+
+How test will be performed: Users are asked to input their search criteria, and should see a message prompting them to provide consent for the collection of data when they try to search.
 
 \end{enumerate}
 
