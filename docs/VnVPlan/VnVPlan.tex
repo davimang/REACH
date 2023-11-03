@@ -288,7 +288,7 @@ they should not be logged in.
 
 How test will be performed: Pre define a random email/password. Automated test to pass in these values and check the return value/output.
 
-\item{AT-6}
+\item{AT-6\\}
 
 Control: Manual
 					
@@ -304,7 +304,7 @@ How test will be performed: Manually go on to the login page, enter an email add
 that the email received is correct, and that the link takes the user to the reset password page.
 
 
-\item{AT-7}
+\item{AT-7\\}
 
 Control: Automatic
 					
@@ -319,7 +319,7 @@ satisfies the NIST guidelines.
 
 How test will be performed: Pre define a random email/password. Automated test to pass in these values and check the return value/output.
 
-\item{AT-8}
+\item{AT-8\\}
 
 Control: Manual
 					
@@ -334,7 +334,7 @@ Test Case Derivation: From FR-6, a user should be able to log out of the applica
 How test will be performed: Manually sign out of the application, and verify that it works.
 
 
-\item{AT-9}
+\item{AT-9\\}
 
 Control: Manual
 					
@@ -346,8 +346,135 @@ Output: The user is prompted to enter their personal data.
 
 Test Case Derivation: From FR-7, a user is prompted to enter personal information when creating an account or logging in as a guest.
 
-How test will be performed: Mnaually create an account and sign in as a guest, and verify the user is prompted.
+How test will be performed: Manually create an account and sign in as a guest, and verify the user is prompted.
 
+\end{enumerate}
+
+\subsubsection{User Data}
+
+\begin{enumerate}
+
+\item{DT-1\\}
+
+Control: Manual
+					
+Initial State: User is not signed in, and does not have an account.
+					
+Input: New user data (medical conditions, personal attributes).
+					
+Output: Updated user database displayed on the user profile page.
+	
+Test Case Derivation: From FR-8, the system shall store the information entered by the user in the database.
+
+How test will be performed: Manually create a new account, and add in some user data and medical conditions. Log back in and verify the data is still present on the user profile.
+
+
+\item{DT-2\\}
+
+Control: Manual
+					
+Initial State: User is signed in with their personal account.
+					
+Input: Updated user data (medical conditions, personal attributes).
+					
+Output: Updated user database displayed on the user profile page.
+
+Test Case Derivation: From FR-9, a user shall be able to update their personal information.
+
+How test will be performed: Manually update the user profile with new user information, then log out. Log back in and check that the new data is present.
+
+\end{enumerate}
+
+\subsubsection{Email}
+
+\begin{enumerate}
+
+
+\item{ET-1\\}
+
+Control: Manual
+					
+Initial State: The user has searched for trials, and has been given a list of trials.
+					
+Input: N/A
+					
+Output: A customized email template.
+
+Test Case Derivation: From FR-10, the system shall create an email template for the user.
+
+How test will be performed: Manually select a given trial result, and select the option to generate a template. Verify that it is displayed to the user.
+
+
+\item{ET-1\\}
+
+Control: Automatic
+					
+Initial State: The user is not logged in to the system.
+					
+Input: N/A
+					
+Output: Email notification notifying user of available trial.
+
+Test Case Derivation: From FR-11, the system shall notify the user when new medical trials matching their specifications are available.
+
+How test will be performed: A test user will be created with their own email account, with common medical conditions. The email will be checked periodically for notifications.
+
+
+\end{enumerate}
+
+\subsubsection{Program Information}
+
+\begin{enumerate}
+
+\item{PT-1\\}
+
+Control: Manual
+					
+Initial State: The user is at the home screen.
+					
+Input: N/A
+					
+Output: FAQ menu.
+
+Test Case Derivation: From FR-12, the system shall include frequently asked questions and trial information.
+
+How test will be performed: Manually select the FAQ menu, and verify that it displays the FAQ.
+
+
+\end{enumerate}
+
+\subsubsection{Searching}
+
+\begin{enumerate}
+
+\item{ST-1\\}
+
+Control: Manual
+					
+Initial State: The user is signed is, either as themselves or as a guest.
+					
+Input: Medical conditions and other user attributes used to search.
+					
+Output: Displayed search results.
+
+Test Case Derivation: From FR-13, FR-14, a user shall be able to search for medical studies based on their health conditions, and the system shall display to the users the results of their trial search.
+
+How test will be performed: Manually enter the a set of medical conditions and physical attributes into the search function. Submit, and verify the results are returned.
+
+
+\item{ST-2\\}
+
+Control: Manual
+					
+Initial State: The user is signed into their personal account, with medical information saved to their account.
+					
+Input: N/A
+					
+Output: Displayed search results.
+
+Test Case Derivation: From FR-15, the system shall allow a signed-in user to automatically enter their conditions into the search parameters.
+
+How test will be performed: Manually navigate to the search function. Verify that their conditions and information is automatically inputted into the search fields.
 
 \end{enumerate}
 
@@ -379,7 +506,7 @@ Control: Dynamic, Manual
 					
 Initial State: The user starts on the home screen.
 
-Test Case Derivation: From NFR-3, NFR-4, and NFR, regarding the learnability, simplicity, and legibility of the user interface.
+Test Case Derivation: From NFR-3, NFR-4, and NFR-5, regarding the learnability, simplicity, and legibility of the user interface.
 
 How test will be performed: Have the user sign in, search, and browse results without outside help. 95\% of users should be able to accomplish this.
 
@@ -490,6 +617,32 @@ How test will be performed: Users are asked to input their search criteria, and 
   AT-8 & FR-6\\
   \hline
   AT-9 & FR-7\\
+  \hline
+  DT-1 & FR-8\\
+  \hline
+  DT-2 & FR-9\\
+  \hline
+  ET-1 & FR-10\\
+  \hline
+  ET-2 & FR-11\\
+  \hline
+  PT-1 & FR-12\\
+  \hline
+  ST-1 & FR-13, FR-14\\
+  \hline
+  ST-2 & FR-15\\
+  \hline
+  UT-1 & NFR-3, NFR-4, NFR-5\\
+  \hline
+  UT-2 & NFR-17\\
+  \hline
+  PT-1 & NFR-6\\
+  \hline
+  PT-2 & NFR-7\\
+  \hline
+ MT-1 & N/A\\
+  \hline
+ LT-1 & NFR-18\\
   \hline
   \end{tabular}
 \end{table}
