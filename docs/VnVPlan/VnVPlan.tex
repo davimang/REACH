@@ -83,46 +83,44 @@ in.}
 
 \pagenumbering{arabic}
 
-This document ... \wss{provide an introductory blurb and roadmap of the
-  Verification and Validation plan}
+This document discusses the verification and validation plan for the REACH project. The main goal of this document
+is to give all stakeholders in the REACH project confidence that the system will be built based on the correct 
+requirements, and that those requirements will be implemented correctly, ensuring the system is functioning as intended.
 
 \section{General Information}
 
 \subsection{Summary}
 
-\wss{Say what software is being tested.  Give its name and a brief overview of
-  its general functions.}
+The software being tested is REACH. REACH is a web application that will simplify the process for both patients, and clinicians working 
+on behalf of their patients, of finding clinical trials that they are eligible for and that would be useful for them.
 
 \subsection{Objectives}
 
-\wss{State what is intended to be accomplished.  The objective will be around
-  the qualities that are most important for your project.  You might have
-  something like: ``build confidence in the software correctness,''
-  ``demonstrate adequate usability.'' etc.  You won't list all of the qualities,
-  just those that are most important.}
+The main objectives of this document are the following:
 
-\wss{You should also list the objectives that are out of scope.  You don't have 
-the resources to do everything, so what will you be leaving out.  For instance, 
-if you are not going to verify the quality of usability, state this.  It is also 
-worthwhile to justify why the objectives are left out.}
+\begin{itemize}
+  \item Ensure the system has a high level of usability
+  \item Build confidence in the correctness of the searching/matching capabilities
+  \item Build confidence in the security of user data
+\end{itemize}
 
-\wss{The objectives are important because they highlight that you are aware of 
-limitations in your resources for verification and validation.  You can't do everything, 
-so what are you going to prioritize?  As an example, if your system depends on an 
-external library, you can explicitly state that you will assume that external library 
-has already been verified by its implementation team.}
+These three objectives are the most important qualities of the system, and they are the ones that are in scope for this project. \\
+
+First, usability is a must
+since the entire purpose of the application is to simplify the process of finding clinical trials. If the system was difficult to use, this process 
+would not be simplified and the application would be useless. 
+Furthermore, the ability to search/match patients to trials is an integral component of the application, and building confidence in 
+that functionality is crucial for all stakeholders. Finally, ensuring the system is safe and secure when it comes to handling user data is of course 
+extremely important for the users of the application which is why it is being prioritized.
 
 \subsection{Relevant Documentation}
 
-\wss{Reference relevant documentation.  This will definitely include your SRS
-  and your other project documents (design documents, like MG, MIS, etc).  You
-  can include these even before they are written, since by the time the project
-  is done, they will be written.}
-
-\citet{SRS}
-
-\wss{Don't just list the other documents.  You should explain why they are relevant and 
-how they relate to your VnV efforts.}
+There are a few documents that are worth noting before jumping in to the verification and validation plan.
+First, the SRS is the most important and relevant document that accompanies the plan  (\citet{SRS}). The majority of the test plan 
+is built on top of the requirements specified in the SRS, since as stated previously, one of the main goals of this document is to 
+build confidence in the implementation of the software requirements. Second, the development plan is relevant as it discusses various tools 
+and technologies that can/will be used to test the software system being built {\citet{DevPlan}}. Finally, the MIS document which details the modular design 
+of the system is especially relevant to the unit test portion of the document.
 
 \section{Plan}
 
@@ -193,21 +191,12 @@ which will hopefully bring light to new and improved requirements that can be im
 	
 \subsection{Tests for Functional Requirements}
 
-\wss{Subsets of the tests may be in related, so this section is divided into
-  different areas.  If there are no identifiable subsets for the tests, this
-  level of document structure can be removed.}
-
-\wss{Include a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good here.}
+The following subsections are split based on the core aspects of the application. These include authentication, which enables a user 
+to sign in to their account, user data, which enables users to save their data for future uses of the application, the emailing system, which will
+notify users of new trials and give them a template for reaching out to trial clnicians, searching for trials (the main purpose of the app), and 
+general program/system information (i.e., the FAQ).
 
 \subsubsection{Authentication}
-
-\wss{It would be nice to have a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good here.  If a section
-  covers tests for input constraints, you should reference the data constraints
-  table in the SRS.}
-		
-\paragraph{Title for Test}
 
 \begin{enumerate}
 
@@ -478,23 +467,7 @@ How test will be performed: Manually navigate to the search function. Verify tha
 
 \end{enumerate}
 
-\subsubsection{Area of Testing2}
-
-...
-
 \subsection{Tests for Nonfunctional Requirements}
-
-\wss{The nonfunctional requirements for accuracy will likely just reference the
-  appropriate functional tests from above.  The test cases should mention
-  reporting the relative error for these tests.  Not all projects will
-  necessarily have nonfunctional requirements related to accuracy}
-
-\wss{Tests related to usability could include conducting a usability test and
-  survey.  The survey will be in the Appendix.}
-
-\wss{Static tests, review, inspections, and walkthroughs, will not follow the
-format for the tests given below.}
-
 
 \subsubsection{Useability}
 
@@ -526,8 +499,6 @@ How test will be performed: Users of the next five most spoken languages other t
 
 \subsubsection{Performance}
 		
-\paragraph{Title for Test}
-
 \begin{enumerate}
 
 \item{PT-1\\}
@@ -640,7 +611,7 @@ How test will be performed: Users are asked to input their search criteria, and 
   \hline
   PT-2 & NFR-7\\
   \hline
- MT-1 & N/A\\
+ MT-1 & NFR-14\\
   \hline
  LT-1 & NFR-18\\
   \hline
