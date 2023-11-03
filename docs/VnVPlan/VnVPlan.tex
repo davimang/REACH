@@ -373,7 +373,26 @@ Test Case Derivation: From FR-9, a user shall be able to update their personal i
 
 How test will be performed: Manually update the user profile with new user information, then log out. Log back in and check that the new data is present.
 
+
+\item{DT-3\\}
+
+Control: Manual
+					
+Initial State: Tester is not logged in.
+					
+Input: Database query.
+					
+Output: List of non-unique unique database elements.
+
+Test Case Derivation: From FR-8, the system shall store the information entered by the user in the database.
+
+How test will be performed: Manually query the database for columns that are supposed to contain unique values, namely keys, such as user ID, email address, and etc. Verify that the length of the returned set is 0.
+
+Rationale: To ensure that key constraints are upheld, we must ensure that the values are non-unique, otherwise querying for certain users may return multiple sets of data.
+
+
 \end{enumerate}
+
 
 \subsubsection{Email}
 
@@ -465,6 +484,21 @@ Output: Displayed search results.
 Test Case Derivation: From FR-15, the system shall allow a signed-in user to automatically enter their conditions into the search parameters.
 
 How test will be performed: Manually navigate to the search function. Verify that their conditions and information is automatically inputted into the search fields.
+
+
+\item{ST-3\\}
+
+Control: Manual
+					
+Initial State: The user is logged in, either as themselves or as a guest, and is at the search function.
+					
+Input: N/A
+					
+Output: N/A
+
+Test Case Derivation: From FR-15, the system shall allow a signed-in user to automatically enter their conditions into the search parameters.
+
+How test will be performed: Attempt to search without any fields filled in. Verify that the search fails.
 
 \end{enumerate}
 
@@ -606,6 +640,8 @@ How test will be performed: Users are asked to input their search criteria, and 
   \hline
   DT-2 & FR-9\\
   \hline
+  DT-3 & FR-8\\
+  \hline
   ET-1 & FR-10\\
   \hline
   ET-2 & FR-11\\
@@ -615,6 +651,8 @@ How test will be performed: Users are asked to input their search criteria, and 
   ST-1 & FR-13, FR-14\\
   \hline
   ST-2 & FR-15\\
+  \hline
+  ST-3 & FR-15\\
   \hline
   UT-1 & NFR-3, NFR-4, NFR-5\\
   \hline
@@ -787,30 +825,40 @@ If yes, which part did you find frustrating and why?
 
 Was all text easy to read while using the website(Y/N)?
 
-\newpage{}
-\section*{Appendix --- Reflection}
-
-The information in this section will be used to evaluate the team members on the
-graduate attribute of Lifelong Learning.  Please answer the following questions:
 
 \newpage{}
 \section*{Appendix --- Reflection}
 
-\wss{This section is not required for CAS 741}
+Below are skills that the team will need to develop in order to successfully carry out the verification and validation process, in addition to how the team plans to further our knowledge in the given areas.
 
-The information in this section will be used to evaluate the team members on the
-graduate attribute of Lifelong Learning.  Please answer the following questions:
+\begin{itemize}
+\item Automated unit testing via integrations
+\begin{itemize}
+\item Free tutorials on Youtube or other free video sharing platforms.
+\item Documentation on the given cloud platform's integrations.
+\end{itemize}
+\item Verification and validation reporting standards
+\begin{itemize}
+\item Lecture material and other course material, from both capstone and other courses.
+\item Documentation and templates from IEEE.
+\end{itemize}
+\end{itemize}
+For the automated unit testing, the team has decided to pursue video tutorials, as these tend to be easier to approach, and provide practical examples. For the VnV reporting, the team has decided to use course materials, as this is readily accessible and easy to understand.
 
-\begin{enumerate}
-  \item What knowledge and skills will the team collectively need to acquire to
-  successfully complete the verification and validation of your project?
-  Examples of possible knowledge and skills include dynamic testing knowledge,
-  static testing knowledge, specific tool usage etc.  You should look to
-  identify at least one item for each team member.
-  \item For each of the knowledge areas and skills identified in the previous
-  question, what are at least two approaches to acquiring the knowledge or
-  mastering the skill?  Of the identified approaches, which will each team
-  member pursue, and why did they make this choice?
-\end{enumerate}
+
+Additionally, below is a skill that each member will need to develop, along with two ways they can learn each skill.
+\begin{itemize}
+\item Alan - GitHub CI/CD pipelines
+\begin{itemize}
+\item Youtube tutorials or video tutorials from other sites.
+\item GitHub documentation.
+\end{itemize}
+\end{itemize}
+
+Below is which method each member intends to use, and why.
+\begin{itemize}
+\item Alan - Youtube tutorials. This method is the most approachable, and provides easy to follow along examples.
+\end{itemize}
+
 
 \end{document}
