@@ -138,12 +138,11 @@ verified.  Techniques for this include review and mutation testing.}
 
 \subsection{Implementation Verification Plan}
 
-\wss{You should at least point to the tests listed in this document and the unit
-  testing plan.}
-
-\wss{In this section you would also give any details of any plans for static
-  verification of the implementation.  Potential techniques include code
-  walkthroughs, code inspection, static analyzers, etc.}
+To test the implementation first we have the tests listed below in section 4 and the unit tests listed in section 5. 
+All of these tests should be run before each major update to the program (revision 0, revision 1, etc). Relevant tests should
+also be run when the affected requirements are modified during minor updates. Also during minor updates the code should be 
+inspected by at least one other developer using a github pull request. We will also be using static analysis, the specific 
+software for this and other testing is listed in section 3.6 below.
 
 \subsection{Automated Testing and Verification Tools}
 
