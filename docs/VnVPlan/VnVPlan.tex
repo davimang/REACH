@@ -170,7 +170,7 @@ which will hopefully bring light to new and improved requirements that can be im
 
 The following subsections are split based on the core aspects of the application. These include authentication, which enables a user 
 to sign in to their account, user data, which enables users to save their data for future uses of the application, the emailing system, which will
-notify users of new trials and give them a template for reaching out to trial clnicians, searching for trials (the main purpose of the app), and 
+notify users of new trials and give them a template for reaching out to trial clinicians, searching for trials (the main purpose of the app), and 
 general program/system information (i.e., the FAQ).
 
 \subsubsection{Authentication}
@@ -465,6 +465,17 @@ How test will be performed: Have the user sign in, search, and browse results wi
 
 Control: Dynamic, Manual
 					
+Initial State: The user starts on the home screen.
+
+Test Case Derivation: From NFR-3, NFR-4, and NFR-5, regarding the learnability, simplicity, and legibility of the user interface.
+
+How test will be performed: Have the user sign in, search, and browse results without outside help. 
+Have the user then complete a survey(\nameref{sec:Appendix})
+
+\item{UT-3}
+
+Control: Dynamic, Manual
+					
 Initial State: The user starts on the home screen. The selected language should be set to the default (English).
 
 Test Case Derivation: From NFR-17, regarding accessibility of the application users who do not speak an official language.
@@ -583,7 +594,9 @@ How test will be performed: Users are asked to input their search criteria, and 
   \hline
   UT-1 & NFR-3, NFR-4, NFR-5\\
   \hline
-  UT-2 & NFR-17\\
+  UT-2 & NFR-3, NFR-4, NFR-5\\
+  \hline
+  UT-3 & NFR-17\\
   \hline
   PT-1 & NFR-6\\
   \hline
@@ -736,9 +749,19 @@ This is where you can place additional information.
 The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
 Their values are defined in this section for easy maintenance.
 
-\subsection{Usability Survey Questions?}
+\subsection{Usability Survey Questions}
+\label{sec:Appendix}
+Usability Survey:
 
-\wss{This is a section that would be appropriate for some projects.}
+How easy was it to navigate to the search page (1 is hard, 10 is easy)?
+
+How easy was it to understand each search term (1 is hard, 10 is easy)?
+
+Did you find any part of the process frustrating(Y/N)?
+
+If yes, which part did you find frustrating and why?
+
+Was all text easy to read while using the website(Y/N)?
 
 \newpage{}
 \section*{Appendix --- Reflection}
