@@ -37,29 +37,12 @@ Date 2 & 1.1 & Notes\\
 \end{tabularx}
 
 ~\\
-\wss{The intention of the VnV plan is to increase confidence in the software.
-However, this does not mean listing every verification and validation technique
-that has ever been devised.  The VnV plan should also be a \textbf{feasible}
-plan. Execution of the plan should be possible with the time and team available.
-If the full plan cannot be completed during the time available, it can either be
-modified to ``fake it'', or a better solution is to add a section describing
-what work has been completed and what work is still planned for the future.}
-
-\wss{The VnV plan is typically started after the requirements stage, but before
-the design stage.  This means that the sections related to unit testing cannot
-initially be completed.  The sections will be filled in after the design stage
-is complete.  the final version of the VnV plan should have all sections filled
-in.}
 
 \newpage
 
 \tableofcontents
 
 \listoftables
-\wss{Remove this section if it isn't needed}
-
-\listoffigures
-\wss{Remove this section if it isn't needed}
 
 \newpage
 
@@ -70,24 +53,19 @@ in.}
   \toprule		
   \textbf{symbol} & \textbf{description}\\
   \midrule 
-  T & Test\\
+  VnV & Verification and Validation\\
   \bottomrule
 \end{tabular}\\
-
-\wss{symbols, abbreviations, or acronyms --- you can simply reference the SRS
-  \citep{SRS} tables, if appropriate}
-
-\wss{Remove this section if it isn't needed}
 
 \newpage
 
 \pagenumbering{arabic}
 
+\section{General Information}
+
 This document discusses the verification and validation plan for the REACH project. The main goal of this document
 is to give all stakeholders in the REACH project confidence that the system will be built based on the correct 
 requirements, and that those requirements will be implemented correctly, ensuring the system is functioning as intended.
-
-\section{General Information}
 
 \subsection{Summary}
 
@@ -567,6 +545,7 @@ How test will be performed: Users are asked to input their search criteria, and 
 \subsection{Traceability Between Test Cases and Requirements}
 
 \begin{table}[H]
+  \caption{Test case Traceability}
   \begin{tabular}{|p{7cm}|p{7cm}|}
   \hline
   Test case & Requirement(s)\\
