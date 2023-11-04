@@ -764,12 +764,25 @@ code every time some code is pushed to the GitHub Repo, however this could be co
   that nearly meet NIST guidelines and doing so manually would be exhausting.
   
   \item {SEC-2\\}
+  Control: Manual
 
+  Initial State: The system is running and the 
+  database access settings have been configured prior to the test. 
 
+  Input: A user without the appropriate authorization (but with the right password) credentials attempts to access the database.
+  OR An authorized database manager
+  with the appropriate password credentials attempts to access the database.
+  
+  Output: The unauthorized user should not be able to access the database and an error message will appear as feedback.
+  The authorized database manager should be able to access the database and no error message should appear.
 
-
-
-
+  Test Derivation: From NFR-16 the system should only allow authorized database manager to access the 
+  intricacies of the database. In particular this NFR mentions rejecting unauthorized users from accessing the database.
+  
+  How the test will be performed: An unauthorized user will attempt to access the database with valid password credentials.
+  The database access should fail and an error message explaining why access failed should appear.
+  An authorized database manager will attempt to access the database with valid password credentials.
+  The database access should succeed and no error message should appear.
 
 \end{enumerate}
 \subsubsection{Legal}
