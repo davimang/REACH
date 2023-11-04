@@ -155,11 +155,96 @@ It will also describe the various verification and validation plans for the proj
 
 \subsection{Design Verification Plan}
 
-\wss{Plans for design verification}
+As stated in the objectives, the main purpose of REACH is to connect patients looking to be 
+involved in a clinical trial with researchers looking for participants for their research studies. 
+This means the usability of the design is one of the top priorities, as people with different 
+abilities will be using REACH. This can include seniors, or people who are not as adept at using 
+technology. For this reason, having a design which focuses on improving the user's interaction 
+with the web application is vital. This can be done by confirming the usability of the design.\\
 
-\wss{The review will include reviews by your classmates}
+The maintainability of the design is also something that needs to be verified. Due to the fact 
+that REACH is in its early stages, it is likely that new improvements and features will be added 
+in the future. To achieve this, other principles such as anticipation of change, separation of 
+concerns, modularity, and reusability should be accounted for.
 
-\wss{Create a checklists?}
+\subsubsection{Usability}
+
+Usability refers to how easily typical users of REACH are able to use the web application. The 
+usability of the design is greatly impacted by its user interface, so we will mainly be focusing 
+on verifying and validating the usability of the user interface. The usability of the design also 
+directly depends on the user's capabilities and characteristics, so it is important that a range 
+of users with different capabilities use REACH in order for us to verify how usable it is.\\
+
+Our design will be reviewed by Dr. Ho and Dr. Scallan, as they are supervisors, stakeholders, and 
+potential users of REACH. They will select a few other users (around three) with different 
+skill sets and characteristics to also review the design. The reviewers will use the checklist 
+below and keep the checklist items in mind during their review of REACH.
+
+Usability Checklist:
+\begin{itemize}
+  \item Text, icons, and formatting are consistent
+  \begin{itemize}
+    \item Reduces confusion and allows users to pick up and understand meaning behind certain text and icons quicker
+  \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+  \item Only relevant information and instructions are displayed without any clutter
+  \begin{itemize}
+    \item Ensures user is not distracted or confused by any extra information
+  \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+  \item Visible and prompt feedback is provided to the user after they complete an action
+  \begin{itemize}
+    \item The system should visibly respond to both successful and unsuccessful actions made by the user and keep the user informed and updated
+  \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+  \item Error handling exists
+  \begin{itemize}
+    \item Simple details of what the error is, along with straightforward instructions on how the user can fix the error will cause the user to be less confused and panicked
+  \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+  \item Simple descriptions which guide users on what to do next are always available or visible to the user
+  \begin{itemize}
+    \item Users should not need to spend time thinking about what action they should take next
+  \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+  \item User interactions with the system should have constraints
+  \begin{itemize}
+    \item Restricting what the user can select, input, or interact with will limit future errors and issues the user experiences
+  \end{itemize}
+\end{itemize}
+
+This review will also be aided by the \nameref{sec:useabilityNFRtests} tests listed under Tests for 
+Nonfunctional Requirements, as well as the \nameref{sec:Appendix}.
+
+\subsubsection{Maintainability}
+
+Maintainability refers to how easily the system can be maintained, including the ease at which 
+it can be improved by fixing any bugs or expanded to include new features. Multiple principles 
+affects the maintainability of a system, including modularity, reusability, and whether we design 
+for change. Having modules which implement the separation of concerns principle helps to pinpoint 
+where an issue or bug might be located. This, along with the modules having low coupling 
+(depending less on other modules), makes it easier to add new modules which map to new features 
+or upgrades. The reusability principle can be implemented by having standardized and generic 
+components which are reused multiple times. This will also make it easier to add new features, 
+as we can reuse the components.\\
+
+The review will involve code inspections, such as a code walkthrough, where the focus is on if 
+there's a valid separation of concerns, and whether this separation clearly exists within the 
+code. This code inspection will occur regularly throughout the development of REACH. Every member 
+of the team will review and verify whether the design is maintainable. Some members will be 
+focusing on modularity. They will ensure the code is decomposed into modules which contain 
+related information. The rest of the members will focus on reusability. They will confirm that 
+we are creating and using generic components whenever possible.
 
 \subsection{Verification and Validation Plan Verification Plan}
 
@@ -515,6 +600,7 @@ How test will be performed: Attempt to search without any fields filled in. Veri
 \subsection{Tests for Nonfunctional Requirements}
 
 \subsubsection{Useability}
+\label{sec:useabilityNFRtests}
 
 \begin{enumerate}
 
