@@ -3,6 +3,7 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
+\usepackage{float}
 \hypersetup{
     colorlinks,
     citecolor=blue,
@@ -36,29 +37,12 @@ Date 2 & 1.1 & Notes\\
 \end{tabularx}
 
 ~\\
-\wss{The intention of the VnV plan is to increase confidence in the software.
-However, this does not mean listing every verification and validation technique
-that has ever been devised.  The VnV plan should also be a \textbf{feasible}
-plan. Execution of the plan should be possible with the time and team available.
-If the full plan cannot be completed during the time available, it can either be
-modified to ``fake it'', or a better solution is to add a section describing
-what work has been completed and what work is still planned for the future.}
-
-\wss{The VnV plan is typically started after the requirements stage, but before
-the design stage.  This means that the sections related to unit testing cannot
-initially be completed.  The sections will be filled in after the design stage
-is complete.  the final version of the VnV plan should have all sections filled
-in.}
 
 \newpage
 
 \tableofcontents
 
 \listoftables
-\wss{Remove this section if it isn't needed}
-
-\listoffigures
-\wss{Remove this section if it isn't needed}
 
 \newpage
 
@@ -69,251 +53,825 @@ in.}
   \toprule		
   \textbf{symbol} & \textbf{description}\\
   \midrule 
-  T & Test\\
+  VnV & Verification and Validation\\
+  V\&V & Verification and Validation\\
+  SRS & Software Requirements Specification\\
   \bottomrule
 \end{tabular}\\
-
-\wss{symbols, abbreviations, or acronyms --- you can simply reference the SRS
-  \citep{SRS} tables, if appropriate}
-
-\wss{Remove this section if it isn't needed}
 
 \newpage
 
 \pagenumbering{arabic}
 
-This document ... \wss{provide an introductory blurb and roadmap of the
-  Verification and Validation plan}
-
 \section{General Information}
+
+This document discusses the verification and validation plan for the REACH project. The main goal of this document
+is to give all stakeholders in the REACH project confidence that the system will be built based on the correct 
+requirements, and that those requirements will be implemented correctly, ensuring the system is functioning as intended.
 
 \subsection{Summary}
 
-\wss{Say what software is being tested.  Give its name and a brief overview of
-  its general functions.}
+The software being tested is REACH. REACH is a web application that will simplify the process for both patients, and clinicians working 
+on behalf of their patients, of finding clinical trials that they are eligible for and that would be useful for them.
 
 \subsection{Objectives}
 
-\wss{State what is intended to be accomplished.  The objective will be around
-  the qualities that are most important for your project.  You might have
-  something like: ``build confidence in the software correctness,''
-  ``demonstrate adequate usability.'' etc.  You won't list all of the qualities,
-  just those that are most important.}
+The main objectives of this document are the following:
 
-\wss{You should also list the objectives that are out of scope.  You don't have 
-the resources to do everything, so what will you be leaving out.  For instance, 
-if you are not going to verify the quality of usability, state this.  It is also 
-worthwhile to justify why the objectives are left out.}
+\begin{itemize}
+  \item Ensure the system has a high level of usability
+  \item Build confidence in the correctness of the searching/matching capabilities
+  \item Build confidence in the security of user data
+\end{itemize}
 
-\wss{The objectives are important because they highlight that you are aware of 
-limitations in your resources for verification and validation.  You can't do everything, 
-so what are you going to prioritize?  As an example, if your system depends on an 
-external library, you can explicitly state that you will assume that external library 
-has already been verified by its implementation team.}
+These three objectives are the most important qualities of the system, and they are the ones that are in scope for this project. \\
+
+First, usability is a must
+since the entire purpose of the application is to simplify the process of finding clinical trials. If the system was difficult to use, this process 
+would not be simplified and the application would be useless. 
+Furthermore, the ability to search/match patients to trials is an integral component of the application, and building confidence in 
+that functionality is crucial for all stakeholders. Finally, ensuring the system is safe and secure when it comes to handling user data is of course 
+extremely important for the users of the application which is why it is being prioritized.
 
 \subsection{Relevant Documentation}
 
-\wss{Reference relevant documentation.  This will definitely include your SRS
-  and your other project documents (design documents, like MG, MIS, etc).  You
-  can include these even before they are written, since by the time the project
-  is done, they will be written.}
-
-\citet{SRS}
-
-\wss{Don't just list the other documents.  You should explain why they are relevant and 
-how they relate to your VnV efforts.}
+There are a few documents that are worth noting before jumping in to the verification and validation plan.
+First, the SRS is the most important and relevant document that accompanies the plan  (\citet{SRS}). The majority of the test plan 
+is built on top of the requirements specified in the SRS, since as stated previously, one of the main goals of this document is to 
+build confidence in the implementation of the software requirements. Second, the development plan is relevant as it discusses various tools 
+and technologies that can/will be used to test the software system being built {\citet{DevPlan}}. Finally, the MIS document which details the modular design 
+of the system is especially relevant to the unit test portion of the document.
 
 \section{Plan}
-
-\wss{Introduce this section.   You can provide a roadmap of the sections to
-  come.}
+This section will delineate the roles of the team members as part of V\&V efforts. 
+It will also describe the various verification and validation plans for the project. \newline
 
 \subsection{Verification and Validation Team}
-
-\wss{Your teammates.  Maybe your supervisor.
-  You should do more than list names.  You should say what each person's role is
-  for the project's verification.  A table is a good way to summarize this information.}
+\begin{table}[H]
+    % \centering
+    \caption{ V\&V Team}
+    \begin{tabular}{|c|c|p{10cm}|}
+        \hline
+        \textbf{Name} & \textbf{Team} & \textbf{Role} \\
+        \hline 
+        Aamina & Dev Team & As a front-end SME, Aamina will be responsible for handling functional and 
+        nonfunctional testing for all front-end system capabilities. In particular, Aamina will manage 
+        testing and verification pertaining to JS and TS frameworks, automated cloud deployment, graphical interface and presentation.\\
+        \hline 
+        David & Dev Team & As a back-end SME, David will be responsible for handling functional and nonfunctional testing 
+        for all back-end system capabilities. In particular, David will manage testing and verification 
+        pertaining to Python frameworks, database management, and API calls. \\
+        \hline
+        Anika & Dev Team & As a front-end SME, Anika will be responsible for handling functional and 
+        nonfunctional testing for all front-end system capabilities. In particular, Anika will manage 
+        testing and verification pertaining to JS and TS frameworks, automated cloud deployment, graphical interface and presentation.\\
+        \hline
+        Deep & Dev Team & As the testing SME, Deep will lead the majority of the testing efforts and ensure that the team is meeting
+        the predetermined standards for testing and verification. Deep will focus on both
+        front- and back-end testing and will lend his expertise to the rest of the dev team when they focus on end-to-end testing. \\
+        \hline
+        Alan & Dev Team & As a back-end SME, Alan will be responsible for handling functional and nonfunctional testing 
+        for all back-end system capabilities. In particular, Alan will manage testing and verification 
+        pertaining to Python frameworks, database management, and API calls. \\
+        \hline
+        All Developers & Dev Team & All developers will be responsible for writing and verifying unit, integration and 
+        end-to-end tests for the system. Additionally, pipelines testing, Dockerfile testing, automated testing and any 
+        other deployment-related testing is shared among all team-members.\\
+        \hline
+        Dr. Ho & Supervisor & As a supervisor, Dr.Ho will help the team verify the V\&V Plan and will ensure that 
+        his vision is being tested properly at a high level.\\
+        \hline
+        Dr. Scallan & Supervisor & As a supervisor, Dr.Ho will help the team verify the V\&V Plan and will 
+        ensure that his vision is being tested properly at a high level \\       
+        \hline
+    \end{tabular}
+\end{table}
 
 \subsection{SRS Verification Plan}
 
-\wss{List any approaches you intend to use for SRS verification.  This may include
-  ad hoc feedback from reviewers, like your classmates, or you may plan for 
-  something more rigorous/systematic.}
+Once REACH has been created and all requirements have been implemented, 
+the SRS will be verified by the following methods:
+\begin{itemize}
+  \item The supervisors will be given the chance to operate the system using 
+  precreated inputs to generate outputs that can be compared to the expected ouput. 
+  \item The supervisors will be given the chance to give 
+  ad-hoc feedback on the system, and will be asked to complete a survey evaluating how
+  well the development team implemented the requirements. 
+  The requirements in the survey will be functional and nonfunctional ones that are easy 
+  for those without a software engineering background to understand and evaluate.
 
-\wss{Maybe create an SRS checklist?}
-
+  \item The development team will operate the system as well in order to assess the system's
+  performance on all requirements and how well the system meets expected testing outputs.
+  A survey will be filled out by the development team as well, 
+  but it will be more detailed and granular.
+\end{itemize}
 \subsection{Design Verification Plan}
 
-\wss{Plans for design verification}
+As stated in the objectives, the main purpose of REACH is to connect patients looking to be 
+involved in a clinical trial with researchers looking for participants for their research studies. 
+This means the usability of the design is one of the top priorities, as people with different 
+abilities will be using REACH. This can include seniors, or people who are not as adept at using 
+technology. For this reason, having a design which focuses on improving the user's interaction 
+with the web application is vital. This can be done by confirming the usability of the design.\\
 
-\wss{The review will include reviews by your classmates}
+The maintainability of the design is also something that needs to be verified. Due to the fact 
+that REACH is in its early stages, it is likely that new improvements and features will be added 
+in the future. To achieve this, other principles such as anticipation of change, separation of 
+concerns, modularity, and reusability should be accounted for.
 
-\wss{Create a checklists?}
+\subsubsection{Usability}
+
+Usability refers to how easily typical users of REACH are able to use the web application. The 
+usability of the design is greatly impacted by its user interface, so we will mainly be focusing 
+on verifying and validating the usability of the user interface. The usability of the design also 
+directly depends on the user's capabilities and characteristics, so it is important that a range 
+of users with different capabilities use REACH in order for us to verify how usable it is.\\
+
+Our design will be reviewed by Dr. Ho and Dr. Scallan, as they are supervisors, stakeholders, and 
+potential users of REACH. They will select a few other users (around three) with different 
+skill sets and characteristics to also review the design. The reviewers will use the checklist 
+below and keep the checklist items in mind during their review of REACH.\\
+
+\noindent Usability Checklist:
+
+\begin{itemize}
+  \item Text, icons, and formatting are consistent
+  \begin{itemize}
+    \item Reduces confusion and allows users to pick up and understand meaning behind certain text and icons quicker
+  \end{itemize}
+
+  \item Only relevant information and instructions are displayed without any clutter
+  \begin{itemize}
+    \item Ensures user is not distracted or confused by any extra information
+  \end{itemize}
+
+  \item Visible and prompt feedback is provided to the user after they complete an action
+  \begin{itemize}
+    \item The system should visibly respond to both successful and unsuccessful actions made by the user and keep the user informed and updated
+  \end{itemize}
+
+  \item Error handling exists
+  \begin{itemize}
+    \item Simple details of what the error is, along with straightforward instructions on how the user can fix the error will cause the user to be less confused and panicked
+  \end{itemize}
+
+  \item Simple descriptions which guide users on what to do next are always available or visible to the user
+  \begin{itemize}
+    \item Users should not need to spend time thinking about what action they should take next
+  \end{itemize}
+
+  \item User interactions with the system should have constraints
+  \begin{itemize}
+    \item Restricting what the user can select, input, or interact with will limit future errors and issues the user experiences
+  \end{itemize}
+\end{itemize}
+
+This review will also be aided by the \nameref{sec:useabilityNFRtests} tests listed under Tests for 
+Nonfunctional Requirements, as well as the \nameref{sec:Appendix}.
+
+\subsubsection{Maintainability}
+
+Maintainability refers to how easily the system can be maintained, including the ease at which 
+it can be improved by fixing any bugs or expanded to include new features. Multiple principles 
+affects the maintainability of a system, including modularity, reusability, and whether we design 
+for change. Having modules which implement the separation of concerns principle helps to pinpoint 
+where an issue or bug might be located. This, along with the modules having low coupling 
+(depending less on other modules), makes it easier to add new modules which map to new features 
+or upgrades. The reusability principle can be implemented by having standardized and generic 
+components which are reused multiple times. This will also make it easier to add new features, 
+as we can reuse the components.\\
+
+The review will involve code inspections, such as a code walkthrough, where the focus is on if 
+there's a valid separation of concerns, and whether this separation clearly exists within the 
+code. This code inspection will occur regularly throughout the development of REACH. Every member 
+of the team will review and verify whether the design is maintainable. Some members will be 
+focusing on modularity. They will ensure the code is decomposed into modules which contain 
+related information. The rest of the members will focus on reusability. They will confirm that 
+we are creating and using generic components whenever possible.
 
 \subsection{Verification and Validation Plan Verification Plan}
 
-\wss{The verification and validation plan is an artifact that should also be
-verified.  Techniques for this include review and mutation testing.}
+In order to test the VnV Plan, we as a team will be inspecting this document. Some members of the 
+team will thoroughly inspect specific sections of this document, while other members will be 
+conducting a more general, overview level inspection of the overall document.\\
 
-\wss{The review will include reviews by your classmates}
+The three main sections that need to be reviewed are the verification plans, the system tests, 
+and the unit tests. Three members will each select one of these main sections. They will each be 
+confirming that each test and verification plan listed in their section of the document is complete, 
+feasible, and unambiguous.\\
 
-\wss{Create a checklists?}
+Two members of the team will take on the task of reviewing the overall document and they will 
+confirm that the document contains all tests necessary. They will ensure they every requirement we 
+have listed in the SRS document is covered by at least one test.\\
+
+TAs and our peers will also assist with an overview level inspection of this document. The TA 
+assigned to our team will view our VnV Plan with a specific rubric in mind, then provide us feedback 
+based on the standards of this class. Our peers will review our VnV Plan when they are conducting 
+their regular peer review and will open git issues with any concerns they have.\\
+
+\noindent Division of Work:
+
+\begin{itemize}
+  \item Review of Verification Plans: Anika
+  \item Review of System Tests: David
+  \item Review of Unit Tests: Alan
+  \item Review of Overall VnV Plan: Deep, Aamina, TAs, Peers
+\end{itemize}
+
+
 
 \subsection{Implementation Verification Plan}
 
-\wss{You should at least point to the tests listed in this document and the unit
-  testing plan.}
-
-\wss{In this section you would also give any details of any plans for static
-  verification of the implementation.  Potential techniques include code
-  walkthroughs, code inspection, static analyzers, etc.}
+To test the implementation first we have the tests listed below in section 4 and the unit tests listed in section 5. 
+All of these tests should be run before each major update to the program (revision 0, revision 1, etc). Relevant tests should
+also be run when the affected requirements are modified during minor updates. Also during minor updates the code should be 
+inspected by at least one other developer using a github pull request. We will also be using static analysis, the specific 
+software for this and other testing is listed in section 3.6 below.
 
 \subsection{Automated Testing and Verification Tools}
 
-\wss{What tools are you using for automated testing.  Likely a unit testing
-  framework and maybe a profiling tool, like ValGrind.  Other possible tools
-  include a static analyzer, make, continuous integration tools, test coverage
-  tools, etc.  Explain your plans for summarizing code coverage metrics.
-  Linters are another important class of tools.  For the programming language
-  you select, you should look at the available linters.  There may also be tools
-  that verify that coding standards have been respected, like flake9 for
-  Python.}
+For the backend (i.e., python service(s)), we will be using pytest as our unit testing framework. Additionally,
+we will be using tavern (an API testing framework built on top of pytest) to test our API. These API tests will
+ideally run at scheduled intervals (i.e., nightly, weekly... whatever is reasonable for the resources available), which can be 
+done with the use of GitHub actions. Furthermore, we will be using several static analyzers to ensure code quality and maintainability. These 
+static analyzers include flake8 (which ensures the code will follow the pep8 coding standard), mypy (which ensures strict typing in python,
+and the use of comments+docstrings), and autoflake (which ensures there are no unused packages/imports in a python file). Finally, for analyzing 
+code coverage in our python service(s), we will use coverage.py, which produces useful coverage reports after running tests using pytest.\\
 
-\wss{If you have already done this in the development plan, you can point to
-that document.}
-
-\wss{The details of this section will likely evolve as you get closer to the
-  implementation.}
+For the frontend, nothing has changed from the development plan (i.e., using jest for unit testing + code coverage, and ESLint for linting).
 
 \subsection{Software Validation Plan}
 
-\wss{If there is any external data that can be used for validation, you should
-  point to it here.  If there are no plans for validation, you should state that
-  here.}
-
-\wss{You might want to use review sessions with the stakeholder to check that
-the requirements document captures the right requirements.  Maybe task based
-inspection?}
-
-\wss{For those capstone teams with an external supervisor, the Rev 0 demo should 
-be used as an opportunity to validate the requirements.  You should plan on 
-demonstrating your project to your supervisor shortly after the scheduled Rev 0 demo.  
-The feedback from your supervisor will be very useful for improving your project.}
-
-\wss{For teams without an external supervisor, user testing can serve the same purpose 
-as a Rev 0 demo for the supervisor.}
-
-\wss{This section might reference back to the SRS verification section.}
+To validate our software system/requirements, there are a few steps that will be taken. First, continuing to meet with our clients (supervisors) while developing
+the early parts of the application will help ensure the system is on the right track. Furthermore, upon completing of the revision 0 demo, we will
+demo the system to our clients, enabling them to ask questions, provide feedback, and ensure the system has the correct requirements. At this
+time we will also encourage our clients to use the platform directly (since it will be deployed, they will be able to easily access it) and give additional feedback post revision 0 demo,
+which will hopefully bring light to new and improved requirements that can be implemented for revision 1. 
 
 \section{System Test Description}
 	
 \subsection{Tests for Functional Requirements}
 
-\wss{Subsets of the tests may be in related, so this section is divided into
-  different areas.  If there are no identifiable subsets for the tests, this
-  level of document structure can be removed.}
+The following subsections are split based on the core aspects of the application. These include authentication, which enables a user 
+to sign in to their account, user data, which enables users to save their data for future uses of the application, the emailing system, which will
+notify users of new trials and give them a template for reaching out to trial clinicians, searching for trials (the main purpose of the app), and 
+general program/system information (i.e., the FAQ).
 
-\wss{Include a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good here.}
-
-\subsubsection{Area of Testing1}
-
-\wss{It would be nice to have a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good here.  If a section
-  covers tests for input constraints, you should reference the data constraints
-  table in the SRS.}
-		
-\paragraph{Title for Test}
+\subsubsection{Authentication}
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{AT-1\\}
 
-Control: Manual versus Automatic
+Control: Automatic
 					
-Initial State: 
+Initial State: User is not signed in to the application, and is about to create an account.
 					
-Input: 
+Input: A valid, unique email, and a valid password satisfying the NIST guidelines
 					
-Output: \wss{The expected result for the given inputs}
+Output: The user's account should be created successfully, and a 201 CREATED response should be returned.
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+Test Case Derivation: As stated in FR-1 and FR-2, the system must only allow a user to create an account if the email is unique (i.e., not 
+used by some other user yet), and if their password satisfies the NIST guidelines. Since the inputs to this test case satisfy these 
+requirements, the response should be a success.
 					
-How test will be performed: 
+How test will be performed: Pre define a valid username and password. Automated test to pass in these values and check the return value/output.
 					
-\item{test-id2\\}
+\item{AT-2\\}
 
-Control: Manual versus Automatic
+Control: Automatic
 					
-Initial State: 
+Initial State: User is not signed in to the application, and is about to create an account.
 					
-Input: 
+Input: An email that is already attached to another account, and a valid password.
 					
-Output: \wss{The expected result for the given inputs}
+Output: The user's account should not be created and a response stating this failure should be returned.
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+Test Case Derivation: From FR-2, the email must be unique. Since it is not unique in this test case, the account should not 
+be created.
 
-How test will be performed: 
+How test will be performed: Pre define an invalid email. Automated test to pass in these values and check the return value/output.
+
+\item{AT-3\\}
+
+Control: Automatic
+					
+Initial State: User is not signed in to the application, and is about to create an account.
+					
+Input: A valid, unique, email, and a password that does not satisfy the NIST guidelines.
+					
+Output: The user's account should not be created and a response stating this failure should be returned.
+
+Test Case Derivation: From FR-1, the password must abide by the NIST guidelines. Since it does not in this test case, the account should not 
+be created.
+
+How test will be performed: Pre define an invalid password. Automated test to pass in these values and check the return value/output.
+
+
+\item{AT-4\\}
+
+Control: Automatic
+					
+Initial State: User is not signed in to the application, and is about to log in to the application.
+					
+Input: A valid, unique, email, and a password that satisfies the NIST guidelines, which are tied to an account.
+					
+Output: The user should be logged in to the application.
+
+Test Case Derivation: From FR-3, if the credentials are correct, a user should be logged in to the application.
+
+How test will be performed: Pre define a valid username and password tied to an account. Automated test to pass in these values and check the return value/output.
+
+
+\item{AT-5\\}
+
+Control: Automatic
+					
+Initial State: User is not signed in to the application, and is about to log in to the application.
+					
+Input: An email that is not tied to an account, with a password that satisfies NIST guidelines (but can be any valid password).
+					
+Output: The user should not be logged in to the application.
+
+Test Case Derivation: From FR-3, a user is only logged in to an account if the credentials are correct. Since the email is not valid,
+they should not be logged in.
+
+How test will be performed: Pre define a random email/password. Automated test to pass in these values and check the return value/output.
+
+\item{AT-6\\}
+
+Control: Manual
+					
+Initial State: User is not signed in to the application, and would like to reset their password.
+					
+Input: A valid email address.
+					
+Output: The user should receive an email, containing a link which will allow them to reset their password.
+
+Test Case Derivation: From FR-5, a user must receive an email when attempting to reset their password.
+
+How test will be performed: Manually go on to the login page, enter an email address, and click reset password. Then, verify
+that the email received is correct, and that the link takes the user to the reset password page.
+
+
+\item{AT-7\\}
+
+Control: Automatic
+					
+Initial State: User is not signed in to the application, and is about to reset their password.
+					
+Input: A password that is different from the one currently tied to their account, satisfying the NIST guidelines.
+					
+Output: The user's password should be reset, and they should be logged in to the application.
+
+Test Case Derivation: From FR-5, a user must only be able to reset their password if the password they enter is new, and if it 
+satisfies the NIST guidelines.
+
+How test will be performed: Pre define a random email/password. Automated test to pass in these values and check the return value/output.
+
+\item{AT-8\\}
+
+Control: Manual
+					
+Initial State: User is signed in to the application and is about to sign out of the application.
+					
+Input: N/A
+					
+Output: The user should be logged out of the application.
+
+Test Case Derivation: From FR-6, a user should be able to log out of the application, with really no constraints.
+
+How test will be performed: Manually sign out of the application, and verify that it works.
+
+
+\item{AT-9\\}
+
+Control: Manual
+					
+Initial State: User has created an account for the first time, or is logging in as a guest.
+					
+Input: N/A
+					
+Output: The user is prompted to enter their personal data.
+
+Test Case Derivation: From FR-7, a user is prompted to enter personal information when creating an account or logging in as a guest.
+
+How test will be performed: Manually create an account and sign in as a guest, and verify the user is prompted.
 
 \end{enumerate}
 
-\subsubsection{Area of Testing2}
+\subsubsection{User Data}
 
-...
+\begin{enumerate}
+
+\item{DT-1\\}
+
+Control: Manual
+					
+Initial State: User is not signed in, and does not have an account.
+					
+Input: New user data (medical conditions, personal attributes).
+					
+Output: Updated user database displayed on the user profile page.
+	
+Test Case Derivation: From FR-8, the system shall store the information entered by the user in the database.
+
+How test will be performed: Manually create a new account, and add in some user data and medical conditions. Log back in and verify the data is still present on the user profile.
+
+
+\item{DT-2\\}
+
+Control: Manual
+					
+Initial State: User is signed in with their personal account.
+					
+Input: Updated user data (medical conditions, personal attributes).
+					
+Output: Updated user database displayed on the user profile page.
+
+Test Case Derivation: From FR-9, a user shall be able to update their personal information.
+
+How test will be performed: Manually update the user profile with new user information, then log out. Log back in and check that the new data is present.
+
+
+\item{DT-3\\}
+
+Control: Manual
+					
+Initial State: Tester is not logged in.
+					
+Input: Database query.
+					
+Output: List of non-unique unique database elements.
+
+Test Case Derivation: From FR-8, the system shall store the information entered by the user in the database.
+
+How test will be performed: Manually query the database for columns that are supposed to contain unique values, namely keys, such as user ID, email address, and etc. Verify that the length of the returned set is 0.
+
+Rationale: To ensure that key constraints are upheld, we must ensure that the values are non-unique, otherwise querying for certain users may return multiple sets of data.
+
+
+\end{enumerate}
+
+
+\subsubsection{Email}
+
+\begin{enumerate}
+
+
+\item{ET-1\\}
+
+Control: Manual
+					
+Initial State: The user has searched for trials, and has been given a list of trials.
+					
+Input: N/A
+					
+Output: A customized email template.
+
+Test Case Derivation: From FR-10, the system shall create an email template for the user.
+
+How test will be performed: Manually select a given trial result, and select the option to generate a template. Verify that it is displayed to the user.
+
+
+\item{ET-1\\}
+
+Control: Automatic
+					
+Initial State: The user is not logged in to the system.
+					
+Input: N/A
+					
+Output: Email notification notifying user of available trial.
+
+Test Case Derivation: From FR-11, the system shall notify the user when new medical trials matching their specifications are available.
+
+How test will be performed: A test user will be created with their own email account, with common medical conditions. The email will be checked periodically for notifications.
+
+
+\end{enumerate}
+
+\subsubsection{Program Information}
+
+\begin{enumerate}
+
+\item{PT-1\\}
+
+Control: Manual
+					
+Initial State: The user is at the home screen.
+					
+Input: N/A
+					
+Output: FAQ menu.
+
+Test Case Derivation: From FR-12, the system shall include frequently asked questions and trial information.
+
+How test will be performed: Manually select the FAQ menu, and verify that it displays the FAQ.
+
+
+\end{enumerate}
+
+\subsubsection{Searching}
+
+\begin{enumerate}
+
+\item{ST-1\\}
+
+Control: Manual
+					
+Initial State: The user is signed is, either as themselves or as a guest.
+					
+Input: Medical conditions and other user attributes used to search.
+					
+Output: Displayed search results.
+
+Test Case Derivation: From FR-13, FR-14, a user shall be able to search for medical studies based on their health conditions, and the system shall display to the users the results of their trial search.
+
+How test will be performed: Manually enter the a set of medical conditions and physical attributes into the search function. Submit, and verify the results are returned.
+
+
+\item{ST-2\\}
+
+Control: Manual
+					
+Initial State: The user is signed into their personal account, with medical information saved to their account.
+					
+Input: N/A
+					
+Output: Displayed search results.
+
+Test Case Derivation: From FR-15, the system shall allow a signed-in user to automatically enter their conditions into the search parameters.
+
+How test will be performed: Manually navigate to the search function. Verify that their conditions and information is automatically inputted into the search fields.
+
+
+\item{ST-3\\}
+
+Control: Manual
+					
+Initial State: The user is logged in, either as themselves or as a guest, and is at the search function.
+					
+Input: N/A
+					
+Output: N/A
+
+Test Case Derivation: From FR-15, the system shall allow a signed-in user to automatically enter their conditions into the search parameters.
+
+How test will be performed: Attempt to search without any fields filled in. Verify that the search fails.
+
+\end{enumerate}
 
 \subsection{Tests for Nonfunctional Requirements}
 
-\wss{The nonfunctional requirements for accuracy will likely just reference the
-  appropriate functional tests from above.  The test cases should mention
-  reporting the relative error for these tests.  Not all projects will
-  necessarily have nonfunctional requirements related to accuracy}
-
-\wss{Tests related to usability could include conducting a usability test and
-  survey.  The survey will be in the Appendix.}
-
-\wss{Static tests, review, inspections, and walkthroughs, will not follow the
-format for the tests given below.}
-
-\subsubsection{Area of Testing1}
-		
-\paragraph{Title for Test}
+\subsubsection{Useability}
+\label{sec:useabilityNFRtests}
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{UT-1}
 
-Type: Functional, Dynamic, Manual, Static etc.
+Control: Dynamic, Manual
 					
-Initial State: 
-					
-Input/Condition: 
-					
-Output/Result: 
-					
-How test will be performed: 
-					
-\item{test-id2\\}
+Initial State: The user starts on the home screen.
 
-Type: Functional, Dynamic, Manual, Static etc.
+Test Case Derivation: From NFR-3, NFR-4, and NFR-5, regarding the learnability, simplicity, and legibility of the user interface.
+
+How test will be performed: Have the user sign in, search, and browse results without outside help. 95\% of users should be able to accomplish this.
+
+
+\item{UT-2}
+
+Control: Dynamic, Manual
 					
-Initial State: 
+Initial State: The user starts on the home screen.
+
+Test Case Derivation: From NFR-3, NFR-4, and NFR-5, regarding the learnability, simplicity, and legibility of the user interface.
+
+How test will be performed: Have the user sign in, search, and browse results without outside help. 
+Have the user then complete a survey(\nameref{sec:Appendix})
+
+\item{UT-3}
+
+Control: Dynamic, Manual
 					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
+Initial State: The user starts on the home screen. The selected language should be set to the default (English).
+
+Test Case Derivation: From NFR-17, regarding accessibility of the application users who do not speak an official language.
+
+How test will be performed: Users of the next five most spoken languages other than English and French should be selected. They should be instructed to change to their preferred language and then should login, search, and browse results. 95\% of users should not report any issues navigating the interface.
+
 
 \end{enumerate}
 
-\subsubsection{Area of Testing2}
+\subsubsection{Performance}
+		
+\begin{enumerate}
 
-...
+\item{PT-1\\}
+
+Type: Dynamic, Manual
+					
+Initial State: User has entered their information for their and is about to search for eligible trials.
+					
+Input/Condition: All possible information filled in.
+					
+Output/Result: The system should load the trials and display them to the user in less than 5 seconds.
+					
+How test will be performed: In an existing account with all information categories filled in by the user, manually search for eligible trials, 
+and keep track of how long it takes for the trials to load.
+					
+\item{PT-2\\}
+
+Type: Dynamic, Manual
+					
+Initial State: N/A
+					
+Input/Condition: API key available to authenticate against the API.
+					
+Output/Result: API calls should respond in less than 1 second.
+					
+How test will be performed: Using locust, simulate 1000 users concurrently searching for trials, and manually track 
+the max time recorded for a response from the API.
+
+\end{enumerate}
+
+\subsubsection{Operational and Environmental}
+		
+\begin{enumerate}
+
+\item{OT-1\\}
+
+Type: Automatic
+					
+Initial State: N/A
+					
+Input/Condition: Database is populated with running trials
+					
+Output/Result: The system should show the number of trials within an order of magnitude to the trials on ClinicalTrials.gov
+					
+How test will be performed: Count the number of running trials in the database and compare to the number of 
+running trials on ClinicalTrials.gov
+
+\item{OT-2\\}
+
+Type: Dynamic, Manual
+					
+Initial State: User is on home screen, on a variety of devices
+					
+Output/Result: The user should report satisfactory performance on all devices ($>7$)
+					
+How test will be performed: Give the user multiple devices from the last 5 years (ex. iphone 15, windows laptop, chromebook, etc)
+and ask them to rate the performance of the application compared to a desktop pc from 1-10.
+
+\end{enumerate}
+
+\subsubsection{Maintainability}
+
+\begin{enumerate}
+
+\item{MT-1\\}
+
+Type: Static, Manual
+					
+How test will be performed: Manually run linters on code before merging a PR.
+
+Rationale: This will ensure code is following the proper standards, which will help increase the maintainability of the system.
+Also, this will be performed manually for the reason of conserving resources (i.e., could setup some workflow to automatically lint 
+code every time some code is pushed to the GitHub Repo, however this could be costly).
+
+\end{enumerate}
+
+\subsubsection {Security}
+\begin{enumerate}
+  \item{SEC-1\\}
+  Control: Automatic
+
+  Initial State: User is at the account creation screen and is trying to create a new account.
+
+  Input: User enters a password that does not satisfy the NIST guidelines listed on the creation page.
+  
+  Output: The user should not be able to create an account and an 
+  error message will appear as feedback mentioning the recommendation to follow NIST guidelines.
+
+  Test Derivation: From NFR-15, regarding the security of the user's passwords as per NIST guidelines.
+  In particular this NFR mentions rejecting weak passwords.
+
+  How the test will be performed: A new account will be created and an invalid password will be entered. 
+  The account creation should fail and an error message explaining why account creation failed
+  should appear. 
+  
+  Rationale: This will be automated for the purpose of testing many passwords 
+  that nearly meet NIST guidelines and doing so manually would be exhausting.
+  
+  \item {SEC-2\\}
+  Control: Manual
+
+  Initial State: The system is running and the 
+  database access settings have been configured prior to the test. 
+
+  Input: A user without the appropriate authorization (but with the right password) credentials attempts to access the database.
+  OR An authorized database manager
+  with the appropriate password credentials attempts to access the database.
+  
+  Output: The unauthorized user should not be able to access the database and an error message will appear as feedback.
+  The authorized database manager should be able to access the database and no error message should appear.
+
+  Test Derivation: From NFR-16 the system should only allow authorized database manager to access the 
+  intricacies of the database. In particular this NFR mentions rejecting unauthorized users from accessing the database.
+  
+  How the test will be performed: An unauthorized user will attempt to access the database with valid password credentials.
+  The database access should fail and an error message explaining why access failed should appear.
+  An authorized database manager will attempt to access the database with valid password credentials.
+  The database access should succeed and no error message should appear.
+
+\end{enumerate}
+\subsubsection{Legal}
+
+\begin{enumerate}
+\item{LT-1}
+
+Control: Dynamic, Manual
+					
+Initial State: The user is at the search screen.
+
+Input: User search criteria.
+
+Output: Option prompting user for consent.
+
+Test Case Derivation: From NFR-18, regarding the collection of user consent before using or storing user data.
+
+How test will be performed: Users are asked to input their search criteria, and should see a message prompting them to provide consent for the collection of data when they try to search.
+
+\end{enumerate}
 
 \subsection{Traceability Between Test Cases and Requirements}
 
-\wss{Provide a table that shows which test cases are supporting which
-  requirements.}
+\begin{table}[H]
+  \caption{Test Case Traceability}
+  \begin{tabular}{|p{7cm}|p{7cm}|}
+  \hline
+  Test case & Requirement(s)\\
+  \hline
+  AT-1 & FR-1, FR-2\\
+  \hline
+  AT-2 & FR-2\\
+  \hline
+  AT-3 & FR-1\\
+  \hline
+  AT-4 & FR-3\\
+  \hline
+  AT-5 & FR-3\\
+  \hline
+  AT-6 & FR-5\\
+  \hline
+  AT-7 & FR-5\\
+  \hline
+  AT-8 & FR-6\\
+  \hline
+  AT-9 & FR-7\\
+  \hline
+  DT-1 & FR-8\\
+  \hline
+  DT-2 & FR-9\\
+  \hline
+  DT-3 & FR-8\\
+  \hline
+  ET-1 & FR-10\\
+  \hline
+  ET-2 & FR-11\\
+  \hline
+  PT-1 & FR-12\\
+  \hline
+  ST-1 & FR-13, FR-14\\
+  \hline
+  ST-2 & FR-15\\
+  \hline
+  ST-3 & FR-15\\
+  \hline
+  UT-1 & NFR-3, NFR-4, NFR-5\\
+  \hline
+  UT-2 & NFR-3, NFR-4, NFR-5\\
+  \hline
+  UT-3 & NFR-17\\
+  \hline
+  PT-1 & NFR-6\\
+  \hline
+  PT-2 & NFR-7\\
+  \hline
+  OT-1 & NFR-11\\
+  \hline
+  OT-2 & NFR-12\\
+  \hline
+ MT-1 & NFR-13\\
+  \hline
+ SEC-1 & NFR-15\\
+  \hline
+ SEC-2 & NFR-16\\
+ LT-1 & NFR-18\\
+  \hline
+  \end{tabular}
+\end{table}
 
 \section{Unit Test Description}
 
@@ -455,34 +1013,78 @@ This is where you can place additional information.
 The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
 Their values are defined in this section for easy maintenance.
 
-\subsection{Usability Survey Questions?}
+\subsection{Usability Survey Questions}
+\label{sec:Appendix}
+Usability Survey:
 
-\wss{This is a section that would be appropriate for some projects.}
+How easy was it to navigate to the search page (1 is hard, 10 is easy)?
+
+How easy was it to understand each search term (1 is hard, 10 is easy)?
+
+Did you find any part of the process frustrating(Y/N)?
+
+If yes, which part did you find frustrating and why?
+
+Was all text easy to read while using the website(Y/N)?
+
 
 \newpage{}
 \section*{Appendix --- Reflection}
 
-The information in this section will be used to evaluate the team members on the
-graduate attribute of Lifelong Learning.  Please answer the following questions:
+Below are skills that the team will need to develop in order to successfully carry out the verification and validation process, in addition to how the team plans to further our knowledge in the given areas.
 
-\newpage{}
-\section*{Appendix --- Reflection}
+\begin{itemize}
+\item Automated unit testing via integrations
+\begin{itemize}
+\item Free tutorials on Youtube or other free video sharing platforms.
+\item Documentation on the given cloud platform's integrations.
+\end{itemize}
+\item Verification and validation reporting standards
+\begin{itemize}
+\item Lecture material and other course material, from both capstone and other courses.
+\item Documentation and templates from IEEE.
+\end{itemize}
+\end{itemize}
+For the automated unit testing, the team has decided to pursue video tutorials, as these tend to be easier to approach, and provide practical examples. For the VnV reporting, the team has decided to use course materials, as this is readily accessible and easy to understand.
 
-\wss{This section is not required for CAS 741}
 
-The information in this section will be used to evaluate the team members on the
-graduate attribute of Lifelong Learning.  Please answer the following questions:
+Additionally, below is a skill that each member will need to develop, along with two ways they can learn each skill.
+\begin{itemize}
+\item Alan - GitHub CI/CD pipelines
+\begin{itemize}
+\item YouTube tutorials or video tutorials from other sites.
+\item GitHub documentation.
+\end{itemize}
+\item David - Jest testing framework
+\begin{itemize}
+  \item Jest documentation
+  \item YouTube videos/tutorials 
+\end{itemize}
+\item Deep - Pytest testing framework
+\begin{itemize}
+  \item Course website
+  \item YouTube videos/tutorials 
+\end{itemize}
+\item Anika - Working with automated testing frameworks in pipelines
+  \begin {itemize}
+    \item Pytest and Jest documentation
+    \item Pluralsight tutorials
+  \end {itemize}
+\item Aamina - Pytest testing framework
+  \begin {itemize}
+    \item Pytest documentation
+    \item YouTube videos/tutorials
+  \end {itemize}
+\end{itemize}
 
-\begin{enumerate}
-  \item What knowledge and skills will the team collectively need to acquire to
-  successfully complete the verification and validation of your project?
-  Examples of possible knowledge and skills include dynamic testing knowledge,
-  static testing knowledge, specific tool usage etc.  You should look to
-  identify at least one item for each team member.
-  \item For each of the knowledge areas and skills identified in the previous
-  question, what are at least two approaches to acquiring the knowledge or
-  mastering the skill?  Of the identified approaches, which will each team
-  member pursue, and why did they make this choice?
-\end{enumerate}
+Below is which method each member intends to use, and why.
+\begin{itemize}
+\item Alan - YouTube tutorials. This method is the most approachable, and provides easy to follow along examples.
+\item David - Jest documentation. I will use the documentation since I have used several other testing frameworks in previous projects, and I anticipate the documentation should provide sufficient information to get up and running with the framework.
+\item Deep - Course Website. This method will allow me to learn about pytest is a more formalized scenario. This will help with writing tests according to industry standards.
+\item Anika - Pluralsight tutorials. I will use this method because it will help me learn about the frameworks in a more structured way with in-depth practice and examples.
+\item Aamina - YouTube videos/tutorials. Since I am new to Pytest and have previously only worked with Java and the Junit testing framework, it would be best to watch videos with simple explanations and get a walkthrough of different examples.
+\end{itemize}
+
 
 \end{document}
