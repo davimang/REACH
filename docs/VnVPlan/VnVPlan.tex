@@ -731,6 +731,24 @@ code every time some code is pushed to the GitHub Repo, however this could be co
 \subsubsection {Security}
 \begin{enumerate}
   \item{SEC-1\\}
+  Control: Automatic
+
+  Initial State: User is at the account creation screen and is trying to create a new account.
+
+  Input: User enters a password that does not satisfy the NIST guidelines listed on the creation page.
+  
+  Output: The user should not be able to create an account and an 
+  error message will appear as feedback mentioning the recommendation to follow NIST guidelines.
+
+  Test Derivation: From NFR-15, regarding the security of the user's passwords as per NIST guidelines.
+  In particular this NFR mentions rejecting weak passwords.
+
+  How the test will be performed: A new account will be created and an invalid password will be entered. 
+  The account creation should fail and an error message explaining why account creation failed
+  should appear. 
+  
+  Rationale: This will be automated for the purpose of testing many passwords 
+  that nearly meet NIST guidelines and doing so manually would be exhausting.
   
   \item {SEC-2\\}
 
