@@ -592,6 +592,36 @@ the max time recorded for a response from the API.
 
 \end{enumerate}
 
+\subsubsection{Operational and Environmental}
+		
+\begin{enumerate}
+
+\item{OT-1\\}
+
+Type: Automatic
+					
+Initial State: N/A
+					
+Input/Condition: Database is populated with running trials
+					
+Output/Result: The system should show the number of trials within an order of magnitude to the trials on ClinicalTrials.gov
+					
+How test will be performed: Count the number of running trials in the database and compare to the number of 
+running trials on ClinicalTrials.gov
+
+\item{OT-2\\}
+
+Type: Dynamic, Manual
+					
+Initial State: User is on home screen, on a variety of devices
+					
+Output/Result: The user should report satisfactory performance on all devices (>7)
+					
+How test will be performed: Give the user multiple devices from the last 5 years (ex. iphone 15, windows laptop, chromebook, etc)
+and ask them to rate the performance of the application compared to a desktop pc from 1-10.
+
+\end{enumerate}
+
 \subsubsection{Maintainability}
 
 \begin{enumerate}
@@ -680,6 +710,10 @@ How test will be performed: Users are asked to input their search criteria, and 
   PT-1 & NFR-6\\
   \hline
   PT-2 & NFR-7\\
+  \hline
+  OT-1 & NFR-11\\
+  \hline
+  OT-2 & NFR-12\\
   \hline
  MT-1 & NFR-14\\
   \hline
