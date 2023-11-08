@@ -19,4 +19,4 @@ COPY . /Api/
 # Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
 
-CMD exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads $THREADS --timeout 0 reach_backend.wsgi:application
+CMD exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 1 --timeout 0 reach_backend.wsgi:application

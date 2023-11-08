@@ -28,7 +28,6 @@ class GroupViewSet(viewsets.ModelViewSet):
 #temporary endpoint for POC
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
 def fetch_trials(request):
     query_params = request.query_params
     #use for trial api request

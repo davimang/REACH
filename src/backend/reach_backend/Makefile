@@ -9,3 +9,11 @@ install:
 #run api in docker. *must have docker-compose installed, although most likely will come with docker installation
 run:
 	docker-compose up
+
+#david helpers - these are just things that I find helpful based on my setup (might be helpful for u too)
+devenv:
+	py -3.11 -m venv venv
+
+#gcloud only supports up to python 3.10
+cloudenv:
+	py -3.10 -m venv cloudenv
