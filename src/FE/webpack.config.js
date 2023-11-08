@@ -3,11 +3,11 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
 
-    entry: './FE/index.tsx',
+    entry: './FEsrc/index.tsx',
 
     plugins: [
         new HTMLWebpackPlugin({
-            template: './FE/index.html'
+            template: './FEsrc/index.html'
         })
     ],
 

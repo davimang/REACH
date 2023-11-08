@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   sample:
-    container_name: fe-ui
+    container_name: frontend-ui
     build:
       context: .
       dockerfile: Dockerfile
