@@ -1,14 +1,14 @@
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 
-loc1 = "156 Bond St S, Hamilton, Ontario"
-loc2 = "72 Livingstone Ave, Toronto"
-
 locator = Nominatim(user_agent="my_request")
 
-location1 = locator.geocode(loc1)
-location2 = locator.geocode(loc2)
+class Distance():
 
-print(location1.latitude, location1.longitude)
-print(location2.latitude, location2.longitude)
-print(geodesic((location1.latitude, location1.longitude),(location2.latitude, location2.longitude)).kilometers)
+    @staticmethod
+    def get_distance_km(address1, address2):
+        location1 = locator.geocode(address1)
+        location2 = locator.geocode(address2)
+
+        path_between = geodesic((location1.latitude, location1.longitude),(location2.latitude, location2.longitude))
+        return path_between.kilometers
