@@ -53,8 +53,7 @@ class ConsumeTrials():
             studies.at[i, 'FullAddress'] = studies.at[i, 'FullAddress'] + ", " + studies.at[i, 'LocationCountry'] if not pd.isnull(studies.at[i, 'LocationCountry']) else studies.at[i, 'FullAddress']
         studies['Distance'] = studies['FullAddress'].apply(lambda x : ConsumeTrials.get_distance_km(home_address, x))
 
-        #print(studies.iloc[-1])
-        print(studies)
+        studies.sort_values('Distance', inplace=True)
 
         #return as json
         results_json = studies.to_json()
