@@ -36,13 +36,12 @@ class ConsumeTrials():
 
         #decode output
         buffer = io.StringIO(decoded_content)
-        studies = pd.read_csv(filepath_or_buffer=buffer, header=9, index_col="Rank")
+        studies = pd.read_csv(filepath_or_buffer=buffer, header=9, index_col="NCTId")
 
         #convert min, max ages, filter out ineligible
         studies['MinimumAge'] = studies['MinimumAge'].apply(lambda x : ConsumeTrials.clean_age(x))
         studies['MaximumAge'] = studies['MaximumAge'].apply(lambda x : ConsumeTrials.clean_age(x))
         studies = studies[(age >= studies["MinimumAge"]) & (age <= studies["MaximumAge"])]
-        studies.reset_index(inplace=True, drop=True)
 
         #create address, calculate geodesic distance
         studies['FullAddress'] = ""
