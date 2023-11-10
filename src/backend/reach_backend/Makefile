@@ -6,8 +6,11 @@ venv:
 install:
 	pip install -r requirements.txt
 
-#run api in docker. *must have docker-compose installed, although most likely will come with docker installation
 run:
+	python manage.py runserver
+
+#run api in docker. *must have docker-compose installed, although most likely will come with docker installation
+up:
 	docker-compose up
 
 #david helpers - these are just things that I find helpful based on my setup (might be helpful for u too)
