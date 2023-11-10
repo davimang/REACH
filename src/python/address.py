@@ -12,3 +12,5 @@ class Distance():
 
         path_between = geodesic((location1.latitude, location1.longitude),(location2.latitude, location2.longitude))
         return path_between.kilometers
+
+print(Distance.get_distance_km("72 Livingstone Ave, Toronto, Ontario, Canada", "Mayo Clinic, Rochester, Minnesota 55905, United States"))
