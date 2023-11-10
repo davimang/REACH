@@ -53,6 +53,7 @@ else:
 
 
 CLOUDRUN_SERVICE_URL = env("CLOUDRUN_SERVICE_URL", default=None)
+FRONTEND_SERVICE_URL = env("FRONTEND_SERVICE_URL", default=None)
 if CLOUDRUN_SERVICE_URL:
     ALLOWED_HOSTS = [urlparse(CLOUDRUN_SERVICE_URL).netloc]
     CSRF_TRUSTED_ORIGINS = [CLOUDRUN_SERVICE_URL]
@@ -81,6 +82,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'Api',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -91,7 +93,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", FRONTEND_SERVICE_URL]
 
 ROOT_URLCONF = 'reach_backend.urls'
 
