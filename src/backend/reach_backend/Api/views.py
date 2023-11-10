@@ -1,11 +1,9 @@
 from django.contrib.auth.models import User, Group
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework import viewsets
-from rest_framework import permissions
-from Api.serializers import UserSerializer, GroupSerializer
+from rest_framework.decorators import api_view
+from rest_framework import viewsets, permissions
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-
+from Api.serializers import UserSerializer, GroupSerializer
+from Api.trial_fetcher import TrialFetcher
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -31,6 +29,8 @@ class GroupViewSet(viewsets.ModelViewSet):
 def fetch_trials(request):
     query_params = request.query_params
     #use for trial api request
-    age = query_params.get("age")
-    gender = query_params.get("gender")
-    return Response({"age": age, "gender": gender})
+    age = int(query_params.get("age", 0))
+    address = query_params.get("address", None)
+    condition = query_params.get("condition")
+    trials = TrialFetcher.search_studies(conditions=[condition], age=age, address=address)
+    return Response(trials)

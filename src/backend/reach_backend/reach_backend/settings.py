@@ -20,7 +20,6 @@ from urllib.parse import urlparse
 import environ
 import google.auth
 from google.cloud import secretmanager
-from requests import request
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,6 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env(DEBUG=(bool, False))
 env_file = os.path.join(BASE_DIR, ".env")
 
+DEBUG = os.getenv("DEBUG", False)
 
 try:
     _, os.environ["GOOGLE_CLOUD_PROJECT"] = google.auth.default()
@@ -67,9 +67,6 @@ else:
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
 
 # Application definition
 
@@ -123,11 +120,20 @@ WSGI_APPLICATION = 'reach_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {"default": env.db()}
+if os.getenv("USE_DEFAULT_DB", None):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {"default": env.db()}
 
 if os.getenv("USE_CLOUD_SQL_AUTH_PROXY", None):
     DATABASES["default"]["HOST"] = "127.0.0.1"
     DATABASES["default"]["PORT"] = 5432
+
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES" : (
