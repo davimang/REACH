@@ -11,8 +11,14 @@ api_url = r"https://clinicaltrials.gov/api/query/study_fields?fields=NCTId,Condi
 
 class ConsumeTrials():
 
+    #inputs
+    #conditions = list of string conditions
+    #age = int age
+    #address = string address of home
     @staticmethod
     def search_studies(conditions, age, address, **kwargs):
+
+        home_address = locator.geocode(address) #moved here to reduce number of calcs
 
         #convert conditions to usable strings
         conditions = [c.replace(" ", "+") for c in conditions] 
@@ -39,6 +45,13 @@ class ConsumeTrials():
         studies.reset_index(inplace=True, drop=True)
 
         #create address, calculate geodesic distance
+        studies['FullAddress'] = ""
+        for i in studies.index:
+            studies.at[i, 'FullAddress'] = studies.at[i, 'LocationCity'] if not pd.isnull(studies.at[i, 'LocationCity']) else studies.at[i, 'FullAddress']
+            studies.at[i, 'FullAddress'] = studies.at[i, 'FullAddress'] + ", " + studies.at[i, 'LocationState'] if not pd.isnull(studies.at[i, 'LocationState']) else studies.at[i, 'FullAddress']
+            studies.at[i, 'FullAddress'] = studies.at[i, 'FullAddress'] + " " + studies.at[i, 'LocationZip'] if not pd.isnull(studies.at[i, 'LocationZip']) else studies.at[i, 'FullAddress']
+            studies.at[i, 'FullAddress'] = studies.at[i, 'FullAddress'] + ", " + studies.at[i, 'LocationCountry'] if not pd.isnull(studies.at[i, 'LocationCountry']) else studies.at[i, 'FullAddress']
+        studies['Distance'] = studies['FullAddress'].apply(lambda x : ConsumeTrials.get_distance_km(home_address, x))
 
         #print(studies.iloc[-1])
         print(studies)
@@ -50,12 +63,12 @@ class ConsumeTrials():
     #address1 = user address
     #address2 = study address
     @staticmethod
-    def get_distance_km(address1, address2):
-        location1 = locator.geocode(address1)
-        location2 = locator.geocode(address2)
-
-        path_between = geodesic((location1.latitude, location1.longitude),(location2.latitude, location2.longitude))
-        return path_between.kilometers
+    def get_distance_km(home_address, facility_address):
+        fac_loc = locator.geocode(facility_address)
+        try:
+            return round(geodesic((home_address.latitude, home_address.longitude),(fac_loc.latitude, fac_loc.longitude)).kilometers,2) #this will need to be optimized, very slow!
+        except:
+            return
     
     #convert min and max ages to float type
     @staticmethod
@@ -66,9 +79,3 @@ class ConsumeTrials():
             return float(re.findall(r'\d+', age)[0]) / 12
         else:
             return float(re.findall(r'\d+', age)[0])
-
-
-        
-        
-
-ConsumeTrials.search_studies(['lung disease'],65,"156 Bond St S, Hamilton, ON, Canada")
