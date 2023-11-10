@@ -1,7 +1,6 @@
 ## Ignore node_modules folder
 /node_modules
 /src/node_modules
-/node_modules
 
 ## Ignore environment variables and secrets
 .env
@@ -11,7 +10,6 @@
 /build
 /src/dist
 /src/build
-
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
