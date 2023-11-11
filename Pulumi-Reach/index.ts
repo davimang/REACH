@@ -8,3 +8,7 @@ const bucket = new gcp.storage.Bucket("my-bucket", {
 
 // Export the DNS name of the bucket
 export const bucketName = bucket.url;
+
+
+// To-Do: Node installation
+// To-Do: Create organization
