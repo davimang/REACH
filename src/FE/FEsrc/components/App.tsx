@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PatientForm from './PatientForm';
 
 interface AppProps {
     message: string;
@@ -20,6 +21,7 @@ class App extends Component<AppProps, AppState> {
         return (
             <div>
                 <h1>{this.props.message}</h1>
+                <PatientForm />
             </div>
         );
     }
