@@ -19,6 +19,7 @@ const PatientForm = () => {
     });
     const textFieldLabels = ["Condition", "Age", "Address"];
     const [responseData, setResponseData] = useState<ClinicalTrialsData | null>(null);
+    const [loading, setLoading] = useState(false);
 
     const ClinicalTrialComponent: React.FC<{ trial: ClinicalTrial }> = ({ trial }) => (
         <div key={trial.Rank}>
@@ -48,6 +49,8 @@ const PatientForm = () => {
 
     const handleSubmit = async () => {
         try {
+            setLoading(true);
+
             const { address, age, condition } = formValues;
             const endpoint = `/trials/?address=${address.replace(/\s/g, '+')}&age=${age}&condition=${condition.replace(/\s/g, '+')}`;
             
@@ -61,6 +64,8 @@ const PatientForm = () => {
             setResponseData(JSON.parse(data));
         } catch (error) {
             console.error('Error fetching data:', error.message);
+        } finally {
+            setLoading(false);
         }
     };
     
@@ -71,8 +76,9 @@ const PatientForm = () => {
                 size='small'
                 variant='contained'
                 onClick={handleSubmit}
+                disabled={loading}
             >
-                Submit
+                {loading ? 'Loading...' : 'Submit'}
             </Button>
 
             <div id='result-container'>
