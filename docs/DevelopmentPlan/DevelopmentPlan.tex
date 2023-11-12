@@ -220,16 +220,17 @@ The rev tag will increment by one for each revision of the project documentation
 
 The main risks for the success of this project are; 
 none of the members of the team have deployed a web app from scratch before, 
-and that the eligibility criteria provided by the clinical trial is often in natural language. 
+and that the we will have to depend on the clinicaltrials.gov or a similar repositories api to retrieve trials. 
 Since none of the team members have deployed a web app from scratch this may be a risk as we are 
-not certain of all the steps which must be taken to publish a web app. 
-The data provided by the clinical trials being in natural language also is a risk as we will 
-have to research and use a natural language processor to extract the relevant data points. 
+not certain of all the steps which must be taken to publish a web app.
+This risk would not be possible to eliminate as it would not match our goals to run the website app only.
+All of our trials being retrieved from clinicaltrials.gov or a similar repository is also a risk since we will have to 
+research and work with that api to know what is possible using it. This would also be a hard requirement to mitigate
+because it would not be feasible for us to collect clinical trials individually so we must us a preexisting repository of trials. 
 
-Therefore to demonstrate that we can overcome these risks our proof of concept demonstrations will have to both 
-be deployed and able to be accessed from a device that is not running the source code, 
-and the application must be able to extract the requirements for the clinical trial from the data source. 
-Also the application should be able to display the retrieved requirements in a GUI of some fashion.
+Therefore to demonstrate that we can overcome these risks our proof of concept demonstration will have to; 
+be deployed to the cloud, able to be accessed from a device that is not running the source code, 
+and the application must be able to retrieve and display clinical trails from a data source given some information on the participant.
 
 \section{Technology}
 
