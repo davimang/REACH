@@ -3,8 +3,7 @@ import styled from '@emotion/styled';
 import { Button, TextField, stepClasses } from '@mui/material';
 import { ClinicalTrial, ClinicalTrialsData } from './types';
 import { json } from 'express';
-
-const API_URL = 'http://127.0.0.1:8000';
+import { API_URL } from '..';
 
 const StyledTextField = styled.div`
     padding: 10px 0px;
