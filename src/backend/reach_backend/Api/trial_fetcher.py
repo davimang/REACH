@@ -56,7 +56,7 @@ class TrialFetcher:
             studies.sort_values('Distance', inplace=True)
 
         #return as json
-        results_json = studies.to_json()
+        results_json = studies.to_json(orient='index')
         return results_json 
 
     #address1 = user address
