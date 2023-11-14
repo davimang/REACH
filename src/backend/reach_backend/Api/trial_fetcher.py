@@ -9,7 +9,7 @@ locator = Nominatim(user_agent="my_request")
 
 api_url = r"https://clinicaltrials.gov/api/query/study_fields?fields=NCTId,Condition,BriefTitle,DetailedDescription,MinimumAge,MaximumAge,LocationCountry,LocationState,LocationCity,LocationZip,LocationFacility&"
 
-class ConsumeTrials():
+class TrialFetcher:
 
     #inputs
     #conditions = list of string conditions
@@ -17,8 +17,6 @@ class ConsumeTrials():
     #address = string address of home
     @staticmethod
     def search_studies(conditions, age, address, **kwargs):
-
-        home_address = locator.geocode(address) #moved here to reduce number of calcs
 
         #convert conditions to usable strings
         conditions = [c.replace(" ", "+") for c in conditions] 
@@ -39,20 +37,23 @@ class ConsumeTrials():
         studies = pd.read_csv(filepath_or_buffer=buffer, header=9, index_col="NCTId")
 
         #convert min, max ages, filter out ineligible
-        studies['MinimumAge'] = studies['MinimumAge'].apply(lambda x : ConsumeTrials.clean_age(x))
-        studies['MaximumAge'] = studies['MaximumAge'].apply(lambda x : ConsumeTrials.clean_age(x))
-        studies = studies[(age >= studies["MinimumAge"]) & (age <= studies["MaximumAge"])]
+        if age:
+            studies['MinimumAge'] = studies['MinimumAge'].apply(lambda x : TrialFetcher.clean_age(x))
+            studies['MaximumAge'] = studies['MaximumAge'].apply(lambda x : TrialFetcher.clean_age(x))
+            studies = studies[(age >= studies["MinimumAge"]) & (age <= studies["MaximumAge"])]
 
         #create address, calculate geodesic distance
-        studies['FullAddress'] = ""
-        for i in studies.index:
-            studies.at[i, 'FullAddress'] = studies.at[i, 'LocationCity'] if not pd.isnull(studies.at[i, 'LocationCity']) else studies.at[i, 'FullAddress']
-            studies.at[i, 'FullAddress'] = studies.at[i, 'FullAddress'] + ", " + studies.at[i, 'LocationState'] if not pd.isnull(studies.at[i, 'LocationState']) else studies.at[i, 'FullAddress']
-            studies.at[i, 'FullAddress'] = studies.at[i, 'FullAddress'] + " " + studies.at[i, 'LocationZip'] if not pd.isnull(studies.at[i, 'LocationZip']) else studies.at[i, 'FullAddress']
-            studies.at[i, 'FullAddress'] = studies.at[i, 'FullAddress'] + ", " + studies.at[i, 'LocationCountry'] if not pd.isnull(studies.at[i, 'LocationCountry']) else studies.at[i, 'FullAddress']
-        studies['Distance'] = studies['FullAddress'].apply(lambda x : ConsumeTrials.get_distance_km(home_address, x))
+        if address:
+            home_address = locator.geocode(address)
+            studies['FullAddress'] = ""
+            for i in studies.index:
+                studies.at[i, 'FullAddress'] = studies.at[i, 'LocationCity'] if not pd.isnull(studies.at[i, 'LocationCity']) else studies.at[i, 'FullAddress']
+                studies.at[i, 'FullAddress'] = studies.at[i, 'FullAddress'] + ", " + studies.at[i, 'LocationState'] if not pd.isnull(studies.at[i, 'LocationState']) else studies.at[i, 'FullAddress']
+                studies.at[i, 'FullAddress'] = studies.at[i, 'FullAddress'] + " " + studies.at[i, 'LocationZip'] if not pd.isnull(studies.at[i, 'LocationZip']) else studies.at[i, 'FullAddress']
+                studies.at[i, 'FullAddress'] = studies.at[i, 'FullAddress'] + ", " + studies.at[i, 'LocationCountry'] if not pd.isnull(studies.at[i, 'LocationCountry']) else studies.at[i, 'FullAddress']
+            studies['Distance'] = studies['FullAddress'].apply(lambda x : TrialFetcher.get_distance_km(home_address, x))
 
-        studies.sort_values('Distance', inplace=True)
+            studies.sort_values('Distance', inplace=True)
 
         #return as json
         results_json = studies.to_json(orient='index')

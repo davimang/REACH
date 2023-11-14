@@ -27,4 +27,6 @@ web/static/CACHE
 stats
 venv
 .venv
+cloudenv
+.env
 Dockerfile

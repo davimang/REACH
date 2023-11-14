@@ -10,7 +10,9 @@ module.exports = {
             template: './FEsrc/index.html'
         })
     ],
-
+    devServer: {
+        allowedHosts: 'all',
+    },
     module: {
         rules: [
             {
