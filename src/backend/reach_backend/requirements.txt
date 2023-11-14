@@ -1,5 +1,16 @@
 asgiref==3.7.2
 Django==4.1.12
+djangorestframework==3.14.0
+djangorestframework-simplejwt==5.3.0
+PyJWT==2.8.0
+pytz==2023.3.post1
 sqlparse==0.4.4
 tzdata==2023.3
-djangorestframework==3.14.0
+gunicorn==20.1.0
+google-cloud-secret-manager==2.16.1
+django-environ==0.10.0
+psycopg2-binary==2.9.6
+django-cors-headers==4.3.0
+pandas==2.1.2
+geopy==2.4.0
+regex==2023.10.3
