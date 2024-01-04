@@ -20,3 +20,7 @@ devenv:
 #gcloud only supports up to python 3.10
 cloudenv:
 	py -3.10 -m venv cloudenv
+
+# lint
+lint-api:
+	pylint --load-plugins pylint_django --django-settings-module=reach_backend.settings Api && black Api
