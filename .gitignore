@@ -298,6 +298,8 @@ venv
 .venv
 env
 .env
+cloudenv
+.cloudenv
 
 # Django stuff:
 *.log

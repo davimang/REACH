@@ -1,0 +1,23 @@
+steps:
+  # Dependencies advised by ChatGPT
+  - id: "install dependencies"
+    name: "node"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - "npm install"
+
+  - id: "build image"
+    name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/${_PROJECT_ID}/${_SERVICE_NAME}", "."]
+
+  - id: "push image"
+    name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/${_PROJECT_ID}/${_SERVICE_NAME}"]
+
+substitutions:
+  _SERVICE_NAME: frontend-ui-service
+  _PROJECT_ID: reach-404414
+
+images:
+  - "gcr.io/${_PROJECT_ID}/${_SERVICE_NAME}"
