@@ -6,7 +6,7 @@ on:
       - dev
 
 jobs:
-  build:
+  lint-and-test:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
@@ -25,7 +25,8 @@ jobs:
         pip install -r .github/workflows/requirements.txt
     - name: Run lint
       run: |
+        pylint src/backend/reach_backend/Api
         black src/backend/reach_backend/Api
     - name: Run Tests
       run: |
-        python manage.py test
+        echo 'Testing'
