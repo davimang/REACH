@@ -35,7 +35,6 @@ def createsuperuser(apps: StateApps, schema_editor: DatabaseSchemaEditor) -> Non
 
 
 class Migration(migrations.Migration):
-
     initial = True
     dependencies = []
     operations = [migrations.RunPython(createsuperuser)]

@@ -1,3 +1,1 @@
-from django.db import models
-
-# Create your models here.
+"""Module defining the models for the Api service."""
