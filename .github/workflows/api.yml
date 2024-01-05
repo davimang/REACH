@@ -25,7 +25,7 @@ jobs:
         pip install -r src/backend/reach_backend/requirements.txt
     - name: Run lint
       run: |
-        pylint --rcfile=src/backend/reach_backend/pylintrc src/backend/reach_backend/Api
+        pylint --rcfile=src/backend/reach_backend/.pylintrc src/backend/reach_backend/Api
         black src/backend/reach_backend/Api
     - name: Run Tests
       run: |
