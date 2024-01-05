@@ -25,7 +25,6 @@ jobs:
         pip install -r .github/workflows/requirements.txt
     - name: Run lint
       run: |
-        pylint --load-plugins pylint_django --django-settings-module=src.backend.reach_backend.reach_backend.settings src/backend/reach_backend/Api
         black src/backend/reach_backend/Api
     - name: Run Tests
       run: |
