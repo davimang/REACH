@@ -1,11 +1,12 @@
-name: Api CI/CD
+name: Api CI
 
 on:
-  workflow_dispatch:
+  pull_request:
+    branches:
+      - dev
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
