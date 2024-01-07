@@ -1,6 +1,9 @@
+"""Module to specify django apps."""
 from django.apps import AppConfig
 
 
 class ApiConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'Api'
+    """Api config class."""
+
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "Api"

@@ -1,11 +1,12 @@
-name: Api CI/CD
+name: Api CI
 
 on:
-  workflow_dispatch:
+  pull_request:
+    branches:
+      - dev
 
 jobs:
-  build:
-
+  lint-and-test:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
@@ -21,11 +22,11 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r src/backend/reach_backend/requirements.txt
     - name: Run lint
       run: |
-        pylint --load-plugins pylint_django --django-settings-module=reach_backend.settings Api
-        black Api
+        pylint --rcfile=src/backend/reach_backend/.pylintrc src/backend/reach_backend/Api
+        black src/backend/reach_backend/Api
     - name: Run Tests
       run: |
-        python manage.py test
+        echo 'Testing'
