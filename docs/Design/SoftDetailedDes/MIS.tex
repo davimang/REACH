@@ -282,10 +282,71 @@ None
 
 \subsubsection{Local Functions}
 
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
+%%%%%%%%%%%%%%% Fetch Trials %%%%%%%%%%%%%%
+
+\section{MIS of the Fetch Trials Modules} \label{User}
+
+\subsection{Module}
+
+TrialFetcher
+
+\subsection{Uses}
+
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+getTrials & seq. of String, integer, String & DataFrame & MissingParameter, InvalidAge, InvalidAddress \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+locator: geopy.geocoder \\
+
+\subsubsection{Environment Variables}
+None
+
+\subsubsection{Assumptions}
+\begin{itemize}
+  \item Each Trial has a unique id.
+  \item The trial API will always be accessible.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent getTrials(conditions: sequence of String, age: int, address: String):
+\begin{itemize}
+\item transition: None
+\item output: out := DataFrame populated with trials from the ClinicalTrials.gov API
+\item exception: $exc := (age \notin (0,120] \rightarrow InvalidAge) \lor (\neg checkAddress(address) \rightarrow InvalidAddress) \lor ((\exists x . x \in parameters : x = \varepsilon) \rightarrow MissingParameter)$
+\end{itemize}
+
+\subsubsection{Local Functions}
+\noindent convertTrialsToDataFrame(rawData: csv):
+\begin{itemize}
+\item transition: None
+\item output: out := rawData formatted as a DataFrame
+\item exception: None
+\end{itemize}
+
+\noindent checkAddress(address: String):
+\begin{itemize}
+\item transition: None
+\item output: out:= True
+\item exception: $exc := (geopy.geolocator(address) = exception \rightarrow False)$
+\end{itemize}
 
 \newpage
 
