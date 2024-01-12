@@ -292,6 +292,7 @@ TrialFetcher
 
 \subsection{Uses}
 
+Trial
 
 \subsection{Syntax}
 
@@ -307,13 +308,17 @@ None
 \hline
 getTrials & seq. of String, integer, String & DataFrame & MissingParameter, InvalidAge, InvalidAddress \\
 \hline
+getLocator & - & geocoder & - \\
+\hline
+setLocator & geocoder & - & - \\
+\hline
 \end{tabular}
 \end{center}
 
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-locator: geopy.geocoder \\
+locator: geocoder \\
 
 \subsubsection{Environment Variables}
 None
@@ -358,6 +363,7 @@ TrialFilterer
 
 \subsection{Uses}
 
+Trial
 
 \subsection{Syntax}
 
@@ -375,13 +381,17 @@ exportTrials & - & json & - \\
 \hline
 fetchTrials & seq. of String, integer, String & - & - \\
 \hline
+getLocator & - & geocoder & - \\
+\hline
+setLocator & geocoder & - & - \\
+\hline
 \end{tabular}
 \end{center}
 
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-locator: geopy.geocoder \\
+locator: geocoder \\
 trials: DataFrame
 
 \subsubsection{Environment Variables}
@@ -406,6 +416,20 @@ None
 \begin{itemize}
 \item transition: None
 \item output: out:= self.trials as json
+\item exception: None
+\end{itemize}
+
+\noindent getLocator():
+\begin{itemize}
+\item transition: None
+\item output: out:= self.locator
+\item exception: None
+\end{itemize}
+
+\noindent setLocator(loc: geocoder):
+\begin{itemize}
+\item transition: self.locator = loc
+\item output: None
 \item exception: None
 \end{itemize}
 
@@ -438,7 +462,90 @@ None
 \item exception: None
 \end{itemize}
 
+%%%%%%%%%%%%%%% Login Module %%%%%%%%%%%%%%
 
+\section{MIS of the Email Notification Module} \label{User}
+
+\subsection{Module}
+
+NotificationModule, User, PatientInfo, Trial
+
+\subsection{Uses}
+
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+sendEmail & String, String & - & DeliveryFailed \\
+\hline
+getAPIKey & - & String & - \\
+\hline
+setAPIKey & String & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+APIKey: String
+
+\subsubsection{Environment Variables}
+connection: API connection
+
+\subsubsection{Assumptions}
+\begin{itemize}
+  \item Emailer API is operational and accessible
+  \item ClinicalTrial.gov API is operational and accessible
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent sendEmail(emailAddress: String, subject: String, body: String):
+\begin{itemize}
+\item transition: None
+\item output: out := email request sent through the emailing API
+\item exception: exc := emailer returns error code $\rightarrow DeliveryFailed$
+\end{itemize}
+
+\noindent getAPIKey():
+\begin{itemize}
+\item transition: None
+\item output: out := self.APIKey
+\item exception: None
+\end{itemize}
+
+\noindent setAPIKey(key: String):
+\begin{itemize}
+\item transition: self.APIKey := key
+\item output: None
+\item exception: None
+\end{itemize}
+
+
+\subsubsection{Local Functions}
+\noindent findNewTrials():
+\begin{itemize}
+\item transition: None
+\item output: out := $\{trials : trial.postedDate > lastCheckedDate\}$
+\item exception: None
+\end{itemize}
+
+\noindent matchUsersToNewTrials():
+\begin{itemize}
+\item transition: None
+\item output: out := $\{user \times trial : user.conditions \subseteq trial.conditions\}$
+\item exception: None
+\end{itemize}
 
 
 
