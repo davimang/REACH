@@ -726,7 +726,7 @@ None
 \item exception: None
 \end{itemize}
 
-\section{MIS of the Registration Module} \label{User}
+\section{MIS of the Registration Module} \label{Registration}
 
 \subsection{Module}
 
@@ -774,7 +774,7 @@ None
 
 \subsubsection{Local Functions}
 
-\section{MIS of the Login Module} \label{User}
+\section{MIS of the Login Module} \label{Login}
 
 \subsection{Module}
 
@@ -817,6 +817,52 @@ None
 \begin{itemize}
 \item transition: None
 \item output: out := True if the login was successful, False otherwise
+\item exception: None
+\end{itemize}
+
+\subsubsection{Local Functions}
+
+\section{MIS of the Email Template Module} \label{EmailTemplate}
+
+\subsection{Module}
+
+EmailTemplate
+
+\subsection{Uses}
+
+User, Trial
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+createEmail & User, Trial & String & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\subsubsection{Environment Variables}
+
+\subsubsection{Assumptions}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent createEmail(user: User, trial: Trial):
+\begin{itemize}
+\item transition: None
+\item output: out := email template personalized using User and Trial data
 \item exception: None
 \end{itemize}
 
