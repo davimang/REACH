@@ -461,7 +461,89 @@ None
 
 %%%%%%%%%%%%%%% Saved Trials %%%%%%%%%%%%%%
 
+\section{MIS of Trial data module}
 
+\subsection{Module}
+Trial
+
+\subsection{Uses}
+None
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+getTitle & - & seq of char & - \\
+\hline
+getDescription & - & seq of char & - \\
+\hline
+getUrl & - & seq of char & - \\
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+title: seq of char\\
+description: seq of char\\
+url: seq of char
+
+\subsubsection{Environment Variables}
+None
+
+\subsubsection{Assumptions}
+
+\begin{itemize}
+  \item Trial details (title, description, url) will not need to be changed. Therefore no need for setter methods to update these values for a certain trial.
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent getTitle():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.title
+\item exception: N/A
+\end{itemize}
+
+\noindent getDescription():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.description
+\item exception: N/A
+\end{itemize}
+
+\noindent getUrl():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.url
+\item exception: N/A
+\end{itemize}
+
+\subsubsection{Local Functions}
+\noindent saveTrial(trial: Trial):
+\begin{itemize}
+\item transition: Saves the trial to the database.
+\item output: N/A
+\item exception: N/A
+\end{itemize}
+
+\noindent loadTrial(trial: Trial):
+\begin{itemize}
+\item transition: Loads the trial from the database.
+\item output: N/A
+\item exception: N/A
+\end{itemize}
+
+\newpage
 
 
 %%%%%%%%%%%%%%% Fetch Trials %%%%%%%%%%%%%%
