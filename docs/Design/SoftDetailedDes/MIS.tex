@@ -348,6 +348,100 @@ None
 \item exception: $exc := (geopy.geolocator(address) = exception \rightarrow False)$
 \end{itemize}
 
+%%%%%%%%%%%%%%% Filter Trials %%%%%%%%%%%%%%
+
+\section{MIS of the Trial Filtering Module} \label{User}
+
+\subsection{Module}
+
+TrialFilterer
+
+\subsection{Uses}
+
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+exportTrials & - & json & - \\
+\hline
+fetchTrials & seq. of String, integer, String & - & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+locator: geopy.geocoder \\
+trials: DataFrame
+
+\subsubsection{Environment Variables}
+None
+
+\subsubsection{Assumptions}
+\begin{itemize}
+  \item Each Trial has a unique id.
+  \item Exceptions are caught downstream by the TrialFetcher module
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent fetchTrials(conditions: sequence of String, age: int, address: String):
+\begin{itemize}
+\item transition: self.trials populated with trials via TrialFilterer module
+\item output: None
+\item exception: None
+\end{itemize}
+
+\noindent exportTrials():
+\begin{itemize}
+\item transition: None
+\item output: out:= self.trials as json
+\item exception: None
+\end{itemize}
+
+\subsubsection{Local Functions}
+\noindent cleanAge(stringAge: String):
+\begin{itemize}
+\item transition: None
+\item output: out:= $(inMonths \rightarrow int(stringAge)/12) \rightarrow int(stringAge)$
+\item exception:  $exc := stringAge \notin \mathbb{R} \rightarrow InvalidAge$
+\end{itemize}
+
+\noindent geodesicDistance(address: geocode, trialLocation: geocode):
+\begin{itemize}
+\item transition: None
+\item output: $out := \arccos(\sin(address.latitude)\cdot\sin(trialLocation.latitude) + \cos(address.latitude)\cdot\cos(ltrialLocation.latitude)\cdot\cos(trialLocation.longitude-address.longitude) ) \cdot 6371000$
+\item exception: None
+\end{itemize}
+
+\noindent calculateDistance():
+\begin{itemize}
+\item transition: $self.trials[distance] \mapsto geodesicDistance(address, self.trials[trialLocation])$
+\item output: None
+\item exception: None
+\end{itemize}
+
+\noindent convertToJSON(df: DataFrame):
+\begin{itemize}
+\item transition: None
+\item output:  $df \rightarrow json(df)$
+\item exception: None
+\end{itemize}
+
+
+
+
+
 \newpage
 
 \bibliographystyle {plainnat}
