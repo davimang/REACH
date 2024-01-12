@@ -726,7 +726,101 @@ None
 \item exception: None
 \end{itemize}
 
-%%%%%%%%%%%%%%% Login Module %%%%%%%%%%%%%%
+\section{MIS of the Registration Module} \label{User}
+
+\subsection{Module}
+
+Registration
+
+\subsection{Uses}
+
+User
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+registerUser & String, String & Boolean & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\subsubsection{Environment Variables}
+
+\subsubsection{Assumptions}
+
+None
+
+\subsubsection{Access Routine Semantics}
+
+\noindent registerUser(emailAddress: String, password: String):
+\begin{itemize}
+\item transition: None
+\item output: out := True if the Registration was successful, False otherwise
+\item exception: None
+\end{itemize}
+
+\subsubsection{Local Functions}
+
+\section{MIS of the Login Module} \label{User}
+
+\subsection{Module}
+
+Login
+
+\subsection{Uses}
+
+User
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+loginUser & String, String & Boolean & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+\subsubsection{Environment Variables}
+
+\subsubsection{Assumptions}
+
+None
+
+\subsubsection{Access Routine Semantics}
+
+\noindent loginUser(emailAddress: String, password: String):
+\begin{itemize}
+\item transition: None
+\item output: out := True if the login was successful, False otherwise
+\item exception: None
+\end{itemize}
+
+\subsubsection{Local Functions}
 
 \section{MIS of the Email Notification Module} \label{User}
 
