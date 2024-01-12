@@ -156,6 +156,9 @@ The following table is taken directly from the Module Guide document for this pr
 \newpage
 ~\newpage
 
+
+%%%%%%%%%%%%%%% User data %%%%%%%%%%%%%%
+
 \section{MIS of the User data module} \label{User}
 
 \subsection{Module}
@@ -199,7 +202,7 @@ removeTrial & integer & - & - \\
 \hline
 getTrials & - & list of Trial & - \\
 \hline
-getTrial & integer & Trial & - \\
+getTrial & integer & Trial & InvalidTrialId \\
 \end{tabular}
 \end{center}
 
@@ -267,20 +270,199 @@ None
 
 \noindent addInfoProfile(newInfoProfile: InfoProfile):
 \begin{itemize}
-\item transition: self.infoProfiles = self.infoProfiles + newInfoProfile
+\item transition: self.infoProfiles = self.infoProfiles + newInfoProfile (add the new infoprofile to the list of info profiles connected to the 
+current user)
 \item output: N/A
 \item exception: N/A
 \end{itemize}
 
 \noindent removeInfoProfile(oldInfoProfile: InfoProfile):
 \begin{itemize}
-\item transition: self.infoProfiles = self.infoProfiles - oldInfoProfile
+\item transition: self.infoProfiles = self.infoProfiles - oldInfoProfile (remove the info profile passed to the method from the list of info 
+profiles connected to the current user)
+\item output: N/A
+\item exception: N/A
+\end{itemize}
+
+\noindent getTrials():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.trials
+\item exception: N/A
+\end{itemize}
+
+\noindent getTrial(id: integer):
+\begin{itemize}
+\item transition: N/A
+\item output: out := $\{\exists i \in self.trials | i.id = id\} \Rightarrow i$
+\item exception: exc := $\neg\{\exists i \in self.trials | i.id = id\} \Rightarrow InvalidTrialId$
+\end{itemize}
+
+\noindent addTrial(newTrial: Trial):
+\begin{itemize}
+\item transition: self.trials = self.trials + newTrial (same idea as add info profiles)
+\item output: N/A
+\item exception: N/A
+\end{itemize}
+
+\noindent removeTrial(oldTrial: Trial):
+\begin{itemize}
+\item transition: self.trials = self.trials - oldTrial (same idea as remove info profiles)
+\item output: N/A
+\item exception: N/A
+\end{itemize}
+
+\subsubsection{Local Functions}
+\noindent saveUser(user: User):
+\begin{itemize}
+\item transition: Saves the user to the database.
+\item output: N/A
+\item exception: N/A
+\end{itemize}
+
+\noindent loadUser(user: User):
+\begin{itemize}
+\item transition: Loads the user from the database.
 \item output: N/A
 \item exception: N/A
 \end{itemize}
 
 
+%%%%%%%%%%%%%%% Info Profiles %%%%%%%%%%%%%%
+\section{MIS of Info Profile data module}
+
+\subsection{Module}
+
+InfoProfile
+
+\subsection{Uses}
+None
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+getDOB & - & datetime & - \\
+\hline
+setDOB & datetime & - & - \\
+\hline
+getAddress & - & seq of char & - \\
+\hline
+setAddress & seq of char & - & - \\
+\hline
+getGender & - & seq of char & - \\
+\hline
+setGender & seq of char & - & - \\
+\hline
+getHealthDetails & - & map$<$seq of char: Any$>$ & - \\
+\hline
+setHealthDetails & map$<$seq of char: Any$>$ & - & - \\
+
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+dateOfBirth: datetime\\
+address: seq of char\\
+gender: seq of char\\
+healthDetails: map$<$seq of char: Any$>$
+
+\subsubsection{Environment Variables}
+None
+
+\subsubsection{Assumptions}
+None
+
+\subsubsection{Access Routine Semantics}
+
+\noindent getDOB():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.dateOfBirth
+\item exception: N/A
+\end{itemize}
+
+\noindent setDOB(newDOB: datetime):
+\begin{itemize}
+\item transition: self.dateOfBirth = newDOB
+\item output: N/A
+\item exception: N/A
+\end{itemize}
+
+\noindent getAddress():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.address
+\item exception: N/A
+\end{itemize}
+
+\noindent setAddress(newAddress: seqOfChar):
+\begin{itemize}
+\item transition: self.address = newAddress
+\item output: N/A
+\item exception: N/A
+\end{itemize}
+
+\noindent getGender():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.gender
+\item exception: N/A
+\end{itemize}
+
+\noindent setGender(gender: seq of char):
+\begin{itemize}
+\item transition: self.gender = gender
+\item output: N/A
+\item exception: N/A
+\end{itemize}
+
+\noindent getHealthDetails():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.healthDetails
+\item exception: N/A
+\end{itemize}
+
+\noindent setHealthDetails(newHealthDetails: map$<$seq of char: Any$>$):
+\begin{itemize}
+\item transition: self.healthDetails = newHealthDetails
+\item output: N/A
+\item exception: N/A
+\end{itemize}
+
 \subsubsection{Local Functions}
+\noindent saveInfoProfile(infoProfile: InfoProfile):
+\begin{itemize}
+\item transition: Saves the info profile to the database.
+\item output: N/A
+\item exception: N/A
+\end{itemize}
+
+\noindent loadInfoProfile(infoProfile: InfoProfile):
+\begin{itemize}
+\item transition: Loads the info profile from the database.
+\item output: N/A
+\item exception: N/A
+\end{itemize}
+
+\newpage
+
+%%%%%%%%%%%%%%% Saved Trials %%%%%%%%%%%%%%
+
+
+
 
 %%%%%%%%%%%%%%% Fetch Trials %%%%%%%%%%%%%%
 
