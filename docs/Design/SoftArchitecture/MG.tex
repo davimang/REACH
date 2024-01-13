@@ -157,11 +157,20 @@ adapted here is called design for
 change.
 
 \begin{description}
-\item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The specific
-  hardware on which the software is running.
-\item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the
-  initial input data.
-\item ...
+\item[\refstepcounter{acnum} \actheacnum:] The database application used to store the data.
+\item[\refstepcounter{acnum} \actheacnum:] The format of user data and how it is validated.
+\item[\refstepcounter{acnum} \actheacnum:] The format of profile data and how it is validated.
+\item[\refstepcounter{acnum} \actheacnum:] The format of trial data and how it is validated.
+\item[\refstepcounter{acnum} \actheacnum:] How trials are gathered from external, clinical trial repositories.
+\item[\refstepcounter{acnum} \actheacnum:] How trials are filtered after gathering trials from external, clinical trial repositories.
+\item[\refstepcounter{acnum} \actheacnum:] How email notifications are triggered and sent to users.
+\item[\refstepcounter{acnum} \actheacnum:] The format of the email templates.
+\item[\refstepcounter{acnum} \actheacnum:] The process of account creation.
+\item[\refstepcounter{acnum} \actheacnum:] The process of logging in to an account.
+\item[\refstepcounter{acnum} \actheacnum:] How the input data forms for user profiles are presented to the user.
+\item[\refstepcounter{acnum} \actheacnum:] How the list user profiles are presented to the user.
+\item[\refstepcounter{acnum} \actheacnum:] How eligible trials are presented to the user.
+\item[\refstepcounter{acnum} \actheacnum:] The look/feel of general UI components, present on every page.
 \end{description}
 
 \subsection{Unlikely Changes} \label{SecUchange}
@@ -174,9 +183,8 @@ will potentially need to be modified. Hence, it is not intended that these
 decisions will be changed.
 
 \begin{description}
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] Input/Output devices
-  (Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
-\item ...
+\item[\refstepcounter{ucnum} \uctheucnum:] The type of database used (type: relational).
+\item[\refstepcounter{ucnum} \uctheucnum:]
 \end{description}
 
 \section{Module Hierarchy} \label{SecMH}
