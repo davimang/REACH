@@ -271,15 +271,34 @@ Only the leaf modules in the hierarchy have to be implemented. If a dash
 (\emph{--}) is shown, this means that the module is not a leaf and will not have
 to be implemented.
 
-\subsection{Hardware Hiding Modules (\mref{mHH})}
+\subsection{Hardware Hiding Modules}
 
+\textbf{Database Hiding Module}
 \begin{description}
-\item[Secrets:]The data structure and algorithm used to implement the virtual
-  hardware.
-\item[Services:]Serves as a virtual hardware used by the rest of the
-  system. This module provides the interface between the hardware and the
-  software. So, the system can use it to display outputs or to accept inputs.
-\item[Implemented By:] OS
+\item[Secrets:] How data is stored on the physical database machines.
+\item[Services:] Organizes and stores data to be used by the software system in an efficient and effective manner.
+\item[Implemented By:] -\\
+\end{description}
+
+\noindent \textbf{User Data Module (M1)}
+\begin{description}
+  \item[Secrets:] How user data is formatted, validated, and stored for future use by the system.
+  \item[Services:] Provides an interface/abstraction over all the user data that is currently available in the database, and any new data that needs to be stored.
+  \item[Implemented By:] REACH\\
+\end{description}
+
+\noindent \textbf{Patient Info Module (M2)}
+\begin{description}
+  \item[Secrets:] How patient information/profiles are formatted, validated, and stored for future use by the system.
+  \item[Services:] Provides an interface/abstraction over all the patient profiles that are currently available in the database, and any new profiles that need to be stored.
+  \item[Implemented By:] REACH\\
+\end{description}
+
+\noindent \textbf{Trial Data Module (M3)}
+\begin{description}
+  \item[Secrets:] How trial data is formatted, validated, and stored for future use by the system.
+  \item[Services:] Provides an interface/abstraction over all the trial data that is currently available in the database, and any new trial data that needs to be stored.
+  \item[Implemented By:] REACH\\
 \end{description}
 
 \subsection{Behaviour-Hiding Module}
