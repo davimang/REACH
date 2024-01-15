@@ -983,11 +983,11 @@ displayPatientForm & - & ReactComponent & - \\
 \subsubsection{State Variables}
 
 patientForm: ReactComponent \\
-name: seq of char \\
-dateOfBirth: seq of char \\
-address: seq of char \\
-gender: seq of char \\
-healthDetails: TS Object$<$seq of char: Any$>$
+name: String \\
+dateOfBirth: String \\
+address: String \\
+gender: String \\
+healthDetails: TS Object$<$String: Any$>$
 
 \subsubsection{Environment Variables}
 
@@ -1010,7 +1010,7 @@ None
 
 \subsubsection{Local Functions}
 
-\noindent submitPatientDetails(newPatientDetails: TS Object$<$seq of char: Any$>$):
+\noindent submitPatientDetails(newPatientDetails: TS Object$<$String: Any$>$):
 \begin{itemize}
 \item transition: self.healthDetails = newPatientDetails
 \item output: N/A
@@ -1049,8 +1049,8 @@ displayLoginForm & - & ReactComponent & - \\
 \subsubsection{State Variables}
 
 loginForm: ReactComponent \\
-emailAddress: seq of char \\
-password: seq of char
+emailAddress: String \\
+password: String
 
 \subsubsection{Environment Variables}
 
@@ -1073,7 +1073,7 @@ None
 
 \subsubsection{Local Functions}
 
-\noindent submitLoginDetails(newEmailAddress: seq of char, newPassword: seq of char):
+\noindent submitLoginDetails(newEmailAddress: String, newPassword: String):
 \begin{itemize}
 \item transition: self.emailAddress, self.password = newEmailAddress, newPassword
 \item output: N/A
