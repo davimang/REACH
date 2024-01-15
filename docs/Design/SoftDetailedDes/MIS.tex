@@ -951,6 +951,7 @@ connection: API connection
 \item exception: None
 \end{itemize}
 
+
 \section{MIS of Patient Data Collection Form Module} \label{PatientDataForm}
 
 \subsection{Module}
@@ -1015,6 +1016,70 @@ None
 \item output: N/A
 \item exception: $exc := length(newPatientDetails) == 0 \Rightarrow InvalidDetails$
 \end{itemize}
+
+
+\section{MIS of User Login Form Module} \label{LoginForm}
+
+\subsection{Module}
+
+LoginForm
+
+\subsection{Uses}
+Login
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+displayLoginForm & - & ReactComponent & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+loginForm: ReactComponent \\
+emailAddress: seq of char \\
+password: seq of char
+
+\subsubsection{Environment Variables}
+
+window \\
+keyboard \\
+mouse
+
+\subsubsection{Assumptions}
+
+None
+
+\subsubsection{Access Routine Semantics}
+
+\noindent displayLoginForm():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.loginForm 
+\item exception: N/A
+\end{itemize}
+
+\subsubsection{Local Functions}
+
+\noindent submitLoginDetails(newEmailAddress: seq of char, newPassword: seq of char):
+\begin{itemize}
+\item transition: self.emailAddress, self.password = newEmailAddress, newPassword
+\item output: N/A
+\item exception: $exc := length(newEmailAddress) == 0 \vee length(newPassword) == 0 \Rightarrow InvalidLoginDetails$
+\end{itemize}
+
 
 
 \newpage
