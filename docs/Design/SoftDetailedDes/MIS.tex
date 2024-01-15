@@ -1240,6 +1240,71 @@ None
 \end{itemize}
 
 
+\section{MIS of Trial Display Module} \label{TrialDisplay}
+
+\subsection{Module}
+
+TrialDisplay
+
+\subsection{Uses}
+TrialFetcher, Trial, InfoProfile
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+displayTrials & - & ReactComponent & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+trialsDisplay: ReactComponent \\
+trials: list of Trial \\
+conditions: seq of String \\
+age: int \\
+address: String
+
+\subsubsection{Environment Variables}
+
+window \\
+keyboard \\
+mouse
+
+\subsubsection{Assumptions}
+
+None
+
+\subsubsection{Access Routine Semantics}
+
+\noindent displayTrials(trials: list of Trial):
+\begin{itemize}
+\item transition: self.trials = trials
+\item output: out := self.trialsDisplay 
+\item exception: N/A
+\end{itemize}
+
+\subsubsection{Local Functions}
+
+\noindent getTrials():
+\begin{itemize}
+\item transition: N/A
+\item output: out := TrialFetcher.getTrials(self.conditions, self.age, self.address)
+\item exception: N/A
+\end{itemize}
+
+
 
 \newpage
 
