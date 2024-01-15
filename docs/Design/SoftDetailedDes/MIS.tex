@@ -1081,6 +1081,165 @@ None
 \end{itemize}
 
 
+\section{MIS of User Profile Settings Module} \label{ProfileSettings}
+
+\subsection{Module}
+
+ProfileSettings
+
+\subsection{Uses}
+User, InfoProfile, TrialFetcher, Trial
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+displayProfileSettings & - & ReactComponent & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+profileSettings: ReactComponent \\
+name: String \\
+email: String \\
+savedTrials: list of Trial \\
+dateOfBirth: String \\
+address: String \\
+gender: String \\
+healthDetails: TS Object$<$String: Any$>$
+
+\subsubsection{Environment Variables}
+
+window \\
+keyboard \\
+mouse
+
+\subsubsection{Assumptions}
+
+None
+
+\subsubsection{Access Routine Semantics}
+
+\noindent displayProfileSettings():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.profileSettings 
+\item exception: N/A
+\end{itemize}
+
+\subsubsection{Local Functions}
+
+\noindent getName():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.name
+\item exception: N/A
+\end{itemize}
+
+\noindent setName(newName: String):
+\begin{itemize}
+\item transition: self.name := newName
+\item output: N/A
+\item exception: $exc := length(newName) == 0 \Rightarrow EmptyName$
+\end{itemize}
+
+\noindent getEmail():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.email
+\item exception: N/A
+\end{itemize}
+
+\noindent setEmail(newEmail: String):
+\begin{itemize}
+\item transition: self.email := newEmail
+\item output: N/A
+\item exception: $exc := length(newEmail) == 0  \Rightarrow InvalidEmail$
+\end{itemize}
+
+\noindent getSavedTrials():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.trials
+\item exception: N/A
+\end{itemize}
+
+\noindent removeTrial(oldTrial: Trial):
+\begin{itemize}
+\item transition: self.trials = $\forall$ t $\in self.trials |$ t $\neq oldTrial$
+\item output: N/A
+\item exception: N/A
+\end{itemize}
+
+\noindent getDOB():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.dateOfBirth
+\item exception: N/A
+\end{itemize}
+
+\noindent setDOB(newDOB: String):
+\begin{itemize}
+\item transition: self.dateOfBirth = newDOB
+\item output: N/A
+\item exception: $exc := length(newDOB) == 0 \Rightarrow EmptyDOB$
+\end{itemize}
+
+\noindent getAddress():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.address
+\item exception: N/A
+\end{itemize}
+
+\noindent setAddress(newAddress: String):
+\begin{itemize}
+\item transition: self.address = newAddress
+\item output: N/A
+\item exception: $exc := length(newAddress) == 0 \Rightarrow EmptyAddress$
+\end{itemize}
+
+\noindent getGender():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.gender
+\item exception: N/A
+\end{itemize}
+
+\noindent setGender(gender: String):
+\begin{itemize}
+\item transition: self.gender = gender
+\item output: N/A
+\item exception: $exc := length(gender) == 0 \Rightarrow EmptyGender$
+\end{itemize}
+
+\noindent getHealthDetails():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.healthDetails
+\item exception: N/A
+\end{itemize}
+
+\noindent setHealthDetails(newHealthDetails: TS Object$<$String: Any$>$):
+\begin{itemize}
+\item transition: self.healthDetails = newHealthDetails
+\item output: N/A
+\item exception: $exc := length(newHealthDetails) == 0 \Rightarrow InvalidDetails$
+\end{itemize}
+
+
 
 \newpage
 
