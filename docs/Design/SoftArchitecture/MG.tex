@@ -301,6 +301,40 @@ to be implemented.
   \item[Implemented By:] REACH\\
 \end{description}
 
+\subsection{Software Decision Module}
+
+\begin{description}
+\item[Secrets:] The design decision based on mathematical theorems, physical
+  facts, or programming considerations. The secrets of this module are
+  \emph{not} described in the SRS.
+\item[Services:] Includes data structure and algorithms used in the system that
+  do not provide direct interaction with the user. 
+  % Changes in these modules are more likely to be motivated by a desire to
+  % improve performance than by externally imposed changes.
+\item[Implemented By:] --
+\end{description}
+
+\noindent \textbf{Trial Fetching Module (M4)}
+\begin{description}
+  \item[Secrets:] How the trial API is accessed, how trials are received and exported.
+  \item[Services:] Retrieves a set of trials stored on the ClinicalTrials.gov database.
+  \item[Implemented By:] TREACH \\
+\end{description}
+
+\noindent \textbf{Trial Filtering Module (M5)}
+\begin{description}
+  \item[Secrets:] Trial export format, how trials are filtered and sorted, how distances are computed.
+  \item[Services:] Filters and sorts a set of trials from the Trial Fetching module.
+  \item[Implemented By:] REACH \\
+\end{description}
+
+\noindent \textbf{Email Notification Module (M6)}
+\begin{description}
+  \item[Secrets:] Format of the email notification, query to retrieve user data and new trials.
+  \item[Services:] Retrieves new trials from the database and sends and email notification to users that may be interested in them.
+  \item[Implemented By:] REACH  \\
+\end{description}
+
 \subsection{Behaviour-Hiding Module}
 
 \begin{description}
@@ -361,40 +395,24 @@ to be implemented.
 \item[Type of Module:] Abstract Object \\
 \end{description}
 
-
-\subsection{Software Decision Module}
-
+\subsubsection{Trial Display Module (M13)}
 \begin{description}
-\item[Secrets:] The design decision based on mathematical theorems, physical
-  facts, or programming considerations. The secrets of this module are
-  \emph{not} described in the SRS.
-\item[Services:] Includes data structure and algorithms used in the system that
-  do not provide direct interaction with the user. 
-  % Changes in these modules are more likely to be motivated by a desire to
-  % improve performance than by externally imposed changes.
-\item[Implemented By:] --
+\item[Secrets:] How to visualize the trial data.
+\item[Services:] Provides a visual representation of the retrieved trials.
+\item[Implemented By:] REACH
+\item[Type of Module:]  Abstract Object \\
 \end{description}
 
-\noindent \textbf{Trial Fetching Module (M4)}
+\subsubsection{Base UI Module (M14)}
 \begin{description}
-  \item[Secrets:] How the trial API is accessed, how trials are received and exported.
-  \item[Services:] Retrieves a set of trials stored on the ClinicalTrials.gov database.
-  \item[Implemented By:] TREACH \\
+\item[Secrets:] How to visualize the system data, layout and style of the user interface
+\item[Services:] Provides the user with an interface through which they can interact with the system. Includes processes for displaying GUI elements and program related information, and for accepting user input.
+\item[Implemented By:] REACH
+\item[Type of Module:] Abstract Object \\
 \end{description}
 
-\noindent \textbf{Trial Filtering Module (M5)}
-\begin{description}
-  \item[Secrets:] Trial export format, how trials are filtered and sorted, how distances are computed.
-  \item[Services:] Filters and sorts a set of trials from the Trial Fetching module.
-  \item[Implemented By:] REACH \\
-\end{description}
 
-\noindent \textbf{Email Notification Module (M6)}
-\begin{description}
-  \item[Secrets:] Format of the email notification, query to retrieve user data and new trials.
-  \item[Services:] Retrieves new trials from the database and sends and email notification to users that may be interested in them.
-  \item[Implemented By:] REACH  \\
-\end{description}
+
 
 
 \section{Traceability Matrix} \label{SecTM}
