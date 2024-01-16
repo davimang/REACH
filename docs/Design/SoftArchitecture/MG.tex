@@ -313,15 +313,20 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Input Format Module (\mref{mInput})}
-
+\subsubsection{Email Template Module (M7)}
 \begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Secrets:] Format of the email template.
+\item[Services:] Provides the user with a template email to send to the trial coordinator.
+\item[Implemented By:] 
+\item[Type of Module:] Abstract Data Type
+\end{description}
+
+\subsubsection{Registration Module (M8)}
+\begin{description}
+\item[Secrets:] How user data is formatted, validated and stored, how the system creates new user profiles, how the system accesses external logon servers.
+\item[Services:] Provides the user with the ability to create a new user profile.
+\item[Implemented By:] Third-party logon server.
+\item[Type of Module:] Abstract Object \\
 \end{description}
 
 \subsubsection{Etc.}
@@ -344,21 +349,21 @@ to be implemented.
 \begin{description}
   \item[Secrets:] How the trial API is accessed, how trials are received and exported.
   \item[Services:] Retrieves a set of trials stored on the ClinicalTrials.gov database.
-  \item[Implemented By:] TrialFetcher \\
+  \item[Implemented By:] TrialFetcher.py \\
 \end{description}
 
 \noindent \textbf{Trial Filtering Module (M5)}
 \begin{description}
   \item[Secrets:] Trial export format, how trials are filtered and sorted, how distances are computed.
   \item[Services:] Filters and sorts a set of trials from the Trial Fetching module.
-  \item[Implemented By:] TrialFilterer \\
+  \item[Implemented By:] TrialFilterer,py \\
 \end{description}
 
 \noindent \textbf{Email Notification Module (M6)}
 \begin{description}
   \item[Secrets:] Format of the email notification, query to retrieve user data and new trials.
   \item[Services:] Retrieves new trials from the database and sends and email notification to users that may be interested in them.
-  \item[Implemented By:] EmailNotificationModule \\
+  \item[Implemented By:] EmailNotifier.py  \\
 \end{description}
 
 
