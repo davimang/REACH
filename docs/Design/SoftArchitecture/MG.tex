@@ -318,18 +318,48 @@ to be implemented.
 \item[Secrets:] Format of the email template.
 \item[Services:] Provides the user with a template email to send to the trial coordinator.
 \item[Implemented By:] 
-\item[Type of Module:] Abstract Data Type
+\item[Type of Module:] Abstract Object \\
 \end{description}
 
 \subsubsection{Registration Module (M8)}
 \begin{description}
 \item[Secrets:] How user data is formatted, validated and stored, how the system creates new user profiles, how the system accesses external logon servers.
 \item[Services:] Provides the user with the ability to create a new user profile.
-\item[Implemented By:] Third-party logon server.
+\item[Implemented By:] -
 \item[Type of Module:] Abstract Object \\
 \end{description}
 
-\subsubsection{Etc.}
+\subsubsection{Email Template Module (M9)}
+\begin{description}
+\item[Secrets:] How user data is formatted, validated and stored, how the system creates new user profiles, how the system accesses external logon servers.
+\item[Services:] Provides the user with the ability to log into and access their user profile.
+\item[Implemented By:] -
+\item[Type of Module:] Abstract Object \\
+\end{description}
+
+\subsubsection{Data Collection Module (M10)}
+\begin{description}
+\item[Secrets:] How user data is formatted, validated and stored, how user input is collected.
+\item[Services:] Collects user data to be stored for future use in searching for trials.
+\item[Implemented By:] REACH
+\item[Type of Module:] Abstract Object \\
+\end{description}
+
+\subsubsection{Data Collection Module (M11)}
+\begin{description}
+\item[Secrets:] How user data is formatted, validated and stored, how user input is collected.
+\item[Services:] Collects user data to be stored for future use in searching for trials.
+\item[Implemented By:] REACH
+\item[Type of Module:] Abstract Object \\
+\end{description}
+
+\subsubsection{User Profile Module (M12)}
+\begin{description}
+\item[Secrets:] How user data is formatted, validated and stored.
+\item[Services:] Provides a model of a user profile, including their basic information and saved trials.
+\item[Implemented By:] REACH
+\item[Type of Module:] Abstract Object \\
+\end{description}
 
 
 \subsection{Software Decision Module}
@@ -349,21 +379,21 @@ to be implemented.
 \begin{description}
   \item[Secrets:] How the trial API is accessed, how trials are received and exported.
   \item[Services:] Retrieves a set of trials stored on the ClinicalTrials.gov database.
-  \item[Implemented By:] TrialFetcher.py \\
+  \item[Implemented By:] TREACH \\
 \end{description}
 
 \noindent \textbf{Trial Filtering Module (M5)}
 \begin{description}
   \item[Secrets:] Trial export format, how trials are filtered and sorted, how distances are computed.
   \item[Services:] Filters and sorts a set of trials from the Trial Fetching module.
-  \item[Implemented By:] TrialFilterer,py \\
+  \item[Implemented By:] REACH \\
 \end{description}
 
 \noindent \textbf{Email Notification Module (M6)}
 \begin{description}
   \item[Secrets:] Format of the email notification, query to retrieve user data and new trials.
   \item[Services:] Retrieves new trials from the database and sends and email notification to users that may be interested in them.
-  \item[Implemented By:] EmailNotifier.py  \\
+  \item[Implemented By:] REACH  \\
 \end{description}
 
 
