@@ -340,7 +340,27 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Etc.}
+\noindent \textbf{Trial Fetching Module (M4)}
+\begin{description}
+  \item[Secrets:] How the trial API is accessed, how trials are received and exported.
+  \item[Services:] Retrieves a set of trials stored on the ClinicalTrials.gov database.
+  \item[Implemented By:] TrialFetcher \\
+\end{description}
+
+\noindent \textbf{Trial Filtering Module (M5)}
+\begin{description}
+  \item[Secrets:] Trial export format, how trials are filtered and sorted, how distances are computed.
+  \item[Services:] Filters and sorts a set of trials from the Trial Fetching module.
+  \item[Implemented By:] TrialFilterer \\
+\end{description}
+
+\noindent \textbf{Email Notification Module (M6)}
+\begin{description}
+  \item[Secrets:] Format of the email notification, query to retrieve user data and new trials.
+  \item[Services:] Retrieves new trials from the database and sends and email notification to users that may be interested in them.
+  \item[Implemented By:] EmailNotificationModule \\
+\end{description}
+
 
 \section{Traceability Matrix} \label{SecTM}
 
