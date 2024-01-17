@@ -1304,6 +1304,78 @@ None
 \item exception: N/A
 \end{itemize}
 
+\section{MIS of Menu Module} \label{Menu}
+
+\subsection{Module}
+
+Menu
+
+\subsection{Uses}
+LoginForm, User
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+displayMenu & - & ReactComponent & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+menuDisplay: ReactComponent \\
+loginButton: HTMLElement \\
+profileButton: HTMLElement \\
+profileSummary: ReactComponent \\
+name: String \\
+email: String
+
+\subsubsection{Environment Variables}
+
+window \\
+keyboard \\
+mouse
+
+\subsubsection{Assumptions}
+
+None
+
+\subsubsection{Access Routine Semantics}
+
+\noindent displayMenu():
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.menuDisplay 
+\item exception: N/A
+\end{itemize}
+
+\subsubsection{Local Functions}
+
+\noindent displayLoginForm(loginButton: HTMLElement):
+\begin{itemize}
+\item transition: N/A
+\item output: out := LoginForm.displayLoginForm()
+\item exception: N/A
+\end{itemize}
+
+\noindent displayProfileSummary(profileButton: HTMLElement):
+\begin{itemize}
+\item transition: N/A
+\item output: out := self.profileSummary
+\item exception: N/A
+\end{itemize}
+
 
 
 \newpage
