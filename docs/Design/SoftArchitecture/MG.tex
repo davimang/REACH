@@ -34,7 +34,7 @@
 
 \begin{document}
 
-\title{Module Guide for \progname{}} 
+\title{Module Guide for REACH} 
 \author{\authname}
 \date{\today}
 
@@ -47,8 +47,10 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+01/16/24 & 1.0 & Add module decomposition \\
+01/16/24 & 1.1 & Add module descriptions for hardware hiding modules\\
+01/17/24 & 1.2 & Add module descriptions for behaviour hiding/decision hiding modules, and uses diagram\\
+01/17/24 & 1.3 & Finalize/cleanup module guide\\
 \bottomrule
 \end{tabularx}
 
@@ -70,12 +72,10 @@ This section records information for easy reference.
   M & Module \\
   MG & Module Guide \\
   OS & Operating System \\
-  R & Requirement\\
-  SC & Scientific Computing \\
+  FR & Functional Requirement\\
   SRS & Software Requirements Specification\\
   \progname & Explanation of program name\\
   UC & Unlikely Change \\
-  \wss{etc.} & \wss{...}\\
   \bottomrule
 \end{tabular}\\
 
@@ -257,28 +257,28 @@ to be implemented.
 
 \subsection{Hardware Hiding Modules}
 
-\textbf{Database Hiding Module (M15)}
+\subsubsection{Database Hiding Module (M15)}
 \begin{description}
 \item[Secrets:] How data is stored on the physical database machines.
 \item[Services:] Organizes and stores data to be used by the software system in an efficient and effective manner.
 \item[Implemented By:] -\\
 \end{description}
 
-\noindent \textbf{User Data Module (M1)}
+\subsubsection{User Data Module (M1)}
 \begin{description}
   \item[Secrets:] How user data is formatted, validated, and stored for future use by the system.
   \item[Services:] Provides an interface/abstraction over all the user data that is currently available in the database, and any new data that needs to be stored.
   \item[Implemented By:] REACH\\
 \end{description}
 
-\noindent \textbf{Patient Info Module (M2)}
+\subsubsection{Patient Info Module (M2)}
 \begin{description}
   \item[Secrets:] How patient information/profiles are formatted, validated, and stored for future use by the system.
   \item[Services:] Provides an interface/abstraction over all the patient profiles that are currently available in the database, and any new profiles that need to be stored.
   \item[Implemented By:] REACH\\
 \end{description}
 
-\noindent \textbf{Trial Data Module (M3)}
+\subsubsection{Trial Data Module (M3)}
 \begin{description}
   \item[Secrets:] How trial data is formatted, validated, and stored for future use by the system.
   \item[Services:] Provides an interface/abstraction over all the trial data that is currently available in the database, and any new trial data that needs to be stored.
@@ -287,28 +287,28 @@ to be implemented.
 
 \subsection{Software Decision Module}
 
-\noindent \textbf{Concurrent Execution Hiding Module (M16)}
+\subsubsection{Concurrent Execution Hiding Module (M16)}
 \begin{description}
   \item[Secrets:] How jobs/tasks are assigned to different threads of execution, in order to run concurrently.
   \item[Services:] Allows the user to execute multiple tasks (can be methods, functions, etc..) concurrently.
   \item[Implemented By:] - \\
 \end{description}
 
-\noindent \textbf{Trial Fetching Module (M4)}
+\subsubsection{Trial Fetching Module (M4)}
 \begin{description}
   \item[Secrets:] How the trial API is accessed, how trials are received and exported.
   \item[Services:] Retrieves a set of trials stored on the ClinicalTrials.gov database.
   \item[Implemented By:] REACH \\
 \end{description}
 
-\noindent \textbf{Trial Filtering Module (M5)}
+\subsubsection{Trial Filtering Module (M5)}
 \begin{description}
   \item[Secrets:] Trial export format, how trials are filtered and sorted, how distances are computed.
   \item[Services:] Filters and sorts a set of trials from the Trial Fetching module.
   \item[Implemented By:] REACH \\
 \end{description}
 
-\noindent \textbf{Email Notification Module (M6)}
+\subsubsection{Email Notification Module (M6)}
 \begin{description}
   \item[Secrets:] Format of the email notification, query to retrieve user data and new trials.
   \item[Services:] Retrieves new trials from the database and sends and email notification to users that may be interested in them.
