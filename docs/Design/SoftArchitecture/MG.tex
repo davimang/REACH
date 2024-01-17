@@ -30,6 +30,7 @@
 \newcounter{mnum}
 \newcommand{\mthemnum}{M\themnum}
 \newcommand{\mref}[1]{M\ref{#1}}
+\graphicspath{ {./images/} }
 
 \begin{document}
 
@@ -195,10 +196,11 @@ decisions will be changed.
 \section{Module Hierarchy} \label{SecMH}
 
 This section provides an overview of the module design. Modules are summarized
-in a hierarchy decomposed by secrets in Table \ref{TblMH}. The modules listed
+in a hierarchy decomposed by secrets in Figure \ref{FigMH}. The modules listed
 below, which are leaves in the hierarchy tree, are the modules that will
-actually be implemented.
+actually be implemented.\\
 
+\noindent \textbf{Leaf modules:}
 \begin{description}
 \item [\refstepcounter{mnum} \mthemnum:] User data module
 \item [\refstepcounter{mnum} \mthemnum:] Patient info module
@@ -213,41 +215,23 @@ actually be implemented.
 \item [\refstepcounter{mnum} \mthemnum:] Registration visualization module
 \item [\refstepcounter{mnum} \mthemnum:] User profile module
 \item [\refstepcounter{mnum} \mthemnum:] Trial display module
-\item [\refstepcounter{mnum} \mthemnum:] Base UI module
+\item [\refstepcounter{mnum} \mthemnum:] Base UI module\\
+\end{description}
+\noindent \textbf{Non-Leaf modules:}
+\begin{description} 
+\item [\refstepcounter{mnum} \mthemnum:] Database hiding module
+\item [\refstepcounter{mnum} \mthemnum:] Concurrent execution hiding module
+\item [\refstepcounter{mnum} \mthemnum:] Visualization hiding module\\
 \end{description}
 
+\noindent \textbf{Module Hierarchy:}
 
-\begin{table}[h!]
-\centering
-\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{Level 1} & \textbf{Level 2}\\
-\midrule
+\begin{figure}[h]
+  \includegraphics[scale=0.45]{module_hierarchy.png}
+  \caption{The module hierarchy for REACH.}
+  \label{FigMH}
+\end{figure}
 
-\multirow{3}{0.3\textwidth}{Hardware-Hiding Module} & M1\\
-& M2\\
-& M3\\
-\midrule
-
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & M7\\
-& M8\\
-& M9\\
-& M10\\
-& M11\\
-& M12\\
-& M13\\ 
-& M14\\
-\midrule
-
-\multirow{3}{0.3\textwidth}{Software Decision Module} & {M4}\\
-& M5\\
-& M6\\
-\bottomrule
-
-\end{tabular}
-\caption{Module Hierarchy}
-\label{TblMH}
-\end{table}
 
 \section{Connection Between Requirements and Design} \label{SecConnection}
 
@@ -273,7 +257,7 @@ to be implemented.
 
 \subsection{Hardware Hiding Modules}
 
-\textbf{Database Hiding Module}
+\textbf{Database Hiding Module (M15)}
 \begin{description}
 \item[Secrets:] How data is stored on the physical database machines.
 \item[Services:] Organizes and stores data to be used by the software system in an efficient and effective manner.
@@ -303,15 +287,11 @@ to be implemented.
 
 \subsection{Software Decision Module}
 
+\noindent \textbf{Concurrent Execution Hiding Module (M16)}
 \begin{description}
-\item[Secrets:] The design decision based on mathematical theorems, physical
-  facts, or programming considerations. The secrets of this module are
-  \emph{not} described in the SRS.
-\item[Services:] Includes data structure and algorithms used in the system that
-  do not provide direct interaction with the user. 
-  % Changes in these modules are more likely to be motivated by a desire to
-  % improve performance than by externally imposed changes.
-\item[Implemented By:] --
+  \item[Secrets:] How jobs/tasks are assigned to different threads of execution, in order to run concurrently.
+  \item[Services:] Allows the user to execute multiple tasks (can be methods, functions, etc..) concurrently.
+  \item[Implemented By:] - \\
 \end{description}
 
 \noindent \textbf{Trial Fetching Module (M4)}
@@ -337,14 +317,11 @@ to be implemented.
 
 \subsection{Behaviour-Hiding Module}
 
+\subsubsection{Visualization Hiding Module (M17)}
 \begin{description}
-\item[Secrets:]The contents of the required behaviours.
-\item[Services:]Includes programs that provide externally visible behaviour of
-  the system as specified in the software requirements specification (SRS)
-  documents. This module serves as a communication layer between the
-  hardware-hiding module and the software decision module. The programs in this
-  module will need to change if there are changes in the SRS.
-\item[Implemented By:] --
+\item[Secrets:] How program content is visualized.
+\item[Services:] Allows the user to interact with the REACH system via a user interface.
+\item[Implemented By:] -
 \end{description}
 
 \subsubsection{Email Template Module (M7)}
@@ -410,10 +387,6 @@ to be implemented.
 \item[Implemented By:] REACH
 \item[Type of Module:] Abstract Object \\
 \end{description}
-
-
-
-
 
 \section{Traceability Matrix} \label{SecTM}
 
