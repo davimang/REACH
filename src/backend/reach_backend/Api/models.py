@@ -1,6 +1,7 @@
 """Module defining the models for the Api service."""
 from django.db import models
 
+
 class UserData(models.Model):
     """User data model."""
 
