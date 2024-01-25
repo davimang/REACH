@@ -1,7 +1,6 @@
 '''TrialFilterer module'''
 import pandas as pd
 import regex as re
-import geopy
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 
@@ -12,10 +11,12 @@ class TrialFilterer:
 
     @staticmethod
     def filter_trials(
-            age: int,
-            home_address: str,
-            studies: pd.DataFrame
+            studies: pd.DataFrame,
+            input_params: dict
     ) -> pd.DataFrame:
+        
+        age = input_params['age']
+        home_address = input_params['address']
 
         #convert min, max ages, filter out ineligible
         studies['MinimumAge'] = studies['MinimumAge'].apply(lambda x : TrialFilterer.clean_age(x))
@@ -33,10 +34,8 @@ class TrialFilterer:
 
         studies.sort_values('Distance', inplace=True)
 
-        #return as json
-        results_json = studies.to_json(orient='index')
-        return results_json 
-    
+        return studies
+   
     @staticmethod
     def get_distance_km(
         home_address: str,
@@ -46,8 +45,8 @@ class TrialFilterer:
         fac_loc = locator.geocode(facility_address)
         try:
             return round(geodesic((home_address.latitude, home_address.longitude),(fac_loc.latitude, fac_loc.longitude)).kilometers,2) #this will need to be optimized, very slow!
-        except geopy.exc.GeopyError:
-            return
+        except:
+            return -1
   
     #convert min and max ages to float type
     @staticmethod
