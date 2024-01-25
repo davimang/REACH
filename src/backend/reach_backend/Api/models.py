@@ -14,23 +14,23 @@ class UserData(models.Model):
 
 class PatientInfo(models.Model):
     """Patient info model."""
-    class Gender:
-        MALE = "M", _("Male")
-        FEMALE = "F", _("Female")
-        OTHER = "O", _("Other")
+    class Gender(models.TextChoices):
+        MALE = "M", "Male"
+        FEMALE = "F", "Female"
+        OTHER = "O", "Other"
 
-    user = models.ForeignKey(UserData)
+    user = models.ForeignKey(UserData, on_delete=models.CASCADE)
     date_of_birth = models.DateField()
     #address = ?
     gender = models.CharField(
         max_length=1,
-        choices=Gender
+        choices=Gender.choices
     )
     advanced_info = models.JSONField()
 
 class Trial(models.Model):
     """Trial model."""
-    user = models.ForeignKey(UserData)
+    user = models.ForeignKey(UserData, on_delete=models.CASCADE)
     title = models.TextField()
     description = models.TextField()
     url = models.URLField(max_length=200)

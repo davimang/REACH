@@ -1,7 +1,7 @@
 """Module defining the serializers."""
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from models import UserData, PatientInfo, Trial
+from .models import UserData, PatientInfo, Trial
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
