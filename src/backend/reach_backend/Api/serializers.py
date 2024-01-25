@@ -9,6 +9,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         """Meta class for user serializer."""
+
         model = User
         fields = ["url", "username", "email", "groups"]
 
@@ -18,26 +19,36 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         """Meta class for group serializer."""
+
         model = Group
         fields = ["url", "name"]
 
 
 class UserDataSerializer(serializers.ModelSerializer):
     """Serializer for the user data model."""
+
     class Meta:
+        """Meta class for user data serializer."""
+
         model = UserData
-        fields = ['first_name', 'last_name', 'is_clinician']
+        fields = ["first_name", "last_name", "is_clinician"]
 
 
 class PatientInfoSerializer(serializers.ModelSerializer):
     """Serializer for the patient info model."""
+
     class Meta:
+        """Meta class for patient info serializer."""
+
         model = PatientInfo
-        fields = ['date_of_birth', 'gender', 'advanced_info']
+        fields = ["date_of_birth", "gender", "advanced_info"]
 
 
 class TrialSerializer(serializers.ModelSerializer):
     """Serializer for the trial model."""
+
     class Meta:
+        """Meta class for trial serializer."""
+
         model = Trial
-        fields = ['title', 'description', 'url']
+        fields = ["title", "description", "url"]

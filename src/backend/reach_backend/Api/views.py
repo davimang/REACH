@@ -3,8 +3,8 @@ from django.contrib.auth.models import User, Group
 from rest_framework.decorators import api_view
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
-from Api.serializers import UserSerializer, GroupSerializer
-from Api.trial_fetcher import TrialFetcher
+from .serializers import UserSerializer, GroupSerializer
+from .trial_fetcher import TrialFetcher
 
 
 class UserViewSet(viewsets.ModelViewSet):
