@@ -17,6 +17,8 @@ def createsuperuser(apps: StateApps, schema_editor: DatabaseSchemaEditor) -> Non
     if os.getenv("TRAMPOLINE_CI", None):
         # We are in CI, so just create a placeholder user for unit testing.
         admin_password = "test"
+    elif os.getenv("USE_DEFAULT_DB"):
+        admin_password = os.environ.get("PASSWORD_NAME", "superuser_password")
     else:
         client = secretmanager.SecretManagerServiceClient()
 
@@ -30,9 +32,9 @@ def createsuperuser(apps: StateApps, schema_editor: DatabaseSchemaEditor) -> Non
             "UTF-8"
         )
 
-    # Create a new user using acquired password, stripping any accidentally stored newline characters
+    #Create a new user using acquired password, stripping any accidentally stored newline characters
     User.objects.create_superuser("admin", password=admin_password.strip())
-
+    
 
 class Migration(migrations.Migration):
     initial = True
