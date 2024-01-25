@@ -1,7 +1,6 @@
 """Module defining the models for the Api service."""
 from django.db import models
 
-
 class UserData(models.Model):
     """User data model."""
 
@@ -28,9 +27,9 @@ class PatientInfo(models.Model):
 
     user = models.ForeignKey(UserData, on_delete=models.CASCADE)
     date_of_birth = models.DateField()
-    # address = ?
+    address = models.JSONField(null=True)
     gender = models.CharField(max_length=1, choices=Gender.choices)
-    advanced_info = models.JSONField()
+    advanced_info = models.JSONField(null=True)
 
 
 class Trial(models.Model):

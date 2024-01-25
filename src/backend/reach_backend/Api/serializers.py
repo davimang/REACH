@@ -41,7 +41,7 @@ class PatientInfoSerializer(serializers.ModelSerializer):
         """Meta class for patient info serializer."""
 
         model = PatientInfo
-        fields = ["date_of_birth", "gender", "advanced_info"]
+        fields = ["date_of_birth", "gender", "advanced_info", "address"]
 
 
 class TrialSerializer(serializers.ModelSerializer):
