@@ -2,6 +2,7 @@
 import io
 import requests
 import pandas as pd
+import TrialFilterer
 
 API_URL = r"https://clinicaltrials.gov/api/query/study_fields?fields=NCTId,Condition,BriefTitle,DetailedDescription,MinimumAge,MaximumAge,LocationCountry,LocationState,LocationCity,LocationZip,LocationFacility&"
 
@@ -12,7 +13,8 @@ class TrialFetcher:
     def search_studies(
         conditions: list,
         age: int,
-        address: str) -> str:
+        address: str
+    ) -> str:
         '''Method to retrieve relevant trials to filter and return'''
 
         #convert conditions to usable strings
@@ -34,7 +36,8 @@ class TrialFetcher:
         studies = pd.read_csv(filepath_or_buffer=buffer, header=9, index_col="NCTId")
 
         #filtering goes here
-        #TrialFilter()
+        studies = TrialFilterer.filter_trials(studies, age, address)
 
         results_json = studies.to_json(orient='index')
         return results_json
+    
