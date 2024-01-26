@@ -5,6 +5,7 @@ from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from django_filters import rest_framework as filters
 from django.shortcuts import get_object_or_404
+from django.core import serializers
 from .serializers import (
     UserSerializer,
     GroupSerializer,
@@ -118,4 +119,5 @@ def search_trials(request):
     # trials = TrialFetcher.search_studies(
     #     conditions=[condition], age=age, address=address
     # )
-    return Response("TRIALS")
+    data = serializers.serialize('json', [info_profile])
+    return Response(data)
