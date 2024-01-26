@@ -17,6 +17,8 @@ def createsuperuser(apps: StateApps, schema_editor: DatabaseSchemaEditor) -> Non
     if os.getenv("TRAMPOLINE_CI", None):
         # We are in CI, so just create a placeholder user for unit testing.
         admin_password = "test"
+    elif os.getenv("USE_DEFAULT_DB"):
+        admin_password = os.environ.get("PASSWORD_NAME", "superuser_password")
     else:
         client = secretmanager.SecretManagerServiceClient()
 

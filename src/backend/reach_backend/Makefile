@@ -23,4 +23,4 @@ cloudenv:
 
 # lint
 lint-api:
-	pylint --load-plugins pylint_django --django-settings-module=reach_backend.settings Api && black Api
+	pylint --rcfile=.pylintrc Api && black Api
