@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from django_filters import rest_framework as filters
+from django.shortcuts import get_object_or_404
 from .serializers import (
     UserSerializer,
     GroupSerializer,
@@ -108,11 +109,13 @@ class TrialViewSet(viewsets.ModelViewSet):
 def search_trials(request):
     """Endpoint for getting eligible trials"""
     query_params = request.query_params
-    # use for trial api request
-    age = int(query_params.get("age", 0))
-    address = query_params.get("address", None)
-    condition = query_params.get("condition")
-    trials = TrialFetcher.search_studies(
-        conditions=[condition], age=age, address=address
-    )
-    return Response(trials)
+    info_profile_id = int(query_params.get("info_id"))
+    if not info_profile_id:
+        return Response("Patient information is required to make a search.")
+    info_profile = get_object_or_404(PatientInfo, pk=info_profile_id)
+    # will search for trials based on the info profile
+    # waiting on Alan's implementation
+    # trials = TrialFetcher.search_studies(
+    #     conditions=[condition], age=age, address=address
+    # )
+    return Response("TRIALS")
