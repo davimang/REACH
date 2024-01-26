@@ -31,7 +31,7 @@ class UserDataSerializer(serializers.ModelSerializer):
         """Meta class for user data serializer."""
 
         model = UserData
-        fields = ["first_name", "last_name", "is_clinician"]
+        fields = '__all__'
 
 
 class PatientInfoSerializer(serializers.ModelSerializer):
@@ -41,7 +41,7 @@ class PatientInfoSerializer(serializers.ModelSerializer):
         """Meta class for patient info serializer."""
 
         model = PatientInfo
-        fields = ["date_of_birth", "gender", "advanced_info", "address"]
+        fields = '__all__'
 
 
 class TrialSerializer(serializers.ModelSerializer):
@@ -51,4 +51,4 @@ class TrialSerializer(serializers.ModelSerializer):
         """Meta class for trial serializer."""
 
         model = Trial
-        fields = ["title", "description", "url"]
+        fields = '__all__'
