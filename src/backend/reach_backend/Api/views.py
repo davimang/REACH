@@ -50,7 +50,7 @@ class PatientInfoFilter(filters.FilterSet):
     """Filter for the patient info viewset."""
     class Meta:
         model = PatientInfo
-        fields = ['user']
+        fields = ['user_data']
 
 
 class PatientInfoViewSet(viewsets.ModelViewSet):
@@ -67,7 +67,7 @@ class TrialFilter(filters.FilterSet):
     """Filter for the trial viewset."""
     class Meta:
         model = Trial
-        fields = ['user']
+        fields = ['user_data']
 
 
 class TrialViewSet(viewsets.ModelViewSet):
@@ -80,11 +80,8 @@ class TrialViewSet(viewsets.ModelViewSet):
     filterset_class = TrialFilter
 
 
-# temporary endpoint for POC
-
-
 @api_view(["GET"])
-def fetch_trials(request):
+def search_trials(request):
     """Endpoint for getting eligible trials"""
     query_params = request.query_params
     # use for trial api request
