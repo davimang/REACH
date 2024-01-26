@@ -5,7 +5,7 @@ import requests
 import pandas as pd
 from TrialFilterer import TrialFilterer
 
-API_URL = r"https://clinicaltrials.gov/api/query/study_fields?fields=NCTId,Condition,BriefTitle,DetailedDescription,MinimumAge,MaximumAge,LocationCountry,LocationState,LocationCity,LocationZip,LocationFacility&"
+API_URL = r"https://clinicaltrials.gov/api/query/study_fields?min_rnk=1&max_rnk=20&fmt=csv&fields=NCTId,Condition,BriefTitle,DetailedDescription,MinimumAge,MaximumAge,LocationCountry,LocationState,LocationCity,LocationZip,LocationFacility,OverallStatus,Gender&"
 
 class TrialFetcher:
     '''This class encapsulates the trial retrieval functionality'''
@@ -36,6 +36,7 @@ class TrialFetcher:
 
             #decode output
         buffer = io.StringIO(decoded_content)
+        print(decoded_content)
         studies = pd.read_csv(filepath_or_buffer=buffer, header=9, index_col="NCTId")
 
         #filtering goes here

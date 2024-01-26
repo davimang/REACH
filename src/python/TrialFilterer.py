@@ -32,17 +32,29 @@ class TrialFilterer:
             studies.at[i, 'FullAddress'] = studies.at[i, 'FullAddress'] + ", " + studies.at[i, 'LocationCountry'] if not pd.isnull(studies.at[i, 'LocationCountry']) else studies.at[i, 'FullAddress']
         studies['Distance'] = studies['FullAddress'].apply(lambda x : TrialFilterer.get_distance_km(home_address, x))
 
+
+        studies = TrialFilterer.filter_gender(input_params['sex'], studies)
+
         studies.sort_values('Distance', inplace=True)
 
         return studies
-   
+    
+    @staticmethod
+    def filter_gender(
+        sex: str,
+        df: pd.DataFrame
+    ) -> pd.DataFrame:
+        '''filters out non-applicable gender-based studies'''
+        df = df[(df['Gender'] == 'All') | (str.lower(df['Gender']) == str.lower(sex))]
+        return df
+
     @staticmethod
     def get_distance_km(
         home_address: str,
         facility_address: str
     ) -> float:
         '''calculates distance between two addresses'''
-        fac_loc = locator.geocode(facility_address)
+        fac_loc = locator.geocode(facility_address,timeout=10)
         try:
             return round(geodesic((home_address.latitude, home_address.longitude),(fac_loc.latitude, fac_loc.longitude)).kilometers,2) #this will need to be optimized, very slow!
         except:
