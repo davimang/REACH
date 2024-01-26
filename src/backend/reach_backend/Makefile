@@ -24,3 +24,15 @@ cloudenv:
 # lint
 lint-api:
 	pylint --rcfile=.pylintrc Api && black Api
+
+#make migration files
+migrations:
+	python manage.py makemigrations
+
+#migrate changes to the db
+migrate: 
+	python manage.py migrate
+
+#create super user
+super:
+	python manage.py createsuperuser
