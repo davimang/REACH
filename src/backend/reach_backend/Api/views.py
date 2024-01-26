@@ -3,10 +3,16 @@ from django.contrib.auth.models import User, Group
 from rest_framework.decorators import api_view
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
-from .serializers import UserSerializer, GroupSerializer, UserDataSerializer, PatientInfoSerializer, TrialSerializer
+from django_filters import rest_framework as filters
+from .serializers import (
+    UserSerializer,
+    GroupSerializer,
+    UserDataSerializer,
+    PatientInfoSerializer,
+    TrialSerializer,
+)
 from .trial_fetcher import TrialFetcher
 from .models import UserData, PatientInfo, Trial
-from django_filters import rest_framework as filters
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -16,7 +22,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = User.objects.all().order_by("-date_joined")
     serializer_class = UserSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -31,9 +37,15 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 class UserDataFilter(filters.FilterSet):
     """Filter for the user data viewset."""
+
     class Meta:
+        """Meta class for user data filter.
+
+        Defines the fields UserData can be filtered on.
+        """
+
         model = UserData
-        fields = ['is_clinician']
+        fields = ["is_clinician"]
 
 
 class UserDataViewSet(viewsets.ModelViewSet):
@@ -41,16 +53,22 @@ class UserDataViewSet(viewsets.ModelViewSet):
 
     queryset = UserData.objects.all()
     serializer_class = UserDataSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = UserDataFilter
 
 
 class PatientInfoFilter(filters.FilterSet):
     """Filter for the patient info viewset."""
+
     class Meta:
+        """Meta class for patient info filter.
+
+        Defines the fields PatientInfo can be filtered on.
+        """
+
         model = PatientInfo
-        fields = ['user_data']
+        fields = ["user_data"]
 
 
 class PatientInfoViewSet(viewsets.ModelViewSet):
@@ -58,16 +76,22 @@ class PatientInfoViewSet(viewsets.ModelViewSet):
 
     queryset = PatientInfo.objects.all()
     serializer_class = PatientInfoSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = PatientInfoFilter
 
 
 class TrialFilter(filters.FilterSet):
     """Filter for the trial viewset."""
+
     class Meta:
+        """Meta class for trial filter.
+
+        Defines the fields Trial can be filtered on.
+        """
+
         model = Trial
-        fields = ['user_data']
+        fields = ["user_data"]
 
 
 class TrialViewSet(viewsets.ModelViewSet):
@@ -75,7 +99,7 @@ class TrialViewSet(viewsets.ModelViewSet):
 
     queryset = Trial.objects.all()
     serializer_class = TrialSerializer
-    #permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = TrialFilter
 
