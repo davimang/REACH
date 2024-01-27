@@ -37,10 +37,13 @@ class TrialFetcher:
         #decode output
         buffer = io.StringIO(decoded_content)
         print(decoded_content)
-        studies = pd.read_csv(filepath_or_buffer=buffer, header=9, index_col="NCTId")
+        studies = pd.read_csv(filepath_or_buffer=buffer, header=9)
 
         #filter trials, uses TrialFilterer
         studies = TrialFilterer.filter_trials(studies, input_params)
+
+        studies['url'] = 'https://clinicaltrials.gov/study/' + studies['NCTId']
+        studies = studies[['NCTId','BriefTitle','DetailedDescription','OverallStatus','Distance','KeywordRank','url']]
 
         studies.to_csv('test_output.csv')
 
