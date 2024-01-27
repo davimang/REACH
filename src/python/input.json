@@ -1,7 +1,7 @@
 {
     "age" : 40,
     "address" : "156 Bond St S, Hamilton, ON, Canada, L8S 1T2",
-    "sex" : "male",
+    "sex" : "Male",
     "conditions" : ["asthma"],
     "numExacerbations" : 1,
     "numFlares" : 1,
@@ -10,7 +10,7 @@
     "isSmoker" : true,
     "FEV1Litres" : 4.0,
     "FEV1Percent" : 0.8,
-    "AsthmaSeverity" : "mild",
+    "asthmaSeverity" : "mild",
     "isEosinophilic" : false,
     "numCOPDFlares" : 0,
     "usesPillsTablets" : false,
