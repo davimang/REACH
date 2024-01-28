@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PatientForm from './PatientForm';
+import LandingPage from './LandingPage';
 
 interface AppProps {
     message: string;
@@ -19,10 +19,10 @@ class App extends Component<AppProps, AppState> {
 
     render() {
         return (
-            <div>
-                <h1>{this.props.message}</h1>
-                <PatientForm />
-            </div>
+            <>
+                {/* <h1>{this.props.message}</h1> */}
+                <LandingPage />
+            </>
         );
     }
 
