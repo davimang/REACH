@@ -5,7 +5,7 @@ const Header = styled.div`
     padding: 25px;
     background-color: #1D366F;
     height: 100px;
-    
+    min-width: fit-content;
 `;
 
 const HeaderComponents = styled.div`
@@ -37,13 +37,13 @@ const LandingPage = () => {
     return (
         <Header>
             <HeaderComponents>
-                <img src={require("../images/Logo.svg")} height={100} />
+                <img src={require("../images/Logo.svg")} height={100} style={{paddingRight: 20}}/>
                 <MenuButtons>
                     <div style={{borderTopLeftRadius: 10, borderBottomLeftRadius: 10}}><StyledButton>FAQs</StyledButton></div>
-                    <div><StyledButton>Contact Us</StyledButton></div>
+                    <div style={{paddingLeft: 2, paddingRight: 2, backgroundColor: '#FFFFFF'}}><StyledButton>Contact Us</StyledButton></div>
                     <div style={{borderTopRightRadius: 10, borderBottomRightRadius: 10}}><StyledButton>About Us</StyledButton></div>
                 </MenuButtons>
-                <div style={{borderRadius: 10, width: 125, paddingLeft: 5}}><StyledButton>Sign In</StyledButton></div>
+                <div style={{borderRadius: 10, width: 125, paddingLeft: 20}}><StyledButton>Sign In</StyledButton></div>
             </HeaderComponents>
         </Header>
     );
