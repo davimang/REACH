@@ -1,8 +1,11 @@
 """Views for the api service."""
 from django.contrib.auth.models import User, Group
-from rest_framework.decorators import api_view
-from rest_framework import viewsets, permissions
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import authenticate
 from django_filters import rest_framework as filters
 from .serializers import (
     UserSerializer,
@@ -102,6 +105,26 @@ class TrialViewSet(viewsets.ModelViewSet):
     # permission_classes = [permissions.IsAuthenticated]
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = TrialFilter
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def login_view(request):
+    """Login endpoint"""
+    if request.method == 'POST':
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
+            refresh_token = str(refresh)
+
+            return Response({'access_token': access_token, 'refresh_token': refresh_token}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(["GET"])

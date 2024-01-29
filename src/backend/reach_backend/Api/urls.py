@@ -4,4 +4,5 @@ from Api import views
 
 urlpatterns = [
     path("search_trials/", views.search_trials, name="search-trials"),
+    path('login/', views.login_view, name='login'),
 ]
