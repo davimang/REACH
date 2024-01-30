@@ -29,6 +29,11 @@ module.exports = {
                 test: /\.(ts|tsx)$/,
                 exclude: /node_modules/,
                 use: ['ts-loader']
+            },
+            {
+                test: /\.(png|jpg|svg)$/,
+                exclude: /node_modules/,
+                type: 'asset/resource'
             }
         ]
     },
