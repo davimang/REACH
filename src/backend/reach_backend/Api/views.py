@@ -15,6 +15,7 @@ from .serializers import (
 )
 from .trial_fetcher import TrialFetcher
 from .models import UserData, PatientInfo, Trial
+import json
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -111,13 +112,17 @@ def search_trials(request):
     """Endpoint for getting eligible trials"""
     query_params = request.query_params
     info_profile_id = int(query_params.get("info_id"))
+    rank = int(query_params.get("rank", 0))
     if not info_profile_id:
         return Response("Patient information is required to make a search.")
     info_profile = get_object_or_404(PatientInfo, pk=info_profile_id)
+    serialized_data = serializers.serialize('json', [info_profile])
+    data = json.loads(serialized_data)
+    print(data[0]["model"])
     # will search for trials based on the info profile
     # waiting on Alan's implementation
     # trials = TrialFetcher.search_studies(
     #     conditions=[condition], age=age, address=address
     # )
-    data = serializers.serialize('json', [info_profile])
+    
     return Response(data)
