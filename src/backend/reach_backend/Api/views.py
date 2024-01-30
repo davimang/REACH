@@ -16,7 +16,9 @@ from .serializers import (
 from .trial_fetcher import TrialFetcher
 from .models import UserData, PatientInfo, Trial
 import json
+from datetime import date
 
+gender_mapping = {"M": "Male", "F": "Female", "O": "Other"}
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -94,7 +96,7 @@ class TrialFilter(filters.FilterSet):
         """
 
         model = Trial
-        fields = ["user_data"]
+        fields = ["patient_profile"]
 
 
 class TrialViewSet(viewsets.ModelViewSet):
@@ -116,13 +118,28 @@ def search_trials(request):
     if not info_profile_id:
         return Response("Patient information is required to make a search.")
     info_profile = get_object_or_404(PatientInfo, pk=info_profile_id)
-    serialized_data = serializers.serialize('json', [info_profile])
-    data = json.loads(serialized_data)
-    print(data[0]["model"])
+    trial_input_info = build_input_info(info_profile=info_profile)
+    serialized_data = json.dumps(trial_input_info)
     # will search for trials based on the info profile
     # waiting on Alan's implementation
     # trials = TrialFetcher.search_studies(
     #     conditions=[condition], age=age, address=address
     # )
-    
-    return Response(data)
+    return Response(serialized_data)
+
+
+def build_input_info(info_profile):
+    """Helper function to build the dict for trial fetching/filtering."""
+    age = calculate_age(info_profile.date_of_birth)
+    sex = gender_mapping[info_profile.gender]
+    address = info_profile.address
+    condition = info_profile.condition
+    advanced_info = info_profile.advanced_info
+    info = {"age": age, "sex": sex, "address": address, "condition": condition, **advanced_info}
+    return info
+
+def calculate_age(date_of_birth):
+    """Helper function to calculate someones age from their date of birth."""
+    today = date.today()
+    age = today.year - date_of_birth.year - ((today.month, today.day) < (date_of_birth.month, date_of_birth.day))
+    return age
