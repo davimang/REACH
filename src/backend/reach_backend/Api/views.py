@@ -1,11 +1,12 @@
 """Views for the api service."""
+import json
+from datetime import date
 from django.contrib.auth.models import User, Group
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from django_filters import rest_framework as filters
-from django.shortcuts import get_object_or_404
-from django.core import serializers
 from .serializers import (
     UserSerializer,
     GroupSerializer,
@@ -15,10 +16,11 @@ from .serializers import (
 )
 from .trial_fetcher import TrialFetcher
 from .models import UserData, PatientInfo, Trial
-import json
-from datetime import date
+
+trial_fetcher = TrialFetcher()
 
 gender_mapping = {"M": "Male", "F": "Female", "O": "Other"}
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -114,18 +116,14 @@ def search_trials(request):
     """Endpoint for getting eligible trials"""
     query_params = request.query_params
     info_profile_id = int(query_params.get("info_id"))
-    rank = int(query_params.get("rank", 0))
+    # rank = int(query_params.get("rank", 0))
     if not info_profile_id:
         return Response("Patient information is required to make a search.")
     info_profile = get_object_or_404(PatientInfo, pk=info_profile_id)
     trial_input_info = build_input_info(info_profile=info_profile)
-    serialized_data = json.dumps(trial_input_info)
-    # will search for trials based on the info profile
-    # waiting on Alan's implementation
-    # trials = TrialFetcher.search_studies(
-    #     conditions=[condition], age=age, address=address
-    # )
-    return Response(serialized_data)
+    serialized_input = json.dumps(trial_input_info)
+    trials = trial_fetcher.search_studies(serialized_input)
+    return Response(trials)
 
 
 def build_input_info(info_profile):
@@ -135,11 +133,22 @@ def build_input_info(info_profile):
     address = info_profile.address
     condition = info_profile.condition
     advanced_info = info_profile.advanced_info
-    info = {"age": age, "sex": sex, "address": address, "condition": condition, **advanced_info}
+    info = {
+        "age": age,
+        "sex": sex,
+        "address": address,
+        "condition": condition,
+        **advanced_info,
+    }
     return info
+
 
 def calculate_age(date_of_birth):
     """Helper function to calculate someones age from their date of birth."""
     today = date.today()
-    age = today.year - date_of_birth.year - ((today.month, today.day) < (date_of_birth.month, date_of_birth.day))
+    age = (
+        today.year
+        - date_of_birth.year
+        - ((today.month, today.day) < (date_of_birth.month, date_of_birth.day))
+    )
     return age
