@@ -1,6 +1,6 @@
 [MASTER]
 persistent=yes
-ignore=tests.py, urls.py, trial_fetcher.py, migrations 
+ignore=tests.py, urls.py, trial_fetcher.py, migrations, TrialFilterer.py
 
 [MESSAGES CONTROL]
 disable=I0011,W0212,W0613,W0702,C0103,R0901,E5142, C0326, C0330
