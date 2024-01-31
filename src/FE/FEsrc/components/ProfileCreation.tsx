@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { TextField } from '@mui/material';
 
 const Header = styled.div`
     padding: 25px;
@@ -49,6 +48,16 @@ const Input = styled.input`
   border-radius: 1px;
 `;
 
+const StyledDropDown = styled.select`
+    padding: 0.5em;
+    margin: 0.5em;
+    color: black;
+    width: 435px;
+    height: 44px;
+    border: none;
+    border-radius: 1px;
+`;
+
 const StyledLabel = styled.label`
     color: #EDF2F7;
     font-weight: bold;
@@ -60,16 +69,30 @@ const StyledLabel = styled.label`
 const ProfileCreation = () => {
 
 
-    const [formValues, setFormValues] = useState({ name: "", address: "", dateOfBirth: "", gender: "", userData: 1, condition: ""});
+    const [formValues, setFormValues] = useState({ name: "", address: "", dateOfBirth: "", gender: "", userData: 1, condition: "Asthma"});
 
     const handleSubmit = (e) => {
     
         e.preventDefault();
-
+        const splitAddress = formValues.address.split(",");
+        const formattedAddress = {
+            number: splitAddress[0],
+            street: splitAddress[1],
+            city: splitAddress[2],
+            province: splitAddress[3],
+            postal_code: splitAddress[4] 
+        }
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({date_of_birth: formValues.dateOfBirth, user_data: formValues.userData, gender: formValues.gender})
+            body: JSON.stringify({
+                date_of_birth: formValues.dateOfBirth, 
+                user_data: formValues.userData, 
+                gender: formValues.gender,
+                title: formValues.name,
+                condition: formValues.condition,
+                address: formattedAddress
+            })
         };
         fetch('http://localhost:8000/patientinfo/', requestOptions).then(response => response.json()).then(response => console.log(response));
     }
@@ -102,12 +125,14 @@ const ProfileCreation = () => {
                     value={formValues.address} 
                     onChange={(e) => setFormValues({ ...formValues, address: e.target.value })}
                 />
-                <Input 
-                    type="dropdown" 
-                    id='condition' 
-                    value={formValues.condition} 
-                    onChange={(e) => setFormValues({ ...formValues, condition: e.target.value })}
-                />
+                <StyledDropDown
+                    value={formValues.condition}
+                    onChange={(e) => setFormValues({ ...formValues, condition: e.target.value})}
+                >
+                    <option value="Asthma">Asthma</option>
+                    <option value="COPD">COPD</option>
+                    <option value="Other">Other</option>
+                </StyledDropDown>
                 <Input 
                     type="date" 
                     id='date of birth' 
