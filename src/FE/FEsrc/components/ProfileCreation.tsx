@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { Modal } from '@mui/material';
 
 const Header = styled.div`
     padding: 25px;
@@ -62,14 +63,47 @@ const StyledLabel = styled.label`
     color: #EDF2F7;
     font-weight: bold;
     width: 130px;
-    float: left;
 `;
 
 
 const ProfileCreation = () => {
 
 
-    const [formValues, setFormValues] = useState({ name: "", address: "", dateOfBirth: "", gender: "", userData: 1, condition: "Asthma"});
+    const [advancedInfoAsthma, setAdvancedInfoAsthma] = useState({
+        numExacerbations: 0,
+        numFlares: 0,
+        usesInhaler: false,
+        usesInjection: false,
+        isSmoker: false,
+        asthmaSeverity: "Mild",
+        isEosinophilic: false,
+    })
+    const [advancedInfoCOPD, setAdvancedInfoCOPD] = useState({})
+    const [formValues, setFormValues] = useState({ 
+            name: "", 
+            address: "", 
+            dateOfBirth: "", 
+            gender: "Male", 
+            userData: 1, 
+            condition: "Asthma", 
+            advancedInfo: advancedInfoAsthma
+        }
+    );
+    const [isHidden, setIsHidden] = useState({asthma: true, COPD: true});
+
+    const handleAdvancedInfo = e => {
+        e.preventDefault();
+
+        if(formValues.condition === "Asthma"){
+            setIsHidden( {COPD:true, asthma: false} );
+        }
+        else if(formValues.condition === "COPD"){
+            setIsHidden( {COPD: false, asthma: true});
+        }
+        else{
+            setIsHidden( {COPD: true, asthma: true});
+        }
+    }
 
     const handleSubmit = (e) => {
     
@@ -114,36 +148,111 @@ const ProfileCreation = () => {
                 <form onSubmit={handleSubmit}>
                 <StyledLabel>Name</StyledLabel>
                 <Input 
-                    type="text" 
+                    type='text' 
                     id='name' 
                     value={formValues.name} 
                     onChange={(e) => setFormValues({ ...formValues, name: e.target.value })}
                 />
+                <StyledLabel>Address</StyledLabel>
                 <Input 
                     type="text" 
                     id='address' 
                     value={formValues.address} 
                     onChange={(e) => setFormValues({ ...formValues, address: e.target.value })}
                 />
+                <StyledLabel>Condition</StyledLabel>
                 <StyledDropDown
                     value={formValues.condition}
-                    onChange={(e) => setFormValues({ ...formValues, condition: e.target.value})}
+                    onChange={(e) => {
+                            setFormValues({ ...formValues, condition: e.target.value})
+                            handleAdvancedInfo(e)
+                        }
+                    }
                 >
                     <option value="Asthma">Asthma</option>
                     <option value="COPD">COPD</option>
                     <option value="Other">Other</option>
                 </StyledDropDown>
+                <StyledLabel>Date of Birth</StyledLabel>
                 <Input 
                     type="date" 
                     id='date of birth' 
                     value={formValues.dateOfBirth} 
-                    onChange={(e) => setFormValues({ ...formValues, dateOfBirth: e.target.value })}
+                    onChange={(e) => {
+                            setFormValues({ ...formValues, dateOfBirth: e.target.value })
+                        }
+                    }
                 />
-                <Input 
-                    type="text" 
-                    id='gender' 
+                <StyledLabel>Gender</StyledLabel>
+                <StyledDropDown
                     value={formValues.gender} 
                     onChange={(e) => setFormValues({ ...formValues, gender: e.target.value })}
+                >
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </StyledDropDown>
+                <StyledLabel>Number of Exacerbations</StyledLabel>
+                <Input 
+                    type={isHidden.asthma ? "hidden" : "number"} 
+                    value={advancedInfoAsthma.numExacerbations} 
+                    onChange={(e) => {
+                            setAdvancedInfoAsthma({ ...advancedInfoAsthma, numExacerbations: e.target.valueAsNumber })
+                        }
+                    }
+                />
+                <StyledLabel>Number of Flares</StyledLabel>
+                <Input 
+                    type={isHidden.asthma ? "hidden" : "number"} 
+                    value={advancedInfoAsthma.numExacerbations} 
+                    onChange={(e) => {
+                            setAdvancedInfoAsthma({ ...advancedInfoAsthma, numFlares: e.target.valueAsNumber })
+                        }
+                    }
+                />
+                <StyledLabel>Uses Inhaler</StyledLabel>
+                <Input 
+                    type={isHidden.asthma ? "hidden" : "checkbox"} 
+                    onChange={(e) => {
+                            setAdvancedInfoAsthma({ ...advancedInfoAsthma, usesInhaler: e.target.checked })
+                        }
+                    }
+                />
+                <StyledLabel>Uses Injection</StyledLabel>
+                <Input 
+                    type={isHidden.asthma ? "hidden" : "checkbox"} 
+                    onChange={(e) => {
+                            setAdvancedInfoAsthma({ ...advancedInfoAsthma, usesInjection: e.target.checked })
+                        }
+                    }
+                />
+                <StyledLabel>Smoker</StyledLabel>
+                <Input 
+                    type={isHidden.asthma ? "hidden" : "checkbox"} 
+                    onChange={(e) => {
+                            setAdvancedInfoAsthma({ ...advancedInfoAsthma, isSmoker: e.target.checked })
+                        }
+                    }
+                />
+                <StyledLabel>Asthma severity</StyledLabel>
+                <StyledDropDown
+                    value={advancedInfoAsthma.asthmaSeverity} 
+                    onChange={(e) => {
+                            setAdvancedInfoAsthma({ ...advancedInfoAsthma, asthmaSeverity: e.target.value })
+                        }
+                    }
+                >
+                    <option value="Mild">Mild</option>
+                    <option value="Moderate">Moderate</option>
+                    <option value="Severe">Severe</option>
+                </StyledDropDown>
+                <StyledLabel>Eosinophilic</StyledLabel>
+                <Input 
+                    type={isHidden.asthma ? "hidden" : "checkbox"} 
+                    onChange={(e) => {
+                            setAdvancedInfoAsthma({ ...advancedInfoAsthma, isEosinophilic: e.target.checked})
+                        }
+                    }
                 />
                 <div style={{borderRadius: 10, width: 125, paddingLeft: 20}}>
                     <StyledButton type='submit'>Save</StyledButton>
