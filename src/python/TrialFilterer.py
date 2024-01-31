@@ -16,12 +16,7 @@ class TrialFilterer:
         '''main method for filtering trials, filters and sorts trials based on different entry criteria'''
         
         age = input_params['age']
-        home_address = input_params['address']
-
-        try:
-            home_address = locator.geocode(home_address,timeout=10)
-        except:
-            home_address = None
+        
 
         #convert min, max ages, filter out ineligible
         studies['MinimumAge'] = studies['MinimumAge'].apply(lambda x : TrialFilterer.clean_age(x))
@@ -34,15 +29,22 @@ class TrialFilterer:
         studies['KeywordRank'] = 0
         studies = TrialFilterer.filter_keywords(studies, input_params)
         
-
         return studies
     
     @staticmethod
     def post_filter(
         studies: pd.DataFrame, 
-        home_address: str
+        input_params: str
     ) -> pd.DataFrame:
         '''calculates the distance between the home address and the location of the trial'''
+        
+        home_address = input_params['streetAddress'] + ", " + input_params['city'] + ", " + \
+            input_params['province'] + " " + input_params['postalCode']
+
+        try:
+            home_address = locator.geocode(home_address,timeout=10)
+        except:
+            home_address = None
         studies = TrialFilterer.generate_address(studies)
         studies['Distance'] = studies['FullAddress'].apply(lambda x : TrialFilterer.get_distance_km(home_address, x))
         return studies
@@ -86,7 +88,7 @@ class TrialFilterer:
         for i in studies.index:
             studies.at[i, 'FullAddress'] = studies.at[i, 'LocationCity'] if not pd.isnull(studies.at[i, 'LocationCity']) else studies.at[i, 'FullAddress']
             studies.at[i, 'FullAddress'] = studies.at[i, 'FullAddress'] + ", " + studies.at[i, 'LocationState'] if not pd.isnull(studies.at[i, 'LocationState']) else studies.at[i, 'FullAddress']
-            studies.at[i, 'FullAddress'] = studies.at[i, 'FullAddress'] + " " + studies.at[i, 'LocationZip'] if not pd.isnull(studies.at[i, 'LocationZip']) else studies.at[i, 'FullAddress']
+            studies.at[i, 'FullAddress'] = studies.at[i, 'FullAddress'] + " " + str(studies.at[i, 'LocationZip']) if not pd.isnull(studies.at[i, 'LocationZip']) else studies.at[i, 'FullAddress']
             studies.at[i, 'FullAddress'] = studies.at[i, 'FullAddress'] + ", " + studies.at[i, 'LocationCountry'] if not pd.isnull(studies.at[i, 'LocationCountry']) else studies.at[i, 'FullAddress']
         return studies
     
