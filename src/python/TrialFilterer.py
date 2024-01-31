@@ -28,15 +28,23 @@ class TrialFilterer:
         studies['MaximumAge'] = studies['MaximumAge'].apply(lambda x : TrialFilterer.clean_age(x))
         studies = studies[(age >= studies["MinimumAge"]) & (age <= studies["MaximumAge"])]
 
-        studies = TrialFilterer.generate_address(studies)
+        
 
-        #calculate geodesic distance
-        studies['Distance'] = studies['FullAddress'].apply(lambda x : TrialFilterer.get_distance_km(home_address, x))
         studies = TrialFilterer.filter_gender(input_params['sex'], studies)
         studies['KeywordRank'] = 0
         studies = TrialFilterer.filter_keywords(studies, input_params)
-        studies.sort_values(['KeywordRank','Distance'], ascending=[False, True], inplace=True)
+        
 
+        return studies
+    
+    @staticmethod
+    def post_filter(
+        studies: pd.DataFrame, 
+        home_address: str
+    ) -> pd.DataFrame:
+        '''calculates the distance between the home address and the location of the trial'''
+        studies = TrialFilterer.generate_address(studies)
+        studies['Distance'] = studies['FullAddress'].apply(lambda x : TrialFilterer.get_distance_km(home_address, x))
         return studies
     
     @staticmethod
