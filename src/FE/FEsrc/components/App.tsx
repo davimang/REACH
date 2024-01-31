@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import LandingPage from './LandingPage';
+import LandingPage from './pages/LandingPage';
+import MenuHeader from './MenuHeader';
 
 interface AppProps {
     message: string;
@@ -21,7 +22,7 @@ class App extends Component<AppProps, AppState> {
         return (
             <>
                 {/* <h1>{this.props.message}</h1> */}
-                <LandingPage />
+                <MenuHeader />
             </>
         );
     }
