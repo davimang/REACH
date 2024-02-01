@@ -73,4 +73,3 @@ class TrialFetcher:
                            'OverallStatus','Distance','KeywordRank','url']]
         results_json = studies.to_json(orient='index') #convert to json
         return results_json #return
-    
