@@ -35,9 +35,10 @@ class TrialFilterer:
         input_params: str
     ) -> pd.DataFrame:
         '''calculates the geodesic distance to the trial'''
-        home_address = (input_params['streetAddress'] + ", " + input_params['city']
-                        + ", " + input_params['province'] + " "
-                        + input_params['postalCode'])
+        address = input_params["address"]
+        home_address = (address['street'] + ", " + address['city']
+                        + ", " + address['province'] + " "
+                        + address['postalCode'])
 
         try:
             home_address = locator.geocode(home_address,timeout=10)
@@ -54,46 +55,46 @@ class TrialFilterer:
         info: dict
     ) -> pd.DataFrame:
         '''increases rank for each met keyword'''
-        if info['numExacerbations'] > 0:
+        if info.get('numExacerbations', 0) > 0:
             df.loc[df['Keyword'].str.contains('|'.join(
                 ['exacerbation','Exacerbation']),na=False), ['KeywordRank']] += 1
-        if info['numFlares'] > 0:
+        if info.get('numFlares', 0) > 0:
             df.loc[df['Keyword'].str.contains('|'.join(
                 ['flare','flare up','flare-up','Flare','Flare up','Flare-up']),
                 na=False),
                 ['KeywordRank']] += 1
-        if info['usesInhaler']:
+        if info.get('usesInhaler'):
             df.loc[df['Keyword'].str.contains('|'.join(
                 ['inhaler', 'Inhaler']),na=False), ['KeywordRank']] += 1
-        if info['usesInjection']:
+        if info.get('usesInjection'):
             df.loc[df['Keyword'].str.contains('|'.join(
                 ['injection', 'Injection']),na=False), ['KeywordRank']] += 1
-        if info['isSmoker']:
+        if info.get('isSmoker'):
             df.loc[df['Keyword'].str.contains('|'.join(
                 ['smoker', 'smoking', 'Smoker', 'Smoking']),na=False),
                 ['KeywordRank']] += 1
-        if info['asthmaSeverity'] in ["moderate", "severe"]:
+        if info.get('asthmaSeverity') in ["moderate", "severe"]:
             df.loc[df['Keyword'].str.contains('|'.join(
                 ['severe asthma', 'moderate asthma', 'Severe asthma',
                 'Moderate asthma']),
                 na=False),
                 ['KeywordRank']] += 1
-        if info["isEosinophilic"]:
+        if info.get("isEosinophilic"):
             df.loc[df['Keyword'].str.contains('|'.join(
                 ['Eosinophilic','eosinophilic','Eosinophilia','eosinophilia']),
                 na=False),
                 ['KeywordRank']] += 1
-        if info["usesPillsTablets"]:
+        if info.get("usesPillsTablets"):
             df.loc[df['Keyword'].str.contains('|'.join(
                 ['pill','Pill','tablet','Tablet','oral','Oral']),na=False),
                 ['KeywordRank']] += 1
-        if info["onDualTherapy"]:
+        if info.get("onDualTherapy"):
             df.loc[df['Keyword'].str.contains('|'.join(
                 ['dual therapy','Dual therapy']),na=False), ['KeywordRank']] += 1
-        if info["onTripleTherapy"]:
+        if info.get("onTripleTherapy"):
             df.loc[df['Keyword'].str.contains('|'.join(
                 ['triple therapy','Triple therapy']),na=False), ['KeywordRank']] += 1
-        if info["numCOPDFlares"] > 0:
+        if info.get("numCOPDFlares", 0) > 0:
             df.loc[df['Keyword'].str.contains('|'.join(
                 ['COPD flare', 'COPD Flare']),na=False), ['KeywordRank']] += 1
         return df
