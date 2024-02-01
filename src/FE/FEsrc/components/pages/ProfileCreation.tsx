@@ -66,7 +66,7 @@ const StyledLabel = styled.label`
 `;
 
 
-const ProfileCreation = () => {
+const ProfileCreationPage = () => {
 
 
     const [advancedInfoAsthma, setAdvancedInfoAsthma] = useState({
@@ -83,21 +83,20 @@ const ProfileCreation = () => {
             name: "", 
             address: "", 
             dateOfBirth: "", 
-            gender: "Male", 
+            gender: "", 
             userData: 1, 
-            condition: "Asthma", 
+            condition: "", 
             advancedInfo: advancedInfoAsthma
         }
     );
     const [isHidden, setIsHidden] = useState({asthma: true, COPD: true});
 
-    const handleAdvancedInfo = e => {
-        e.preventDefault();
+    const handleAdvancedInfo = () => {
 
-        if(formValues.condition === "Asthma"){
+        if(formValues.condition == "Asthma"){
             setIsHidden( {COPD:true, asthma: false} );
         }
-        else if(formValues.condition === "COPD"){
+        else if(formValues.condition == "COPD"){
             setIsHidden( {COPD: false, asthma: true});
         }
         else{
@@ -133,17 +132,6 @@ const ProfileCreation = () => {
 
     return (
         <>
-            <Header>
-                <HeaderComponents>
-                    <img src={require("../images/Logo.svg")} height={100} style={{paddingRight: 20}}/>
-                    <MenuButtons>
-                        <div style={{borderTopLeftRadius: 10, borderBottomLeftRadius: 10}}><StyledButton>FAQs</StyledButton></div>
-                        <div style={{paddingLeft: 2, paddingRight: 2, backgroundColor: '#FFFFFF'}}><StyledButton>Contact Us</StyledButton></div>
-                        <div style={{borderTopRightRadius: 10, borderBottomRightRadius: 10}}><StyledButton>About Us</StyledButton></div>
-                    </MenuButtons>
-                    <div style={{borderRadius: 10, width: 125, paddingLeft: 20}}><StyledButton>Sign In</StyledButton></div>
-                </HeaderComponents>
-            </Header>
             <ProfileCreationContainer>
                 <form onSubmit={handleSubmit}>
                 <StyledLabel>Name</StyledLabel>
@@ -165,7 +153,6 @@ const ProfileCreation = () => {
                     value={formValues.condition}
                     onChange={(e) => {
                             setFormValues({ ...formValues, condition: e.target.value})
-                            handleAdvancedInfo(e)
                         }
                     }
                 >
@@ -263,4 +250,4 @@ const ProfileCreation = () => {
     );
 }
 
-export default ProfileCreation;
+export default ProfileCreationPage;
