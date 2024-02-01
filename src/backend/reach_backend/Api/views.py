@@ -1,5 +1,4 @@
 """Views for the api service."""
-import json
 from datetime import date
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
@@ -116,17 +115,16 @@ def search_trials(request):
     """Endpoint for getting eligible trials"""
     query_params = request.query_params
     info_profile_id = int(query_params.get("info_id"))
-    # rank = int(query_params.get("rank", 0))
+    rank = int(query_params.get("rank", 0))
     if not info_profile_id:
         return Response("Patient information is required to make a search.")
     info_profile = get_object_or_404(PatientInfo, pk=info_profile_id)
-    trial_input_info = build_input_info(info_profile=info_profile)
-    serialized_input = json.dumps(trial_input_info)
-    trials = trial_fetcher.search_studies(serialized_input)
+    trial_input_info = build_input_info(info_profile=info_profile, rank=rank)
+    trials = trial_fetcher.search_studies(trial_input_info)
     return Response(trials)
 
 
-def build_input_info(info_profile):
+def build_input_info(info_profile, rank):
     """Helper function to build the dict for trial fetching/filtering."""
     age = calculate_age(info_profile.date_of_birth)
     sex = gender_mapping[info_profile.gender]
@@ -137,7 +135,8 @@ def build_input_info(info_profile):
         "age": age,
         "sex": sex,
         "address": address,
-        "condition": condition,
+        "conditions": [condition],
+        "maxRank": rank,
         **advanced_info,
     }
     return info
