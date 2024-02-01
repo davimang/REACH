@@ -1,15 +1,15 @@
 """Views for the api service."""
+
 from django.contrib.auth.models import User, Group
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework import viewsets, permissions, status
+from rest_framework.decorators import api_view
+from rest_framework import viewsets, permissions, generics
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import authenticate
 from django_filters import rest_framework as filters
 from .serializers import (
     UserSerializer,
     GroupSerializer,
+    UserRegistrationSerializer,
     UserDataSerializer,
     PatientInfoSerializer,
     TrialSerializer,
@@ -19,9 +19,7 @@ from .models import UserData, PatientInfo, Trial
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
+    """API endpoint that allows users to be viewed or edited."""
 
     queryset = User.objects.all().order_by("-date_joined")
     serializer_class = UserSerializer
@@ -29,13 +27,27 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
+    """API endpoint that allows groups to be viewed or edited."""
 
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+class UserRegistrationView(generics.CreateAPIView):
+    """User Registration view"""
+
+    serializer_class = UserRegistrationSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+
+        refresh = RefreshToken.for_user(user)
+        access_token = str(refresh.access_token)
+
+        return Response({"access_token": access_token})
 
 
 class UserDataFilter(filters.FilterSet):
@@ -105,26 +117,6 @@ class TrialViewSet(viewsets.ModelViewSet):
     # permission_classes = [permissions.IsAuthenticated]
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = TrialFilter
-
-
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def login_view(request):
-    """Login endpoint"""
-    if request.method == 'POST':
-        username = request.data.get('username')
-        password = request.data.get('password')
-
-        user = authenticate(username=username, password=password)
-
-        if user:
-            refresh = RefreshToken.for_user(user)
-            access_token = str(refresh.access_token)
-            refresh_token = str(refresh)
-
-            return Response({'access_token': access_token, 'refresh_token': refresh_token}, status=status.HTTP_200_OK)
-        else:
-            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 @api_view(["GET"])
