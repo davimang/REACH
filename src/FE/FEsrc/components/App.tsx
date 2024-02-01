@@ -1,31 +1,21 @@
-import React, { Component } from 'react';
-import LandingPage from './LandingPage';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-interface AppProps {
-    message: string;
-}
+import MenuHeader from './MenuHeader';
+import LandingPage from './pages/LandingPage';
+import LoginPage from './pages/LoginPage';
 
-interface AppState {
-    rendered: boolean;
-}
+function App () {
 
-class App extends Component<AppProps, AppState> {
-    constructor(props: AppProps) {
-        super(props);
-        this.state = {
-            rendered: false
-        }
-    }
-
-    render() {
-        return (
-            <>
-                {/* <h1>{this.props.message}</h1> */}
-                <LandingPage />
-            </>
-        );
-    }
-
+    return (
+        <BrowserRouter>
+            <MenuHeader />
+            <Routes>
+                <Route path='/' element={<LandingPage />} />
+                <Route path='/login' element={<LoginPage />} />
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;
