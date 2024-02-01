@@ -1,0 +1,129 @@
+\documentclass{article}
+
+\usepackage{float}
+\restylefloat{table}
+
+\usepackage{booktabs}
+
+\title{Team Contributions: Rev 0\\\progname}
+
+\author{\authname}
+
+\date{}
+
+\input{../Comments}
+\input{../Common}
+
+\begin{document}
+
+\maketitle
+
+\section{Demo Plans}
+ 
+We will be demonstrating all the core functionality that was specified in the requirements document and that was requested by our 
+two supervisors. This includes:\\
+\begin{itemize}
+    \item Being able to login/register an account as a clinician or as a regular patient
+    \item Being able to input and save multiple "patient profiles". These patient profiles will be the backbone of a trial search, and 
+    contains things like medical condition, age, address, etc..
+    \item Being able to search for clinical trials which are based on a previously entered "patient profile"
+    \item Being able to save clincial trials that you are interested in
+    \item Being able to view, edit, and delete your patient profiles
+    \item Being able to view/delete your saved trials
+\end{itemize}
+
+\section{Meeting Attendance}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Student} & \textbf{Meetings}\\
+\midrule
+Total & 8\\
+David Moroniti & 8\\
+Deep Raj & 8\\
+Alan Scott 3 & 8\\
+Anika Peer & 8\\
+Aamina Hussain & 8\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Lecture Attendance}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Student} & \textbf{Lectures}\\
+\midrule
+Total & 2\\
+David Moroniti & 0\\
+Deep Raj & 1\\
+Alan Scott & 2\\
+Anika Peer & 0\\
+Aamina Hussain & 1\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+As a result of us meeting regularly, and also talking in our teams chat on an almost daily basis, we don't feel it is necessary for 
+everyone to attend every lecture. Generally, as long as one person is there, we feel as though we should be fine, as long as 
+the person who goes is ok with (potentially) being the only one there.
+
+\section{Commits}
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Student} & \textbf{Commits} & \textbf{Percent}\\
+\midrule
+Total & 29 & 100\% \\
+David Moroniti & 8 & 27.5\% \\
+Deep Raj & 4 & 13.7\% \\
+Alan Scott & 6 & 20.6\% \\
+Anika Peer & 5 & 17.2\% \\
+Aamina Hussain & 6 & 20.6\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Unfortunately, these numbers are not overly useful, since we work on feature branches, and squash/merge the branches into main
+when we are done implementing the feature (we then delete the branch).
+
+\section{Issue Tracker}
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Student} & \textbf{Authored (O+C)} & \textbf{Assigned (C only)}\\
+\midrule
+David Moroniti & 25 & 10 \\
+Deep Raj & 23 & 5 \\
+Alan Scott & 15 & 7 \\
+Anika Peer & 3 & 7 \\
+Aamina Hussain & 1 & 6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+David makes most of the issues for development work (while everyone is in the meeting, all watching the shared screen) and Deep makes
+most of the issues for the team meetings/lectures. We want to mention that everyone contributes to the meetings (as seen in the meeting 
+attendance table) and everyone contributes to the creation of the issues (i.e., what dev issues should be made, what should go in the 
+description, etc..).
+
+\section{CICD}
+
+Currently, CICD is used lightly. We are currently just running some linters each time a PR is opened into main. After the code is checked
+for proper formatting (i.e., passes linting) the next step in the pipeline runs the unit tests, to ensure tests are passing before merging
+any new code. Any PR cannot be merged to main unless these 2 safety checks are met (note: as I am writing this, tests are not currently implemented,
+so the testing portion of the pipeline does nothing. However, as tests are being added, it will become useful). We would like to add another 
+pipeline which will be used to deploy our code to GCP after merging our code to the master branch. However, we are prioritizing the development
+of the app for revision 0 for now, and will most likely not have this feature until after the revision 0 demo.
+
+\end{document}

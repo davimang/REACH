@@ -33,12 +33,16 @@ class PatientInfo(models.Model):
     address = models.JSONField(null=True)
     gender = models.CharField(max_length=1, choices=Gender.choices)
     advanced_info = models.JSONField(null=True)
+    # title for the information profile
+    title = models.CharField(max_length=20, default="")
+    # for now, one condition per profile
+    condition = models.CharField(max_length=30, default="")
 
 
 class Trial(models.Model):
     """Trial model."""
 
-    user_data = models.ForeignKey(UserData, on_delete=models.CASCADE)
+    patient_profile = models.ForeignKey(PatientInfo, on_delete=models.CASCADE)
     title = models.TextField()
     description = models.TextField()
     url = models.URLField(max_length=200)

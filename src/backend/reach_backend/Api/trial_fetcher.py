@@ -1,30 +1,30 @@
-"""Module defining the trial fetcher."""
+"""TrialFetcher module"""
+import io
+import re
 import requests
 import pandas as pd
-import io
-import regex as re
-from geopy.geocoders import Nominatim
-from geopy.distance import geodesic
+from .trial_filterer import TrialFilterer
 
-locator = Nominatim(user_agent="my_request")
-
-api_url = r"""https://clinicaltrials.gov/api/quer
-y/study_fields?fields=NCTId,Condition,BriefTitle,D
-etailedDescription,MinimumAge,MaximumAge,LocationC
-ountry,LocationState,LocationCity,LocationZip,Loca
-tionFacility&"""
+API_URL = (
+    r"https://clinicaltrials.gov/api/query/study_fields?fmt=csv&"
+    r"fields=NCTId,Condition,BriefTitle,DetailedDescription,"
+    r"MinimumAge,MaximumAge,LocationCountry,LocationState,LocationCity,"
+    r"LocationZip,LocationFacility,OverallStatus,Gender,Keyword&"
+)
+TIMEOUT_SEC = 5
 
 
 class TrialFetcher:
-    """Trial fetcher."""
+    """This class encapsulates the trial retrieval functionality"""
 
-    # inputs
-    # conditions = list of string conditions
-    # age = int age
-    # address = string address of home
+    temp_studies = pd.DataFrame()
+
     @staticmethod
-    def search_studies(conditions, age, address, **kwargs):
-        # convert conditions to usable strings
+    def search_studies(input_params: dict) -> str:
+        """Method to retrieve relevant trials to filter and return"""
+
+        # extract conditions, serialize into useable string
+        conditions = input_params["conditions"]
         conditions = [c.replace(" ", "+") for c in conditions]
 
         # concatenate conditions
@@ -34,85 +34,70 @@ class TrialFetcher:
                 condition_search += "+" + cond
 
         # put expression together
-        search_url = api_url + "expr=" + condition_search + "&" "fmt=csv"
-        response = requests.get(search_url)
-        decoded_content = response.content.decode("utf-8")
+        search_template = API_URL + "expr=" + condition_search + "&fmt=csv"
 
-        # decode output
-        buffer = io.StringIO(decoded_content)
-        studies = pd.read_csv(filepath_or_buffer=buffer, header=9, index_col="NCTId")
+        # start one rank up from the last rank returned by a previous call
+        rank = input_params["maxRank"] + 1
+        studies = pd.DataFrame()
 
-        # convert min, max ages, filter out ineligible
-        if age:
-            studies["MinimumAge"] = studies["MinimumAge"].apply(
-                lambda x: TrialFetcher.clean_age(x)
+        # keep pulling trials until you hit 5 or timeout
+        while studies.shape[0] < 5:
+            search_url = search_template + f"&min_rnk={rank}&max_rnk={rank+5}"
+            # timed section
+            response = requests.get(search_url, timeout=TIMEOUT_SEC)
+            try:  # break if the timeout is reached (or the api returns unreadable data)
+                decoded_content = response.content.decode("utf-8")
+                buffer = io.StringIO(decoded_content)
+                max_results = int(
+                    re.findall(r"NStudiesFound: (\d+)", decoded_content)[0]
+                )
+                temp = pd.read_csv(filepath_or_buffer=buffer, header=9)
+            except ValueError:  # if data can't be read
+                break
+
+            if max_results < rank:  # break if exceeding max results
+                break
+
+            # remove any invalid trials
+            temp = TrialFilterer.filter_trials(temp, input_params)
+            if temp.shape[0] > 0:  # if not empty, add to accepted trials
+                studies = pd.concat([studies, temp], ignore_index=True)
+                rank = studies.at[studies.shape[0] - 1, "Rank"] + 1
+            else:  # else, move to next five
+                rank += 5
+
+        if studies.shape[0] == 0:
+            return pd.DataFrame(
+                columns=[
+                    "NCTId",
+                    "BriefTitle",
+                    "DetailedDescription",
+                    "OverallStatus",
+                    "Distance",
+                    "KeywordRank",
+                    "url",
+                ]
             )
-            studies["MaximumAge"] = studies["MaximumAge"].apply(
-                lambda x: TrialFetcher.clean_age(x)
-            )
-            studies = studies[
-                (age >= studies["MinimumAge"]) & (age <= studies["MaximumAge"])
+        studies = studies.head(
+            5
+        )  # take the top 5 (since it can return up to 9 results)
+        studies["url"] = (
+            "https://clinicaltrials.gov/study/" + studies["NCTId"]
+        )  # create url
+        studies = TrialFilterer.post_filter(
+            studies, input_params
+        )  # calculate distances
+        # take only necessary fields
+        studies = studies[
+            [
+                "NCTId",
+                "BriefTitle",
+                "DetailedDescription",
+                "OverallStatus",
+                "Distance",
+                "KeywordRank",
+                "url",
             ]
-
-        # create address, calculate geodesic distance
-        if address:
-            home_address = locator.geocode(address)
-            studies["FullAddress"] = ""
-            for i in studies.index:
-                studies.at[i, "FullAddress"] = (
-                    studies.at[i, "LocationCity"]
-                    if not pd.isnull(studies.at[i, "LocationCity"])
-                    else studies.at[i, "FullAddress"]
-                )
-                studies.at[i, "FullAddress"] = (
-                    studies.at[i, "FullAddress"] + ", " + studies.at[i, "LocationState"]
-                    if not pd.isnull(studies.at[i, "LocationState"])
-                    else studies.at[i, "FullAddress"]
-                )
-                studies.at[i, "FullAddress"] = (
-                    studies.at[i, "FullAddress"] + " " + studies.at[i, "LocationZip"]
-                    if not pd.isnull(studies.at[i, "LocationZip"])
-                    else studies.at[i, "FullAddress"]
-                )
-                studies.at[i, "FullAddress"] = (
-                    studies.at[i, "FullAddress"]
-                    + ", "
-                    + studies.at[i, "LocationCountry"]
-                    if not pd.isnull(studies.at[i, "LocationCountry"])
-                    else studies.at[i, "FullAddress"]
-                )
-            studies["Distance"] = studies["FullAddress"].apply(
-                lambda x: TrialFetcher.get_distance_km(home_address, x)
-            )
-
-            studies.sort_values("Distance", inplace=True)
-
-        # return as json
-        results_json = studies.to_json(orient="index")
-        return results_json
-
-    # address1 = user address
-    # address2 = study address
-    @staticmethod
-    def get_distance_km(home_address, facility_address):
-        fac_loc = locator.geocode(facility_address)
-        try:
-            return round(
-                geodesic(
-                    (home_address.latitude, home_address.longitude),
-                    (fac_loc.latitude, fac_loc.longitude),
-                ).kilometers,
-                2,
-            )  # this will need to be optimized, very slow!
-        except:
-            return
-
-    # convert min and max ages to float type
-    @staticmethod
-    def clean_age(age):
-        if pd.isnull(age):
-            return age
-        elif "month" in age:
-            return float(re.findall(r"\d+", age)[0]) / 12
-        else:
-            return float(re.findall(r"\d+", age)[0])
+        ]
+        results_json = studies.to_json(orient="index")  # convert to json
+        return results_json  # return
