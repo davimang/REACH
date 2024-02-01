@@ -21,7 +21,8 @@ class TrialFilterer:
         #convert min, max ages, filter out ineligible
         studies['MinimumAge'] = studies['MinimumAge'].apply(TrialFilterer.clean_age)
         studies['MaximumAge'] = studies['MaximumAge'].apply(TrialFilterer.clean_age)
-        studies = studies[(age >= studies["MinimumAge"]) & (age <= studies["MaximumAge"])]
+        studies = studies[(age >= studies["MinimumAge"]) &
+                           (age <= studies["MaximumAge"])]
 
         studies = TrialFilterer.filter_gender(input_params['sex'], studies)
         studies['KeywordRank'] = 0
@@ -33,9 +34,10 @@ class TrialFilterer:
         studies: pd.DataFrame,
         input_params: str
     ) -> pd.DataFrame:
-        '''calculates the distance between the home address and the location of the trial'''    
-        home_address = (input_params['streetAddress'] + ", " + input_params['city'] + ", " +
-            input_params['province'] + " " + input_params['postalCode'])
+        '''calculates the geodesic distance to the trial'''
+        home_address = (input_params['streetAddress'] + ", " + input_params['city']
+                        + ", " + input_params['province'] + " "
+                        + input_params['postalCode'])
 
         try:
             home_address = locator.geocode(home_address,timeout=10)
@@ -57,7 +59,8 @@ class TrialFilterer:
                 ['exacerbation','Exacerbation']),na=False), ['KeywordRank']] += 1
         if info['numFlares'] > 0:
             df.loc[df['Keyword'].str.contains('|'.join(
-                ['flare','flare up','flare-up','Flare','Flare up','Flare-up']),na=False),
+                ['flare','flare up','flare-up','Flare','Flare up','Flare-up']),
+                na=False),
                 ['KeywordRank']] += 1
         if info['usesInhaler']:
             df.loc[df['Keyword'].str.contains('|'.join(
@@ -67,18 +70,23 @@ class TrialFilterer:
                 ['injection', 'Injection']),na=False), ['KeywordRank']] += 1
         if info['isSmoker']:
             df.loc[df['Keyword'].str.contains('|'.join(
-                ['smoker', 'smoking', 'Smoker', 'Smoking']),na=False), ['KeywordRank']] += 1
+                ['smoker', 'smoking', 'Smoker', 'Smoking']),na=False),
+                ['KeywordRank']] += 1
         if info['asthmaSeverity'] in ["moderate", "severe"]:
             df.loc[df['Keyword'].str.contains('|'.join(
-                ['severe asthma', 'moderate asthma', 'Severe asthma', 'Moderate asthma']),na=False),
+                ['severe asthma', 'moderate asthma', 'Severe asthma',
+                'Moderate asthma']),
+                na=False),
                 ['KeywordRank']] += 1
         if info["isEosinophilic"]:
             df.loc[df['Keyword'].str.contains('|'.join(
-                ['Eosinophilic','eosinophilic','Eosinophilia','eosinophilia']),na=False),
+                ['Eosinophilic','eosinophilic','Eosinophilia','eosinophilia']),
+                na=False),
                 ['KeywordRank']] += 1
         if info["usesPillsTablets"]:
             df.loc[df['Keyword'].str.contains('|'.join(
-                ['pill','Pill','tablet','Tablet','oral','Oral']),na=False), ['KeywordRank']] += 1
+                ['pill','Pill','tablet','Tablet','oral','Oral']),na=False),
+                ['KeywordRank']] += 1
         if info["onDualTherapy"]:
             df.loc[df['Keyword'].str.contains('|'.join(
                 ['dual therapy','Dual therapy']),na=False), ['KeywordRank']] += 1
@@ -98,19 +106,23 @@ class TrialFilterer:
         studies['FullAddress'] = ""
         for i in studies.index:
             studies.at[i, 'FullAddress'] = (studies.at[i, 'LocationCity']
-                                            if not pd.isnull(studies.at[i, 'LocationCity'])
+                                            if not pd.isnull(
+                                                studies.at[i, 'LocationCity'])
                                             else studies.at[i, 'FullAddress'])
             studies.at[i, 'FullAddress'] = (studies.at[i, 'FullAddress'] + ", " +
                                             studies.at[i, 'LocationState']
-                                            if not pd.isnull(studies.at[i, 'LocationState'])
+                                            if not pd.isnull(
+                                                studies.at[i, 'LocationState'])
                                             else studies.at[i, 'FullAddress'])
             studies.at[i, 'FullAddress'] = (studies.at[i, 'FullAddress'] + " " +
                                             str(studies.at[i, 'LocationZip'])
-                                            if not pd.isnull(studies.at[i, 'LocationZip'])
+                                            if not pd.isnull(
+                                                studies.at[i, 'LocationZip'])
                                             else studies.at[i, 'FullAddress'])
             studies.at[i, 'FullAddress'] = (studies.at[i, 'FullAddress'] + ", " +
                                             studies.at[i, 'LocationCountry']
-                                            if not pd.isnull(studies.at[i, 'LocationCountry'])
+                                            if not pd.isnull(
+                                                studies.at[i, 'LocationCountry'])
                                             else studies.at[i, 'FullAddress'])
         return studies
 
