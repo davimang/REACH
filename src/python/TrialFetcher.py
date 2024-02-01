@@ -58,7 +58,8 @@ class TrialFetcher:
             else:
                 rank += 5
             
-
+        if studies.shape[0] == 0:
+            return pd.DataFrame(columns=['NCTId','BriefTitle','DetailedDescription','OverallStatus','Distance','KeywordRank','url'])
         studies = studies.head(5)
         studies['url'] = 'https://clinicaltrials.gov/study/' + studies['NCTId']
         studies = TrialFilterer.post_filter(studies, input_params)
