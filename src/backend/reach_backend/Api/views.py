@@ -1,14 +1,17 @@
 """Views for the api service."""
+
 from datetime import date
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, generics
 from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 from django_filters import rest_framework as filters
 from .serializers import (
     UserSerializer,
     GroupSerializer,
+    UserRegistrationSerializer,
     UserDataSerializer,
     PatientInfoSerializer,
     TrialSerializer,
@@ -22,9 +25,7 @@ gender_mapping = {"M": "Male", "F": "Female", "O": "Other"}
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
+    """API endpoint that allows users to be viewed or edited."""
 
     queryset = User.objects.all().order_by("-date_joined")
     serializer_class = UserSerializer
@@ -32,13 +33,28 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
+    """API endpoint that allows groups to be viewed or edited."""
 
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+class UserRegistrationView(generics.CreateAPIView):
+    """User Registration view"""
+
+    serializer_class = UserRegistrationSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+
+        refresh = RefreshToken.for_user(user)
+        refresh_token = str(refresh)
+        access_token = str(refresh.access_token)
+
+        return Response({"refresh": refresh_token, "access": access_token})
 
 
 class UserDataFilter(filters.FilterSet):
