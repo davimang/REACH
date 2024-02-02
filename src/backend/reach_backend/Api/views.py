@@ -51,9 +51,10 @@ class UserRegistrationView(generics.CreateAPIView):
         user = serializer.save()
 
         refresh = RefreshToken.for_user(user)
+        refresh_token = str(refresh)
         access_token = str(refresh.access_token)
 
-        return Response({"access_token": access_token})
+        return Response({"refresh": refresh_token, "access": access_token})
 
 
 class UserDataFilter(filters.FilterSet):
