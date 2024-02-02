@@ -1,4 +1,5 @@
 """Module defining the serializers."""
+
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 from .models import UserData, PatientInfo, Trial
@@ -32,6 +33,35 @@ class UserDataSerializer(serializers.ModelSerializer):
 
         model = UserData
         fields = "__all__"
+
+
+class UserDataRegistrationSerializer(serializers.ModelSerializer):
+    """Serializer for the user data registration model."""
+
+    class Meta:
+        """Meta class for user data registration serializer."""
+
+        model = UserData
+        fields = ("first_name", "last_name", "is_clinician")
+
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    """Serializer for user registration"""
+
+    userData = UserDataRegistrationSerializer(required=True)
+
+    class Meta:
+        """Meta class for user registration serializer"""
+
+        model = User
+        fields = ("username", "email", "password", "userData")
+        extra_kwargs = {"password": {"write_only": True}}
+
+    def create(self, validated_data):
+        userInfo = validated_data.pop("userData")
+        user = User.objects.create_user(**validated_data)
+        UserData.objects.create(user=user, **userInfo)
+        return user
 
 
 class PatientInfoSerializer(serializers.ModelSerializer):
