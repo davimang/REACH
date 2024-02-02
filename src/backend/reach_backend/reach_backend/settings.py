@@ -95,7 +95,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000", FRONTEND_SERVICE_URL]
+CORS_ALLOWED_ORIGINS = ["http://localhost:3000", "http://localhost:42237", FRONTEND_SERVICE_URL]
 
 ROOT_URLCONF = 'reach_backend.urls'
 
