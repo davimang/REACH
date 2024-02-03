@@ -1,7 +1,7 @@
 // Get the card container
 var cardContainer = document.getElementById('cardContainer');
 
-fetch('/patientinfo/?user=1')
+fetch('http://localhost:8000/patientinfo/?user=1')
   .then(response => response.json())  
   .then(data => {
     // not so sure about this part
