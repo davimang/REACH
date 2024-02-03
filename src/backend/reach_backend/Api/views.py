@@ -90,7 +90,7 @@ class PatientInfoFilter(filters.FilterSet):
         """
 
         model = PatientInfo
-        fields = ["user_data"]
+        fields = ["user"]
 
 
 class PatientInfoViewSet(viewsets.ModelViewSet):
