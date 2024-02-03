@@ -5,6 +5,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 const LoginPageContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   width: 100%;
   align-items: center;
@@ -37,6 +38,20 @@ const LoginFormInput = styled.input`
 
 const LoginFormButton = styled.button`
   width: 50%;
+  height: 80px;
+  padding: 10px;
+  background-color: #039D5F;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  color: #FFFFFF;
+  font-size: 48px;
+  font-family: math;
+`;
+
+const RegisterButton = styled.button`
+  width: 20%;
+  min-width: 200px;
   height: 80px;
   padding: 10px;
   background-color: #039D5F;
@@ -81,6 +96,10 @@ const LoginPage: React.FC = () => {
         }
     };
 
+    const navigateToRegister = () => {
+        navigate('/register');
+    };
+
     return (
         <LoginPageContainer>
             <LoginFormContainer>
@@ -105,6 +124,7 @@ const LoginPage: React.FC = () => {
                     <LoginFormButton type='submit'>Login</LoginFormButton>
                 </LoginForm>
             </LoginFormContainer>
+            <RegisterButton type='button' onClick={navigateToRegister}>Register</RegisterButton>
         </LoginPageContainer>
     );
 };
