@@ -7,6 +7,9 @@ const Header = styled.div`
     background-color: #1D366F;
     height: 100px;
     min-width: fit-content;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 `;
 
 const HeaderComponents = styled.div`
