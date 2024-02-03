@@ -28,7 +28,7 @@ class PatientInfo(models.Model):
         FEMALE = "F", "Female"
         OTHER = "O", "Other"
 
-    user_data = models.ForeignKey(UserData, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     date_of_birth = models.DateField()
     address = models.JSONField(null=True)
     gender = models.CharField(max_length=1, choices=Gender.choices)

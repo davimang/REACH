@@ -378,11 +378,6 @@ const ProfileCreationPage = () => {
     );
     const [isHidden, setIsHidden] = useState({asthma: true, COPD: true});
 
-    const handleConditionChange = e => {
-
-
-    }
-
     const handleAdvancedInfo = () => {
 
         if(formValues.condition == "Asthma"){
