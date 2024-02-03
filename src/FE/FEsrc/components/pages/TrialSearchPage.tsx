@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 
 import { API_URL } from '../..';
+import { PatientInfoList, TrialInfoList } from '../types';
 
 const TrialSearchHeader = styled.div`
     background-color: #213E80;
@@ -58,17 +59,18 @@ const TrialTitle = styled.b`
     white-space: nowrap;
     overflow: hidden;
     display: block;
+    cursor: pointer;
 `;
 
 const TrialDescription = styled.div`
     width: 450px;
 `;
 
-const RecruitingSpan = styled.span`
+const RecruitingSpan = styled.span<{recruiting: boolean}>`
     height: 10px;
     width: 10px;
     display: inline-block;
-    background-color: white;
+    background-color: ${props => props.recruiting ? '#039D5F' : 'white'};
     border-radius: 50%;
     margin-right: 5px;
 `;
@@ -90,103 +92,109 @@ const LocationText = styled.div`
 
 const TrialSearchPage = () => {
 
-    // const [responseProfiles, setResponseProfiles] = useState(null);
-    const [selectedProfile, setSelectedProfile] = useState('');
+    const [responseProfiles, setResponseProfiles] = useState<PatientInfoList | null>(null);
+    const [responseTrials, setResponseTrials] = useState<TrialInfoList | null>(null);
+    const [selectedProfileId, setSelectedProfileId] = useState("");
     const [loading, setLoading] = useState(false);
+    const [maxRank, setMaxRank] = useState(0);
+    const [currentDescription, setCurrentDescription] = useState<string | null>(null);
     const userId = 1;
 
     const fetchProfilesList = async () => {
-
         try {
-            setLoading(true);
-
             const endpoint = `/patientinfo/?user=${userId}`;
             const response = await fetch(`${API_URL}${endpoint}`);
-            
             if (!response.ok) {
                 throw new Error(`Failed to fetch profiles. Status: ${response.status}`);
             }
-            
             const data = await response.json();
-            // setResponseProfiles(JSON.parse(data));
+            setResponseProfiles(JSON.parse(data));
         } catch (error) {
             console.error('Error fetching profiles:', error.message);
+        }
+    };
+
+    const fetchTrials = async () => {
+        try {
+            setLoading(true);
+            const endpoint = `/search_trials/?info_id=${selectedProfileId}&rank=${maxRank}`;
+            const response = await fetch(`${API_URL}${endpoint}`);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch trials. Status: ${response.status}`);
+            }
+            const data = await response.json();
+            setResponseTrials(JSON.parse(data));
+        } catch (error) {
+            console.error('Error fetching trials:', error.message);
         } finally {
             setLoading(false);
         }
     };
+
+    const displayTrials = () => {
+        return (
+            loading ? <div>Loading... </div> : responseTrials &&
+            Object.values(responseTrials).map((trial) => (
+                <TrialContainer key={trial.NCTId}>
+                <TrialDescription>
+                    <TrialTitle
+                        onClick={() => setCurrentDescription(trial.DetailedDescription)}
+                    >
+                        {trial.BriefTitle}
+                    </TrialTitle>
+                    <p><u><a href={trial.url} target='__blank' style={{color: 'white', fontFamily: 'math'}}>
+                        Learn More About This Study...
+                    </a></u></p>
+                    <div style={{color: '#BDBDBD', display: 'flex', alignItems: 'center'}}>
+                        <RecruitingSpan recruiting={trial.OverallStatus == "Recruiting"} />
+                        {trial.OverallStatus}
+                    </div>
+                </TrialDescription>
+                <TrialSymbols>
+                <img 
+                    src={require("../../images/Bookmark.svg")}
+                    style={{height: 45, width: 45}}
+                />
+                    <TrialLocation>
+                        <img 
+                            src={require("../../images/Location.svg")}
+                            style={{height: 40, width: 40}}
+                        />
+                        <LocationText>
+                            <b style={{color: "white"}}>{trial.Distance} km</b>
+                            <div style={{fontSize: 14, color: '#BDBDBD'}}>from you</div>
+                        </LocationText>
+                    </TrialLocation>
+                </TrialSymbols>
+                </TrialContainer>
+            ))
+        )
+    }
     
     return (
         <>
             <TrialSearchHeader>
                 <StyledDropDown
-                    value={selectedProfile} 
-                    onChange={(e) => setSelectedProfile(e.target.value)}
+                    value={selectedProfileId} 
+                    onChange={(e) => setSelectedProfileId(e.target.value)}
                 >
                     <option value="" disabled>-- Select Patient Profile --</option>
+                    {responseProfiles && Object.values(responseProfiles).map((profile) => (
+                        <option key={profile.id} value={profile.id}>{profile.title}</option>
+                    ))}
                 </StyledDropDown>
                 <StyledDropDown />
-                <StyledButton>Search</StyledButton>
+                <StyledButton onClick={fetchTrials}>Search</StyledButton>
                 <StyledButton>View Bookmarks</StyledButton>
             </TrialSearchHeader>
             
-            <TrialsListContainer>
-                <TrialContainer>
-                    <TrialDescription>
-                        <TrialTitle>Title of trial or study testing the length of super long titles</TrialTitle>
-                        <p><u><a href="http://www.google.com" target='__blank' style={{color: 'white', fontFamily: 'math'}}>
-                            Learn More About This Study...
-                        </a></u></p>
-                        <div style={{color: '#BDBDBD', display: 'flex', alignItems: 'center'}}>
-                            <RecruitingSpan />
-                            {true ? 'Recruiting' : 'Not Recruiting'}
-                        </div>
-                    </TrialDescription>
-                    <TrialSymbols>
-                    <img 
-                        src={require("../../images/Bookmark.svg")}
-                        style={{height: 45, width: 45}}
-                    />
-                    <TrialLocation>
-                        <img 
-                            src={require("../../images/Location.svg")}
-                            style={{height: 40, width: 40}}
-                        />
-                        <LocationText>
-                        <b style={{color: "white"}}>2 km</b>
-                        <div style={{fontSize: 14, color: '#BDBDBD'}}>from you</div>
-                        </LocationText>
-                    </TrialLocation></TrialSymbols>
-                </TrialContainer>
+            <div style={{display: 'flex'}}>
+                <TrialsListContainer>
+                    {displayTrials()}
+                </TrialsListContainer>
 
-                <TrialContainer>
-                    <TrialDescription>
-                        <b style={{color: "white", fontSize: 20, fontFamily: 'math'}}>Title of trial or study</b>
-                        <p><u><a href="http://www.google.com" target='__blank' style={{color: 'white', fontFamily: 'math'}}>
-                            Learn More About This Study...
-                        </a></u></p>
-                        <div style={{color: '#BDBDBD', display: 'flex', alignItems: 'center'}}>
-                            <RecruitingSpan />
-                            {true ? 'Recruiting' : 'Not Recruiting'}
-                        </div>
-                    </TrialDescription>
-                    <TrialSymbols>
-                    <img 
-                        src={require("../../images/Bookmark.svg")}
-                        style={{height: 45, width: 45}}
-                    />
-                    <TrialLocation>
-                        <img 
-                            src={require("../../images/Location.svg")}
-                            style={{height: 40, width: 40}}
-                        />
-                        <LocationText>
-                        <b style={{color: "white"}}>2 km</b>
-                        <div style={{fontSize: 14, color: '#BDBDBD'}}>from you</div>
-                        </LocationText>
-                    </TrialLocation></TrialSymbols>
-                </TrialContainer>
-            </TrialsListContainer>
+                {currentDescription && <div style={{padding: 15, color: 'white', fontFamily: 'math'}}>{currentDescription}</div>}
+            </div>
         </>
     );
 }
