@@ -1,9 +1,10 @@
 // Get the card container
 var cardContainer = document.getElementById('cardContainer');
 
-fetch('/your-api-endpoint/patient-info/')
+fetch('/patientinfo/?user=1')
   .then(response => response.json())  
   .then(data => {
+    // not so sure about this part
     var names = data.map(patient => `${patient.user_data.first_name} ${patient.user_data.last_name}`);
 
     // Create a card for each name
