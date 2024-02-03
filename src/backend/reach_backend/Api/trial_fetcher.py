@@ -91,6 +91,7 @@ class TrialFetcher:
         studies = studies[
             [
                 "NCTId",
+                "Rank",
                 "BriefTitle",
                 "DetailedDescription",
                 "OverallStatus",
