@@ -62,14 +62,14 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
         setAuthenticated(false);
     };
 
-    const register = async (username: string, password: string, email: string, first_name: string, last_name: string, is_clininician: boolean) => {
+    const register = async (username: string, password: string, email: string, first_name: string, last_name: string, is_clinician: boolean) => {
         try {
             const response = await fetch(`${API_URL}/register/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, username, password, userData: { first_name, last_name, is_clininician } }),
+                body: JSON.stringify({ email, username, password, userData: { first_name, last_name, is_clinician } }),
             });
 
             if (!response.ok) {

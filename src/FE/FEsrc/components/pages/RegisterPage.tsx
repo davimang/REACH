@@ -64,7 +64,7 @@ const RegisterPage: React.FC = () => {
         email: '',
         first_name: '',
         last_name: '',
-        is_clinician: false, // Set default value
+        is_clinician: false,
     });
     const [error, setError] = useState<string | null>(null);
 
