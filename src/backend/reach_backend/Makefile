@@ -11,7 +11,7 @@ run:
 
 #run api in docker. *must have docker-compose installed, although most likely will come with docker installation
 up:
-	docker-compose up
+	docker-compose up -d --build
 
 #david helpers - these are just things that I find helpful based on my setup (might be helpful for u too)
 devenv:
