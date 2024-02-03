@@ -11,6 +11,7 @@ interface AuthContextValue {
     userId: string | null;
     login: (username: string, password: string) => Promise<void>;
     logout: () => void;
+    register: (username: string, password: string, email: string, first_name: string, last_name: string, is_clininician: boolean) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -59,6 +60,27 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
 
         setUserId(null);
         setAuthenticated(false);
+    };
+
+    const register = async (username: string, password: string, email: string, first_name: string, last_name: string, is_clininician: boolean) => {
+        try {
+            const response = await fetch(`${API_URL}/register/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, username, password, userData: { first_name, last_name, is_clininician } }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Registration failed');
+            }
+
+            await login(username, password);
+        } catch (error) {
+            console.error('Registration failed:', error);
+            throw error;
+        }
     };
 
     const refreshAccessToken = async () => {
@@ -125,7 +147,7 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, userId, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, userId, login, logout, register }}>
             {children}
         </AuthContext.Provider>
     );
