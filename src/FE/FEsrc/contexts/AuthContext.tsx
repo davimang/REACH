@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { API_URL } from '..';
 
 interface AuthContextProps {
@@ -9,6 +9,7 @@ interface AuthContextProps {
 
 interface AuthContextValue {
     isAuthenticated: boolean;
+    userId: string | null;
     login: (username: string, password: string) => Promise<void>;
     logout: () => void;
 }
@@ -17,6 +18,7 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
     const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
+    const [userId, setUserId] = useState<string | null>(null);
 
     const login = async (username: string, password: string) => {
         try {
@@ -35,8 +37,14 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
 
             const { access, refresh } = await response.json();
 
+            const decodedAccessToken: any = jwtDecode(access);
+            const user_id = decodedAccessToken.user_id;
+
             localStorage.setItem('accessToken', access);
             localStorage.setItem('refreshToken', refresh);
+            localStorage.setItem('userID', user_id);
+
+            setUserId(userId);
             setAuthenticated(true);
 
         } catch (error) {
@@ -48,11 +56,14 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
     const logout = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        localStorage.removeItem('userID');
+
+        setUserId(null);
         setAuthenticated(false);
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, userId, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
