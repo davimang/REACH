@@ -355,6 +355,8 @@ const ProfileCreationPage = () => {
         "Spermatocele"
     ]
 
+    //const userId = localStorage.get("userId");
+
     const genderMapping = {"Male" : "M", "Female": "F", "Other": "O"};
 
     const [advancedInfoAsthma, setAdvancedInfoAsthma] = useState({
@@ -371,7 +373,7 @@ const ProfileCreationPage = () => {
             address: "", 
             dateOfBirth: "", 
             gender: "", 
-            userData: 1, 
+            user: 1, 
             condition: "", 
             advancedInfo: advancedInfoAsthma
         }
@@ -406,7 +408,7 @@ const ProfileCreationPage = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 date_of_birth: formValues.dateOfBirth, 
-                user_data: formValues.userData, 
+                user: formValues.user, 
                 gender: genderMapping[formValues.gender],
                 title: formValues.name,
                 condition: formValues.condition,
@@ -462,24 +464,6 @@ const ProfileCreationPage = () => {
                         <option value="Other">Other</option>
                     </StyledDropDown>
                     <StyledLabel>Condition</StyledLabel>
-                    {/* <StyledDropDown
-                        value={formValues.condition}
-                        onChange={(e) => {
-                                console.log(e.target.value);
-                                const newCondition = e.target.value;
-                                console.log("new condition: ", newCondition);
-                                setFormValues({ ...formValues, condition: newCondition});
-                                console.log(formValues);
-                                handleAdvancedInfo();
-                                console.log(e.target.value);
-                            }
-                        }
-                    >
-                        <option value="" disabled>-- Select Condition --</option>
-                        <option value="Asthma">Asthma</option>
-                        <option value="COPD">COPD</option>
-                        <option value="Other">Other</option>
-                    </StyledDropDown> */}
                     <Autocomplete
                         disablePortal
                         onInputChange={(event, value, reason) => {
