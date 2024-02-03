@@ -1,5 +1,4 @@
 """Views for the api service."""
-
 from datetime import date
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
