@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MenuHeader from './MenuHeader';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
+import FAQPage from './pages/FAQPage';
 
 function App () {
 
@@ -13,6 +14,7 @@ function App () {
             <Routes>
                 <Route path='/' element={<LandingPage />} />
                 <Route path='/login' element={<LoginPage />} />
+                <Route path='/faq' element={<FAQPage />} />
             </Routes>
         </BrowserRouter>
     );
