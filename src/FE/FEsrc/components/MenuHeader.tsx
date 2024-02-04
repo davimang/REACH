@@ -49,7 +49,9 @@ const MenuHeader = () => {
                     />
                 </Link>
                 <MenuButtons>
-                    <div style={{borderTopLeftRadius: 10, borderBottomLeftRadius: 10}}><StyledButton>FAQs</StyledButton></div>
+                    <Link to='/faq'>
+                        <div style={{borderTopLeftRadius: 10, borderBottomLeftRadius: 10}}><StyledButton>FAQs</StyledButton></div>
+                    </Link>
                     <Link to="/contact">
                         <div style={{paddingLeft: 2, paddingRight: 2, backgroundColor: '#FFFFFF'}}><StyledButton>Contact Us</StyledButton></div>
                     </Link>
