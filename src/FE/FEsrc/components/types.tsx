@@ -53,4 +53,15 @@ export interface TrialInfo {
 export interface TrialInfoList {
     [key: string]: TrialInfo;
 }
+
+export interface SavedTrial {
+    title: string;
+    description: string;
+    url: string;
+}
+
+
+export interface SavedTrialList {
+    [key: string]: SavedTrial;
+}
   

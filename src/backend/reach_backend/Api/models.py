@@ -42,7 +42,7 @@ class PatientInfo(models.Model):
 class Trial(models.Model):
     """Trial model."""
 
-    patient_profile = models.ForeignKey(PatientInfo, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     title = models.TextField()
     description = models.TextField()
     url = models.URLField(max_length=200)

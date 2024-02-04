@@ -112,7 +112,7 @@ class TrialFilter(filters.FilterSet):
         """
 
         model = Trial
-        fields = ["patient_profile"]
+        fields = ["user"]
 
 
 class TrialViewSet(viewsets.ModelViewSet):
