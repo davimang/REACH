@@ -10,7 +10,6 @@ import RegisterPage from './pages/RegisterPage';
 import AboutUsPage from './pages/AboutUsPage';
 import ContactUsPage from './pages/ContactUsPage';
 import FAQPage from './pages/FAQPage'
-import TrialSearchPage from './pages/TrialSearchPage';
 
 function App() {
 
@@ -24,7 +23,7 @@ function App() {
                     <Route path='/register' element={<RegisterPage />} />
                     <Route path='/about' element={<AboutUsPage/>} />
                     <Route path='/contact' element={<ContactUsPage/>}/>
-                    <Route path='/faq' element={<TrialSearchPage/>}/>
+                    <Route path='/faq' element={<FAQPage/>}/>
                 </Routes>
             </BrowserRouter>
         </AuthProvider>
