@@ -135,6 +135,9 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
                     refreshAccessToken();
                 }
             }
+            else {
+                refreshAccessToken();
+            }
         };
 
         checkTokenExpiration();
