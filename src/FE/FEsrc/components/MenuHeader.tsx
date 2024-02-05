@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { useAuth } from '../contexts/AuthContext';
 
 const Header = styled.div`
     padding: 25px;
@@ -36,35 +37,42 @@ const MenuButtons = styled.div`
     display: inline-flex;
 `;
 
-const MenuHeader = () => {
-    
+const MenuHeader: React.FC = () => {
+    const { isAuthenticated, userId, login, logout, register } = useAuth();
+
     return (
         <Header>
             <HeaderComponents>
                 <Link to="/">
-                    <img 
-                    src={require("../images/Logo.svg")}
-                    height={100}
-                    style={{paddingRight: 20, cursor: 'pointer'}}
+                    <img
+                        src={require("../images/Logo.svg")}
+                        height={100}
+                        style={{ paddingRight: 20, cursor: 'pointer' }}
                     />
                 </Link>
                 <MenuButtons>
                     <Link to='/faq'>
-                        <div style={{borderTopLeftRadius: 10, borderBottomLeftRadius: 10}}><StyledButton>FAQs</StyledButton></div>
+                        <div style={{ borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}><StyledButton>FAQs</StyledButton></div>
                     </Link>
                     <Link to="/contact">
-                        <div style={{paddingLeft: 2, paddingRight: 2, backgroundColor: '#FFFFFF'}}><StyledButton>Contact Us</StyledButton></div>
+                        <div style={{ paddingLeft: 2, paddingRight: 2, backgroundColor: '#FFFFFF' }}><StyledButton>Contact Us</StyledButton></div>
                     </Link>
                     <Link to="/about">
-                        <div style={{borderTopRightRadius: 10, borderBottomRightRadius: 10}}><StyledButton>About Us</StyledButton></div>
+                        <div style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10 }}><StyledButton>About Us</StyledButton></div>
                     </Link>
                 </MenuButtons>
-                <Link to="/login">
-                    <div style={{borderRadius: 10, width: 125, paddingLeft: 20}}><StyledButton>Sign In</StyledButton></div>
-                </Link>
-            </HeaderComponents>
-        </Header>
+                {!isAuthenticated ? (
+                    <Link to="/login">
+                        <div style={{ borderRadius: 10, width: 125, paddingLeft: 20 }}><StyledButton>Sign In</StyledButton></div>
+                    </Link>
+                ) : (
+                    <Link to="/">
+                        <div style={{ borderRadius: 10, width: 125, paddingLeft: 20 }}><StyledButton>Profiles</StyledButton></div>
+                    </Link>
+                )}
+            </HeaderComponents >
+        </Header >
     );
-}
+};
 
 export default MenuHeader;
