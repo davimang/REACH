@@ -46,7 +46,7 @@ const StyledButton = styled.button`
     font-size: 22px;
     font-family: math;
     cursor: pointer;
-    padding: 0 15px;
+    padding: 15px 15px;
 `;
 
 const ProfileCreationPage = () => {
