@@ -13,17 +13,21 @@ interface PatientProfile {
 
 const ListProfiles: React.FC = () => {
     const [profiles, setProfiles] = useState<PatientProfile[]>([]);
-  
+    const fetchProfilesList = async () => {
+      try {
+          const endpoint = `/patientinfo/?user=1`;
+          const response = await fetch(`${API_URL}${endpoint}`);
+          if (!response.ok) {
+              throw new Error(`Failed to fetch profiles. Status: ${response.status}`);
+          }
+          const data = await response.json();
+          setProfiles(JSON.parse(data));
+      } catch (error) {
+          console.error('Error fetching profiles:', error.message);
+      }
+  };
     useEffect(() => {
-      // Simulating fetching data from the API
-      const fakeData: PatientProfile[] = [
-        { user_data: { first_name: 'John', last_name: 'Doe' } },
-        { user_data: { first_name: 'Jane', last_name: 'Smith' } },
-        { user_data: { first_name: 'Bob', last_name: 'Johnson' } },
-        // Add more fake profiles as needed
-      ];
-  
-      setProfiles(fakeData);
+      fetchProfilesList();
     }, []);
   
     return (
