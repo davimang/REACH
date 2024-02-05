@@ -94,10 +94,6 @@ const StyledImage = styled.img`
     cursor: pointer;
 `;
 
-interface KeyToKey {
-    string: string
-}
-
 const TrialSearchPage = () => {
     const navigate = useNavigate();
     const [responseProfiles, setResponseProfiles] = useState<PatientInfoList | null>(null);

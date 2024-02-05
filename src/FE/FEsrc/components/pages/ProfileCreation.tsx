@@ -402,10 +402,10 @@ const ProfileCreationPage = () => {
         e.preventDefault();
         const splitAddress = formValues.address.split(",");
         const formattedAddress = {
-            street: splitAddress[0].trim(),
-            city: splitAddress[1].trim(),
-            province: splitAddress[2].trim(),
-            postalCode: splitAddress[3].trim()
+            street: splitAddress[0],
+            city: splitAddress[1],
+            province: splitAddress[2],
+            postalCode: splitAddress[3]
         }
         const requestOptions = {
             method: 'POST',

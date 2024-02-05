@@ -41,15 +41,6 @@ const TrialSymbols = styled.div`
     justify-content: flex-end;
 `;
 
-const TrialLocation = styled.div`
-    display: flex;
-`;
-
-const LocationText = styled.div`
-    align-content: center;
-    display: grid
-`;
-
 const StyledImage = styled.img`
     cursor: pointer;
 `;
@@ -60,7 +51,6 @@ const SaveTrialsPage = () => {
     const userId = localStorage.getItem("userId");
     const [loading, setLoading] = useState(false);
     const [currentDescription, setCurrentDescription] = useState<string | null>(null);
-    const [deleteAction, setDeleteAction] = useState(false)
 
     const handleDelete = (trial) => {
         const trialId = trial.id;
