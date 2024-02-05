@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 
 import { API_URL } from '../..';
@@ -108,7 +108,7 @@ const TrialSearchPage = () => {
                 throw new Error(`Failed to fetch profiles. Status: ${response.status}`);
             }
             const data = await response.json();
-            setResponseProfiles(JSON.parse(data));
+            setResponseProfiles(data);
         } catch (error) {
             console.error('Error fetching profiles:', error.message);
         }
@@ -170,6 +170,10 @@ const TrialSearchPage = () => {
                 ))
         )
     }
+
+    useEffect(() => {
+        fetchProfilesList();
+    }, []);
 
     return (
         <>
