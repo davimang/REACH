@@ -10,6 +10,7 @@ import RegisterPage from './pages/RegisterPage';
 import AboutUsPage from './pages/AboutUsPage';
 import ContactUsPage from './pages/ContactUsPage';
 import FAQPage from './pages/FAQPage'
+import ListProfiles from './pages/ListProfiles';
 
 function App() {
 
@@ -18,12 +19,13 @@ function App() {
             <BrowserRouter>
                 <MenuHeader />
                 <Routes>
-                    <Route path='/' element={<LandingPage />} />
+                    {/* <Route path='/' element={<LandingPage />} />
                     <Route path='/login' element={<LoginPage />} />
                     <Route path='/register' element={<RegisterPage />} />
                     <Route path='/about' element={<AboutUsPage/>} />
                     <Route path='/contact' element={<ContactUsPage/>}/>
-                    <Route path='/faq' element={<FAQPage/>}/>
+                    <Route path='/faq' element={<FAQPage/>}/> */}
+                    <Route path='/faq' element={<ListProfiles/>}/>
                 </Routes>
             </BrowserRouter>
         </AuthProvider>
