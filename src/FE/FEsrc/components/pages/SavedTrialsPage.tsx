@@ -72,7 +72,7 @@ const SaveTrialsPage = () => {
 
     useEffect(() => {
         fetchSavedTrials()
-    });
+    }, []);
 
     const displayTrials = () => {
         return (
