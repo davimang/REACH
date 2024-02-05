@@ -6,10 +6,7 @@ import UserDataCard from '../UserDataCard';
 import styled from '@emotion/styled';
 
 const AccountProfilePageContainer = styled.div`
-    display: inline-flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
+    display: flex;
 `;
 
 const Header = styled.h1`
@@ -17,13 +14,17 @@ const Header = styled.h1`
 `;
 
 const ProfileListContainer = styled.div`
-  display: grid
-  margin: auto;
+  display: grid;
+  justify-content: center;
+  width: 45%;
 `;
 
 const UserDataContainer = styled.div`
   padding: 25px;
-  width: 45vw;
+  width: 45%;
+  height: fit-content;
+  justify-content: center;
+  display: grid;
   color: #FFFFFF;
   font-size: 20px;
   font-family: math;

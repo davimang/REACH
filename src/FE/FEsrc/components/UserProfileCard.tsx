@@ -12,9 +12,9 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({ name, condition }) =>
         <span> { name } </span>
       </div>
       <div className="card-content" style={contentStyle}>
-        <h1 className="profile-name" style={nameStyle}>
+        <div className="profile-name" style={nameStyle}>
           Condition: {condition}
-        </h1>
+        </div>
         <a href="saved-trials.html" className= "saved-trials-link" >
           Edit Profile
         </a>
@@ -29,7 +29,7 @@ export default UserProfileCard;
 
 const cardStyle: React.CSSProperties = {
     boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
-    width: '280px',
+    width: '300px',
     margin: '10px',
     textAlign: 'center',
     fontFamily: 'arial',
@@ -45,8 +45,9 @@ const cardStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '36px',
-    height: '80px',
+    padding: 8,
+    fontSize: '25px',
+    minHeight: 36,
   };
   
   const contentStyle: React.CSSProperties = {
@@ -58,9 +59,6 @@ const cardStyle: React.CSSProperties = {
   
   const nameStyle: React.CSSProperties = {
     fontSize: '18px',
-    height: '40px',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
+    paddingBottom: 15,
     color: 'black'
   };

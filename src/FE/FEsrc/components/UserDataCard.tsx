@@ -37,7 +37,7 @@ export default UserDataCard;
 
 const cardStyle: React.CSSProperties = {
     boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
-    width: '280px',
+    width: '360px',
     margin: '10px',
     textAlign: 'center',
     fontFamily: 'arial',
@@ -54,7 +54,7 @@ const cardStyle: React.CSSProperties = {
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: '36px',
-    height: '80px',
+    height: '90px',
   };
   
   const contentStyle: React.CSSProperties = {
