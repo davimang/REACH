@@ -15,7 +15,7 @@ const ListProfiles: React.FC = () => {
     const [profiles, setProfiles] = useState<PatientProfile[]>([]);
     const fetchProfilesList = async () => {
       try {
-          const endpoint = `/patientinfo/?user=1`;
+          const endpoint = `/patientinfo/?user=1`;  // set it to 1 for now
           const response = await fetch(`${API_URL}${endpoint}`);
           if (!response.ok) {
               throw new Error(`Failed to fetch profiles. Status: ${response.status}`);
