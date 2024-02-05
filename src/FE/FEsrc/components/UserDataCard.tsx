@@ -1,30 +1,38 @@
 import React from "react";
 
-interface UserProfileCardProps{
-    name: string;   
-    condition: string;
+
+interface UserDataCardProps{
+    firstName: string;
+    lastName: string;
+    createdDate: string;
 }
 
-const UserProfileCard: React.FC<UserProfileCardProps> = ({ name, condition }) => {
+
+const UserDataCard: React.FC<UserDataCardProps> = ({ firstName, lastName,  createdDate}) => {
   return (
     <div className="cards" style= {cardStyle} >
       <div className="name-circle" style= {circleStyle} >
-        <span> { name } </span>
+        <span> Account Info </span>
       </div>
       <div className="card-content" style={contentStyle}>
-        <h1 className="profile-name" style={nameStyle}>
-          Condition: {condition}
-        </h1>
+        <div className="profile-name" style={nameStyle}>
+            First Name: {firstName}
+        </div>
+        <div className="profile-name" style={nameStyle}>
+          Last Name: {lastName}
+        </div>
+        <div className="profile-name" style={nameStyle}>
+        Account Created: {createdDate}
+        </div>
         <a href="saved-trials.html" className= "saved-trials-link" >
-          Edit Profile
+          Edit Account Info
         </a>
       </div>
     </div>
   );
 };
 
-
-export default UserProfileCard;
+export default UserDataCard;
 
 
 const cardStyle: React.CSSProperties = {

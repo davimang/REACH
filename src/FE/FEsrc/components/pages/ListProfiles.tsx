@@ -2,67 +2,89 @@ import React, { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../..';
 import UserProfileCard from '../UserProfileCard';
+import UserDataCard from '../UserDataCard';
+import styled from '@emotion/styled';
+
+const AccountProfilePageContainer = styled.div`
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+const Header = styled.h1`
+    color: white
+`;
+
+const ProfileListContainer = styled.div`
+  display: grid
+  margin: auto;
+`;
+
+const UserDataContainer = styled.div`
+  padding: 25px;
+  width: 45vw;
+  color: #FFFFFF;
+  font-size: 20px;
+  font-family: math;
+`;
 
 interface PatientProfile {
-    user_data: {
-      first_name: string;
-      last_name: string;
-    };
+    title: string;
+    condition: string;
 }
 
+interface UserData {
+    first_name: string;
+    last_name: string;
+    created: string;
+}
 
 const ListProfiles: React.FC = () => {
+
+    const userId = localStorage.getItem("userID") ? localStorage.getItem("userID") : 1;
     const [profiles, setProfiles] = useState<PatientProfile[]>([]);
-    const fetchProfilesList = async () => {
+    const [userData, setUserData] = useState<UserData>({first_name: "name", last_name: "name", created: "date"});
+    
+    const fetchProfilesList = () => {
       try {
-          const endpoint = `/patientinfo/?user=1`;  // set it to 1 for now
-          const response = await fetch(`${API_URL}${endpoint}`);
-          if (!response.ok) {
-              throw new Error(`Failed to fetch profiles. Status: ${response.status}`);
-          }
-          const data = await response.json();
-          setProfiles(JSON.parse(data));
+          const endpoint = `/patientinfo/?user=${userId}`;
+          fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => {setProfiles(response)});
+          console.log(profiles)
       } catch (error) {
           console.error('Error fetching profiles:', error.message);
       }
-  };
+    };
+
+    const fetchUserData = () => {
+      try{
+        const endpoint = `/userdata/${userId}/`;
+        fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => {setUserData(response)});
+        console.log(userData)
+    } catch (error) {
+        console.error('Error fetching account info:', error.message);
+    }
+    } 
+
     useEffect(() => {
       fetchProfilesList();
+      fetchUserData();
     }, []);
   
     return (
-      <div>
-        <h1>Profiles</h1>
-        <div>
+
+      <AccountProfilePageContainer>
+        <UserDataContainer>
+        <UserDataCard firstName={`${userData.first_name}`} lastName={`${userData.last_name}`} createdDate={`${userData.created}`}/>
+        </UserDataContainer>
+        <ProfileListContainer>
+        <Header>Profiles</Header>
           {profiles.map((profile, index) => (
-            <UserProfileCard key={index} name={`${profile.user_data.first_name} ${profile.user_data.last_name}`} />
+            <UserProfileCard key={index} name={`${profile.title}`} condition={`${profile.condition}`}/>
           ))}
-        </div>
-      </div>
+        </ProfileListContainer>
+      </AccountProfilePageContainer>
     );
   };
-
-// const ListProfiles: React.FC = () => {
-//     const [profiles, setProfiles] = useState<PatientProfile[]>([]);
-
-//     useEffect(() => {
-//         fetch('http://localhost:8000/patientinfo/?user=1')
-//         .then(response => response.json())
-//         .then(data => setProfiles(data)).catch(error => (console.error('Error fetching data:', error)));
-//     }, []);
-
-//     return (
-//         <div>
-//             <h1>Profiles</h1>
-//             <div>
-//                 {profiles.map((profile, index) => (
-//                     <UserProfileCard 
-//                         key={index} 
-//                         name={profile.user_data.first_name} />
-//                 ))}
-//             </div>
-//         </div>
-//     );
-// }
 
 export default ListProfiles;
