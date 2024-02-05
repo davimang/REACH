@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 
 import { API_URL } from '../..';
-import { SavedTrialList } from '../types';
+import { SavedTrialList, SavedTrial } from '../types';
 
 const TrialsListContainer = styled.div`
     width: 600px;
@@ -50,19 +50,40 @@ const LocationText = styled.div`
     display: grid
 `;
 
+const StyledImage = styled.img`
+    cursor: pointer;
+`;
+
 const SaveTrialsPage = () => {
 
-    const [trials, setTrials] = useState<SavedTrialList | null>(null);
+    const [trials, setTrials] = useState<SavedTrial[]>([]);
     const userId = localStorage.getItem("userId");
     const [loading, setLoading] = useState(false);
     const [currentDescription, setCurrentDescription] = useState<string | null>(null);
+    const [deleteAction, setDeleteAction] = useState(false)
+
+    const handleDelete = (trial) => {
+        const trialId = trial.id;
+        try {
+            const endpoint = `/trials/${trialId}/`;
+            const requestOptions = {
+                method: 'DELETE'
+            };
+            fetch(`${API_URL}${endpoint}`, requestOptions).then(response => console.log(response));
+        } catch (error) {
+            console.error('Error deleting trial:', error.message);
+        }
+        console.log(trials)
+        if(trials){
+            const newTrials = Object.values(trials).filter((trial) => trial.id !== trialId);
+            setTrials(newTrials);
+        }
+    }
 
     const fetchSavedTrials = () => {
         try {
-
             const endpoint = `/trials/?user=${userId}`;
-            const response = fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => { setTrials(response) });
-            console.log(trials);
+            fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => { setTrials(response) });
         } catch (error) {
             console.error('Error fetching trials:', error.message);
         } finally {
@@ -78,7 +99,7 @@ const SaveTrialsPage = () => {
         return (
             loading ? <div>Loading... </div> : trials &&
                 Object.values(trials).map((trial) => (
-                    <TrialContainer>
+                    <TrialContainer key={trial.id}>
                         <TrialDescription>
                             <TrialTitle
                                 onClick={() => setCurrentDescription(trial.description)}
@@ -90,9 +111,10 @@ const SaveTrialsPage = () => {
                             </a></u></p>
                         </TrialDescription>
                         <TrialSymbols>
-                            <img
+                            <StyledImage
                                 src={require("../../images/Saved.svg")}
                                 style={{ height: 45, width: 45 }}
+                                onClick={() => handleDelete(trial)}
                             />
                         </TrialSymbols>
                     </TrialContainer>

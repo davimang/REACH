@@ -90,6 +90,14 @@ const LocationText = styled.div`
     display: grid
 `;
 
+const StyledImage = styled.img`
+    cursor: pointer;
+`;
+
+interface KeyToKey {
+    string: string
+}
+
 const TrialSearchPage = () => {
     const navigate = useNavigate();
     const [responseProfiles, setResponseProfiles] = useState<PatientInfoList | null>(null);
@@ -98,7 +106,38 @@ const TrialSearchPage = () => {
     const [loading, setLoading] = useState(false);
     const [maxRank, setMaxRank] = useState(0);
     const [currentDescription, setCurrentDescription] = useState<string | null>(null);
+    const [trialSaved, setTrialSaved] = useState({})
     const userId = localStorage.getItem('userId');
+
+    const handleSave = async (trial) => {
+
+        const isSaved = trialSaved[trial.NCTId]
+        setTrialSaved({ ...trialSaved, [trial.NCTId]:!isSaved});
+        
+        if(!isSaved){
+            try {
+            const endpoint = `/trials/`;
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: trial.BriefTitle,
+                    description: trial.DetailedDescription,
+                    url: trial.url,
+                    user: userId
+                })
+            };
+            const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
+            if (!response.ok) {
+                throw new Error(`Failed to save trial. Status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log(data)
+        } catch (error) {
+            console.error('Error saving trial:', error.message);
+        }
+        }
+    };
 
     const fetchProfilesList = async () => {
         try {
@@ -124,6 +163,11 @@ const TrialSearchPage = () => {
             }
             const data = await response.json();
             setResponseTrials(JSON.parse(data));
+            if(responseTrials){
+                Object.values(responseTrials).map(trial => {
+                    setTrialSaved({ ...trialSaved, [trial.NCTId]:false});
+                })
+            }
         } catch (error) {
             console.error('Error fetching trials:', error.message);
         } finally {
@@ -151,10 +195,16 @@ const TrialSearchPage = () => {
                             </div>
                         </TrialDescription>
                         <TrialSymbols>
-                            <img
+                            {!trialSaved[trial.NCTId] && <StyledImage
                                 src={require("../../images/Bookmark.svg")}
                                 style={{ height: 45, width: 45 }}
-                            />
+                                onClick={() => handleSave(trial)}
+                            />}
+                            {trialSaved[trial.NCTId] && <StyledImage
+                                src={require("../../images/Saved.svg")}
+                                style={{ height: 45, width: 45 }}
+                                onClick={() => handleSave(trial)}
+                            />}
                             <TrialLocation>
                                 <img
                                     src={require("../../images/Location.svg")}
@@ -191,7 +241,6 @@ const TrialSearchPage = () => {
                         <option key={profile.id} value={profile.id}>{profile.title}</option>
                     ))}
                 </StyledDropDown>
-                <StyledDropDown />
                 <StyledButton onClick={fetchTrials}>Search</StyledButton>
                 <StyledButton type='button' onClick={navigateToBookmarks}>View Bookmarks</StyledButton>
             </TrialSearchHeader>
