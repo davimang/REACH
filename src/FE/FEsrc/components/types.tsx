@@ -58,6 +58,7 @@ export interface SavedTrial {
     title: string;
     description: string;
     url: string;
+    id: string
 }
 
 
