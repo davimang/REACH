@@ -19,12 +19,12 @@ function App() {
             <BrowserRouter>
                 <MenuHeader />
                 <Routes>
-                    {/* <Route path='/' element={<LandingPage />} />
+                    <Route path='/' element={<LandingPage />} />
                     <Route path='/login' element={<LoginPage />} />
                     <Route path='/register' element={<RegisterPage />} />
                     <Route path='/about' element={<AboutUsPage/>} />
                     <Route path='/contact' element={<ContactUsPage/>}/>
-                    <Route path='/faq' element={<FAQPage/>}/> */}
+                    <Route path='/faq' element={<FAQPage/>}/>
                     <Route path='/listprofiles' element={<ListProfiles/>}/>
                 </Routes>
             </BrowserRouter>
