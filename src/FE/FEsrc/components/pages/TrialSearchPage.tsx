@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-
+import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../..';
 import { PatientInfoList, TrialInfoList } from '../types';
 
@@ -91,7 +91,7 @@ const LocationText = styled.div`
 `;
 
 const TrialSearchPage = () => {
-
+    const navigate = useNavigate();
     const [responseProfiles, setResponseProfiles] = useState<PatientInfoList | null>(null);
     const [responseTrials, setResponseTrials] = useState<TrialInfoList | null>(null);
     const [selectedProfileId, setSelectedProfileId] = useState("");
@@ -175,6 +175,10 @@ const TrialSearchPage = () => {
         fetchProfilesList();
     }, []);
 
+    const navigateToBookmarks = () => {
+        navigate('/savedTrials');
+    };
+
     return (
         <>
             <TrialSearchHeader>
@@ -189,7 +193,7 @@ const TrialSearchPage = () => {
                 </StyledDropDown>
                 <StyledDropDown />
                 <StyledButton onClick={fetchTrials}>Search</StyledButton>
-                <StyledButton>View Bookmarks</StyledButton>
+                <StyledButton type='button' onClick={navigateToBookmarks}>View Bookmarks</StyledButton>
             </TrialSearchHeader>
 
             <div style={{ display: 'flex' }}>
