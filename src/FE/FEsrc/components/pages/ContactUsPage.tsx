@@ -2,15 +2,12 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 const ContactUsContainer = styled.div`
-    display: inline-flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    justify-content: center;
+    padding: 25px;
 `;
 
 const ContactUsText = styled.div`
-    padding: 25px;
-    width: 45vw;
     color: #FFFFFF;
     font-size: 20px;
     font-family: math;
@@ -23,7 +20,7 @@ const ContactUsPage = () => {
         <ContactUsContainer>
             <ContactUsText>
                 <h1>Aamina Hussain</h1>
-                <p>Email: hussa54@mcmaster.ca</p>
+                <p>Email: hussaa54@mcmaster.ca</p>
                 <p>Linkedin: link to linkedin</p>
                 <p>Phone: 905-523-9145</p>
             </ContactUsText>
