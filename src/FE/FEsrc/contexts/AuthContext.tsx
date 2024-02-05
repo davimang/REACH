@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
 
             localStorage.setItem('accessToken', access);
             localStorage.setItem('refreshToken', refresh);
-            localStorage.setItem('userID', user_id);
+            localStorage.setItem('userId', user_id);
 
             setUserId(userId);
             setAuthenticated(true);
@@ -56,7 +56,7 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
     const logout = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        localStorage.removeItem('userID');
+        localStorage.removeItem('userId');
 
         setUserId(null);
         setAuthenticated(false);
@@ -134,6 +134,9 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
                 else {
                     refreshAccessToken();
                 }
+            }
+            else {
+                refreshAccessToken();
             }
         };
 

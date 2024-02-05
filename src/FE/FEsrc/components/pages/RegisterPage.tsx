@@ -91,7 +91,7 @@ const RegisterPage: React.FC = () => {
                 formData.is_clinician
             );
 
-            navigate('/');
+            navigate('/createProfile');
         } catch (error) {
             console.error('Registration failed:', error);
             setError('Registration  failed. Please try again.');

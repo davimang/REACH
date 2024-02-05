@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-
+import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../..';
 import { PatientInfoList, TrialInfoList } from '../types';
 
@@ -66,7 +66,7 @@ const TrialDescription = styled.div`
     width: 450px;
 `;
 
-const RecruitingSpan = styled.span<{recruiting: boolean}>`
+const RecruitingSpan = styled.span<{ recruiting: boolean }>`
     height: 10px;
     width: 10px;
     display: inline-block;
@@ -91,14 +91,14 @@ const LocationText = styled.div`
 `;
 
 const TrialSearchPage = () => {
-
+    const navigate = useNavigate();
     const [responseProfiles, setResponseProfiles] = useState<PatientInfoList | null>(null);
     const [responseTrials, setResponseTrials] = useState<TrialInfoList | null>(null);
     const [selectedProfileId, setSelectedProfileId] = useState("");
     const [loading, setLoading] = useState(false);
     const [maxRank, setMaxRank] = useState(0);
     const [currentDescription, setCurrentDescription] = useState<string | null>(null);
-    const userId = 1;
+    const userId = localStorage.getItem('userId');
 
     const fetchProfilesList = async () => {
         try {
@@ -108,7 +108,7 @@ const TrialSearchPage = () => {
                 throw new Error(`Failed to fetch profiles. Status: ${response.status}`);
             }
             const data = await response.json();
-            setResponseProfiles(JSON.parse(data));
+            setResponseProfiles(data);
         } catch (error) {
             console.error('Error fetching profiles:', error.message);
         }
@@ -134,48 +134,56 @@ const TrialSearchPage = () => {
     const displayTrials = () => {
         return (
             loading ? <div>Loading... </div> : responseTrials &&
-            Object.values(responseTrials).map((trial) => (
-                <TrialContainer key={trial.NCTId}>
-                <TrialDescription>
-                    <TrialTitle
-                        onClick={() => setCurrentDescription(trial.DetailedDescription)}
-                    >
-                        {trial.BriefTitle}
-                    </TrialTitle>
-                    <p><u><a href={trial.url} target='__blank' style={{color: 'white', fontFamily: 'math'}}>
-                        Learn More About This Study...
-                    </a></u></p>
-                    <div style={{color: '#BDBDBD', display: 'flex', alignItems: 'center'}}>
-                        <RecruitingSpan recruiting={trial.OverallStatus == "Recruiting"} />
-                        {trial.OverallStatus}
-                    </div>
-                </TrialDescription>
-                <TrialSymbols>
-                <img 
-                    src={require("../../images/Bookmark.svg")}
-                    style={{height: 45, width: 45}}
-                />
-                    <TrialLocation>
-                        <img 
-                            src={require("../../images/Location.svg")}
-                            style={{height: 40, width: 40}}
-                        />
-                        <LocationText>
-                            <b style={{color: "white"}}>{trial.Distance} km</b>
-                            <div style={{fontSize: 14, color: '#BDBDBD'}}>from you</div>
-                        </LocationText>
-                    </TrialLocation>
-                </TrialSymbols>
-                </TrialContainer>
-            ))
+                Object.values(responseTrials).map((trial) => (
+                    <TrialContainer key={trial.NCTId}>
+                        <TrialDescription>
+                            <TrialTitle
+                                onClick={() => setCurrentDescription(trial.DetailedDescription)}
+                            >
+                                {trial.BriefTitle}
+                            </TrialTitle>
+                            <p><u><a href={trial.url} target='__blank' style={{ color: 'white', fontFamily: 'math' }}>
+                                Learn More About This Study...
+                            </a></u></p>
+                            <div style={{ color: '#BDBDBD', display: 'flex', alignItems: 'center' }}>
+                                <RecruitingSpan recruiting={trial.OverallStatus == "Recruiting"} />
+                                {trial.OverallStatus}
+                            </div>
+                        </TrialDescription>
+                        <TrialSymbols>
+                            <img
+                                src={require("../../images/Bookmark.svg")}
+                                style={{ height: 45, width: 45 }}
+                            />
+                            <TrialLocation>
+                                <img
+                                    src={require("../../images/Location.svg")}
+                                    style={{ height: 40, width: 40 }}
+                                />
+                                <LocationText>
+                                    <b style={{ color: "white" }}>{trial.Distance} km</b>
+                                    <div style={{ fontSize: 14, color: '#BDBDBD' }}>from you</div>
+                                </LocationText>
+                            </TrialLocation>
+                        </TrialSymbols>
+                    </TrialContainer>
+                ))
         )
     }
-    
+
+    useEffect(() => {
+        fetchProfilesList();
+    }, []);
+
+    const navigateToBookmarks = () => {
+        navigate('/savedTrials');
+    };
+
     return (
         <>
             <TrialSearchHeader>
                 <StyledDropDown
-                    value={selectedProfileId} 
+                    value={selectedProfileId}
                     onChange={(e) => setSelectedProfileId(e.target.value)}
                 >
                     <option value="" disabled>-- Select Patient Profile --</option>
@@ -185,15 +193,15 @@ const TrialSearchPage = () => {
                 </StyledDropDown>
                 <StyledDropDown />
                 <StyledButton onClick={fetchTrials}>Search</StyledButton>
-                <StyledButton>View Bookmarks</StyledButton>
+                <StyledButton type='button' onClick={navigateToBookmarks}>View Bookmarks</StyledButton>
             </TrialSearchHeader>
-            
-            <div style={{display: 'flex'}}>
+
+            <div style={{ display: 'flex' }}>
                 <TrialsListContainer>
                     {displayTrials()}
                 </TrialsListContainer>
 
-                {currentDescription && <div style={{padding: 15, color: 'white', fontFamily: 'math'}}>{currentDescription}</div>}
+                {currentDescription && <div style={{ padding: 15, color: 'white', fontFamily: 'math' }}>{currentDescription}</div>}
             </div>
         </>
     );
