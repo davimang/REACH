@@ -1,10 +1,10 @@
 import React from "react";
 
-interface UserProfileCardProps{
+interface UserProfileCard{
     name: string;
 }
 
-const UserProfileCard: React.FC<UserProfileCardProps> = ({name}) => {
+const UserProfileCard: React.FC<UserProfileCard> = ({name}) => {
     return (
         <div className="cards">
             <div className="name-circle">
