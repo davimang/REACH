@@ -25,7 +25,7 @@ function App() {
                     <Route path='/about' element={<AboutUsPage/>} />
                     <Route path='/contact' element={<ContactUsPage/>}/>
                     <Route path='/faq' element={<FAQPage/>}/> */}
-                    <Route path='/faq' element={<ListProfiles/>}/>
+                    <Route path='/listprofiles' element={<ListProfiles/>}/>
                 </Routes>
             </BrowserRouter>
         </AuthProvider>
