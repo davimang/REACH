@@ -186,8 +186,10 @@ const TrialSearchPage = () => {
                                 Learn More About This Study...
                             </a></u></p>
                             <div style={{ color: '#BDBDBD', display: 'flex', alignItems: 'center' }}>
-                                <RecruitingSpan recruiting={trial.OverallStatus == "Recruiting"} />
-                                {trial.OverallStatus}
+                                {/* <RecruitingSpan recruiting={trial.OverallStatus == "Recruiting"} />
+                                {trial.OverallStatus} */}
+                                <RecruitingSpan recruiting={true} />
+                                <span>Recruiting: {trial.OverallStatus}</span>
                             </div>
                         </TrialDescription>
                         <TrialSymbols>

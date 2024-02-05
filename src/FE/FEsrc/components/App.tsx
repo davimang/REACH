@@ -27,11 +27,11 @@ function App() {
                     <Route path='/register' element={<RegisterPage />} />
                     <Route path='/about' element={<AboutUsPage />} />
                     <Route path='/contact' element={<ContactUsPage />} />
-                    <Route path='/faq' element={<FAQPage />} />
+                    <Route path='/faq' element={<FAQPage />} /> */}
                     <Route path='/search' element={<TrialSearchPage />} />
-                    <Route path='/savedTrials' element={<SaveTrialsPage />} /> */}
-                    <Route path='/createProfile' element={<ProfileCreationPage />} />
-                    {/* <Route path='/listprofiles' element={<ListProfiles />} /> */}
+                    {/* <Route path='/savedTrials' element={<SaveTrialsPage />} />
+                    <Route path='/createProfile' element={<ProfileCreationPage />} /> 
+                    <Route path='/listprofiles' element={<ListProfiles />} /> */}
                 </Routes>
             </BrowserRouter>
         </AuthProvider>
