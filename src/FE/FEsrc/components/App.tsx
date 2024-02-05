@@ -10,6 +10,9 @@ import RegisterPage from './pages/RegisterPage';
 import AboutUsPage from './pages/AboutUsPage';
 import ContactUsPage from './pages/ContactUsPage';
 import FAQPage from './pages/FAQPage'
+import TrialSearchPage from './pages/TrialSearchPage';
+import SaveTrialsPage from './pages/SavedTrialsPage';
+import ProfileCreationPage from './pages/ProfileCreation';
 
 function App() {
 
@@ -21,9 +24,12 @@ function App() {
                     <Route path='/' element={<LandingPage />} />
                     <Route path='/login' element={<LoginPage />} />
                     <Route path='/register' element={<RegisterPage />} />
-                    <Route path='/about' element={<AboutUsPage/>} />
-                    <Route path='/contact' element={<ContactUsPage/>}/>
-                    <Route path='/faq' element={<FAQPage/>}/>
+                    <Route path='/about' element={<AboutUsPage />} />
+                    <Route path='/contact' element={<ContactUsPage />} />
+                    <Route path='/faq' element={<FAQPage />} />
+                    <Route path='/search' element={<TrialSearchPage />} />
+                    <Route path='/savedTrials' element={<SaveTrialsPage />} />
+                    <Route path='/createProfile' element={<ProfileCreationPage />} />
                 </Routes>
             </BrowserRouter>
         </AuthProvider>

@@ -50,18 +50,18 @@ const LocationText = styled.div`
     display: grid
 `;
 
-const TrialSearchPage = () => {
+const SaveTrialsPage = () => {
 
     const [trials, setTrials] = useState<SavedTrialList | null>(null);
-    const userId = localStorage.getItem("userID");
+    const userId = localStorage.getItem("userId");
     const [loading, setLoading] = useState(false);
     const [currentDescription, setCurrentDescription] = useState<string | null>(null);
 
     const fetchSavedTrials = () => {
         try {
-            
+
             const endpoint = `/trials/?user=${userId}`;
-            const response = fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => {setTrials(response)});
+            const response = fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => { setTrials(response) });
             console.log(trials);
         } catch (error) {
             console.error('Error fetching trials:', error.message);
@@ -77,40 +77,40 @@ const TrialSearchPage = () => {
     const displayTrials = () => {
         return (
             loading ? <div>Loading... </div> : trials &&
-            Object.values(trials).map((trial) => (
-                <TrialContainer>
-                <TrialDescription>
-                    <TrialTitle
-                        onClick={() => setCurrentDescription(trial.description)}
-                    >
-                        {trial.title}
-                    </TrialTitle>
-                    <p><u><a href={trial.url} target='__blank' style={{color: 'white', fontFamily: 'math'}}>
-                        Learn More About This Study...
-                    </a></u></p>
-                </TrialDescription>
-                <TrialSymbols>
-                <img 
-                    src={require("../../images/Saved.svg")}
-                    style={{height: 45, width: 45}}
-                />
-                </TrialSymbols>
-                </TrialContainer>
-            ))
+                Object.values(trials).map((trial) => (
+                    <TrialContainer>
+                        <TrialDescription>
+                            <TrialTitle
+                                onClick={() => setCurrentDescription(trial.description)}
+                            >
+                                {trial.title}
+                            </TrialTitle>
+                            <p><u><a href={trial.url} target='__blank' style={{ color: 'white', fontFamily: 'math' }}>
+                                Learn More About This Study...
+                            </a></u></p>
+                        </TrialDescription>
+                        <TrialSymbols>
+                            <img
+                                src={require("../../images/Saved.svg")}
+                                style={{ height: 45, width: 45 }}
+                            />
+                        </TrialSymbols>
+                    </TrialContainer>
+                ))
         )
     }
-    
+
     return (
         <>
-            <div style={{display: 'flex'}}>
+            <div style={{ display: 'flex' }}>
                 <TrialsListContainer>
                     {displayTrials()}
                 </TrialsListContainer>
 
-                {currentDescription && <div style={{padding: 15, color: 'white', fontFamily: 'math'}}>{currentDescription}</div>}
+                {currentDescription && <div style={{ padding: 15, color: 'white', fontFamily: 'math' }}>{currentDescription}</div>}
             </div>
         </>
     );
 }
 
-export default TrialSearchPage;
+export default SaveTrialsPage;
