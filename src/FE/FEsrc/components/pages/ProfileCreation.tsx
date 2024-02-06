@@ -489,8 +489,9 @@ const ProfileCreationPage = () => {
                         }}
                         freeSolo={true}
                         options={conditions}
+                        
                         sx={{ width: 435, height: 44, color: "white" }}
-                        renderInput={(params) => <TextField {...params} label="-- Select Condition --" sx={{ bgcolor: "white", borderColor: "white" }} value={formValues.condition}
+                        renderInput={(params) => <TextField {...params} label={formValues.condition ? null : "-- Select Condition --"} sx={{ bgcolor: "white", borderColor: "white" }} value={formValues.condition}
                             onChange={(e) => {
                                 console.log(e.target.value);
                                 const newCondition = e.target.value;
