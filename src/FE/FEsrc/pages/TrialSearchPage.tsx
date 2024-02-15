@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
-import { API_URL } from '../..';
-import { PatientInfoList, TrialInfoList } from '../types';
+import { API_URL } from '..';
+import { PatientInfoList, TrialInfoList } from '../components/types';
 
 const TrialSearchHeader = styled.div`
     background-color: #213E80;
