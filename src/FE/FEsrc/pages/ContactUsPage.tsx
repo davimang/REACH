@@ -15,7 +15,7 @@ const ContactUsText = styled.div`
 
 
 const ContactUsPage = () => {
-    
+
     return (
         <ContactUsContainer>
             <ContactUsText>

@@ -108,30 +108,30 @@ const TrialSearchPage = () => {
     const handleSave = async (trial) => {
 
         const isSaved = trialSaved[trial.NCTId]
-        setTrialSaved({ ...trialSaved, [trial.NCTId]:!isSaved});
-        
-        if(!isSaved){
+        setTrialSaved({ ...trialSaved, [trial.NCTId]: !isSaved });
+
+        if (!isSaved) {
             try {
-            const endpoint = `/trials/`;
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    title: trial.BriefTitle,
-                    description: trial.DetailedDescription,
-                    url: trial.url,
-                    user: userId
-                })
-            };
-            const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
-            if (!response.ok) {
-                throw new Error(`Failed to save trial. Status: ${response.status}`);
+                const endpoint = `/trials/`;
+                const requestOptions = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title: trial.BriefTitle,
+                        description: trial.DetailedDescription,
+                        url: trial.url,
+                        user: userId
+                    })
+                };
+                const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
+                if (!response.ok) {
+                    throw new Error(`Failed to save trial. Status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log(data)
+            } catch (error) {
+                console.error('Error saving trial:', error.message);
             }
-            const data = await response.json();
-            console.log(data)
-        } catch (error) {
-            console.error('Error saving trial:', error.message);
-        }
         }
     };
 
@@ -159,9 +159,9 @@ const TrialSearchPage = () => {
             }
             const data = await response.json();
             setResponseTrials(JSON.parse(data));
-            if(responseTrials){
+            if (responseTrials) {
                 Object.values(responseTrials).map(trial => {
-                    setTrialSaved({ ...trialSaved, [trial.NCTId]:false});
+                    setTrialSaved({ ...trialSaved, [trial.NCTId]: false });
                 })
             }
         } catch (error) {
