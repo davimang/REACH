@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 
-import { API_URL } from '../..';
-import { SavedTrialList, SavedTrial } from '../types';
+import { API_URL } from '..';
+import { SavedTrialList, SavedTrial } from '../components/types';
 
 const TrialsListContainer = styled.div`
     width: 600px;
@@ -64,7 +64,7 @@ const SaveTrialsPage = () => {
             console.error('Error deleting trial:', error.message);
         }
         console.log(trials)
-        if(trials){
+        if (trials) {
             const newTrials = Object.values(trials).filter((trial) => trial.id !== trialId);
             setTrials(newTrials);
         }

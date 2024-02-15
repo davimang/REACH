@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { API_URL } from '../..';
-import UserProfileCard from '../UserProfileCard';
-import UserDataCard from '../UserDataCard';
+import { API_URL } from '..';
+import UserProfileCard from '../components/UserProfileCard';
+import UserDataCard from '../components/UserDataCard';
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 

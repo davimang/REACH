@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { TextField } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
-import { API_URL } from '../..';
+import { API_URL } from '..';
 
 const ProfileCreationContainer = styled.div`
     min-width: fit-content;
