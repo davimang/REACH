@@ -5,6 +5,7 @@ import UserProfileCard from '../components/UserProfileCard';
 import UserDataCard from '../components/UserDataCard';
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
+import { StyledButton } from '../components/Button';
 
 const AccountProfilePageContainer = styled.div`
     display: flex;
@@ -31,18 +32,10 @@ const UserDataContainer = styled.div`
   font-family: math;
 `;
 
-const StyledButton = styled.button`
+const SizedButton = styled(StyledButton)`
     height: 65px;
     width: inherit;
-    border-radius: 10px;
-    background-color: #039D5F;
-    border: inherit;
     margin-left: 4em;
-    color: #FFFFFF;
-    font-size: 22px;
-    font-family: math;
-    cursor: pointer;
-    padding: 0 15px;
 `;
 
 
@@ -100,7 +93,7 @@ const ListProfiles: React.FC = () => {
           <UserProfileCard key={index} name={`${profile.title}`} condition={`${profile.condition}`} />
         ))}
         <Link to='/createProfile'>
-          <StyledButton>Add Profile</StyledButton>
+          <SizedButton>Add Profile</SizedButton>
         </Link>
       </ProfileListContainer>
     </AccountProfilePageContainer>

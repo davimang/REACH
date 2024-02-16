@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
+import { StyledButton } from '../components/Button';
 
 const LandingPageContainer = styled.div`
     display: inline-flex;
@@ -23,17 +24,10 @@ const PortalButtonsContainer = styled.div`
     display: grid;
 `;
 
-const PortalButtons = styled.button`
+const PortalButtons = styled(StyledButton)`
     width: 200px;
     height: 60px;
     margin-bottom: 15px;
-    background-color: #039D5F;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    color: #FFFFFF;
-    font-size: 22px;
-    font-family: math;
 `;
 
 const LandingPage = () => {

@@ -3,36 +3,29 @@ import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '..';
 import { PatientInfoList, TrialInfoList } from '../components/types';
+import { StyledButton } from '../components/Button';
+import { DropDownInput } from '../components/Form';
 
 const TrialSearchHeader = styled.div`
     background-color: #213E80;
     min-width: 100%;
-    height: 55px;
+    height: 85px;
     display: inline-flex;
     align-items: center;
 `;
 
-const StyledDropDown = styled.select`
+const StyledDropDown = styled(DropDownInput)`
     padding: 5px;
     margin: 10px;
     color: black;
-    width: 250px;
-    height: 35px;
-    border: none;
-    border-radius: 1px;
+    width: 400px;
+    height: 55px;
 `;
 
-const StyledButton = styled.button`
-    height: 35px;
+const SizedButton = styled(StyledButton)`
+    height: 55px;
     margin: 10px;
     padding: 5px 15px;
-    background-color: #039D5F;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
-    color: #FFFFFF;
-    font-size: 18px;
-    font-family: math;
 `;
 
 const TrialsListContainer = styled.div`
@@ -237,8 +230,8 @@ const TrialSearchPage = () => {
                         <option key={profile.id} value={profile.id}>{profile.title}</option>
                     ))}
                 </StyledDropDown>
-                <StyledButton onClick={fetchTrials}>Search</StyledButton>
-                <StyledButton type='button' onClick={navigateToBookmarks}>View Bookmarks</StyledButton>
+                <SizedButton onClick={fetchTrials}>Search</SizedButton>
+                <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>
             </TrialSearchHeader>
 
             <div style={{ display: 'flex' }}>

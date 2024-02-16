@@ -25,8 +25,6 @@ const HeaderButton = styled(StyledButton)`
     height: 65px;
     width: inherit;
     border-radius: inherit;
-    font-size: 22px;
-    font-family: math;
 `;
 
 const MenuButtons = styled.div`
