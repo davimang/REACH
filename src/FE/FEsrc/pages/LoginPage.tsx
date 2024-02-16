@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useAuth } from '../contexts/AuthContext';
+import { FormContainer, Form, Input, Button, ErrorMessage } from '../components/Form';
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -9,65 +10,6 @@ const LoginPageContainer = styled.div`
   justify-content: center;
   width: 100%;
   align-items: center;
-`;
-
-const LoginFormContainer = styled.div`
-  width: 20vw;
-  min-width: 300px;
-  padding: 25px;
-  margin: auto;
-  margin-top: 80px;
-  display: grid;
-`;
-
-const LoginForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const LoginFormInput = styled.input`
-  width: 100%;
-  height: 60px;
-  margin-bottom: 15px;
-  padding: 20px;
-  font-size: 48px;
-  border: 1px solid #CCCCCC;
-  border-radius: 5px;
-`;
-
-const LoginFormButton = styled.button`
-  width: 50%;
-  height: 80px;
-  padding: 10px;
-  background-color: #039D5F;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  color: #FFFFFF;
-  font-size: 48px;
-  font-family: math;
-`;
-
-const RegisterButton = styled.button`
-  width: 20%;
-  min-width: 200px;
-  height: 80px;
-  padding: 10px;
-  background-color: #039D5F;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  color: #FFFFFF;
-  font-size: 48px;
-  font-family: math;
-`;
-
-const ErrorMessage = styled.div`
-  color: red;
-  font-size: 24px;
-  font-family: math;
-  margin-bottom: 10px;
 `;
 
 const LoginPage: React.FC = () => {
@@ -102,9 +44,9 @@ const LoginPage: React.FC = () => {
 
   return (
     <LoginPageContainer>
-      <LoginFormContainer>
-        <LoginForm onSubmit={handleSubmit}>
-          <LoginFormInput
+      <FormContainer>
+        <Form onSubmit={handleSubmit}>
+          <Input
             type='text'
             id='username'
             name='username'
@@ -112,7 +54,7 @@ const LoginPage: React.FC = () => {
             onChange={handleInputChange}
             placeholder='Username'
           />
-          <LoginFormInput
+          <Input
             type='password'
             id='password'
             name='password'
@@ -121,10 +63,10 @@ const LoginPage: React.FC = () => {
             placeholder='Password'
           />
           {error && <ErrorMessage>{error}</ErrorMessage>}
-          <LoginFormButton type='submit'>Login</LoginFormButton>
-        </LoginForm>
-      </LoginFormContainer>
-      <RegisterButton type='button' onClick={navigateToRegister}>Register</RegisterButton>
+          <Button type='submit'>Login</Button>
+        </Form>
+      </FormContainer>
+      <Button type='button' onClick={navigateToRegister}>Register</Button>
     </LoginPageContainer>
   );
 };
