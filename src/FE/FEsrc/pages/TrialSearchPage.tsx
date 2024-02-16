@@ -15,9 +15,7 @@ const TrialSearchHeader = styled.div`
 `;
 
 const StyledDropDown = styled(DropDownInput)`
-    padding: 5px;
     margin: 10px;
-    color: black;
     width: 400px;
     height: 55px;
 `;
