@@ -5,7 +5,7 @@ import { TextField } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import { API_URL } from '..';
 import { conditions } from '../components/Constants';
-import { FormContainer, Form, FormLabel, TextInput, AutocompleteInput, FormButton, DropDownInput, AutocompleteTextField } from '../components/Form';
+import { FormContainer, Form, FormLabel, TextInput, AutocompleteInput, ButtonContainer, FormButton, DropDownInput, AutocompleteTextField } from '../components/Form';
 
 const ProfileCreationContainer = styled.div`
     min-width: fit-content;
@@ -230,7 +230,9 @@ const ProfileCreationPage = () => {
                                 />
                             </>
                         )}
-                        <FormButton type='submit'>Save</FormButton>
+                        <ButtonContainer>
+                            <FormButton type='submit'>Save</FormButton>
+                        </ButtonContainer>
                     </Form>
                 </FormContainer>
             </ProfileCreationContainer>

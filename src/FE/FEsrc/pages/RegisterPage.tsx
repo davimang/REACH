@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useAuth } from '../contexts/AuthContext';
-import { FormContainer, Form, TextInput, FormButton, ErrorMessage } from '../components/Form';
+import { FormContainer, Form, TextInput, FormButton, ErrorMessage, ButtonContainer } from '../components/Form';
 
 const RegisterPageContainer = styled.div`
   display: flex;
@@ -99,7 +99,9 @@ const RegisterPage: React.FC = () => {
                         placeholder='Last Name'
                     />
                     {error && <ErrorMessage>{error}</ErrorMessage>}
-                    <FormButton type='submit'>Register</FormButton>
+                    <ButtonContainer>
+                        <FormButton type='submit'>Register</FormButton>
+                    </ButtonContainer>
                 </Form>
             </FormContainer>
         </RegisterPageContainer>

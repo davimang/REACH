@@ -8,14 +8,20 @@ export const FormContainer = styled.div`
   padding: 25px;
   margin: auto;
   margin-top: 80px;
-  display: grid;
 `;
 
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
+  align-items: left;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   align-items: center;
 `;
+
 
 export const FormLabel = styled.label`
   color: #EDF2F7;
@@ -26,7 +32,7 @@ const inputSize = `
   width: 100%;
   height: 60px;
   box-sizing: border-box;
-  margin: 10px;
+  margin: 10px 0;
 `;
 
 const inputBorder = `

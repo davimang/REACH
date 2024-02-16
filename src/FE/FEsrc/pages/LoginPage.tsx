@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useAuth } from '../contexts/AuthContext';
-import { FormContainer, Form, TextInput, FormButton, ErrorMessage } from '../components/Form';
+import { FormContainer, Form, TextInput, FormButton, ButtonContainer, ErrorMessage } from '../components/Form';
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -63,8 +63,10 @@ const LoginPage: React.FC = () => {
             placeholder='Password'
           />
           {error && <ErrorMessage>{error}</ErrorMessage>}
-          <FormButton type='submit'>Login</FormButton>
-          <FormButton type='button' onClick={navigateToRegister}>Register</FormButton>
+          <ButtonContainer>
+            <FormButton type='submit'>Login</FormButton>
+            <FormButton type='button' onClick={navigateToRegister}>Register</FormButton>
+          </ButtonContainer>
         </Form>
       </FormContainer>
     </LoginPageContainer>
