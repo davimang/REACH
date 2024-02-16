@@ -192,18 +192,18 @@ const TrialSearchPage = () => {
                         </TrialDescription>
                         <TrialSymbols>
                             {!trialSaved[trial.NCTId] && <StyledImage
-                                src={require("../../images/Bookmark.svg")}
+                                src={require("../images/Bookmark.svg")}
                                 style={{ height: 45, width: 45 }}
                                 onClick={() => handleSave(trial)}
                             />}
                             {trialSaved[trial.NCTId] && <StyledImage
-                                src={require("../../images/Saved.svg")}
+                                src={require("../images/Saved.svg")}
                                 style={{ height: 45, width: 45 }}
                                 onClick={() => handleSave(trial)}
                             />}
                             <TrialLocation>
                                 <img
-                                    src={require("../../images/Location.svg")}
+                                    src={require("../images/Location.svg")}
                                     style={{ height: 40, width: 40 }}
                                 />
                                 <LocationText>

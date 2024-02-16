@@ -102,7 +102,7 @@ const SaveTrialsPage = () => {
                         </TrialDescription>
                         <TrialSymbols>
                             <StyledImage
-                                src={require("../../images/Saved.svg")}
+                                src={require("../images/Saved.svg")}
                                 style={{ height: 45, width: 45 }}
                                 onClick={() => handleDelete(trial)}
                             />
