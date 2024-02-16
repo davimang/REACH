@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { TextField } from '@mui/material';
-import Autocomplete from '@mui/material/Autocomplete';
 import { API_URL } from '..';
 import { conditions } from '../components/Constants';
 import { FormContainer, Form, FormLabel, TextInput, AutocompleteInput, ButtonContainer, FormButton, DropDownInput, AutocompleteTextField } from '../components/Form';
