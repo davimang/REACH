@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useAuth } from '../contexts/AuthContext';
+import { StyledButton } from './Button';
 
 const Header = styled.div`
     padding: 25px;
@@ -20,17 +21,12 @@ const HeaderComponents = styled.div`
     justify-content: space-between;
 `;
 
-const StyledButton = styled.button`
+const HeaderButton = styled(StyledButton)`
     height: 65px;
     width: inherit;
     border-radius: inherit;
-    background-color: #039D5F;
-    border: inherit;
-    color: #FFFFFF;
     font-size: 22px;
     font-family: math;
-    cursor: pointer;
-    padding: 0 15px;
 `;
 
 const MenuButtons = styled.div`
@@ -52,22 +48,22 @@ const MenuHeader: React.FC = () => {
                 </Link>
                 <MenuButtons>
                     <Link to='/faq'>
-                        <div style={{ borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}><StyledButton>FAQs</StyledButton></div>
+                        <div style={{ borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}><HeaderButton>FAQs</HeaderButton></div>
                     </Link>
                     <Link to="/contact">
-                        <div style={{ paddingLeft: 2, paddingRight: 2, backgroundColor: '#FFFFFF' }}><StyledButton>Contact Us</StyledButton></div>
+                        <div style={{ paddingLeft: 2, paddingRight: 2, backgroundColor: '#FFFFFF' }}><HeaderButton>Contact Us</HeaderButton></div>
                     </Link>
                     <Link to="/about">
-                        <div style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10 }}><StyledButton>About Us</StyledButton></div>
+                        <div style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10 }}><HeaderButton>About Us</HeaderButton></div>
                     </Link>
                 </MenuButtons>
                 {!isAuthenticated ? (
                     <Link to="/login">
-                        <div style={{ borderRadius: 10, width: 125, paddingLeft: 20 }}><StyledButton>Sign In</StyledButton></div>
+                        <div style={{ borderRadius: 10, width: 125, paddingLeft: 20 }}><HeaderButton>Sign In</HeaderButton></div>
                     </Link>
                 ) : (
                     <Link to="/listprofiles">
-                        <div style={{ borderRadius: 10, width: 125, paddingLeft: 20 }}><StyledButton>Profiles</StyledButton></div>
+                        <div style={{ borderRadius: 10, width: 125, paddingLeft: 20 }}><HeaderButton>Profiles</HeaderButton></div>
                     </Link>
                 )}
             </HeaderComponents >

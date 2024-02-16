@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useAuth } from '../contexts/AuthContext';
-import { FormContainer, Form, Input, Button, ErrorMessage } from '../components/Form';
+import { FormContainer, Form, TextInput, FormButton, ErrorMessage } from '../components/Form';
 
 const RegisterPageContainer = styled.div`
   display: flex;
@@ -58,7 +58,7 @@ const RegisterPage: React.FC = () => {
         <RegisterPageContainer>
             <FormContainer>
                 <Form onSubmit={handleSubmit}>
-                    <Input
+                    <TextInput
                         type='text'
                         id='username'
                         name='username'
@@ -66,7 +66,7 @@ const RegisterPage: React.FC = () => {
                         onChange={handleInputChange}
                         placeholder='Username'
                     />
-                    <Input
+                    <TextInput
                         type='password'
                         id='password'
                         name='password'
@@ -74,7 +74,7 @@ const RegisterPage: React.FC = () => {
                         onChange={handleInputChange}
                         placeholder='Password'
                     />
-                    <Input
+                    <TextInput
                         type="email"
                         id="email"
                         name="email"
@@ -82,7 +82,7 @@ const RegisterPage: React.FC = () => {
                         onChange={handleInputChange}
                         placeholder='Email'
                     />
-                    <Input
+                    <TextInput
                         type="text"
                         id="first_name"
                         name="first_name"
@@ -90,7 +90,7 @@ const RegisterPage: React.FC = () => {
                         onChange={handleInputChange}
                         placeholder='First Name'
                     />
-                    <Input
+                    <TextInput
                         type="text"
                         id="last_name"
                         name="last_name"
@@ -99,7 +99,7 @@ const RegisterPage: React.FC = () => {
                         placeholder='Last Name'
                     />
                     {error && <ErrorMessage>{error}</ErrorMessage>}
-                    <Button type='submit'>Register</Button>
+                    <FormButton type='submit'>Register</FormButton>
                 </Form>
             </FormContainer>
         </RegisterPageContainer>

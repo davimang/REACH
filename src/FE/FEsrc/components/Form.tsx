@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import { Autocomplete, TextField } from "@mui/material";
+import { StyledButton } from "./Button";
 
 export const FormContainer = styled.div`
   width: 20vw;
@@ -15,32 +17,60 @@ export const Form = styled.form`
   align-items: center;
 `;
 
-export const Input = styled.input`
+export const FormLabel = styled.label`
+  color: #EDF2F7;
+  font-weight: bold;
+`;
+
+const inputSize = `
   width: 100%;
   height: 60px;
-  margin-bottom: 15px;
-  padding: 20px;
-  font-size: 48px;
+  box-sizing: border-box;
+  margin: 10px;
+`;
+
+const inputBorder = `
   border: 1px solid #CCCCCC;
   border-radius: 5px;
 `;
 
-export const Button = styled.button`
-  width: 70%;
-  height: 80px;
-  padding: 10px;
-  background-color: #039D5F;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  color: #FFFFFF;
-  font-size: 48px;
+const font = `
   font-family: math;
+  font-size: 30px;
+`;
+
+export const TextInput = styled.input`
+  ${inputSize}
+  padding: 0 5px;
+  ${font}
+  ${inputBorder}
+`;
+
+export const DropDownInput = styled.select`
+  ${inputSize}
+  padding: 0 5px;
+  ${font}
+  ${inputBorder}
+`;
+
+export const AutocompleteInput = styled(Autocomplete)`
+  ${inputSize}
+`;
+
+export const AutocompleteTextField = styled(TextField)`
+  ${font}
+  ${inputBorder}
+  background-color: #FFFFFF;
+`;
+
+export const FormButton = styled(StyledButton)`
+  ${inputSize}
+  width: 50%;
+  ${font}
 `;
 
 export const ErrorMessage = styled.div`
   color: red;
-  font-size: 24px;
-  font-family: math;
+  ${font}
   margin-bottom: 10px;
 `;
