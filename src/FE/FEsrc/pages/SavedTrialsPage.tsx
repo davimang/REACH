@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-
 import { API_URL } from '..';
-import { SavedTrialList, SavedTrial } from '../components/types';
+import { SavedTrial } from '../components/types';
+import SavedTrialCard from '../components/SavedTrialCard';
 
 const TrialsListContainer = styled.div`
     width: 600px;
@@ -89,25 +89,11 @@ const SaveTrialsPage = () => {
         return (
             loading ? <div>Loading... </div> : trials &&
                 Object.values(trials).map((trial) => (
-                    <TrialContainer key={trial.id}>
-                        <TrialDescription>
-                            <TrialTitle
-                                onClick={() => setCurrentDescription(trial.description)}
-                            >
-                                {trial.title}
-                            </TrialTitle>
-                            <p><u><a href={trial.url} target='__blank' style={{ color: 'white', fontFamily: 'math' }}>
-                                Learn More About This Study...
-                            </a></u></p>
-                        </TrialDescription>
-                        <TrialSymbols>
-                            <StyledImage
-                                src={require("../images/Saved.svg")}
-                                style={{ height: 45, width: 45 }}
-                                onClick={() => handleDelete(trial)}
-                            />
-                        </TrialSymbols>
-                    </TrialContainer>
+                    <SavedTrialCard
+                        trial={trial}
+                        setCurrentDescription={setCurrentDescription}
+                        handleDelete={handleDelete}
+                    />
                 ))
         )
     }
