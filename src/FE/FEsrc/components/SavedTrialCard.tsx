@@ -1,5 +1,5 @@
 import { TrialContainer, TrialDescription, TrialTitle, TrialSymbols, BookmarkImage } from './TrialCardStyle';
-import { SavedTrial } from "./types";
+import { SavedTrial } from './types';
 
 interface SavedTrialProps {
     trial: SavedTrial;
@@ -22,7 +22,7 @@ const SavedTrialCard: React.FC<SavedTrialProps> = ({ trial, setCurrentDescriptio
             </TrialDescription>
             <TrialSymbols>
                 <BookmarkImage
-                    src={require("../images/Saved.svg")}
+                    src={require('../images/Saved.svg')}
                     onClick={() => handleDelete(trial)}
                 />
             </TrialSymbols>

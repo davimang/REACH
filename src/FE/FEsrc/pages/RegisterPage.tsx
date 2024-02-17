@@ -75,25 +75,25 @@ const RegisterPage: React.FC = () => {
                         placeholder='Password'
                     />
                     <TextInput
-                        type="email"
-                        id="email"
-                        name="email"
+                        type='email'
+                        id='email'
+                        name='email'
                         value={formData.email}
                         onChange={handleInputChange}
                         placeholder='Email'
                     />
                     <TextInput
-                        type="text"
-                        id="first_name"
-                        name="first_name"
+                        type='text'
+                        id='first_name'
+                        name='first_name'
                         value={formData.first_name}
                         onChange={handleInputChange}
                         placeholder='First Name'
                     />
                     <TextInput
-                        type="text"
-                        id="last_name"
-                        name="last_name"
+                        type='text'
+                        id='last_name'
+                        name='last_name'
                         value={formData.last_name}
                         onChange={handleInputChange}
                         placeholder='Last Name'

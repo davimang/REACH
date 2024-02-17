@@ -48,7 +48,7 @@ const StyledImage = styled.img`
 const SaveTrialsPage = () => {
 
     const [trials, setTrials] = useState<SavedTrial[]>([]);
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem('userId');
     const [loading, setLoading] = useState(false);
     const [currentDescription, setCurrentDescription] = useState<string | null>(null);
 

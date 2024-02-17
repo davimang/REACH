@@ -23,21 +23,21 @@ const TrialCard: React.FC<TrialProps> = ({ trial, setCurrentDescription, trialSa
                 </a></u></p>
 
                 <div style={{ color: '#BDBDBD', display: 'flex', alignItems: 'center' }}>
-                    <RecruitingSpan recruiting={trial.OverallStatus == "Recruiting"} />
+                    <RecruitingSpan recruiting={trial.OverallStatus == 'Recruiting'} />
                     {trial.OverallStatus}
                 </div>
             </TrialDescription>
 
             <TrialSymbols>
                 <BookmarkImage
-                    src={trialSaved[trial.NCTId] ? require("../images/Saved.svg") : require("../images/Bookmark.svg")}
+                    src={trialSaved[trial.NCTId] ? require('../images/Saved.svg') : require('../images/Bookmark.svg')}
                     onClick={() => handleSave(trial)}
                 />
 
                 <TrialLocation>
-                    <LocationImage src={require("../images/Location.svg")} />
+                    <LocationImage src={require('../images/Location.svg')} />
                     <LocationText>
-                        <b style={{ color: "white" }}>{trial.Distance} km</b>
+                        <b style={{ color: 'white' }}>{trial.Distance} km</b>
                         <div style={{ fontSize: 14, color: '#BDBDBD' }}>from you</div>
                     </LocationText>
                 </TrialLocation>

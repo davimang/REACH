@@ -16,7 +16,7 @@ const PatientForm = () => {
         age: '',
         address: '',
     });
-    const textFieldLabels = ["Condition", "Age", "Address"];
+    const textFieldLabels = ['Condition', 'Age', 'Address'];
     const [responseData, setResponseData] = useState<ClinicalTrialsData | null>(null);
     const [loading, setLoading] = useState(false);
 

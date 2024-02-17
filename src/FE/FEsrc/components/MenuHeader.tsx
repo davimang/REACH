@@ -37,9 +37,9 @@ const MenuHeader: React.FC = () => {
     return (
         <Header>
             <HeaderComponents>
-                <Link to="/">
+                <Link to='/'>
                     <img
-                        src={require("../images/Logo.svg")}
+                        src={require('../images/Logo.svg')}
                         height={100}
                         style={{ paddingRight: 20, cursor: 'pointer' }}
                     />
@@ -48,19 +48,19 @@ const MenuHeader: React.FC = () => {
                     <Link to='/faq'>
                         <div style={{ borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}><HeaderButton>FAQs</HeaderButton></div>
                     </Link>
-                    <Link to="/contact">
+                    <Link to='/contact'>
                         <div style={{ paddingLeft: 2, paddingRight: 2, backgroundColor: '#FFFFFF' }}><HeaderButton>Contact Us</HeaderButton></div>
                     </Link>
-                    <Link to="/about">
+                    <Link to='/about'>
                         <div style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10 }}><HeaderButton>About Us</HeaderButton></div>
                     </Link>
                 </MenuButtons>
                 {!isAuthenticated ? (
-                    <Link to="/login">
+                    <Link to='/login'>
                         <div style={{ borderRadius: 10, width: 125, paddingLeft: 20 }}><HeaderButton>Sign In</HeaderButton></div>
                     </Link>
                 ) : (
-                    <Link to="/listprofiles">
+                    <Link to='/listprofiles'>
                         <div style={{ borderRadius: 10, width: 125, paddingLeft: 20 }}><HeaderButton>Profiles</HeaderButton></div>
                     </Link>
                 )}

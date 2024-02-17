@@ -36,7 +36,7 @@ const TrialSearchPage = () => {
     const navigate = useNavigate();
     const [responseProfiles, setResponseProfiles] = useState<PatientInfoList | null>(null);
     const [responseTrials, setResponseTrials] = useState<TrialInfoList | null>(null);
-    const [selectedProfileId, setSelectedProfileId] = useState("");
+    const [selectedProfileId, setSelectedProfileId] = useState('');
     const [loading, setLoading] = useState(false);
     const [maxRank, setMaxRank] = useState(0);
     const [currentDescription, setCurrentDescription] = useState<string | null>(null);
@@ -141,7 +141,7 @@ const TrialSearchPage = () => {
                     value={selectedProfileId}
                     onChange={(e) => setSelectedProfileId(e.target.value)}
                 >
-                    <option value="" disabled>-- Select Patient Profile --</option>
+                    <option value='' disabled>-- Select Patient Profile --</option>
                     {
                         responseProfiles &&
                         Object.values(responseProfiles).map((profile) => (

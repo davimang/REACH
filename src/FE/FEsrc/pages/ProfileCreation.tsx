@@ -12,11 +12,11 @@ const ProfileCreationContainer = styled.div`
 
 const ProfileCreationPage = () => {
 
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem('userId');
 
     const navigate = useNavigate();
 
-    const genderMapping = { "Male": "M", "Female": "F", "Other": "O" };
+    const genderMapping = { 'Male': 'M', 'Female': 'F', 'Other': 'O' };
 
     const [advancedInfoAsthma, setAdvancedInfoAsthma] = useState({
         numExacerbations: 0,
@@ -24,16 +24,16 @@ const ProfileCreationPage = () => {
         usesInhaler: false,
         usesInjection: false,
         isSmoker: false,
-        asthmaSeverity: "",
+        asthmaSeverity: '',
         isEosinophilic: false,
     })
     const [formValues, setFormValues] = useState({
-        name: "",
-        address: "",
-        dateOfBirth: "",
-        gender: "",
+        name: '',
+        address: '',
+        dateOfBirth: '',
+        gender: '',
         user: userId,
-        condition: "",
+        condition: '',
         advancedInfo: advancedInfoAsthma
     }
     );
@@ -41,10 +41,10 @@ const ProfileCreationPage = () => {
 
     const handleAdvancedInfo = () => {
 
-        if (formValues.condition == "Asthma") {
+        if (formValues.condition == 'Asthma') {
             setIsHidden({ COPD: true, asthma: false });
         }
-        else if (formValues.condition == "COPD") {
+        else if (formValues.condition == 'COPD') {
             setIsHidden({ COPD: false, asthma: true });
         }
         else {
@@ -55,7 +55,7 @@ const ProfileCreationPage = () => {
     const handleSubmit = async (e) => {
 
         e.preventDefault();
-        const splitAddress = formValues.address.split(",");
+        const splitAddress = formValues.address.split(',');
         const formattedAddress = {
             street: splitAddress[0],
             city: splitAddress[1],
@@ -111,7 +111,7 @@ const ProfileCreationPage = () => {
 
                         <FormLabel>Address</FormLabel>
                         <TextInput
-                            type="text"
+                            type='text'
                             id='address'
                             value={formValues.address}
                             onChange={(e) => setFormValues({ ...formValues, address: e.target.value })}
@@ -119,7 +119,7 @@ const ProfileCreationPage = () => {
 
                         <FormLabel>Date of Birth</FormLabel>
                         <TextInput
-                            type="date"
+                            type='date'
                             id='date of birth'
                             value={formValues.dateOfBirth}
                             onChange={(e) => {
@@ -133,10 +133,10 @@ const ProfileCreationPage = () => {
                             value={formValues.gender}
                             onChange={(e) => setFormValues({ ...formValues, gender: e.target.value })}
                         >
-                            <option value="" disabled>-- Select Gender --</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
+                            <option value='' disabled>-- Select Gender --</option>
+                            <option value='Male'>Male</option>
+                            <option value='Female'>Female</option>
+                            <option value='Other'>Other</option>
                         </DropDownInput>
 
                         <FormLabel>Condition</FormLabel>
@@ -148,7 +148,7 @@ const ProfileCreationPage = () => {
                             }}
                             freeSolo={true}
                             options={conditions}
-                            renderInput={(params) => <AutocompleteTextField {...params} label="-- Select Condition --" value={formValues.condition}
+                            renderInput={(params) => <AutocompleteTextField {...params} label='-- Select Condition --' value={formValues.condition}
                                 onChange={(e) => {
                                     const newCondition = e.target.value;
                                     setFormValues({ ...formValues, condition: newCondition });
@@ -161,7 +161,7 @@ const ProfileCreationPage = () => {
                             <>
                                 <FormLabel>Number of Exacerbations</FormLabel>
                                 <TextInput
-                                    type={"number"}
+                                    type={'number'}
                                     value={advancedInfoAsthma.numExacerbations}
                                     onChange={(e) => {
                                         setAdvancedInfoAsthma({ ...advancedInfoAsthma, numExacerbations: e.target.valueAsNumber })
@@ -170,7 +170,7 @@ const ProfileCreationPage = () => {
                                 />
                                 <FormLabel>Number of Flares</FormLabel>
                                 <TextInput
-                                    type={"number"}
+                                    type={'number'}
                                     value={advancedInfoAsthma.numFlares}
                                     onChange={(e) => {
                                         setAdvancedInfoAsthma({ ...advancedInfoAsthma, numFlares: e.target.valueAsNumber })
@@ -180,7 +180,7 @@ const ProfileCreationPage = () => {
                                 <FormLabel>Uses Inhaler</FormLabel>
                                 <TextInput
                                     style={{ width: 30, height: 30 }}
-                                    type={"checkbox"}
+                                    type={'checkbox'}
                                     onChange={(e) => {
                                         setAdvancedInfoAsthma({ ...advancedInfoAsthma, usesInhaler: e.target.checked })
                                     }
@@ -189,7 +189,7 @@ const ProfileCreationPage = () => {
                                 <FormLabel>Uses Injection</FormLabel>
                                 <TextInput
                                     style={{ width: 30, height: 30 }}
-                                    type={"checkbox"}
+                                    type={'checkbox'}
                                     onChange={(e) => {
                                         setAdvancedInfoAsthma({ ...advancedInfoAsthma, usesInjection: e.target.checked })
                                     }
@@ -198,7 +198,7 @@ const ProfileCreationPage = () => {
                                 <FormLabel>Smoker</FormLabel>
                                 <TextInput
                                     style={{ width: 30, height: 30 }}
-                                    type={"checkbox"}
+                                    type={'checkbox'}
                                     onChange={(e) => {
                                         setAdvancedInfoAsthma({ ...advancedInfoAsthma, isSmoker: e.target.checked })
                                     }
@@ -212,15 +212,15 @@ const ProfileCreationPage = () => {
                                     }
                                     }
                                 >
-                                    <option value="" disabled>-- Select Asthma Severity --</option>
-                                    <option value="Mild">Mild</option>
-                                    <option value="Moderate">Moderate</option>
-                                    <option value="Severe">Severe</option>
+                                    <option value='' disabled>-- Select Asthma Severity --</option>
+                                    <option value='Mild'>Mild</option>
+                                    <option value='Moderate'>Moderate</option>
+                                    <option value='Severe'>Severe</option>
                                 </DropDownInput>
                                 <FormLabel>Eosinophilic</FormLabel>
                                 <TextInput
                                     style={{ width: 30, height: 30 }}
-                                    type={"checkbox"}
+                                    type={'checkbox'}
                                     onChange={(e) => {
                                         setAdvancedInfoAsthma({ ...advancedInfoAsthma, isEosinophilic: e.target.checked })
                                     }

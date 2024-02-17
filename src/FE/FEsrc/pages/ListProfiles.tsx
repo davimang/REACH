@@ -52,9 +52,9 @@ interface UserData {
 
 const ListProfiles: React.FC = () => {
 
-  const userId = localStorage.getItem("userId") ? localStorage.getItem("userId") : 1;
+  const userId = localStorage.getItem('userId') ? localStorage.getItem('userId') : 1;
   const [profiles, setProfiles] = useState<PatientProfile[]>([]);
-  const [userData, setUserData] = useState<UserData>({ first_name: "name", last_name: "name", created: "date" });
+  const [userData, setUserData] = useState<UserData>({ first_name: 'name', last_name: 'name', created: 'date' });
 
   const fetchProfilesList = () => {
     try {
