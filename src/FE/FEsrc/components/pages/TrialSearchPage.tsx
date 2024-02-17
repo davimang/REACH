@@ -189,7 +189,7 @@ const TrialSearchPage = () => {
                                 {/* <RecruitingSpan recruiting={trial.OverallStatus == "Recruiting"} />
                                 {trial.OverallStatus} */}
                                 <RecruitingSpan recruiting={true} />
-                                <span>Recruiting: {trial.OverallStatus}</span>
+                                <span> Recruiting </span>
                             </div>
                         </TrialDescription>
                         <TrialSymbols>
