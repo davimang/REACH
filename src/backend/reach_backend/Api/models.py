@@ -42,7 +42,18 @@ class PatientInfo(models.Model):
 class Trial(models.Model):
     """Trial model."""
 
+    class Status(models.TextChoices):
+        """Enum for trial status."""
+
+        RECRUITING = "Recruiting"
+        COMPLETED = "Completed"
+        UNKNOWN = "Unkown"
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     title = models.TextField()
     description = models.TextField()
     url = models.URLField(max_length=200)
+    distance = models.FloatField(null=True)
+    status = models.CharField(max_length=10, choices=Status.choices, null=True)
+    contact_email = models.EmailField(null=True)
+    principal_investigator = models.TextField(null=True)
