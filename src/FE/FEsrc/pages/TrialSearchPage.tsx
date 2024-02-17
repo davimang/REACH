@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '..';
 import { PatientInfoList, TrialInfoList } from '../components/types';
-import { StyledButton } from '../components/Button';
+import { StyledButton } from '../components/ButtonStyle';
 import { DropDownInput } from '../components/FormStyles';
 import TrialCard from '../components/TrialCard';
 

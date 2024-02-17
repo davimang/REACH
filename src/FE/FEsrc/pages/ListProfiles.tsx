@@ -5,7 +5,7 @@ import UserProfileCard from '../components/UserProfileCard';
 import UserDataCard from '../components/UserDataCard';
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
-import { StyledButton } from '../components/Button';
+import { StyledButton } from '../components/ButtonStyle';
 
 const AccountProfilePageContainer = styled.div`
     display: flex;

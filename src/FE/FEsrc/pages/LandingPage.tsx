@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
-import { StyledButton } from '../components/Button';
+import { StyledButton } from '../components/ButtonStyle';
 
 const LandingPageContainer = styled.div`
     display: inline-flex;

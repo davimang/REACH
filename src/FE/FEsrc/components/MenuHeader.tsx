@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useAuth } from '../contexts/AuthContext';
-import { StyledButton } from './Button';
+import { StyledButton } from './ButtonStyle';
 
 const Header = styled.div`
     padding: 25px;
