@@ -40,17 +40,17 @@ const TrialSearchPage = () => {
     const [loading, setLoading] = useState(false);
     const [maxRank, setMaxRank] = useState(0);
     const [currentDescription, setCurrentDescription] = useState<string | null>(null);
-    const [trialSaved, setTrialSaved] = useState({})
+    const [trialSaved, setTrialSaved] = useState({});
+    const [savedTrialIds, setSavedTrialIds] = useState({});
     const userId = localStorage.getItem('userId');
 
     const handleSave = async (trial) => {
-
+        console.log(trialSaved);
         const isSaved = trialSaved[trial.NCTId]
         setTrialSaved({ ...trialSaved, [trial.NCTId]: !isSaved });
-
+        const endpoint = `/trials/`;
         if (!isSaved) {
             try {
-                const endpoint = `/trials/`;
                 const requestOptions = {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -66,9 +66,21 @@ const TrialSearchPage = () => {
                     throw new Error(`Failed to save trial. Status: ${response.status}`);
                 }
                 const data = await response.json();
-                console.log(data)
+                const trialId = data["id"];
+                setSavedTrialIds({ ...savedTrialIds, [trial.NCTId]: trialId });
             } catch (error) {
                 console.error('Error saving trial:', error.message);
+            }
+        }
+        else{
+            try{
+                const requestOptions = {
+                    method: 'DELETE'
+                };
+                await fetch(`${API_URL}${endpoint}${savedTrialIds[trial.NCTId]}/`, requestOptions).then(response => console.log(response));
+            }
+            catch(error){
+                console.error('Error deleting trial:', error.message);
             }
         }
     };
@@ -91,23 +103,30 @@ const TrialSearchPage = () => {
         try {
             setLoading(true);
             const endpoint = `/search_trials/?info_id=${selectedProfileId}&rank=${maxRank}`;
+            console.log(endpoint);
             const response = await fetch(`${API_URL}${endpoint}`);
             if (!response.ok) {
                 throw new Error(`Failed to fetch trials. Status: ${response.status}`);
             }
             const data = await response.json();
             setResponseTrials(JSON.parse(data));
-            if (responseTrials) {
-                Object.values(responseTrials).map(trial => {
-                    setTrialSaved({ ...trialSaved, [trial.NCTId]: false });
-                })
-            }
         } catch (error) {
             console.error('Error fetching trials:', error.message);
         } finally {
             setLoading(false);
         }
     };
+
+    const updateRank = () => {
+        if (responseTrials) {
+            Object.values(responseTrials).map(trial => {
+                setTrialSaved({ ...trialSaved, [trial.NCTId]: false });
+                if(trial.Rank > maxRank){
+                    setMaxRank(trial.Rank);
+                }
+            })
+        }
+    }
 
     const displayTrials = () => {
         return (
@@ -129,6 +148,10 @@ const TrialSearchPage = () => {
     useEffect(() => {
         fetchProfilesList();
     }, []);
+
+    useEffect(() => {
+        updateRank();
+    }, [responseTrials]);
 
     const navigateToBookmarks = () => {
         navigate('/savedTrials');

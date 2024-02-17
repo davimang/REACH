@@ -48,6 +48,7 @@ export interface TrialInfo {
     Distance: number;
     KeywordRank: number;
     url: string;
+    Rank: number;
 }
 
 export interface TrialInfoList {
