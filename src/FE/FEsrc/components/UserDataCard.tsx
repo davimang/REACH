@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 
@@ -11,22 +11,22 @@ interface UserDataCardProps {
 
 const UserDataCard: React.FC<UserDataCardProps> = ({ firstName, lastName, createdDate }) => {
   return (
-    <div className="cards" style={cardStyle} >
-      <div className="name-circle" style={circleStyle} >
+    <div className='cards' style={cardStyle} >
+      <div className='name-circle' style={circleStyle} >
         <span> Account Info </span>
       </div>
-      <div className="card-content" style={contentStyle}>
-        <div className="profile-name" style={nameStyle}>
+      <div className='card-content' style={contentStyle}>
+        <div className='profile-name' style={nameStyle}>
           First Name: {firstName}
         </div>
-        <div className="profile-name" style={nameStyle}>
+        <div className='profile-name' style={nameStyle}>
           Last Name: {lastName}
         </div>
-        <div className="profile-name" style={nameStyle}>
+        <div className='profile-name' style={nameStyle}>
           Account Created: {createdDate}
         </div>
-        <Link to="/savedTrials">
-          <div className="saved-trails-link">
+        <Link to='/savedTrials'>
+          <div className='saved-trails-link'>
             Edit Account Info
           </div>
         </Link>

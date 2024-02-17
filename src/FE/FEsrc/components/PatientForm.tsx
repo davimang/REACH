@@ -10,13 +10,13 @@ const StyledTextField = styled.div`
 `;
 
 const PatientForm = () => {
-    
+
     const [formValues, setFormValues] = useState({
         condition: '',
         age: '',
         address: '',
     });
-    const textFieldLabels = ["Condition", "Age", "Address"];
+    const textFieldLabels = ['Condition', 'Age', 'Address'];
     const [responseData, setResponseData] = useState<ClinicalTrialsData | null>(null);
     const [loading, setLoading] = useState(false);
 
@@ -38,10 +38,10 @@ const PatientForm = () => {
                 size='small'
                 onChange={(event) => {
                     setFormValues((prevValues) => ({
-                    ...prevValues,
-                    [label.toLowerCase()]: event.target.value,
-                }));
-            }}
+                        ...prevValues,
+                        [label.toLowerCase()]: event.target.value,
+                    }));
+                }}
             />
         </StyledTextField>
     )
@@ -52,13 +52,13 @@ const PatientForm = () => {
 
             const { address, age, condition } = formValues;
             const endpoint = `/trials/?address=${address.replace(/\s/g, '+')}&age=${age}&condition=${condition.replace(/\s/g, '+')}`;
-            
+
             const response = await fetch(`${API_URL}${endpoint}`);
-            
+
             if (!response.ok) {
                 throw new Error(`Failed to fetch data. Status: ${response.status}`);
             }
-            
+
             const data = await response.json();
             setResponseData(JSON.parse(data));
         } catch (error) {
@@ -67,7 +67,7 @@ const PatientForm = () => {
             setLoading(false);
         }
     };
-    
+
     return (
         <>
             {textFieldLabels.map((label) => generateTextField(label))}

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { API_URL } from '../..';
-import UserProfileCard from '../UserProfileCard';
-import UserDataCard from '../UserDataCard';
+import { API_URL } from '..';
+import UserProfileCard from '../components/UserProfileCard';
+import UserDataCard from '../components/UserDataCard';
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
+import { StyledButton } from '../components/ButtonStyle';
 
 const AccountProfilePageContainer = styled.div`
     display: flex;
@@ -31,18 +32,10 @@ const UserDataContainer = styled.div`
   font-family: math;
 `;
 
-const StyledButton = styled.button`
+const SizedButton = styled(StyledButton)`
     height: 65px;
     width: inherit;
-    border-radius: 10px;
-    background-color: #039D5F;
-    border: inherit;
     margin-left: 4em;
-    color: #FFFFFF;
-    font-size: 22px;
-    font-family: math;
-    cursor: pointer;
-    padding: 0 15px;
 `;
 
 
@@ -59,9 +52,9 @@ interface UserData {
 
 const ListProfiles: React.FC = () => {
 
-  const userId = localStorage.getItem("userId") ? localStorage.getItem("userId") : 1;
+  const userId = localStorage.getItem('userId') ? localStorage.getItem('userId') : 1;
   const [profiles, setProfiles] = useState<PatientProfile[]>([]);
-  const [userData, setUserData] = useState<UserData>({ first_name: "name", last_name: "name", created: "date" });
+  const [userData, setUserData] = useState<UserData>({ first_name: 'name', last_name: 'name', created: 'date' });
 
   const fetchProfilesList = () => {
     try {
@@ -100,7 +93,7 @@ const ListProfiles: React.FC = () => {
           <UserProfileCard key={index} name={`${profile.title}`} condition={`${profile.condition}`} />
         ))}
         <Link to='/createProfile'>
-          <StyledButton>Add Profile</StyledButton>
+          <SizedButton>Add Profile</SizedButton>
         </Link>
       </ProfileListContainer>
     </AccountProfilePageContainer>
