@@ -16,23 +16,24 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [formData, setFormData] = useState({ username: '', password: '' });
-  const [usernameError, setUsernameError] = useState<string | null>(null);
-  const [authError, setAuthError] = useState<string | null>(null);
 
+  const [usernameError, setUsernameError] = useState(false);
   const usernameErrorMessage = 'Username cannot be empty.';
+
+  const [authError, setAuthError] = useState(false);
   const authErrorMessage = 'Login failed. Please check your credentials.';
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    setAuthError(null);
+    setAuthError(false);
 
     if (name === 'username') {
       if (value.trim() === '') {
-        setUsernameError(usernameErrorMessage);
+        setUsernameError(true);
       } else {
-        setUsernameError(null);
+        setUsernameError(false);
       }
     }
   };
@@ -42,7 +43,7 @@ const LoginPage: React.FC = () => {
 
     try {
       if (formData.username.trim() === '') {
-        setUsernameError(usernameErrorMessage);
+        setUsernameError(true);
         return;
       }
 
@@ -50,7 +51,7 @@ const LoginPage: React.FC = () => {
 
       navigate('/');
     } catch (error) {
-      setAuthError(authErrorMessage);
+      setAuthError(true);
     }
   };
 
@@ -70,7 +71,7 @@ const LoginPage: React.FC = () => {
             onChange={handleInputChange}
             placeholder='Username'
           />
-          {usernameError && <ErrorMessage>{usernameError}</ErrorMessage>}
+          {usernameError && <ErrorMessage>{usernameErrorMessage}</ErrorMessage>}
           <TextInput
             type='password'
             id='password'
@@ -79,7 +80,7 @@ const LoginPage: React.FC = () => {
             onChange={handleInputChange}
             placeholder='Password'
           />
-          {authError && <ErrorMessage>{authError}</ErrorMessage>}
+          {authError && <ErrorMessage>{authErrorMessage}</ErrorMessage>}
           <ButtonContainer>
             <FormButton type='submit'>Login</FormButton>
             <FormButton type='button' onClick={navigateToRegister}>Register</FormButton>
