@@ -26,7 +26,7 @@ const LoginPage: React.FC = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    //setAuthError(null);
+    setAuthError(null);
 
     if (name === 'username') {
       if (value.trim() === '') {
