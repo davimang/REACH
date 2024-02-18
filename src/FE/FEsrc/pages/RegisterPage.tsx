@@ -25,9 +25,9 @@ const RegisterPage: React.FC = () => {
 
     const [error, setError] = useState<string | null>(null);
 
-    const [emailError, setEmailError] = useState(false);
+    const [emailValid, setEmailValid] = useState(false);
     const [emailTouched, setEmailTouched] = useState(false);
-    const showEmailError = emailTouched && emailError;
+    const showEmailError = emailTouched && emailValid;
     const emailErrorMessage = 'Invalid email';
 
     const validateEmail = (email: string) => {
@@ -47,11 +47,7 @@ const RegisterPage: React.FC = () => {
         }));
 
         if (name === 'email') {
-            if (!validateEmail(value)) {
-                setEmailError(true);
-            } else {
-                setEmailError(false);
-            }
+            setEmailValid(validateEmail(value));
         }
     };
 
