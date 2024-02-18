@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { API_URL } from '..';
 import { useAuth } from '../contexts/AuthContext';
 import { FormContainer, Form, TextInput, FormButton, ErrorMessage, ButtonContainer } from '../components/FormStyles';
 
@@ -27,16 +28,41 @@ const RegisterPage: React.FC = () => {
 
     const [emailValid, setEmailValid] = useState(false);
     const [emailTouched, setEmailTouched] = useState(false);
-    const showEmailError = emailTouched && emailValid;
+    const showEmailError = emailTouched && !emailValid;
     const emailErrorMessage = 'Invalid email';
 
-    const validateEmail = (email: string) => {
+    const [usernameValid, setUsernameValid] = useState(true);
+    const [usernameTouched, setUsernameTouched] = useState(false);
+    const showUsernameError = usernameTouched && !usernameValid;
+    const usernameErrorMessage = 'Username is not available';
+
+    const validateEmail = () => {
         const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-        return emailRegex.test(email);
+
+        setEmailValid(emailRegex.test(formData.email));
     };
 
     const handleEmailBlur = () => {
-        setEmailTouched(true);
+        if (formData.email != '') {
+            setEmailTouched(true);
+        }
+
+        validateEmail();
+    };
+
+    const validateUsername = async () => {
+        const response = await fetch(`${API_URL}/check_username/?username=${formData.username}`);
+        const data = await response.json();
+
+        setUsernameValid(data.available);
+    };
+
+    const handleUsernameBlur = () => {
+        if (formData.username != '') {
+            setUsernameTouched(true);
+        }
+
+        validateUsername();
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +73,10 @@ const RegisterPage: React.FC = () => {
         }));
 
         if (name === 'email') {
-            setEmailValid(validateEmail(value));
+            setEmailTouched(false);
+        }
+        else if (name === 'username') {
+            setUsernameTouched(false);
         }
     };
 
@@ -102,8 +131,10 @@ const RegisterPage: React.FC = () => {
                         name='username'
                         value={formData.username}
                         onChange={handleInputChange}
+                        onBlur={handleUsernameBlur}
                         placeholder='Username'
                     />
+                    {showUsernameError && <ErrorMessage>{usernameErrorMessage}</ErrorMessage>}
                     <TextInput
                         type='text'
                         id='first_name'
