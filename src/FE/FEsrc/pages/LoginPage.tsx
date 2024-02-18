@@ -50,7 +50,6 @@ const LoginPage: React.FC = () => {
 
       navigate('/');
     } catch (error) {
-      console.error('Login failed:', error);
       setAuthError(authErrorMessage);
     }
   };
@@ -61,7 +60,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <LoginPageContainer>
-      <FormContainer>
+      <FormContainer id='login-form'>
         <Form onSubmit={handleSubmit}>
           <TextInput
             type='text'
