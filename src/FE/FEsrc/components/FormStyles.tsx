@@ -8,6 +8,7 @@ export const FormContainer = styled.div`
   padding: 25px;
   margin: auto;
   margin-top: 80px;
+  user-select: none;
 `;
 
 export const Form = styled.form`
@@ -22,7 +23,6 @@ export const ButtonContainer = styled.div`
   align-items: center;
 `;
 
-
 export const FormLabel = styled.label`
   color: #EDF2F7;
   font-weight: bold;
@@ -32,7 +32,7 @@ const inputSize = `
   width: 100%;
   height: 60px;
   box-sizing: border-box;
-  margin: 10px 0;
+  margin-top: 20px;
 `;
 
 const inputBorder = `
@@ -77,6 +77,6 @@ export const FormButton = styled(StyledButton)`
 
 export const ErrorMessage = styled.div`
   color: red;
-  ${font}
-  margin-bottom: 10px;
+  font-family: math;
+  font-size: 20px;
 `;
