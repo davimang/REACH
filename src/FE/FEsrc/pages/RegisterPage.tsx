@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { API_URL } from '..';
 import { useAuth } from '../contexts/AuthContext';
-import { FormContainer, Form, TextInput, FormButton, ErrorMessage, ButtonContainer } from '../components/FormStyles';
+import { FormContainer, Form, TextInput, FormButton, CheckboxInput, ErrorMessage, ButtonContainer, CheckboxContainer, CheckboxLabel } from '../components/FormStyles';
 
 const RegisterPageContainer = styled.div`
   display: flex;
@@ -50,9 +50,6 @@ const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
     const { register } = useAuth();
     const [formData, setFormData] = useState({
-        password: '',
-        first_name: '',
-        last_name: '',
         is_clinician: false,
     });
 
@@ -74,8 +71,15 @@ const RegisterPage: React.FC = () => {
         return data.available;
     };
 
+    const checkEmpty = (value) => {
+        return value.trim() !== '';
+    };
+
     const emailField = fieldValidation(validateEmail);
     const usernameField = fieldValidation(validateUsername);
+    const passwordField = fieldValidation(checkEmpty);
+    const firstNameField = fieldValidation(checkEmpty);
+    const lastNameField = fieldValidation(checkEmpty);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
@@ -93,10 +97,10 @@ const RegisterPage: React.FC = () => {
 
             await register(
                 usernameField.value,
-                formData.password,
+                passwordField.value,
                 emailField.value,
-                formData.first_name,
-                formData.last_name,
+                firstNameField.value,
+                lastNameField.value,
                 formData.is_clinician
             );
 
@@ -125,8 +129,9 @@ const RegisterPage: React.FC = () => {
                         type='password'
                         id='password'
                         name='password'
-                        value={formData.password}
-                        onChange={handleInputChange}
+                        value={passwordField.value}
+                        onChange={passwordField.handleChange}
+                        onBlur={passwordField.handleBlur}
                         placeholder='Password'
                         autoComplete='new-password'
                     />
@@ -144,18 +149,29 @@ const RegisterPage: React.FC = () => {
                         type='text'
                         id='first_name'
                         name='first_name'
-                        value={formData.first_name}
-                        onChange={handleInputChange}
+                        value={firstNameField.value}
+                        onChange={firstNameField.handleChange}
+                        onBlur={firstNameField.handleBlur}
                         placeholder='First Name'
                     />
                     <TextInput
                         type='text'
                         id='last_name'
                         name='last_name'
-                        value={formData.last_name}
-                        onChange={handleInputChange}
+                        value={lastNameField.value}
+                        onChange={lastNameField.handleChange}
+                        onBlur={lastNameField.handleBlur}
                         placeholder='Last Name'
                     />
+                    <CheckboxContainer>
+                        <CheckboxInput
+                            type='checkbox'
+                            name='is_clinician'
+                            checked={formData.is_clinician}
+                            onChange={handleInputChange}
+                        />
+                        <CheckboxLabel>Clinician</CheckboxLabel>
+                    </CheckboxContainer>
                     {error && <ErrorMessage>{error}</ErrorMessage>}
                     <ButtonContainer>
                         <FormButton type='submit'>Register</FormButton>

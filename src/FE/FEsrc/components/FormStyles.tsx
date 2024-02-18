@@ -59,6 +59,25 @@ export const DropDownInput = styled.select`
   ${inputBorder}
 `;
 
+export const CheckboxInput = styled.input`
+  height: 35px;
+  width: 35px;
+  margin: 0;
+  accent-color: #039D5F;
+`;
+
+export const CheckboxContainer = styled.div`
+  height: 35px;
+  margin-top: 20px;
+  display: flex;
+`;
+
+export const CheckboxLabel = styled.label`
+  color: #FFFFFF;
+  ${font}
+  padding: 0 5px;
+`;
+
 export const AutocompleteInput = styled(Autocomplete)`
   ${inputSize}
 `;
