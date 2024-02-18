@@ -12,13 +12,45 @@ const RegisterPageContainer = styled.div`
   align-items: center;
 `;
 
+const fieldValidation = (validationFunction) => {
+    const [value, setValue] = useState('');
+    const [touched, setTouched] = useState(false);
+    const [valid, setValid] = useState(false);
+
+    const handleBlur = () => {
+        validate();
+
+        if (value != '') {
+            setTouched(true);
+        }
+    };
+
+    const validate = async () => {
+        //set valid to true whille waiting for validation to avoid showing error message on first render
+        setValid(true);
+        setValid(await validationFunction(value));
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value);
+        setTouched(false);
+    };
+
+    return {
+        value,
+        valid,
+        touched,
+        handleBlur,
+        handleChange,
+        showErrorMessage: touched && !valid,
+    };
+};
+
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
     const { register } = useAuth();
     const [formData, setFormData] = useState({
-        email: '',
         password: '',
-        username: '',
         first_name: '',
         last_name: '',
         is_clinician: false,
@@ -26,44 +58,24 @@ const RegisterPage: React.FC = () => {
 
     const [error, setError] = useState<string | null>(null);
 
-    const [emailValid, setEmailValid] = useState(false);
-    const [emailTouched, setEmailTouched] = useState(false);
-    const showEmailError = emailTouched && !emailValid;
     const emailErrorMessage = 'Invalid email';
-
-    const [usernameValid, setUsernameValid] = useState(true);
-    const [usernameTouched, setUsernameTouched] = useState(false);
-    const showUsernameError = usernameTouched && !usernameValid;
     const usernameErrorMessage = 'Username is not available';
 
-    const validateEmail = () => {
+    const validateEmail = (email) => {
         const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
-        setEmailValid(emailRegex.test(formData.email));
+        return emailRegex.test(email);
     };
 
-    const handleEmailBlur = () => {
-        if (formData.email != '') {
-            setEmailTouched(true);
-        }
-
-        validateEmail();
-    };
-
-    const validateUsername = async () => {
-        const response = await fetch(`${API_URL}/check_username/?username=${formData.username}`);
+    const validateUsername = async (username) => {
+        const response = await fetch(`${API_URL}/check_username/?username=${username}`);
         const data = await response.json();
 
-        setUsernameValid(data.available);
+        return data.available;
     };
 
-    const handleUsernameBlur = () => {
-        if (formData.username != '') {
-            setUsernameTouched(true);
-        }
-
-        validateUsername();
-    };
+    const emailField = fieldValidation(validateEmail);
+    const usernameField = fieldValidation(validateUsername);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
@@ -71,13 +83,6 @@ const RegisterPage: React.FC = () => {
             ...prev,
             [name]: type === 'checkbox' ? checked : value,
         }));
-
-        if (name === 'email') {
-            setEmailTouched(false);
-        }
-        else if (name === 'username') {
-            setUsernameTouched(false);
-        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -87,9 +92,9 @@ const RegisterPage: React.FC = () => {
             setError(null);
 
             await register(
-                formData.username,
+                usernameField.value,
                 formData.password,
-                formData.email,
+                emailField.value,
                 formData.first_name,
                 formData.last_name,
                 formData.is_clinician
@@ -110,12 +115,12 @@ const RegisterPage: React.FC = () => {
                         type='email'
                         id='email'
                         name='email'
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        onBlur={handleEmailBlur}
+                        value={emailField.value}
+                        onChange={emailField.handleChange}
+                        onBlur={emailField.handleBlur}
                         placeholder='Email'
                     />
-                    {showEmailError && <ErrorMessage>{emailErrorMessage}</ErrorMessage>}
+                    {emailField.showErrorMessage && <ErrorMessage>{emailErrorMessage}</ErrorMessage>}
                     <TextInput
                         type='password'
                         id='password'
@@ -129,12 +134,12 @@ const RegisterPage: React.FC = () => {
                         type='text'
                         id='username'
                         name='username'
-                        value={formData.username}
-                        onChange={handleInputChange}
-                        onBlur={handleUsernameBlur}
+                        value={usernameField.value}
+                        onChange={usernameField.handleChange}
+                        onBlur={usernameField.handleBlur}
                         placeholder='Username'
                     />
-                    {showUsernameError && <ErrorMessage>{usernameErrorMessage}</ErrorMessage>}
+                    {usernameField.showErrorMessage && <ErrorMessage>{usernameErrorMessage}</ErrorMessage>}
                     <TextInput
                         type='text'
                         id='first_name'
