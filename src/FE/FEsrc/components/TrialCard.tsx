@@ -6,14 +6,20 @@ interface TrialProps {
     setCurrentDescription: (description: string) => void;
     trialSaved: { [key: string]: boolean };
     handleSave: (trial: TrialInfo) => void;
+    setCurrentLocation: (location: Object) => void;
 }
 
-const TrialCard: React.FC<TrialProps> = ({ trial, setCurrentDescription, trialSaved, handleSave }) => {
+const TrialCard: React.FC<TrialProps> = ({ trial, setCurrentDescription, trialSaved, handleSave, setCurrentLocation }) => {
     return (
         <TrialContainer key={trial.NCTId}>
             <TrialDescription>
                 <TrialTitle
-                    onClick={() => setCurrentDescription(trial.DetailedDescription)}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        setCurrentDescription(trial.DetailedDescription);
+                        setCurrentLocation({latitude: 43.255203, longitude: -79.843826});
+                    }
+                }
                 >
                     {trial.BriefTitle}
                 </TrialTitle>

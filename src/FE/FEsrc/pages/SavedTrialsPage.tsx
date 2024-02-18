@@ -95,6 +95,7 @@ const SaveTrialsPage = () => {
                         handleDelete={handleDelete}
                     />
                 ))
+                
         )
     }
 

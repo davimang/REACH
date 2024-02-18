@@ -6,6 +6,7 @@ import { PatientInfoList, TrialInfoList } from '../components/types';
 import { StyledButton } from '../components/ButtonStyle';
 import { DropDownInput } from '../components/FormStyles';
 import TrialCard from '../components/TrialCard';
+import Map from '../components/Map';
 
 const TrialSearchHeader = styled.div`
     background-color: #213E80;
@@ -40,6 +41,7 @@ const TrialSearchPage = () => {
     const [loading, setLoading] = useState(false);
     const [maxRank, setMaxRank] = useState(0);
     const [currentDescription, setCurrentDescription] = useState<string | null>(null);
+    const [currentLocation, setCurrentLocation] = useState({});
     const [trialSaved, setTrialSaved] = useState({});
     const [savedTrialIds, setSavedTrialIds] = useState({});
     const userId = localStorage.getItem('userId');
@@ -99,7 +101,7 @@ const TrialSearchPage = () => {
         }
     };
 
-    const fetchTrials = async () => {
+    const fetchTrials = async (e) => {
         try {
             setLoading(true);
             const endpoint = `/search_trials/?info_id=${selectedProfileId}&rank=${maxRank}`;
@@ -128,6 +130,10 @@ const TrialSearchPage = () => {
         }
     }
 
+    const updateDefaultLocation = () => {
+
+    }
+
     const displayTrials = () => {
         return (
             loading ?
@@ -140,8 +146,11 @@ const TrialSearchPage = () => {
                         setCurrentDescription={setCurrentDescription}
                         trialSaved={trialSaved}
                         handleSave={handleSave}
+                        setCurrentLocation={setCurrentLocation}
                     />
                 ))
+                
+                
         );
     }
 
@@ -151,6 +160,7 @@ const TrialSearchPage = () => {
 
     useEffect(() => {
         updateRank();
+        updateDefaultLocation();
     }, [responseTrials]);
 
     const navigateToBookmarks = () => {
@@ -173,7 +183,9 @@ const TrialSearchPage = () => {
                     }
                 </StyledDropDown>
 
-                <SizedButton onClick={fetchTrials}>Search</SizedButton>
+                <SizedButton onClick={(e) => {
+                    fetchTrials(e);
+                }}>Search</SizedButton>
                 <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>
             </TrialSearchHeader>
 
@@ -181,8 +193,8 @@ const TrialSearchPage = () => {
                 <TrialsListContainer>
                     {displayTrials()}
                 </TrialsListContainer>
-
-                {currentDescription && <div style={{ padding: 15, color: 'white', fontFamily: 'math' }}>{currentDescription}</div>}
+                {(responseTrials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]}/>}
+                {(currentDescription && !loading) && <div style={{ padding: 15, color: 'white', fontFamily: 'math', width: "30%"}}>{currentDescription}</div>}
             </div>
         </>
     );
