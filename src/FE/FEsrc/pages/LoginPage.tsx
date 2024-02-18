@@ -16,25 +16,42 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [formData, setFormData] = useState({ username: '', password: '' });
-  const [error, setError] = useState<string | null>(null);
+  const [usernameError, setUsernameError] = useState<string | null>(null);
+  const [authError, setAuthError] = useState<string | null>(null);
+
+  const usernameErrorMessage = 'Username cannot be empty.';
+  const authErrorMessage = 'Login failed. Please check your credentials.';
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    //setAuthError(null);
+
+    if (name === 'username') {
+      if (value.trim() === '') {
+        setUsernameError(usernameErrorMessage);
+      } else {
+        setUsernameError(null);
+      }
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      setError(null);
+      if (formData.username.trim() === '') {
+        setUsernameError(usernameErrorMessage);
+        return;
+      }
 
       await login(formData.username, formData.password);
 
       navigate('/');
     } catch (error) {
       console.error('Login failed:', error);
-      setError('Login failed. Please check your credentials.');
+      setAuthError(authErrorMessage);
     }
   };
 
@@ -54,6 +71,7 @@ const LoginPage: React.FC = () => {
             onChange={handleInputChange}
             placeholder='Username'
           />
+          {usernameError && <ErrorMessage>{usernameError}</ErrorMessage>}
           <TextInput
             type='password'
             id='password'
@@ -62,7 +80,7 @@ const LoginPage: React.FC = () => {
             onChange={handleInputChange}
             placeholder='Password'
           />
-          {error && <ErrorMessage>{error}</ErrorMessage>}
+          {authError && <ErrorMessage>{authError}</ErrorMessage>}
           <ButtonContainer>
             <FormButton type='submit'>Login</FormButton>
             <FormButton type='button' onClick={navigateToRegister}>Register</FormButton>
