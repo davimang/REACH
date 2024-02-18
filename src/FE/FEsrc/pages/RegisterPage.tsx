@@ -15,14 +15,29 @@ const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
     const { register } = useAuth();
     const [formData, setFormData] = useState({
-        username: '',
-        password: '',
         email: '',
+        password: '',
+        username: '',
         first_name: '',
         last_name: '',
         is_clinician: false,
     });
+
     const [error, setError] = useState<string | null>(null);
+
+    const [emailError, setEmailError] = useState(false);
+    const [emailTouched, setEmailTouched] = useState(false);
+    const showEmailError = emailTouched && emailError;
+    const emailErrorMessage = 'Invalid email';
+
+    const validateEmail = (email: string) => {
+        const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+        return emailRegex.test(email);
+    };
+
+    const handleEmailBlur = () => {
+        setEmailTouched(true);
+    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
@@ -30,6 +45,14 @@ const RegisterPage: React.FC = () => {
             ...prev,
             [name]: type === 'checkbox' ? checked : value,
         }));
+
+        if (name === 'email') {
+            if (!validateEmail(value)) {
+                setEmailError(true);
+            } else {
+                setEmailError(false);
+            }
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -57,15 +80,17 @@ const RegisterPage: React.FC = () => {
     return (
         <RegisterPageContainer>
             <FormContainer>
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit} id='reg-form'>
                     <TextInput
-                        type='text'
-                        id='username'
-                        name='username'
-                        value={formData.username}
+                        type='email'
+                        id='email'
+                        name='email'
+                        value={formData.email}
                         onChange={handleInputChange}
-                        placeholder='Username'
+                        onBlur={handleEmailBlur}
+                        placeholder='Email'
                     />
+                    {showEmailError && <ErrorMessage>{emailErrorMessage}</ErrorMessage>}
                     <TextInput
                         type='password'
                         id='password'
@@ -73,14 +98,15 @@ const RegisterPage: React.FC = () => {
                         value={formData.password}
                         onChange={handleInputChange}
                         placeholder='Password'
+                        autoComplete='new-password'
                     />
                     <TextInput
-                        type='email'
-                        id='email'
-                        name='email'
-                        value={formData.email}
+                        type='text'
+                        id='username'
+                        name='username'
+                        value={formData.username}
                         onChange={handleInputChange}
-                        placeholder='Email'
+                        placeholder='Username'
                     />
                     <TextInput
                         type='text'
