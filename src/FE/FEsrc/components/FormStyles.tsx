@@ -26,13 +26,14 @@ export const ButtonContainer = styled.div`
 export const FormLabel = styled.label`
   color: #EDF2F7;
   font-weight: bold;
+  margin-top: 15px;
 `;
 
 const inputSize = `
   width: 100%;
   height: 60px;
   box-sizing: border-box;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 const inputBorder = `
