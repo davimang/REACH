@@ -1,17 +1,17 @@
+import e from 'express';
 import { useState, useEffect } from 'react';
 
 export const fieldValidation = (validationFunction) => {
     const [value, setValue] = useState('');
+    const [touched, setTouched] = useState(false);
     const [validated, setValidated] = useState(false);
     const [valid, setValid] = useState(false);
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
     const handleBlur = () => {
-        if (value != '') {
-            setValidated(true);
-        }
-        else {
-            setValidated(false);
+        if (!touched) {
+            setTouched(true);
+            validate();
         }
     };
 
@@ -21,16 +21,14 @@ export const fieldValidation = (validationFunction) => {
         }
 
         const newTimeoutId = setTimeout(async () => {
-            if (value != '') {
-                setValid(await validationFunction(value));
-                setValidated(true);
-            }
+            setValid(await validationFunction(value));
+            setValidated(true);
         }, 500);
 
         setTimeoutId(newTimeoutId);
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e) => {
         setValidated(false);
         setValue(e.target.value);
     };
@@ -42,9 +40,8 @@ export const fieldValidation = (validationFunction) => {
     return {
         value,
         valid,
-        touched: validated,
         handleBlur,
         handleChange,
-        showErrorMessage: validated && !valid,
+        showErrorMessage: validated && !valid && touched,
     };
 };
