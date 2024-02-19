@@ -53,15 +53,29 @@ const TrialSearchPage = () => {
         const endpoint = `/trials/`;
         if (!isSaved) {
             try {
+                const body = {
+                    title: trial.BriefTitle,
+                    description: trial.DetailedDescription,
+                    url: trial.url,
+                    location: {
+                        latitude: trial.latitude,
+                        longitude: trial.longitude
+                    },
+                    status: trial.OverallStatus,
+                    distance: trial.Distance,
+                    nctid: trial.NCTID,
+                    user: userId
+                }
+                if(trial.contactEmail){
+                    Object.assign(body, {contact_email: trial.contactEmail});
+                }
+                if(trial.principalInvestigator){
+                    Object.assign(body, {principal_investigator: trial.principalInvestigator});
+                }
                 const requestOptions = {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        title: trial.BriefTitle,
-                        description: trial.DetailedDescription,
-                        url: trial.url,
-                        user: userId
-                    })
+                    body: JSON.stringify(body)
                 };
                 const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
                 if (!response.ok) {
