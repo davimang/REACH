@@ -30,7 +30,7 @@ function App() {
                     <Route path='/faq' element={<FAQPage />} />
                     <Route path='/search' element={<TrialSearchPage />} />
                     <Route path='/savedTrials' element={<SaveTrialsPage />} />
-                    <Route path='/createProfile' element={<ProfileCreationPage />} />
+                    <Route path='/createProfile' element={<ProfileCreationPage />} /> 
                     <Route path='/listprofiles' element={<ListProfiles />} />
                 </Routes>
             </BrowserRouter>
