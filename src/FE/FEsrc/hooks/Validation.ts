@@ -23,7 +23,7 @@ export const fieldValidation = (validationFunction) => {
         const newTimeoutId = setTimeout(async () => {
             setValid(await validationFunction(value));
             setValidated(true);
-        }, 500);
+        }, 750);
 
         setTimeoutId(newTimeoutId);
     };
