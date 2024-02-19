@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface UserProfileCardProps {
   name: string;
@@ -8,16 +8,16 @@ interface UserProfileCardProps {
 
 const UserProfileCard: React.FC<UserProfileCardProps> = ({ name, condition }) => {
   return (
-    <div className="cards" style={cardStyle} >
-      <div className="name-circle" style={circleStyle} >
+    <div className='cards' style={cardStyle} >
+      <div className='name-circle' style={circleStyle} >
         <span> {name} </span>
       </div>
-      <div className="card-content" style={contentStyle}>
-        <div className="profile-name" style={nameStyle}>
+      <div className='card-content' style={contentStyle}>
+        <div className='profile-name' style={nameStyle}>
           Condition: {condition}
         </div>
-        <Link to="/savedTrials">
-          <div className="saved-trails-link">
+        <Link to='/savedTrials'>
+          <div className='saved-trails-link'>
             Edit Profile
           </div>
         </Link>

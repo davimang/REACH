@@ -65,4 +65,3 @@ export interface SavedTrial {
 export interface SavedTrialList {
     [key: string]: SavedTrial;
 }
-  

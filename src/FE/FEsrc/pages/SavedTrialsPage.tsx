@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-
-import { API_URL } from '../..';
-import { SavedTrialList, SavedTrial } from '../types';
+import { API_URL } from '..';
+import { SavedTrial } from '../components/types';
+import SavedTrialCard from '../components/SavedTrialCard';
 
 const TrialsListContainer = styled.div`
     width: 600px;
@@ -48,7 +48,7 @@ const StyledImage = styled.img`
 const SaveTrialsPage = () => {
 
     const [trials, setTrials] = useState<SavedTrial[]>([]);
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem('userId');
     const [loading, setLoading] = useState(false);
     const [currentDescription, setCurrentDescription] = useState<string | null>(null);
 
@@ -64,7 +64,7 @@ const SaveTrialsPage = () => {
             console.error('Error deleting trial:', error.message);
         }
         console.log(trials)
-        if(trials){
+        if (trials) {
             const newTrials = Object.values(trials).filter((trial) => trial.id !== trialId);
             setTrials(newTrials);
         }
@@ -89,25 +89,11 @@ const SaveTrialsPage = () => {
         return (
             loading ? <div>Loading... </div> : trials &&
                 Object.values(trials).map((trial) => (
-                    <TrialContainer key={trial.id}>
-                        <TrialDescription>
-                            <TrialTitle
-                                onClick={() => setCurrentDescription(trial.description)}
-                            >
-                                {trial.title}
-                            </TrialTitle>
-                            <p><u><a href={trial.url} target='__blank' style={{ color: 'white', fontFamily: 'math' }}>
-                                Learn More About This Study...
-                            </a></u></p>
-                        </TrialDescription>
-                        <TrialSymbols>
-                            <StyledImage
-                                src={require("../../images/Saved.svg")}
-                                style={{ height: 45, width: 45 }}
-                                onClick={() => handleDelete(trial)}
-                            />
-                        </TrialSymbols>
-                    </TrialContainer>
+                    <SavedTrialCard
+                        trial={trial}
+                        setCurrentDescription={setCurrentDescription}
+                        handleDelete={handleDelete}
+                    />
                 ))
         )
     }
