@@ -148,7 +148,7 @@ const ProfileCreationPage = () => {
                             }}
                             freeSolo={true}
                             options={conditions}
-                            renderInput={(params) => <AutocompleteTextField {...params} label='-- Select Condition --' value={formValues.condition}
+                            renderInput={(params) => <AutocompleteTextField {...params} label={formValues.condition ? null : "-- Select Condition --"} value={formValues.condition}
                                 onChange={(e) => {
                                     const newCondition = e.target.value;
                                     setFormValues({ ...formValues, condition: newCondition });
