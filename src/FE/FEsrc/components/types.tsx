@@ -59,10 +59,11 @@ export interface SavedTrial {
     title: string;
     description: string;
     url: string;
-    id: string
-}
-
-
-export interface SavedTrialList {
-    [key: string]: SavedTrial;
+    id: string;
+    distance: number;
+    contact_email: string;
+    principal_investigator: string;
+    nctid: string;
+    status: string;
+    location: Object;
 }
