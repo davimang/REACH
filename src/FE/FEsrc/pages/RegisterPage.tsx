@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { API_URL } from '..';
 import { useAuth } from '../contexts/AuthContext';
+import { fieldValidation } from '../hooks/Validation';
 import { FormContainer, Form, TextInput, FormButton, CheckboxInput, ErrorMessage, ButtonContainer, CheckboxContainer, CheckboxLabel, FormButtonDisabled } from '../components/FormStyles';
 
 const RegisterPageContainer = styled.div`
@@ -11,55 +12,6 @@ const RegisterPageContainer = styled.div`
   width: 100%;
   align-items: center;
 `;
-
-const fieldValidation = (validationFunction) => {
-    const [value, setValue] = useState('');
-    const [validated, setValidated] = useState(false);
-    const [valid, setValid] = useState(false);
-    const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
-
-    const handleBlur = () => {
-        if (value != '') {
-            setValidated(true);
-        }
-        else {
-            setValidated(false);
-        }
-    };
-
-    const validate = async () => {
-        if (timeoutId) {
-            clearTimeout(timeoutId);
-        }
-
-        const newTimeoutId = setTimeout(async () => {
-            if (value != '') {
-                setValid(await validationFunction(value));
-                setValidated(true);
-            }
-        }, 500);
-
-        setTimeoutId(newTimeoutId);
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValidated(false);
-        setValue(e.target.value);
-    };
-
-    useEffect(() => {
-        validate();
-    }, [value]);
-
-    return {
-        value,
-        valid,
-        touched: validated,
-        handleBlur,
-        handleChange,
-        showErrorMessage: validated && !valid,
-    };
-};
 
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
