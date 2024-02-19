@@ -65,8 +65,8 @@ def check_username(request):
         user_exists = User.objects.filter(username=username).exists()
 
         return Response({"available": (not user_exists) and (len(username) > 0)})
-    else:
-        return Response({"error": "Username parameter not provided"}, status=400)
+
+    return Response({"error": "Username parameter not provided"}, status=400)
 
 
 class UserDataFilter(filters.FilterSet):
