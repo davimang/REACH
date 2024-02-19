@@ -26,7 +26,8 @@ const ProfileCreationPage = () => {
         isSmoker: false,
         asthmaSeverity: '',
         isEosinophilic: false,
-    })
+    });
+
     const [formValues, setFormValues] = useState({
         name: '',
         address: '',
@@ -35,8 +36,8 @@ const ProfileCreationPage = () => {
         user: userId,
         condition: '',
         advancedInfo: advancedInfoAsthma
-    }
-    );
+    });
+
     const [isHidden, setIsHidden] = useState({ asthma: true, COPD: true });
 
     const handleAdvancedInfo = () => {
@@ -52,17 +53,19 @@ const ProfileCreationPage = () => {
         }
     }
 
-    const handleSubmit = async (e) => {
-
-        e.preventDefault();
-        const splitAddress = formValues.address.split(',');
-        const formattedAddress = {
+    const formatAddress = (address) => {
+        const splitAddress = address.split(',');
+        return {
             street: splitAddress[0],
             city: splitAddress[1],
             province: splitAddress[2],
             postalCode: splitAddress[3]
         }
-        const requestOptions = {
+    }
+
+    const createRequestOptions = () => {
+        const formattedAddress = formatAddress(formValues.address);
+        return {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -75,16 +78,20 @@ const ProfileCreationPage = () => {
                 advanced_info: advancedInfoAsthma
             })
         };
+    }
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const requestOptions = createRequestOptions();
+
         try {
             const response = await fetch(`${API_URL}/patientinfo/`, requestOptions);
             const data = await response.json();
 
-            console.log(data);
-
             if (response.ok) {
                 navigate('/');
             }
-
         } catch (error) {
             console.error('Error submitting form:', error);
         }
