@@ -24,6 +24,7 @@ const RegisterPage: React.FC = () => {
 
     const emailErrorMessage = 'Invalid email';
     const usernameErrorMessage = 'Username is not available';
+    const genericErrorMessage = 'This field cannot be empty';
 
     const validateEmail = (email) => {
         const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -104,6 +105,7 @@ const RegisterPage: React.FC = () => {
                         placeholder='Password'
                         autoComplete='new-password'
                     />
+                    {passwordField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
                     <TextInput
                         type='text'
                         id='username'
@@ -123,6 +125,7 @@ const RegisterPage: React.FC = () => {
                         onBlur={firstNameField.handleBlur}
                         placeholder='First Name'
                     />
+                    {firstNameField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
                     <TextInput
                         type='text'
                         id='last_name'
@@ -132,6 +135,7 @@ const RegisterPage: React.FC = () => {
                         onBlur={lastNameField.handleBlur}
                         placeholder='Last Name'
                     />
+                    {lastNameField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
                     <CheckboxContainer>
                         <CheckboxInput
                             type='checkbox'
