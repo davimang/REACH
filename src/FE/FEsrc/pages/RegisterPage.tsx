@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { API_URL } from '..';
 import { useAuth } from '../contexts/AuthContext';
-import { FormContainer, Form, TextInput, FormButton, CheckboxInput, ErrorMessage, ButtonContainer, CheckboxContainer, CheckboxLabel } from '../components/FormStyles';
+import { FormContainer, Form, TextInput, FormButton, CheckboxInput, ErrorMessage, ButtonContainer, CheckboxContainer, CheckboxLabel, FormButtonDisabled } from '../components/FormStyles';
 
 const RegisterPageContainer = styled.div`
   display: flex;
@@ -14,35 +14,50 @@ const RegisterPageContainer = styled.div`
 
 const fieldValidation = (validationFunction) => {
     const [value, setValue] = useState('');
-    const [touched, setTouched] = useState(false);
+    const [validated, setValidated] = useState(false);
     const [valid, setValid] = useState(false);
+    const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
     const handleBlur = () => {
-        validate();
-
         if (value != '') {
-            setTouched(true);
+            setValidated(true);
+        }
+        else {
+            setValidated(false);
         }
     };
 
     const validate = async () => {
-        //set valid to true whille waiting for validation to avoid showing error message on first render
-        setValid(true);
-        setValid(await validationFunction(value));
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+
+        const newTimeoutId = setTimeout(async () => {
+            if (value != '') {
+                setValid(await validationFunction(value));
+                setValidated(true);
+            }
+        }, 500);
+
+        setTimeoutId(newTimeoutId);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValidated(false);
         setValue(e.target.value);
-        setTouched(false);
     };
+
+    useEffect(() => {
+        validate();
+    }, [value]);
 
     return {
         value,
         valid,
-        touched,
+        touched: validated,
         handleBlur,
         handleChange,
-        showErrorMessage: touched && !valid,
+        showErrorMessage: validated && !valid,
     };
 };
 
@@ -80,6 +95,8 @@ const RegisterPage: React.FC = () => {
     const passwordField = fieldValidation(checkEmpty);
     const firstNameField = fieldValidation(checkEmpty);
     const lastNameField = fieldValidation(checkEmpty);
+
+    const enableSubmit = emailField.valid && usernameField.valid && passwordField.valid && firstNameField.valid && lastNameField.valid;
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
@@ -174,7 +191,11 @@ const RegisterPage: React.FC = () => {
                     </CheckboxContainer>
                     {error && <ErrorMessage>{error}</ErrorMessage>}
                     <ButtonContainer>
-                        <FormButton type='submit'>Register</FormButton>
+                        {enableSubmit ?
+                            <FormButton type='submit'>Register</FormButton>
+                            :
+                            <FormButtonDisabled disabled>Register</FormButtonDisabled>
+                        }
                     </ButtonContainer>
                 </Form>
             </FormContainer>

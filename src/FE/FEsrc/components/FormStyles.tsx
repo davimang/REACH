@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Autocomplete, TextField } from '@mui/material';
-import { StyledButton } from './ButtonStyle';
+import { StyledButton, StyledButtonDisabled } from './ButtonStyle';
 
 export const FormContainer = styled.div`
   width: 20vw;
@@ -89,6 +89,12 @@ export const AutocompleteTextField = styled(TextField)`
 `;
 
 export const FormButton = styled(StyledButton)`
+  ${inputSize}
+  width: 50%;
+  ${font}
+`;
+
+export const FormButtonDisabled = styled(StyledButtonDisabled)`
   ${inputSize}
   width: 50%;
   ${font}

@@ -10,3 +10,8 @@ export const StyledButton = styled.button`
     font-size: 22px;
     font-family: math;
 `;
+
+export const StyledButtonDisabled = styled(StyledButton)`
+    background-color: #A5A5A5;
+    cursor: default;
+`;
