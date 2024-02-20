@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { API_URL } from '..';
 import { conditions } from '../components/Constants';
 import { FormContainer, Form, FormLabel, TextInput, AutocompleteInput, ButtonContainer, FormButton, DropDownInput, AutocompleteTextField, FormButtonDisabled, ErrorMessage } from '../components/FormStyles';
-import { fieldValidation } from '../hooks/Validation';
+import { checkEmpty, fieldValidation } from '../hooks/Validation';
 
 const ProfileCreationContainer = styled.div`
     min-width: fit-content;
@@ -34,10 +34,6 @@ const ProfileCreationPage = () => {
         condition: '',
         advancedInfo: advancedInfoAsthma
     });
-
-    const checkEmpty = (value) => {
-        return value.trim() !== '';
-    };
 
     const validateAddress = (value) => {
         return value.split(',').length === 4;

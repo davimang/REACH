@@ -1,7 +1,7 @@
 import e from 'express';
 import { useState, useEffect } from 'react';
 
-export const fieldValidation = (validationFunction) => {
+export const fieldValidation = (validationFunction, validationTimout = 100) => {
     const [value, setValue] = useState('');
     const [touched, setTouched] = useState(false);
     const [validated, setValidated] = useState(false);
@@ -11,7 +11,6 @@ export const fieldValidation = (validationFunction) => {
     const handleBlur = () => {
         if (!touched) {
             setTouched(true);
-            validate();
         }
     };
 
@@ -23,7 +22,7 @@ export const fieldValidation = (validationFunction) => {
         const newTimeoutId = setTimeout(async () => {
             setValid(await validationFunction(value));
             setValidated(true);
-        }, 750);
+        }, validationTimout);
 
         setTimeoutId(newTimeoutId);
     };
@@ -44,4 +43,8 @@ export const fieldValidation = (validationFunction) => {
         handleChange,
         showErrorMessage: validated && !valid && touched,
     };
+};
+
+export const checkEmpty = (value) => {
+    return value.trim() !== '';
 };

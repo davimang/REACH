@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { API_URL } from '..';
 import { useAuth } from '../contexts/AuthContext';
-import { fieldValidation } from '../hooks/Validation';
+import { checkEmpty, fieldValidation } from '../hooks/Validation';
 import { FormContainer, Form, TextInput, FormButton, CheckboxInput, ErrorMessage, ButtonContainer, CheckboxContainer, CheckboxLabel, FormButtonDisabled } from '../components/FormStyles';
 
 const RegisterPageContainer = styled.div`
@@ -39,12 +39,8 @@ const RegisterPage: React.FC = () => {
         return data.available;
     };
 
-    const checkEmpty = (value) => {
-        return value.trim() !== '';
-    };
-
     const emailField = fieldValidation(validateEmail);
-    const usernameField = fieldValidation(validateUsername);
+    const usernameField = fieldValidation(validateUsername, 500);
     const passwordField = fieldValidation(checkEmpty);
     const firstNameField = fieldValidation(checkEmpty);
     const lastNameField = fieldValidation(checkEmpty);
