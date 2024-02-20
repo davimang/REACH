@@ -49,7 +49,7 @@ class TrialFilterer:
         except GeopyError:
             home_address = None
         studies = TrialFilterer.generate_address(studies)
-        studies["Distance"] = studies["FullAddress"].apply(
+        studies["Distance"], studies["Latitude"], studies["Longitude"] = studies["FullAddress"].apply(
             lambda x: TrialFilterer.get_distance_km(home_address, x)
         )
         return studies
@@ -89,7 +89,7 @@ class TrialFilterer:
                 ),
                 ["KeywordRank"],
             ] += 1
-            
+
         return df
 
     @staticmethod
@@ -136,9 +136,9 @@ class TrialFilterer:
                     (fac_loc.latitude, fac_loc.longitude),
                 ).kilometers,
                 2,
-            )
+            ), fac_loc.latitude, fac_loc.longitude
         except AttributeError:
-            return 999999999
+            return 999999999, -1, -1
 
     # convert min and max ages to float type
     @staticmethod

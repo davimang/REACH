@@ -9,7 +9,8 @@ API_URL = (
     r"https://clinicaltrials.gov/api/query/study_fields?fmt=csv&"
     r"fields=NCTId,Condition,BriefTitle,DetailedDescription,"
     r"MinimumAge,MaximumAge,LocationCountry,LocationState,LocationCity,"
-    r"LocationZip,LocationFacility,OverallStatus,Gender,Keyword&"
+    r"LocationZip,LocationFacility,OverallStatus,Gender,Keyword,"
+    r"PointOfContactEmail,CentralContactEmail,ResponsiblePartyInvestigatorFullName&"
 )
 TIMEOUT_SEC = 5
 
@@ -76,6 +77,11 @@ class TrialFetcher:
                     "Distance",
                     "KeywordRank",
                     "url",
+                    "Latitude",
+                    "Longitude",
+                    "PointOfContactEmail",
+                    "CentralContactEmail",
+                    "ResponsiblePartyInvestigatorFullName"
                 ]
             )
         studies = studies.head(
@@ -98,6 +104,11 @@ class TrialFetcher:
                 "Distance",
                 "KeywordRank",
                 "url",
+                "Latitude",
+                "Longitude",
+                "PointOfContactEmail",
+                "CentralContactEmail",
+                "ResponsiblePartyInvestigatorFullName"
             ]
         ]
         results_json = studies.to_json(orient="index")  # convert to json
