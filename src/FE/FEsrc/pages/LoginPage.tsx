@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useAuth } from '../contexts/AuthContext';
-import { FormContainer, Form, TextInput, FormButton, ButtonContainer, ErrorMessage } from '../components/FormStyles';
+import { FormContainer, Form, TextInput, FormButton, ButtonContainer, ErrorMessage, FormButtonDisabled } from '../components/FormStyles';
+import { checkEmpty, fieldValidation } from '../hooks/Validation';
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -15,28 +16,35 @@ const LoginPageContainer = styled.div`
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [formData, setFormData] = useState({ username: '', password: '' });
-  const [error, setError] = useState<string | null>(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const usernameField = fieldValidation(checkEmpty);
+  const passwordField = fieldValidation(checkEmpty);
+
+  const enableSubmit = usernameField.valid && passwordField.valid;
+
+  const usernameErrorMessage = 'Username cannot be empty.';
+  const passwordErrorMessage = 'Password cannot be empty.';
+
+  const [authError, setAuthError] = useState(false);
+  const authErrorMessage = 'Login failed. Please check your credentials.';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      setError(null);
-
-      await login(formData.username, formData.password);
+      await login(usernameField.value, passwordField.value);
 
       navigate('/');
     } catch (error) {
-      console.error('Login failed:', error);
-      setError('Login failed. Please check your credentials.');
+      setAuthError(true);
     }
   };
+
+  useEffect(() => {
+    if (authError) {
+      setAuthError(false);
+    }
+  }, [usernameField.value, passwordField.value]);
 
   const navigateToRegister = () => {
     navigate('/register');
@@ -44,27 +52,35 @@ const LoginPage: React.FC = () => {
 
   return (
     <LoginPageContainer>
-      <FormContainer>
+      <FormContainer id='login-form'>
         <Form onSubmit={handleSubmit}>
           <TextInput
             type='text'
             id='username'
             name='username'
-            value={formData.username}
-            onChange={handleInputChange}
+            value={usernameField.value}
+            onChange={usernameField.handleChange}
+            onBlur={usernameField.handleBlur}
             placeholder='Username'
           />
+          {usernameField.showErrorMessage && <ErrorMessage>{usernameErrorMessage}</ErrorMessage>}
           <TextInput
             type='password'
             id='password'
             name='password'
-            value={formData.password}
-            onChange={handleInputChange}
+            value={passwordField.value}
+            onChange={passwordField.handleChange}
+            onBlur={passwordField.handleBlur}
             placeholder='Password'
           />
-          {error && <ErrorMessage>{error}</ErrorMessage>}
+          {passwordField.showErrorMessage && <ErrorMessage>{passwordErrorMessage}</ErrorMessage>}
+          {authError && <ErrorMessage>{authErrorMessage}</ErrorMessage>}
           <ButtonContainer>
-            <FormButton type='submit'>Login</FormButton>
+            {enableSubmit ?
+              <FormButton type='submit'>Login</FormButton>
+              :
+              <FormButtonDisabled disabled>Login</FormButtonDisabled>
+            }
             <FormButton type='button' onClick={navigateToRegister}>Register</FormButton>
           </ButtonContainer>
         </Form>

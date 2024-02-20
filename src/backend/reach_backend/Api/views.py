@@ -1,4 +1,5 @@
 """Views for the api service."""
+
 from datetime import date
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
@@ -54,6 +55,18 @@ class UserRegistrationView(generics.CreateAPIView):
         access_token = str(refresh.access_token)
 
         return Response({"refresh": refresh_token, "access": access_token})
+
+
+@api_view(["GET"])
+def check_username(request):
+    """Endpoint to check if a username is available to be used."""
+    if "username" in request.GET:
+        username = request.GET["username"]
+        user_exists = User.objects.filter(username=username).exists()
+
+        return Response({"available": (not user_exists) and (len(username) > 0)})
+
+    return Response({"error": "Username parameter not provided"}, status=400)
 
 
 class UserDataFilter(filters.FilterSet):

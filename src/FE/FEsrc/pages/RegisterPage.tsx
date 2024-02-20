@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { API_URL } from '..';
 import { useAuth } from '../contexts/AuthContext';
-import { FormContainer, Form, TextInput, FormButton, ErrorMessage, ButtonContainer } from '../components/FormStyles';
+import { checkEmpty, fieldValidation } from '../hooks/Validation';
+import { FormContainer, Form, TextInput, FormButton, CheckboxInput, ErrorMessage, ButtonContainer, CheckboxContainer, CheckboxLabel, FormButtonDisabled } from '../components/FormStyles';
 
 const RegisterPageContainer = styled.div`
   display: flex;
@@ -15,14 +17,37 @@ const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
     const { register } = useAuth();
     const [formData, setFormData] = useState({
-        username: '',
-        password: '',
-        email: '',
-        first_name: '',
-        last_name: '',
         is_clinician: false,
     });
-    const [error, setError] = useState<string | null>(null);
+
+    const [error, setError] = useState(false);
+
+    const errorMessage = 'Registration failed. Please try again.';
+
+    const emailErrorMessage = 'Invalid email';
+    const usernameErrorMessage = 'Username is not available';
+    const genericErrorMessage = 'This field cannot be empty';
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+        return emailRegex.test(email);
+    };
+
+    const validateUsername = async (username) => {
+        const response = await fetch(`${API_URL}/check_username/?username=${username}`);
+        const data = await response.json();
+
+        return data.available;
+    };
+
+    const emailField = fieldValidation(validateEmail);
+    const usernameField = fieldValidation(validateUsername, 500);
+    const passwordField = fieldValidation(checkEmpty);
+    const firstNameField = fieldValidation(checkEmpty);
+    const lastNameField = fieldValidation(checkEmpty);
+
+    const enableSubmit = emailField.valid && usernameField.valid && passwordField.valid && firstNameField.valid && lastNameField.valid;
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
@@ -36,71 +61,98 @@ const RegisterPage: React.FC = () => {
         e.preventDefault();
 
         try {
-            setError(null);
-
             await register(
-                formData.username,
-                formData.password,
-                formData.email,
-                formData.first_name,
-                formData.last_name,
+                usernameField.value,
+                passwordField.value,
+                emailField.value,
+                firstNameField.value,
+                lastNameField.value,
                 formData.is_clinician
             );
 
             navigate('/createProfile');
         } catch (error) {
-            console.error('Registration failed:', error);
-            setError('Registration  failed. Please try again.');
+            setError(true);
         }
     };
+
+    useEffect(() => {
+        if (error) {
+            setError(false);
+        }
+    }, [usernameField.value, passwordField.value, emailField.value, firstNameField.value, lastNameField.value]);
 
     return (
         <RegisterPageContainer>
             <FormContainer>
-                <Form onSubmit={handleSubmit}>
-                    <TextInput
-                        type='text'
-                        id='username'
-                        name='username'
-                        value={formData.username}
-                        onChange={handleInputChange}
-                        placeholder='Username'
-                    />
-                    <TextInput
-                        type='password'
-                        id='password'
-                        name='password'
-                        value={formData.password}
-                        onChange={handleInputChange}
-                        placeholder='Password'
-                    />
+                <Form onSubmit={handleSubmit} id='reg-form'>
                     <TextInput
                         type='email'
                         id='email'
                         name='email'
-                        value={formData.email}
-                        onChange={handleInputChange}
+                        value={emailField.value}
+                        onChange={emailField.handleChange}
+                        onBlur={emailField.handleBlur}
                         placeholder='Email'
                     />
+                    {emailField.showErrorMessage && <ErrorMessage>{emailErrorMessage}</ErrorMessage>}
+                    <TextInput
+                        type='password'
+                        id='password'
+                        name='password'
+                        value={passwordField.value}
+                        onChange={passwordField.handleChange}
+                        onBlur={passwordField.handleBlur}
+                        placeholder='Password'
+                        autoComplete='new-password'
+                    />
+                    {passwordField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
+                    <TextInput
+                        type='text'
+                        id='username'
+                        name='username'
+                        value={usernameField.value}
+                        onChange={usernameField.handleChange}
+                        onBlur={usernameField.handleBlur}
+                        placeholder='Username'
+                    />
+                    {usernameField.showErrorMessage && <ErrorMessage>{usernameErrorMessage}</ErrorMessage>}
                     <TextInput
                         type='text'
                         id='first_name'
                         name='first_name'
-                        value={formData.first_name}
-                        onChange={handleInputChange}
+                        value={firstNameField.value}
+                        onChange={firstNameField.handleChange}
+                        onBlur={firstNameField.handleBlur}
                         placeholder='First Name'
                     />
+                    {firstNameField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
                     <TextInput
                         type='text'
                         id='last_name'
                         name='last_name'
-                        value={formData.last_name}
-                        onChange={handleInputChange}
+                        value={lastNameField.value}
+                        onChange={lastNameField.handleChange}
+                        onBlur={lastNameField.handleBlur}
                         placeholder='Last Name'
                     />
-                    {error && <ErrorMessage>{error}</ErrorMessage>}
+                    {lastNameField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
+                    <CheckboxContainer>
+                        <CheckboxInput
+                            type='checkbox'
+                            name='is_clinician'
+                            checked={formData.is_clinician}
+                            onChange={handleInputChange}
+                        />
+                        <CheckboxLabel>Clinician</CheckboxLabel>
+                    </CheckboxContainer>
+                    {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
                     <ButtonContainer>
-                        <FormButton type='submit'>Register</FormButton>
+                        {enableSubmit ?
+                            <FormButton type='submit'>Register</FormButton>
+                            :
+                            <FormButtonDisabled disabled>Register</FormButtonDisabled>
+                        }
                     </ButtonContainer>
                 </Form>
             </FormContainer>
