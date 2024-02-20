@@ -44,6 +44,10 @@ const ProfileCreationPage = () => {
     const dateOfBirthField = fieldValidation(checkEmpty);
     const genderField = fieldValidation(checkEmpty);
 
+    const [error, setError] = useState(false);
+
+    const errorMessage = 'Profile creation failed. Please try again.';
+
     const addressErrorMessage = 'Invalid address, please enter a valid address in the format: street, city, province, postal code';
     const genericErrorMessage = 'This field cannot be empty';
 
@@ -104,14 +108,23 @@ const ProfileCreationPage = () => {
             if (response.ok) {
                 navigate('/');
             }
+            else {
+                setError(true);
+            }
         } catch (error) {
-            console.error('Error submitting form:', error);
+            setError(true);
         }
     };
 
     useEffect(() => {
         handleAdvancedInfo();
     }, [formValues.condition]);
+
+    useEffect(() => {
+        if (error) {
+            setError(false);
+        }
+    }, [nameField.value, addressField.value, dateOfBirthField.value, genderField.value, formValues, advancedInfoAsthma]);
 
     return (
         <>
@@ -247,6 +260,9 @@ const ProfileCreationPage = () => {
                                 />
                             </>
                         )}
+
+                        {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
+
                         <ButtonContainer>
                             {enableSubmit ?
                                 <FormButton type='submit'>Save</FormButton>

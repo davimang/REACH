@@ -20,7 +20,9 @@ const RegisterPage: React.FC = () => {
         is_clinician: false,
     });
 
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState(false);
+
+    const errorMessage = 'Registration failed. Please try again.';
 
     const emailErrorMessage = 'Invalid email';
     const usernameErrorMessage = 'Username is not available';
@@ -59,8 +61,6 @@ const RegisterPage: React.FC = () => {
         e.preventDefault();
 
         try {
-            setError(null);
-
             await register(
                 usernameField.value,
                 passwordField.value,
@@ -72,10 +72,15 @@ const RegisterPage: React.FC = () => {
 
             navigate('/createProfile');
         } catch (error) {
-            console.error('Registration failed:', error);
-            setError('Registration  failed. Please try again.');
+            setError(true);
         }
     };
+
+    useEffect(() => {
+        if (error) {
+            setError(false);
+        }
+    }, [usernameField.value, passwordField.value, emailField.value, firstNameField.value, lastNameField.value]);
 
     return (
         <RegisterPageContainer>
@@ -141,7 +146,7 @@ const RegisterPage: React.FC = () => {
                         />
                         <CheckboxLabel>Clinician</CheckboxLabel>
                     </CheckboxContainer>
-                    {error && <ErrorMessage>{error}</ErrorMessage>}
+                    {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
                     <ButtonContainer>
                         {enableSubmit ?
                             <FormButton type='submit'>Register</FormButton>
