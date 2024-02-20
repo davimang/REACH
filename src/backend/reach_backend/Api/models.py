@@ -44,6 +44,7 @@ class Trial(models.Model):
 
     class Status(models.TextChoices):
         """Enum class for trial recruitment status."""
+
         RECRUITING = "Recruiting"
         COMPLETED = "Completed"
         UNKNOWN = "Unkown"
