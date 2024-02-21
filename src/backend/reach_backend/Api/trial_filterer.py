@@ -4,8 +4,8 @@ import regex as re
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from geopy.exc import GeopyError
-from .filtering_dictionary import (filtering_dict_num, 
-                                   filtering_dict_boolean, filtering_dict_special)
+from .filtering_dictionary import (filtering_dict_num,
+                                   filtering_dict_boolean)
 
 locator = Nominatim(user_agent="my_request")
 
@@ -49,9 +49,10 @@ class TrialFilterer:
         except GeopyError:
             home_address = None
         studies = TrialFilterer.generate_address(studies)
-        studies["Distance"], studies["Latitude"], studies["Longitude"] = studies["FullAddress"].apply(
+        studies["Distance"], studies["Latitude"], studies["Longitude"] = (
+            studies["FullAddress"].apply(
             lambda x: TrialFilterer.get_distance_km(home_address, x)
-        )
+        ))
         return studies
 
     @staticmethod
