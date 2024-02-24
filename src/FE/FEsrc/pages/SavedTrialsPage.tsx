@@ -6,6 +6,18 @@ import SavedTrialCard from '../components/SavedTrialCard';
 import { DropDownInput } from '../components/FormStyles';
 import { StyledButton } from '../components/ButtonStyle';
 import Map from '../components/Map';
+import Dialog, { DialogProps } from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Box from '@mui/material/Box';
+
+const DialogContentInfo = styled.div`
+    height: 25px;
+    width: 100%;
+`;
+
 
 const TrialsListContainer = styled.div`
     width: 600px;
@@ -26,11 +38,6 @@ const StyledDropDown = styled(DropDownInput)`
     height: 55px;
 `;
 
-const SizedButton = styled(StyledButton)`
-    height: 55px;
-    margin: 10px;
-    padding: 5px 15px;
-`;
 
 
 const SaveTrialsPage = () => {
@@ -38,10 +45,22 @@ const SaveTrialsPage = () => {
     const userId = localStorage.getItem('userId');
     const [trials, setTrials] = useState<SavedTrial[]>([]);
     const [loading, setLoading] = useState(false);
-    const [currentDescription, setCurrentDescription] = useState<string | null>(null);
     const [selectedProfileId, setSelectedProfileId] = useState('');
     const [profiles, setProfiles] = useState<PatientInfo[]>([]);
     const [currentLocation, setCurrentLocation] = useState({});
+    const [open, setOpen] = useState(false)
+    const [modalDetails, setModalDetails] = useState({
+        title: "",
+        description: "",
+        contactEmail: "",
+        principalInvestigator: "",
+        address: "",
+        url: ""
+    })
+
+    const handleModal = () => {
+        setOpen(!open);
+    }
 
     const handleDelete = (trial) => {
         const trialId = trial.id;
@@ -114,9 +133,10 @@ const SaveTrialsPage = () => {
                 Object.values(trials).map((trial) => (
                     <SavedTrialCard
                         trial={trial}
-                        setCurrentDescription={setCurrentDescription}
                         handleDelete={handleDelete}
                         setCurrentLocation={setCurrentLocation}
+                        setModalDetails={setModalDetails}
+                        handleModal={handleModal}
                     />
                 ))
                 
@@ -145,8 +165,44 @@ const SaveTrialsPage = () => {
                     {displayTrials()}
                 </TrialsListContainer>
                 {(trials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]}/>}
-                {currentDescription && <div style={{ padding: 15, color: 'white', fontFamily: 'math' }}>{currentDescription}</div>}
             </div>
+              
+            <Dialog
+                open={open}
+                onClose={handleModal}
+                aria-labelledby="scroll-dialog-title"
+                aria-describedby="scroll-dialog-description"
+                scroll="paper"
+            >
+                    <DialogTitle id="scroll-dialog-title">{modalDetails["title"]}</DialogTitle>
+                    <DialogContent >
+                    <Box border={1} padding={2}>
+                    <DialogContentInfo>
+                    <div>
+                    Contact Email: David@email.com
+                    </div>
+                    <div>
+                    Principal Investigator: David
+                    </div>
+                    </DialogContentInfo>
+                    </Box>
+                    <Box border={1} padding={2}>
+                    <DialogContentText
+                        id="scroll-dialog-description"
+                        tabIndex={-1}
+                    >{modalDetails["description"]}
+                    </DialogContentText >
+                    </Box>
+                    
+                    </DialogContent>
+                    <DialogActions>
+                        <StyledButton onClick={handleModal}>Close</StyledButton>
+                        <a href={modalDetails["url"]} target="_blank">
+                            <StyledButton>View Study</StyledButton>
+                        </a>
+                    </DialogActions>
+             
+            </Dialog>
         </>
     );
 }

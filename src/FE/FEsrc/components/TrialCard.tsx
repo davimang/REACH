@@ -3,20 +3,20 @@ import { TrialInfo } from './types';
 
 interface TrialProps {
     trial: TrialInfo;
-    setCurrentDescription: (description: string) => void;
     trialSaved: { [key: string]: boolean };
     handleSave: (trial: TrialInfo) => void;
     setCurrentLocation: (location: Object) => void;
+    handleModal: () => void;
+    setModalDetails: (details: Object) => void;
 }
 
-const TrialCard: React.FC<TrialProps> = ({ trial, setCurrentDescription, trialSaved, handleSave, setCurrentLocation }) => {
+const TrialCard: React.FC<TrialProps> = ({ trial, trialSaved, handleSave, setCurrentLocation, handleModal, setModalDetails }) => {
     return (
         <TrialContainer key={trial.NCTId}>
             <TrialDescription>
                 <TrialTitle
                     onClick={(e) => {
                         e.preventDefault();
-                        setCurrentDescription(trial.DetailedDescription);
                         setCurrentLocation({latitude: 43.255203, longitude: -79.843826});
                     }
                 }
@@ -24,7 +24,11 @@ const TrialCard: React.FC<TrialProps> = ({ trial, setCurrentDescription, trialSa
                     {trial.BriefTitle}
                 </TrialTitle>
 
-                <p><u><a href={trial.url} target='__blank' style={{ color: 'white', fontFamily: 'math' }}>
+                <p><u style={{color: 'white'}}><a onClick={()=>{
+                    handleModal(); 
+                    setModalDetails({title: trial.BriefTitle, description: trial.DetailedDescription, url: trial.url});
+                    }
+                } style={{ color: 'white', fontFamily: 'math', cursor: 'pointer' }}>
                     Learn More About This Study...
                 </a></u></p>
 

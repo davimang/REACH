@@ -3,25 +3,29 @@ import { SavedTrial } from './types';
 
 interface SavedTrialProps {
     trial: SavedTrial;
-    setCurrentDescription: (description: string) => void;
     handleDelete: (trial: SavedTrial) => void;
     setCurrentLocation: (location: Object) => void;
+    setModalDetails: (details: Object) => void;
+    handleModal: () => void;
 }
 
-const SavedTrialCard: React.FC<SavedTrialProps> = ({ trial, setCurrentDescription, handleDelete, setCurrentLocation }) => {
+const SavedTrialCard: React.FC<SavedTrialProps> = ({ trial, handleDelete, setCurrentLocation, setModalDetails, handleModal }) => {
     return (
         <TrialContainer key={trial.id}>
             <TrialDescription>
                 <TrialTitle
                     onClick={() => {
-                        setCurrentDescription(trial.description);
                         setCurrentLocation({latitude: trial.location["latitude"], longitude: trial.location["longitude"]});
                     }
                 }
                 >
                     {trial.title}
                 </TrialTitle>
-                <p><u><a href={trial.url} target='__blank' style={{ color: 'white', fontFamily: 'math' }}>
+                <p><u style={{color: 'white'}}><a onClick={()=>{
+                    handleModal(); 
+                    setModalDetails({title: trial.title, description: trial.description, url: trial.url, principalInvestigator: trial.principal_investigator, contactEmail: trial.contact_email});
+                    }
+                } style={{ color: 'white', fontFamily: 'math', cursor: 'pointer' }}>
                     Learn More About This Study...
                 </a></u></p>
                 <div style={{ color: '#BDBDBD', display: 'flex', alignItems: 'center' }}>

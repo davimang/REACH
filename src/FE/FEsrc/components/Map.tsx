@@ -12,7 +12,7 @@ const Map: React.FC<MapProps> = ({latitude, longitude}) => {
                     src={currLocation}
                     loading="lazy" 
                     referrerPolicy="no-referrer-when-downgrade" 
-                    width="100%" 
+                    width="750" 
                     height="450"
                 />
             </div>
