@@ -8,8 +8,8 @@ from trial_filterer import TrialFilterer
 API_URL = (
     r"https://clinicaltrials.gov/api/query/study_fields?fmt=csv&"
     r"fields=NCTId,Condition,BriefTitle,DetailedDescription,"
-    r"MinimumAge,MaximumAge,LocationCountry,LocationState,LocationCity,"
-    r"LocationZip,LocationFacility,OverallStatus,Gender,Keyword,"
+    r"MinimumAge,MaximumAge,LocationCountry,LocationState,"
+    r"LocationCity,LocationZip,OverallStatus,Gender,Keyword,"
     r"PointOfContactEmail,CentralContactEmail,ResponsiblePartyInvestigatorFullName&"
 )
 TIMEOUT_SEC = 5
