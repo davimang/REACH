@@ -4,6 +4,9 @@ import regex as re
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from geopy.exc import GeopyError
+from filtering_dictionary import (filtering_dict_num,
+                                   filtering_dict_boolean,
+                                   filtering_dict_special)
 
 locator = Nominatim(user_agent="my_request")
 
@@ -47,58 +50,35 @@ class TrialFilterer:
         except GeopyError:
             home_address = None
         studies = TrialFilterer.generate_address(studies)
-        studies["Distance"] = studies["FullAddress"].apply(
+        studies["Distance"] = (
+            studies["FullAddress"].apply(
             lambda x: TrialFilterer.get_distance_km(home_address, x)
-        )
+        ))
         return studies
 
     @staticmethod
     def filter_keywords(df: pd.DataFrame, info: dict) -> pd.DataFrame:
         """increases rank for each met keyword"""
-        if info.get("numExacerbations", 0) > 0:
-            df.loc[
-                df["Keyword"].str.contains(
-                    "|".join(["exacerbation", "Exacerbation"]), na=False
+
+        df = df[df['OverallStatus'] != "Completed"]
+
+        for param in filtering_dict_num.keys():
+            if info.get(param, 0) > 0:
+                df.loc[df["Keyword"].str.contains(
+                    "|".join(filtering_dict_num.items()[param]), na=False
                 ),
                 ["KeywordRank"],
             ] += 1
-        if info.get("numFlares", 0) > 0:
-            df.loc[
-                df["Keyword"].str.contains(
-                    "|".join(
-                        [
-                            "flare",
-                            "flare up",
-                            "flare-up",
-                            "Flare",
-                            "Flare up",
-                            "Flare-up",
-                        ]
-                    ),
-                    na=False,
+
+        for param in filtering_dict_boolean.keys():
+            if info.get(param, 0):
+                df.loc[df["Keyword"].str.contains(
+                    "|".join(filtering_dict_num.items()[param]), na=False
                 ),
                 ["KeywordRank"],
             ] += 1
-        if info.get("usesInhaler"):
-            df.loc[
-                df["Keyword"].str.contains("|".join(["inhaler", "Inhaler"]), na=False),
-                ["KeywordRank"],
-            ] += 1
-        if info.get("usesInjection"):
-            df.loc[
-                df["Keyword"].str.contains(
-                    "|".join(["injection", "Injection"]), na=False
-                ),
-                ["KeywordRank"],
-            ] += 1
-        if info.get("isSmoker"):
-            df.loc[
-                df["Keyword"].str.contains(
-                    "|".join(["smoker", "smoking", "Smoker", "Smoking"]), na=False
-                ),
-                ["KeywordRank"],
-            ] += 1
-        if info.get("asthmaSeverity") in ["moderate", "severe"]:
+
+        if info.get("asthmaSeverity", 0) in ["moderate", "severe"]:
             df.loc[
                 df["Keyword"].str.contains(
                     "|".join(
@@ -113,46 +93,53 @@ class TrialFilterer:
                 ),
                 ["KeywordRank"],
             ] += 1
-        if info.get("isEosinophilic"):
+
+        if info.get("packYears") > 40:
             df.loc[
                 df["Keyword"].str.contains(
                     "|".join(
-                        ["Eosinophilic", "eosinophilic", "Eosinophilia", "eosinophilia"]
+                        [
+                            "heavy smoker",
+                            "Heavy smoker",
+                            "frequent smoker",
+                            "Frequent smoker"
+                        ]
                     ),
                     na=False,
                 ),
                 ["KeywordRank"],
             ] += 1
-        if info.get("usesPillsTablets"):
+        elif info.get("packYears") > 20:
             df.loc[
                 df["Keyword"].str.contains(
-                    "|".join(["pill", "Pill", "tablet", "Tablet", "oral", "Oral"]),
+                    "|".join(
+                        [
+                            "moderate smoker",
+                            "Moderate smoker",
+                        ]
+                    ),
                     na=False,
                 ),
                 ["KeywordRank"],
             ] += 1
-        if info.get("onDualTherapy"):
+        elif info.get("packYears") > 0:
             df.loc[
                 df["Keyword"].str.contains(
-                    "|".join(["dual therapy", "Dual therapy"]), na=False
+                    "|".join(
+                        [
+                            "light smoker",
+                            "light smoker",
+                            "smoker",
+                            "Smoker"
+                        ]
+                    ),
+                    na=False,
                 ),
                 ["KeywordRank"],
             ] += 1
-        if info.get("onTripleTherapy"):
-            df.loc[
-                df["Keyword"].str.contains(
-                    "|".join(["triple therapy", "Triple therapy"]), na=False
-                ),
-                ["KeywordRank"],
-            ] += 1
-        if info.get("numCOPDFlares", 0) > 0:
-            df.loc[
-                df["Keyword"].str.contains(
-                    "|".join(["COPD flare", "COPD Flare"]), na=False
-                ),
-                ["KeywordRank"],
-            ] += 1
+
         return df
+        
 
     @staticmethod
     def generate_address(studies: pd.DataFrame) -> pd.DataFrame:
@@ -198,9 +185,9 @@ class TrialFilterer:
                     (fac_loc.latitude, fac_loc.longitude),
                 ).kilometers,
                 2,
-            )
+            ), fac_loc.latitude, fac_loc.longitude
         except AttributeError:
-            return 999999999
+            return 999999999, -1, -1
 
     # convert min and max ages to float type
     @staticmethod

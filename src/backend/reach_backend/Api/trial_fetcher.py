@@ -3,13 +3,14 @@ import io
 import re
 import requests
 import pandas as pd
-from .trial_filterer import TrialFilterer
+from trial_filterer import TrialFilterer
 
 API_URL = (
     r"https://clinicaltrials.gov/api/query/study_fields?fmt=csv&"
     r"fields=NCTId,Condition,BriefTitle,DetailedDescription,"
-    r"MinimumAge,MaximumAge,LocationCountry,LocationState,LocationCity,"
-    r"LocationZip,LocationFacility,OverallStatus,Gender,Keyword&"
+    r"MinimumAge,MaximumAge,LocationCountry,LocationState,"
+    r"LocationCity,LocationZip,OverallStatus,Gender,Keyword,"
+    r"PointOfContactEmail,CentralContactEmail,ResponsiblePartyInvestigatorFullName&"
 )
 TIMEOUT_SEC = 5
 
@@ -76,6 +77,10 @@ class TrialFetcher:
                     "Distance",
                     "KeywordRank",
                     "url",
+                    "FullAddress",
+                    "PointOfContactEMail",
+                    "CentralContactEMail",
+                    "ResponsiblePartyInvestigatorFullName"
                 ]
             )
         studies = studies.head(
@@ -88,6 +93,8 @@ class TrialFetcher:
             studies, input_params
         )  # calculate distances
         # take only necessary fields
+        print(studies.columns)
+
         studies = studies[
             [
                 "NCTId",
@@ -98,6 +105,10 @@ class TrialFetcher:
                 "Distance",
                 "KeywordRank",
                 "url",
+                "FullAddress",
+                "PointOfContactEMail",
+                "CentralContactEMail",
+                "ResponsiblePartyInvestigatorFullName"
             ]
         ]
         results_json = studies.to_json(orient="index")  # convert to json
