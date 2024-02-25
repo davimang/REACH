@@ -4,7 +4,7 @@ import regex as re
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from geopy.exc import GeopyError
-from filtering_dictionary import (filtering_dict_num,
+from .filtering_dictionary import (filtering_dict_num,
                                    filtering_dict_boolean,
                                    filtering_dict_special)
 
@@ -94,7 +94,7 @@ class TrialFilterer:
                 ["KeywordRank"],
             ] += 1
 
-        if info.get("packYears") > 40:
+        if info.get("packYears", 0) > 40:
             df.loc[
                 df["Keyword"].str.contains(
                     "|".join(
@@ -109,7 +109,7 @@ class TrialFilterer:
                 ),
                 ["KeywordRank"],
             ] += 1
-        elif info.get("packYears") > 20:
+        elif info.get("packYears", 0) > 20:
             df.loc[
                 df["Keyword"].str.contains(
                     "|".join(
@@ -122,7 +122,7 @@ class TrialFilterer:
                 ),
                 ["KeywordRank"],
             ] += 1
-        elif info.get("packYears") > 0:
+        elif info.get("packYears", 0) > 0:
             df.loc[
                 df["Keyword"].str.contains(
                     "|".join(

@@ -45,10 +45,15 @@ export interface TrialInfo {
     BriefTitle: string;
     DetailedDescription: string;
     OverallStatus: string;
-    Distance: number;
+    Distance: Array<number>;
     KeywordRank: number;
     url: string;
     Rank: number;
+    PointOfContactEMail: string;
+    CentralContactEMail: string;
+    ResponsiblePartyInvestigatorFullName: string;
+    FullAddress: string;
+
 }
 
 export interface TrialInfoList {

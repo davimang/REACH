@@ -81,20 +81,25 @@ const TrialSearchPage = () => {
                     description: trial.DetailedDescription,
                     url: trial.url,
                     location: {
-                        latitude: trial.latitude,
-                        longitude: trial.longitude
+                        latitude: trial.Distance[1],
+                        longitude: trial.Distance[2]
                     },
-                    status: trial.OverallStatus,
-                    distance: trial.Distance,
-                    nctid: trial.NCTID,
-                    user: userId
+                    status: "Recruiting",
+                    distance: trial.Distance[0],
+                    nctid: trial.NCTId,
+                    user: userId,
+                    profile: selectedProfileId
                 }
-                if(trial.contactEmail){
-                    Object.assign(body, {contact_email: trial.contactEmail});
+                if(trial.PointOfContactEMail){
+                    Object.assign(body, {contact_email: trial.PointOfContactEMail});
                 }
-                if(trial.principalInvestigator){
-                    Object.assign(body, {principal_investigator: trial.principalInvestigator});
+                else if(trial.CentralContactEMail){
+                    Object.assign(body, {contact_email: trial.CentralContactEMail});
                 }
+                if(trial.ResponsiblePartyInvestigatorFullName){
+                    Object.assign(body, {principal_investigator: trial.ResponsiblePartyInvestigatorFullName});
+                }
+                console.log(body);
                 const requestOptions = {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -168,7 +173,10 @@ const TrialSearchPage = () => {
     }
 
     const updateDefaultLocation = () => {
-
+        if(responseTrials){
+            const defaultTrial = responseTrials[0];
+            setCurrentLocation({latitude: defaultTrial.Distance[1], longitude: defaultTrial.Distance[2]});
+        }
     }
 
     const displayTrials = () => {
@@ -210,7 +218,11 @@ const TrialSearchPage = () => {
             <TrialSearchHeader>
                 <StyledDropDown
                     value={selectedProfileId}
-                    onChange={(e) => setSelectedProfileId(e.target.value)}
+                    onChange={(e) => {
+                        setSelectedProfileId(e.target.value);
+                        setMaxRank(0);
+                    }
+                }
                 >
                     <option value='' disabled>-- Select Patient Profile --</option>
                     {
@@ -246,10 +258,10 @@ const TrialSearchPage = () => {
                     <Box border={1} padding={2}>
                     <DialogContentInfo>
                     <div>
-                    Contact Email: David@email.com
+                    Contact Email: {modalDetails["contactEmail"]}
                     </div>
                     <div>
-                    Principal Investigator: David
+                    Principal Investigator: {modalDetails["principalInvestigator"]}
                     </div>
                     </DialogContentInfo>
                     </Box>

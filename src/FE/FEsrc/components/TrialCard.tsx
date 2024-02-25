@@ -17,7 +17,7 @@ const TrialCard: React.FC<TrialProps> = ({ trial, trialSaved, handleSave, setCur
                 <TrialTitle
                     onClick={(e) => {
                         e.preventDefault();
-                        setCurrentLocation({latitude: 43.255203, longitude: -79.843826});
+                        setCurrentLocation({latitude: trial.Distance[1], longitude: trial.Distance[2]});
                     }
                 }
                 >
@@ -26,15 +26,15 @@ const TrialCard: React.FC<TrialProps> = ({ trial, trialSaved, handleSave, setCur
 
                 <p><u style={{color: 'white'}}><a onClick={()=>{
                     handleModal(); 
-                    setModalDetails({title: trial.BriefTitle, description: trial.DetailedDescription, url: trial.url});
+                    setModalDetails({title: trial.BriefTitle, description: trial.DetailedDescription, url: trial.url, contactEmail: trial.PointOfContactEMail ? trial.PointOfContactEMail: (trial.CentralContactEMail ? trial.CentralContactEMail: "N/A"), principalInvestigator: trial.ResponsiblePartyInvestigatorFullName ? trial.ResponsiblePartyInvestigatorFullName: "N/A"});
                     }
                 } style={{ color: 'white', fontFamily: 'math', cursor: 'pointer' }}>
                     Learn More About This Study...
                 </a></u></p>
 
                 <div style={{ color: '#BDBDBD', display: 'flex', alignItems: 'center' }}>
-                    <RecruitingSpan recruiting={trial.OverallStatus == 'Recruiting'} />
-                    {trial.OverallStatus}
+                    <RecruitingSpan recruiting={true} />
+                    {"Recruiting"}
                 </div>
             </TrialDescription>
 
@@ -47,7 +47,7 @@ const TrialCard: React.FC<TrialProps> = ({ trial, trialSaved, handleSave, setCur
                 <TrialLocation>
                     <LocationImage src={require('../images/Location.svg')} />
                     <LocationText>
-                        <b style={{ color: 'white' }}>{trial.Distance} km</b>
+                        <b style={{ color: 'white' }}>{trial.Distance[0]} km</b>
                         <div style={{ fontSize: 14, color: '#BDBDBD' }}>from you</div>
                     </LocationText>
                 </TrialLocation>

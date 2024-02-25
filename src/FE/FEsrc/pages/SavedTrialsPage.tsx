@@ -118,13 +118,24 @@ const SaveTrialsPage = () => {
         }
     };
 
+    const updateDefaultLocation = () => {
+        if(trials){
+            const defaultTrial = trials[0];
+            if(defaultTrial){
+                setCurrentLocation({latitude: defaultTrial.location["latitude"], longitude: defaultTrial.location["longitude"]});
+            }
+        }
+    }
+
     useEffect(() => {
         fetchSavedTrials();
         fetchProfilesList();
+        updateDefaultLocation();
     }, []);
 
     useEffect(() => {
         fetchSavedTrials();
+        updateDefaultLocation();
     }, [selectedProfileId])
 
     const displayTrials = () => {
@@ -179,10 +190,10 @@ const SaveTrialsPage = () => {
                     <Box border={1} padding={2}>
                     <DialogContentInfo>
                     <div>
-                    Contact Email: David@email.com
+                    Contact Email: {modalDetails["contactEmail"]}
                     </div>
                     <div>
-                    Principal Investigator: David
+                    Principal Investigator: {modalDetails["principalInvestigator"]}
                     </div>
                     </DialogContentInfo>
                     </Box>
