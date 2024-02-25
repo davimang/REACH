@@ -78,7 +78,7 @@ const TrialSearchPage = () => {
             try {
                 const body = {
                     title: trial.BriefTitle,
-                    description: trial.DetailedDescription,
+                    description: trial.DetailedDescription ? trial.DetailedDescription: "N/A",
                     url: trial.url,
                     location: {
                         latitude: trial.Distance[1],

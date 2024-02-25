@@ -26,7 +26,7 @@ const TrialCard: React.FC<TrialProps> = ({ trial, trialSaved, handleSave, setCur
 
                 <p><u style={{color: 'white'}}><a onClick={()=>{
                     handleModal(); 
-                    setModalDetails({title: trial.BriefTitle, description: trial.DetailedDescription, url: trial.url, contactEmail: trial.PointOfContactEMail ? trial.PointOfContactEMail: (trial.CentralContactEMail ? trial.CentralContactEMail: "N/A"), principalInvestigator: trial.ResponsiblePartyInvestigatorFullName ? trial.ResponsiblePartyInvestigatorFullName: "N/A"});
+                    setModalDetails({title: trial.BriefTitle, description: trial.DetailedDescription?trial.DetailedDescription:"N/A", url: trial.url, contactEmail: trial.PointOfContactEMail ? trial.PointOfContactEMail: (trial.CentralContactEMail ? trial.CentralContactEMail: "N/A"), principalInvestigator: trial.ResponsiblePartyInvestigatorFullName ? trial.ResponsiblePartyInvestigatorFullName: "N/A"});
                     }
                 } style={{ color: 'white', fontFamily: 'math', cursor: 'pointer' }}>
                     Learn More About This Study...
