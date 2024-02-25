@@ -1,5 +1,6 @@
 \documentclass[12pt, titlepage]{article}
 
+\usepackage{fullpage}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
@@ -104,13 +105,13 @@ of the system is especially relevant to the unit test portion of the document.
 
 \section{Plan}
 This section will delineate the roles of the team members as part of V\&V efforts. 
-It will also describe the various verification and validation plans for the project. \newline
+It will also describe the various verification and validation plans for the project.
 
 \subsection{Verification and Validation Team}
 \begin{table}[H]
     % \centering
     \caption{ V\&V Team}
-    \begin{tabular}{|c|c|p{10cm}|}
+    \begin{tabular}{|p{1.4cm}|c|p{12.5cm}|}
         \hline
         \textbf{Name} & \textbf{Team} & \textbf{Role} \\
         \hline 
@@ -534,7 +535,7 @@ Test Case Derivation: From FR-10, the system shall create an email template for 
 How test will be performed: Manually select a given trial result, and select the option to generate a template. Verify that it is displayed to the user.
 
 
-\item{ET-1\\}
+\item{ET-2\\}
 
 Control: Automatic
 					
@@ -997,6 +998,8 @@ How test will be performed:
 \subsection{Traceability Between Test Cases and Modules}
 
 \wss{Provide evidence that all of the modules have been considered.}
+
+\newpage
 				
 \bibliographystyle{plainnat}
 
@@ -1013,20 +1016,81 @@ This is where you can place additional information.
 The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
 Their values are defined in this section for easy maintenance.
 
-\subsection{Usability Survey Questions}
+\subsection{Usability Test \& Survey}
 \label{sec:Appendix}
-Usability Survey:
+\underline{Usability Pre-Test Questions}:
+\begin{enumerate}
+  \item What age range do you belong to?
+    \begin{itemize}
+      \item $<18$
+      \item $18 - 35$
+      \item $36 - 50$
+      \item $51 - 65$
+      \item $65 +$
+    \end{itemize}
+	\item How would you rate your proficiency using computers?
+    \begin{itemize}
+      \item Beginner
+      \item Average
+      \item Intermediate
+      \item Expert
+    \end{itemize}
+  \item How would you rate your proficiency in typing?
+    \begin{itemize}
+      \item Beginner
+      \item Average
+      \item Intermediate
+      \item Expert
+    \end{itemize}
+\end{enumerate}
 
-How easy was it to navigate to the search page (1 is hard, 10 is easy)?
 
-How easy was it to understand each search term (1 is hard, 10 is easy)?
+\noindent \underline{Usability Test}:\\
+\noindent \emph{Ask the user to complete the tasks listed in the table below. After each task, ask the user to rate how easy
+the task was on a scale of 1 to 5, where 1 is difficult and 5 is simple.}
+\begin{table}[H]
+  \begin{tabular}{|p{0.32\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|p{0.12\textwidth}|}
+  \hline
+  \textbf{Task} & \textbf{Difficult (1)} & \textbf{Somewhat Difficult (2)} & \textbf{Okay (3)} & \textbf{Somewhat Simple (4)} & \textbf{Simple (5)} \\ \hline
+  1. Navigate to the sign in page                                   & & & & & \\ \hline
+  2. Navigate to the registration page                              & & & & & \\ \hline
+  3. Register a new account                                         & & & & & \\ \hline
+  4. Search for clinical trials                                     & & & & & \\ \hline
+  5. Try viewing more details about a trial                         & & & & & \\ \hline
+  6. Bookmark a trial or multiple trials                            & & & & & \\ \hline
+  7. View the trials you bookmarked                                 & & & & & \\ \hline
+  8. Navigate back to the search trials page                        & & & & & \\ \hline
+  9. View your account and profiles information                     & & & & & \\ \hline
+  10. Attempt to add a new profile                                  & & & & & \\ \hline
+  11. Navigate to the REACH home page                               & & & & & \\ \hline
+  \end{tabular}
+\end{table}
 
-Did you find any part of the process frustrating(Y/N)?
-
-If yes, which part did you find frustrating and why?
-
-Was all text easy to read while using the website(Y/N)?
-
+\noindent \underline{Usability Post-Test Questions}:
+\begin{enumerate}
+  \item Was it easy navigating to all of the different pages? (Y/N)
+    \begin{itemize}
+      \item Rate how easy navigation of the site was on a scale of 1 to 10 (1 being difficult and 10 being very easy).
+      \item Explain if there was a specific page that was difficult to navigate to.
+    \end{itemize}
+	\item Was the trial search page easy to understand and navigate? (Y/N)
+    \begin{itemize}
+      \item Rate how straightforward the trial search page was on a scale of 1 to 10 (1 being very confusing, 10 being straightforward).
+      \item Explain what you think could improve the trial search page (if anything).
+    \end{itemize}
+  \item At any point was there anything that you were not sure what its purpose was? (Y/N)
+    \begin{itemize}
+      \item If yes, what was it?
+    \end{itemize}
+  \item Were you able to comfortably read all the text on the site? (Y/N)
+    \begin{itemize}
+      \item Explain if there was any text too small or too big.
+    \end{itemize}
+  \item  Is there any feature or part of the process which you found frustrating? (Y/N)
+    \begin{itemize}
+      \item If yes, explain what was frustrating and why.
+    \end{itemize}
+\end{enumerate}
 
 \newpage{}
 \section*{Appendix --- Reflection}
