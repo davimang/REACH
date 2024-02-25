@@ -4,8 +4,9 @@ import regex as re
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from geopy.exc import GeopyError
-from .filtering_dictionary import (filtering_dict_num,
-                                   filtering_dict_boolean)
+from filtering_dictionary import (filtering_dict_num,
+                                   filtering_dict_boolean,
+                                   filtering_dict_special)
 
 locator = Nominatim(user_agent="my_request")
 
@@ -49,7 +50,7 @@ class TrialFilterer:
         except GeopyError:
             home_address = None
         studies = TrialFilterer.generate_address(studies)
-        studies["Distance"], studies["Latitude"], studies["Longitude"] = (
+        studies["Distance"] = (
             studies["FullAddress"].apply(
             lambda x: TrialFilterer.get_distance_km(home_address, x)
         ))
@@ -58,6 +59,8 @@ class TrialFilterer:
     @staticmethod
     def filter_keywords(df: pd.DataFrame, info: dict) -> pd.DataFrame:
         """increases rank for each met keyword"""
+
+        df = df[df['OverallStatus'] != "Completed"]
 
         for param in filtering_dict_num.keys():
             if info.get(param, 0) > 0:
@@ -75,7 +78,7 @@ class TrialFilterer:
                 ["KeywordRank"],
             ] += 1
 
-        if info.get("asthmaSeverity") in ["moderate", "severe"]:
+        if info.get("asthmaSeverity", 0) in ["moderate", "severe"]:
             df.loc[
                 df["Keyword"].str.contains(
                     "|".join(
@@ -91,7 +94,52 @@ class TrialFilterer:
                 ["KeywordRank"],
             ] += 1
 
+        if info.get("packYears") > 40:
+            df.loc[
+                df["Keyword"].str.contains(
+                    "|".join(
+                        [
+                            "heavy smoker",
+                            "Heavy smoker",
+                            "frequent smoker",
+                            "Frequent smoker"
+                        ]
+                    ),
+                    na=False,
+                ),
+                ["KeywordRank"],
+            ] += 1
+        elif info.get("packYears") > 20:
+            df.loc[
+                df["Keyword"].str.contains(
+                    "|".join(
+                        [
+                            "moderate smoker",
+                            "Moderate smoker",
+                        ]
+                    ),
+                    na=False,
+                ),
+                ["KeywordRank"],
+            ] += 1
+        elif info.get("packYears") > 0:
+            df.loc[
+                df["Keyword"].str.contains(
+                    "|".join(
+                        [
+                            "light smoker",
+                            "light smoker",
+                            "smoker",
+                            "Smoker"
+                        ]
+                    ),
+                    na=False,
+                ),
+                ["KeywordRank"],
+            ] += 1
+
         return df
+        
 
     @staticmethod
     def generate_address(studies: pd.DataFrame) -> pd.DataFrame:

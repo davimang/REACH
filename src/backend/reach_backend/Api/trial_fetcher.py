@@ -3,7 +3,7 @@ import io
 import re
 import requests
 import pandas as pd
-from .trial_filterer import TrialFilterer
+from trial_filterer import TrialFilterer
 
 API_URL = (
     r"https://clinicaltrials.gov/api/query/study_fields?fmt=csv&"
@@ -77,10 +77,9 @@ class TrialFetcher:
                     "Distance",
                     "KeywordRank",
                     "url",
-                    "Latitude",
-                    "Longitude",
-                    "PointOfContactEmail",
-                    "CentralContactEmail",
+                    "FullAddress",
+                    "PointOfContactEMail",
+                    "CentralContactEMail",
                     "ResponsiblePartyInvestigatorFullName"
                 ]
             )
@@ -94,6 +93,8 @@ class TrialFetcher:
             studies, input_params
         )  # calculate distances
         # take only necessary fields
+        print(studies.columns)
+
         studies = studies[
             [
                 "NCTId",
@@ -104,10 +105,9 @@ class TrialFetcher:
                 "Distance",
                 "KeywordRank",
                 "url",
-                "Latitude",
-                "Longitude",
-                "PointOfContactEmail",
-                "CentralContactEmail",
+                "FullAddress",
+                "PointOfContactEMail",
+                "CentralContactEMail",
                 "ResponsiblePartyInvestigatorFullName"
             ]
         ]
