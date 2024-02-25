@@ -4,7 +4,7 @@ from datetime import date
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
-from rest_framework import viewsets, permissions, generics
+from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from django_filters import rest_framework as filters
@@ -125,7 +125,7 @@ class TrialFilter(filters.FilterSet):
         """
 
         model = Trial
-        fields = ["user"]
+        fields = ["user", "profile"]
 
 
 class TrialViewSet(viewsets.ModelViewSet):
@@ -142,10 +142,13 @@ class TrialViewSet(viewsets.ModelViewSet):
 def search_trials(request):
     """Endpoint for getting eligible trials"""
     query_params = request.query_params
-    info_profile_id = int(query_params.get("info_id"))
+    info_profile_id = int(query_params.get("info_id", 0))
     rank = int(query_params.get("rank", 0))
     if not info_profile_id:
-        return Response("Patient information is required to make a search.")
+        return Response(
+            "Patient information is required to make a search.",
+            status=status.HTTP_400_BAD_REQUEST,
+        )
     info_profile = get_object_or_404(PatientInfo, pk=info_profile_id)
     trial_input_info = build_input_info(info_profile=info_profile, rank=rank)
     trials = trial_fetcher.search_studies(trial_input_info)

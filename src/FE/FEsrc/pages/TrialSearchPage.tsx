@@ -6,6 +6,13 @@ import { PatientInfoList, TrialInfoList } from '../components/types';
 import { StyledButton } from '../components/ButtonStyle';
 import { DropDownInput } from '../components/FormStyles';
 import TrialCard from '../components/TrialCard';
+import Map from '../components/Map';
+import Box from '@mui/material/Box';
+import Dialog, { DialogProps } from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const TrialSearchHeader = styled.div`
     background-color: #213E80;
@@ -32,6 +39,11 @@ const TrialsListContainer = styled.div`
     padding: 15px;
 `;
 
+const DialogContentInfo = styled.div`
+    height: 25px;
+    width: 100%;
+`;
+
 const TrialSearchPage = () => {
     const navigate = useNavigate();
     const [responseProfiles, setResponseProfiles] = useState<PatientInfoList | null>(null);
@@ -39,36 +51,80 @@ const TrialSearchPage = () => {
     const [selectedProfileId, setSelectedProfileId] = useState('');
     const [loading, setLoading] = useState(false);
     const [maxRank, setMaxRank] = useState(0);
-    const [currentDescription, setCurrentDescription] = useState<string | null>(null);
-    const [trialSaved, setTrialSaved] = useState({})
+    const [currentLocation, setCurrentLocation] = useState({});
+    const [trialSaved, setTrialSaved] = useState({});
+    const [savedTrialIds, setSavedTrialIds] = useState({});
+    const [open, setOpen] = useState(false)
+    const [modalDetails, setModalDetails] = useState({
+        title: "",
+        description: "",
+        contactEmail: "",
+        principalInvestigator: "",
+        address: "",
+        url: ""
+    })
     const userId = localStorage.getItem('userId');
 
-    const handleSave = async (trial) => {
+    const handleModal = () => {
+        setOpen(!open);
+    }
 
+    const handleSave = async (trial) => {
+        console.log(trialSaved);
         const isSaved = trialSaved[trial.NCTId]
         setTrialSaved({ ...trialSaved, [trial.NCTId]: !isSaved });
-
+        const endpoint = `/trials/`;
         if (!isSaved) {
             try {
-                const endpoint = `/trials/`;
+                const body = {
+                    title: trial.BriefTitle,
+                    description: trial.DetailedDescription ? trial.DetailedDescription: "N/A",
+                    url: trial.url,
+                    location: {
+                        latitude: trial.Distance[1],
+                        longitude: trial.Distance[2]
+                    },
+                    status: "Recruiting",
+                    distance: trial.Distance[0],
+                    nctid: trial.NCTId,
+                    user: userId,
+                    profile: selectedProfileId
+                }
+                if(trial.PointOfContactEMail){
+                    Object.assign(body, {contact_email: trial.PointOfContactEMail});
+                }
+                else if(trial.CentralContactEMail){
+                    Object.assign(body, {contact_email: trial.CentralContactEMail});
+                }
+                if(trial.ResponsiblePartyInvestigatorFullName){
+                    Object.assign(body, {principal_investigator: trial.ResponsiblePartyInvestigatorFullName});
+                }
+                console.log(body);
                 const requestOptions = {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        title: trial.BriefTitle,
-                        description: trial.DetailedDescription,
-                        url: trial.url,
-                        user: userId
-                    })
+                    body: JSON.stringify(body)
                 };
                 const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
                 if (!response.ok) {
                     throw new Error(`Failed to save trial. Status: ${response.status}`);
                 }
                 const data = await response.json();
-                console.log(data)
+                const trialId = data["id"];
+                setSavedTrialIds({ ...savedTrialIds, [trial.NCTId]: trialId });
             } catch (error) {
                 console.error('Error saving trial:', error.message);
+            }
+        }
+        else{
+            try{
+                const requestOptions = {
+                    method: 'DELETE'
+                };
+                await fetch(`${API_URL}${endpoint}${savedTrialIds[trial.NCTId]}/`, requestOptions).then(response => console.log(response));
+            }
+            catch(error){
+                console.error('Error deleting trial:', error.message);
             }
         }
     };
@@ -87,27 +143,41 @@ const TrialSearchPage = () => {
         }
     };
 
-    const fetchTrials = async () => {
+    const fetchTrials = async (e) => {
         try {
             setLoading(true);
             const endpoint = `/search_trials/?info_id=${selectedProfileId}&rank=${maxRank}`;
+            console.log(endpoint);
             const response = await fetch(`${API_URL}${endpoint}`);
             if (!response.ok) {
                 throw new Error(`Failed to fetch trials. Status: ${response.status}`);
             }
             const data = await response.json();
             setResponseTrials(JSON.parse(data));
-            if (responseTrials) {
-                Object.values(responseTrials).map(trial => {
-                    setTrialSaved({ ...trialSaved, [trial.NCTId]: false });
-                })
-            }
         } catch (error) {
             console.error('Error fetching trials:', error.message);
         } finally {
             setLoading(false);
         }
     };
+
+    const updateRank = () => {
+        if (responseTrials) {
+            Object.values(responseTrials).map(trial => {
+                setTrialSaved({ ...trialSaved, [trial.NCTId]: false });
+                if(trial.Rank > maxRank){
+                    setMaxRank(trial.Rank);
+                }
+            })
+        }
+    }
+
+    const updateDefaultLocation = () => {
+        if(responseTrials){
+            const defaultTrial = responseTrials[0];
+            setCurrentLocation({latitude: defaultTrial.Distance[1], longitude: defaultTrial.Distance[2]});
+        }
+    }
 
     const displayTrials = () => {
         return (
@@ -118,17 +188,26 @@ const TrialSearchPage = () => {
                 Object.values(responseTrials).map((trial) => (
                     <TrialCard
                         trial={trial}
-                        setCurrentDescription={setCurrentDescription}
                         trialSaved={trialSaved}
                         handleSave={handleSave}
+                        setCurrentLocation={setCurrentLocation}
+                        handleModal={handleModal}
+                        setModalDetails={setModalDetails}
                     />
                 ))
+                
+                
         );
     }
 
     useEffect(() => {
         fetchProfilesList();
     }, []);
+
+    useEffect(() => {
+        updateRank();
+        updateDefaultLocation();
+    }, [responseTrials]);
 
     const navigateToBookmarks = () => {
         navigate('/savedTrials');
@@ -139,7 +218,11 @@ const TrialSearchPage = () => {
             <TrialSearchHeader>
                 <StyledDropDown
                     value={selectedProfileId}
-                    onChange={(e) => setSelectedProfileId(e.target.value)}
+                    onChange={(e) => {
+                        setSelectedProfileId(e.target.value);
+                        setMaxRank(0);
+                    }
+                }
                 >
                     <option value='' disabled>-- Select Patient Profile --</option>
                     {
@@ -150,17 +233,56 @@ const TrialSearchPage = () => {
                     }
                 </StyledDropDown>
 
-                <SizedButton onClick={fetchTrials}>Search</SizedButton>
+                <SizedButton onClick={(e) => {
+                    fetchTrials(e);
+                }}>Search</SizedButton>
                 <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>
             </TrialSearchHeader>
 
             <div style={{ display: 'flex' }}>
-                <TrialsListContainer>
+                <TrialsListContainer style={{overflow: 'auto'}}>
                     {displayTrials()}
                 </TrialsListContainer>
-
-                {currentDescription && <div style={{ padding: 15, color: 'white', fontFamily: 'math' }}>{currentDescription}</div>}
+                {(responseTrials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]}/>}
             </div>
+      
+            <Dialog
+                open={open}
+                onClose={handleModal}
+                aria-labelledby="scroll-dialog-title"
+                aria-describedby="scroll-dialog-description"
+                scroll="paper"
+            >
+                    <DialogTitle id="scroll-dialog-title">{modalDetails["title"]}</DialogTitle>
+                    <DialogContent >
+                    <Box border={1} padding={2}>
+                    <DialogContentInfo>
+                    <div>
+                    Contact Email: {modalDetails["contactEmail"]}
+                    </div>
+                    <div>
+                    Principal Investigator: {modalDetails["principalInvestigator"]}
+                    </div>
+                    </DialogContentInfo>
+                    </Box>
+                    <Box border={1} padding={2}>
+                    <DialogContentText
+                        id="scroll-dialog-description"
+                        tabIndex={-1}
+                    >{modalDetails["description"]}
+                    </DialogContentText >
+                    </Box>
+                    
+                    </DialogContent>
+                    <DialogActions>
+                        <StyledButton onClick={handleModal}>Close</StyledButton>
+                        <a href={modalDetails["url"]} target="_blank">
+                            <StyledButton>View Study</StyledButton>
+                        </a>
+                    </DialogActions>
+             
+            </Dialog>
+        
         </>
     );
 }

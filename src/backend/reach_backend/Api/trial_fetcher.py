@@ -3,7 +3,7 @@ import io
 import re
 import requests
 import pandas as pd
-from trial_filterer import TrialFilterer
+from .trial_filterer import TrialFilterer
 
 API_URL = (
     r"https://clinicaltrials.gov/api/query/study_fields?fmt=csv&"

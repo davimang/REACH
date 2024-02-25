@@ -1,56 +1,66 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { API_URL } from '..';
-import { SavedTrial } from '../components/types';
+import { PatientInfo, SavedTrial, TrialInfo } from '../components/types';
 import SavedTrialCard from '../components/SavedTrialCard';
+import { DropDownInput } from '../components/FormStyles';
+import { StyledButton } from '../components/ButtonStyle';
+import Map from '../components/Map';
+import Dialog, { DialogProps } from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Box from '@mui/material/Box';
+
+const DialogContentInfo = styled.div`
+    height: 25px;
+    width: 100%;
+`;
+
 
 const TrialsListContainer = styled.div`
     width: 600px;
     padding: 15px;
 `;
 
-const TrialContainer = styled.div`
-    width: 570px;
-    background-color: #38569A;
-    border-radius: 20px;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
+const TrialSearchHeader = styled.div`
+    background-color: #213E80;
+    min-width: 100%;
+    height: 85px;
+    display: inline-flex;
+    align-items: center;
 `;
 
-const TrialTitle = styled.b`
-    color: white;
-    font-size: 20px;
-    font-family: math;
-    max-width: 450px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    display: block;
-    cursor: pointer;
+const StyledDropDown = styled(DropDownInput)`
+    margin: 10px;
+    width: 400px;
+    height: 55px;
 `;
 
-const TrialDescription = styled.div`
-    width: 450px;
-`;
 
-const TrialSymbols = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-`;
-
-const StyledImage = styled.img`
-    cursor: pointer;
-`;
 
 const SaveTrialsPage = () => {
 
-    const [trials, setTrials] = useState<SavedTrial[]>([]);
     const userId = localStorage.getItem('userId');
+    const [trials, setTrials] = useState<SavedTrial[]>([]);
     const [loading, setLoading] = useState(false);
-    const [currentDescription, setCurrentDescription] = useState<string | null>(null);
+    const [selectedProfileId, setSelectedProfileId] = useState('');
+    const [profiles, setProfiles] = useState<PatientInfo[]>([]);
+    const [currentLocation, setCurrentLocation] = useState({});
+    const [open, setOpen] = useState(false)
+    const [modalDetails, setModalDetails] = useState({
+        title: "",
+        description: "",
+        contactEmail: "",
+        principalInvestigator: "",
+        address: "",
+        url: ""
+    })
+
+    const handleModal = () => {
+        setOpen(!open);
+    }
 
     const handleDelete = (trial) => {
         const trialId = trial.id;
@@ -71,19 +81,62 @@ const SaveTrialsPage = () => {
     }
 
     const fetchSavedTrials = () => {
+        if(!selectedProfileId || selectedProfileId == "all"){
+            try {
+                const endpoint = `/trials/?user=${userId}`;
+                fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => { setTrials(response) });
+            } catch (error) {
+                console.error('Error fetching trials:', error.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+        else{
+            try {
+                const endpoint = `/trials/?profile=${selectedProfileId}`;
+                fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => { setTrials(response) });
+            } catch (error) {
+                console.error('Error fetching trials:', error.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+    };
+
+    const fetchProfilesList = async () => {
         try {
-            const endpoint = `/trials/?user=${userId}`;
-            fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => { setTrials(response) });
+            const endpoint = `/patientinfo/?user=${userId}`;
+            const response = await fetch(`${API_URL}${endpoint}`);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch profiles. Status: ${response.status}`);
+            }
+            const data = await response.json();
+            setProfiles(data);
         } catch (error) {
-            console.error('Error fetching trials:', error.message);
-        } finally {
-            setLoading(false);
+            console.error('Error fetching profiles:', error.message);
         }
     };
 
+    const updateDefaultLocation = () => {
+        if(trials){
+            const defaultTrial = trials[0];
+            if(defaultTrial){
+                setCurrentLocation({latitude: defaultTrial.location["latitude"], longitude: defaultTrial.location["longitude"]});
+            }
+        }
+    }
+
     useEffect(() => {
-        fetchSavedTrials()
+        fetchSavedTrials();
+        fetchProfilesList();
+        updateDefaultLocation();
     }, []);
+
+    useEffect(() => {
+        fetchSavedTrials();
+        updateDefaultLocation();
+    }, [selectedProfileId])
 
     const displayTrials = () => {
         return (
@@ -91,22 +144,76 @@ const SaveTrialsPage = () => {
                 Object.values(trials).map((trial) => (
                     <SavedTrialCard
                         trial={trial}
-                        setCurrentDescription={setCurrentDescription}
                         handleDelete={handleDelete}
+                        setCurrentLocation={setCurrentLocation}
+                        setModalDetails={setModalDetails}
+                        handleModal={handleModal}
                     />
                 ))
+                
         )
     }
 
     return (
         <>
+            <TrialSearchHeader>
+                <StyledDropDown
+                    value={selectedProfileId}
+                    onChange={(e) => setSelectedProfileId(e.target.value)}
+                >
+                    <option value='' disabled>-- Filter by profile --</option>
+                    <option key="all" value='all'>All Profiles</option>
+                    {
+                        profiles &&
+                        Object.values(profiles).map((profile) => (
+                            <option key={profile.id} value={profile.id}>{profile.title}</option>
+                        ))
+                    }
+                </StyledDropDown>
+            </TrialSearchHeader>
             <div style={{ display: 'flex' }}>
                 <TrialsListContainer>
                     {displayTrials()}
                 </TrialsListContainer>
-
-                {currentDescription && <div style={{ padding: 15, color: 'white', fontFamily: 'math' }}>{currentDescription}</div>}
+                {(trials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]}/>}
             </div>
+              
+            <Dialog
+                open={open}
+                onClose={handleModal}
+                aria-labelledby="scroll-dialog-title"
+                aria-describedby="scroll-dialog-description"
+                scroll="paper"
+            >
+                    <DialogTitle id="scroll-dialog-title">{modalDetails["title"]}</DialogTitle>
+                    <DialogContent >
+                    <Box border={1} padding={2}>
+                    <DialogContentInfo>
+                    <div>
+                    Contact Email: {modalDetails["contactEmail"]}
+                    </div>
+                    <div>
+                    Principal Investigator: {modalDetails["principalInvestigator"]}
+                    </div>
+                    </DialogContentInfo>
+                    </Box>
+                    <Box border={1} padding={2}>
+                    <DialogContentText
+                        id="scroll-dialog-description"
+                        tabIndex={-1}
+                    >{modalDetails["description"]}
+                    </DialogContentText >
+                    </Box>
+                    
+                    </DialogContent>
+                    <DialogActions>
+                        <StyledButton onClick={handleModal}>Close</StyledButton>
+                        <a href={modalDetails["url"]} target="_blank">
+                            <StyledButton>View Study</StyledButton>
+                        </a>
+                    </DialogActions>
+             
+            </Dialog>
         </>
     );
 }

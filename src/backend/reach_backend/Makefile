@@ -36,3 +36,7 @@ migrate:
 #create super user
 super:
 	python manage.py createsuperuser
+
+#run api tests
+test:
+	python manage.py test Api.tests

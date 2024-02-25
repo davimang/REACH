@@ -1,4 +1,4 @@
-from trial_fetcher import TrialFetcher
+from .trial_fetcher import TrialFetcher
 
 input_params = {
     "conditions" : ["asthma"],

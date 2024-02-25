@@ -48,7 +48,7 @@ const LandingPage = () => {
                 <p>If you are new to REACH, click on one of the buttons to get started.</p>
             </LandingPageText>
             <PortalButtonsContainer>
-                <PortalButtons type='button' onClick={navigateToSearch}>Patient Portal</PortalButtons>
+                <PortalButtons type='button' onClick={navigateToSearch}>REACH Portal</PortalButtons>
                 <PortalButtons style={{ visibility: 'hidden' }}>Clinician Portal</PortalButtons>
             </PortalButtonsContainer>
         </LandingPageContainer >
