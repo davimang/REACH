@@ -5,9 +5,8 @@ import { StyledButton, StyledButtonDisabled } from './ButtonStyle';
 export const FormContainer = styled.div`
   width: 20vw;
   min-width: 300px;
-  padding: 25px;
+  padding: 10px 25px;
   margin: auto;
-  margin-top: 80px;
   user-select: none;
 `;
 
@@ -27,6 +26,8 @@ export const FormLabel = styled.label`
   color: #EDF2F7;
   font-weight: bold;
   margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const inputSize = `
@@ -43,7 +44,7 @@ const inputBorder = `
 
 const font = `
   font-family: math;
-  font-size: 30px;
+  font-size: 20px;
 `;
 
 export const TextInput = styled.input`
@@ -93,12 +94,14 @@ export const FormButton = styled(StyledButton)`
   ${inputSize}
   width: 50%;
   ${font}
+  font-size: 30px;
 `;
 
 export const FormButtonDisabled = styled(StyledButtonDisabled)`
   ${inputSize}
   width: 50%;
   ${font}
+  font-size: 30px;
 `;
 
 export const ErrorMessage = styled.div`
