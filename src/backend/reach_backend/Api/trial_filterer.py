@@ -65,7 +65,7 @@ class TrialFilterer:
         for param in filtering_dict_num.keys():
             if info.get(param, 0) > 0:
                 df.loc[df["Keyword"].str.contains(
-                    "|".join(filtering_dict_num.items()[param]), na=False
+                    "|".join(filtering_dict_num[param]), na=False
                 ),
                 ["KeywordRank"],
             ] += 1
@@ -73,7 +73,7 @@ class TrialFilterer:
         for param in filtering_dict_boolean.keys():
             if info.get(param, 0):
                 df.loc[df["Keyword"].str.contains(
-                    "|".join(filtering_dict_num.items()[param]), na=False
+                    "|".join(filtering_dict_boolean[param]), na=False
                 ),
                 ["KeywordRank"],
             ] += 1

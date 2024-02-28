@@ -221,6 +221,7 @@ const TrialSearchPage = () => {
                     onChange={(e) => {
                         setSelectedProfileId(e.target.value);
                         setMaxRank(0);
+                        setResponseTrials(null);
                     }
                 }
                 >
