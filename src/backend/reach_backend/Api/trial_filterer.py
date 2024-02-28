@@ -19,6 +19,8 @@ class TrialFilterer:
         """filters trials based on input criteria"""
         age = input_params["age"]
 
+        print(studies)
+        
         # convert min, max ages, filter out ineligible
         studies["MinimumAge"] = studies["MinimumAge"].apply(TrialFilterer.clean_age)
         studies["MaximumAge"] = studies["MaximumAge"].apply(TrialFilterer.clean_age)
