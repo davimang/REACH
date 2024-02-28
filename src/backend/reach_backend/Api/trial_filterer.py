@@ -18,8 +18,6 @@ class TrialFilterer:
     def filter_trials(studies: pd.DataFrame, input_params: dict) -> pd.DataFrame:
         """filters trials based on input criteria"""
         age = input_params["age"]
-
-        print(studies)
         
         # convert min, max ages, filter out ineligible
         studies["MinimumAge"] = studies["MinimumAge"].apply(TrialFilterer.clean_age)

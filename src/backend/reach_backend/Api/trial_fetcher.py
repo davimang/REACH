@@ -1,17 +1,10 @@
 """TrialFetcher module"""
 import io
 import re
+import json
 import requests
 import pandas as pd
 from .trial_filterer import TrialFilterer
-
-API_URL = (
-    r"https://clinicaltrials.gov/api/query/study_fields?fmt=csv&"
-    r"fields=NCTId,Condition,BriefTitle,DetailedDescription,"
-    r"MinimumAge,MaximumAge,LocationCountry,LocationState,"
-    r"LocationCity,LocationZip,OverallStatus,Gender,Keyword,"
-    r"PointOfContactEmail,CentralContactEmail,ResponsiblePartyInvestigatorFullName&"
-)
 
 API_URL2 = (
     r"https://clinicaltrials.gov/api/v2/studies?format=json&countTotal=true&filter.overallStatus=RECRUITING&"
@@ -46,16 +39,14 @@ class TrialFetcher:
         # put expression together
         search_template = API_URL2 + "query.cond=" + condition_search
 
-        
-
         # start one rank up from the last rank returned by a previous call
-        rank = input_params["maxRank"] + 1
+       
         studies = pd.DataFrame()
 
         # keep pulling trials until you hit 5 or 
         first_request = True
         trials_filtered = 0
-        next_page = None
+        next_page = input_params.get("nextPage")
         while studies.shape[0] < 5:
             search_url = search_template + f"&pageToken={next_page}" if next_page else search_template
             # timed section
@@ -65,18 +56,16 @@ class TrialFetcher:
             
             if first_request:
                 max_results = json_response.get("totalCount")
+                print(max_results)
                 first_request = False
             content = build_study_dict(json_response)
             try:  # break if the timeout is reached (or the api returns unreadable data)
-                # decoded_content = response.content.decode("utf-8")
-                # buffer = io.StringIO(decoded_content)
-                # temp = pd.read_csv(filepath_or_buffer=buffer, header=9)
-                temp = pd.DataFrame(content)
+                buffer = io.StringIO(content)
+                temp = pd.read_json(buffer)
             except ValueError:  # if data can't be read
                 break
 
             if max_results < trials_filtered:  # break if exceeding max results
-                print("BREAKING")
                 break
 
             # remove any invalid trials
@@ -161,6 +150,9 @@ def build_study_dict(response):
         investigator = collaborator_module.get("responsibleParty", {}).get("investigatorFullName", "")
 
         central_contacts = contacts_locations_module.get("centralContacts", []) #maybe change
+        contacts = []
+        for contact in central_contacts:
+            contacts.append(contact.get("email", ""))
         locations = contacts_locations_module.get("locations", [])
         cities = []
         zips = []
@@ -180,37 +172,25 @@ def build_study_dict(response):
                 states.append(state)
 
         new_study_format = {
-            "NCTId":[
-                nctid
-            ],
-            "Condition": conditions,
-            "BriefTitle":[
-                brief_title
-            ],
-            "DetailedDescription":[
-                description
-            ],
+            "NCTId":nctid,
+            "Condition": "|".join(conditions),
+            "BriefTitle": brief_title,
+            "DetailedDescription":description,
             "MinimumAge": min_age,
             "MaximumAge": max_age,
-            "LocationCountry":countries,
-            "LocationState":states,
-            "LocationCity":cities,
-            "LocationZip":zips,
-            "OverallStatus":[
-                "Recruiting"
-            ],
-            "Gender":[
-                gender
-            ],
-            "Keyword":keywords,
-            "PointOfContactEMail":[],
-            "CentralContactEMail":central_contacts,
-            "ResponsiblePartyInvestigatorFullName":[
-                investigator
-            ]
+            "LocationCountry":"|".join(countries),
+            "LocationState":"|".join(states),
+            "LocationCity":"|".join(cities),
+            "LocationZip":"|".join(zips),
+            "OverallStatus":"Recruiting",
+            "Gender":gender,
+            "Keyword":"|".join(keywords),
+            "PointOfContactEMail":"",
+            "CentralContactEMail":"|".join(contacts),
+            "ResponsiblePartyInvestigatorFullName":investigator
         }
 
         list_of_new_study_formats.append(new_study_format)
 
     
-    return list_of_new_study_formats
+    return json.dumps(list_of_new_study_formats)

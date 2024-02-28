@@ -143,19 +143,18 @@ def search_trials(request):
     """Endpoint for getting eligible trials"""
     query_params = request.query_params
     info_profile_id = int(query_params.get("info_id", 0))
-    rank = int(query_params.get("rank", 0))
     if not info_profile_id:
         return Response(
             "Patient information is required to make a search.",
             status=status.HTTP_400_BAD_REQUEST,
         )
     info_profile = get_object_or_404(PatientInfo, pk=info_profile_id)
-    trial_input_info = build_input_info(info_profile=info_profile, rank=rank)
+    trial_input_info = build_input_info(info_profile=info_profile)
     trials = trial_fetcher.search_studies(trial_input_info)
     return Response(trials)
 
 
-def build_input_info(info_profile, rank):
+def build_input_info(info_profile):
     """Helper function to build the dict for trial fetching/filtering."""
     age = calculate_age(info_profile.date_of_birth)
     sex = gender_mapping[info_profile.gender]
@@ -167,7 +166,6 @@ def build_input_info(info_profile, rank):
         "sex": sex,
         "address": address,
         "conditions": [condition],
-        "maxRank": rank,
         **advanced_info,
     }
     return info
