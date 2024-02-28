@@ -4,7 +4,7 @@ import regex as re
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from geopy.exc import GeopyError
-from .filtering_dictionary import (filtering_dict_num,
+from filtering_dictionary import (filtering_dict_num,
                                    filtering_dict_boolean,
                                    filtering_dict_special)
 
@@ -171,7 +171,7 @@ class TrialFilterer:
     @staticmethod
     def filter_gender(sex: str, df: pd.DataFrame) -> pd.DataFrame:
         """filters out non-applicable gender-based studies"""
-        df = df[(df["Gender"] == "All") | (df["Gender"] == sex)]
+        df = df[(df["Gender"] == "ALL") | (df["Gender"] == sex.upper())]
         return df
 
     @staticmethod

@@ -4,7 +4,7 @@ import re
 import json
 import requests
 import pandas as pd
-from .trial_filterer import TrialFilterer
+from trial_filterer import TrialFilterer
 
 API_URL2 = (
     r"https://clinicaltrials.gov/api/v2/studies?format=json&countTotal=true&filter.overallStatus=RECRUITING&"
@@ -73,6 +73,8 @@ class TrialFetcher:
             if temp.shape[0] > 0:  # if not empty, add to accepted trials
                 studies = pd.concat([studies, temp], ignore_index=True)
 
+            print(studies)
+
             trials_filtered += 10
             next_page = json_response.get("nextPageToken")
 
@@ -107,7 +109,6 @@ class TrialFetcher:
         studies = studies[
             [
                 "NCTId",
-                "Rank",
                 "BriefTitle",
                 "DetailedDescription",
                 "OverallStatus",
