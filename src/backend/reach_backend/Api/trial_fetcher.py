@@ -51,7 +51,7 @@ class TrialFetcher:
             response = requests.get(search_url, timeout=TIMEOUT_SEC)
             
             json_response = response.json()
-            next_page = json_response.get("nextPageToken")
+            next_page = json_response.get("nextPageToken", "")
             content = build_study_dict(json_response)
             try:  # break if the timeout is reached (or the api returns unreadable data)
                 buffer = io.StringIO(content)

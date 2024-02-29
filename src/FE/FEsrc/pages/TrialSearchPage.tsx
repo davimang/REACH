@@ -6,6 +6,7 @@ import { PatientInfoList, TrialInfoList } from '../components/types';
 import { StyledButton } from '../components/ButtonStyle';
 import { DropDownInput } from '../components/FormStyles';
 import TrialCard from '../components/TrialCard';
+import useDidMountEffect from '../components/useDidMountEffect';
 import Map from '../components/Map';
 import Box from '@mui/material/Box';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
@@ -58,11 +59,13 @@ const TrialSearchPage = () => {
     const [responseTrials, setResponseTrials] = useState<TrialInfoList | null>(null);
     const [selectedProfileId, setSelectedProfileId] = useState('');
     const [loading, setLoading] = useState(false);
-    const [pageSearchDetails, setPageSearchDetails] = useState({nextPage: ""});
+    const [hasNextPage, setHasNextPage] = useState(true);
     const [currentLocation, setCurrentLocation] = useState({});
     const [trialSaved, setTrialSaved] = useState({});
     const [savedTrialIds, setSavedTrialIds] = useState({});
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false);
+    const[pageTokens, setPageTokens] = useState([""]);
+    const [pageTokenPointer, setPageTokenPointer] = useState(0);
     const [modalDetails, setModalDetails] = useState({
         title: "",
         description: "",
@@ -78,7 +81,6 @@ const TrialSearchPage = () => {
     }
 
     const handleSave = async (trial) => {
-        console.log(trialSaved);
         const isSaved = trial.saved
         trial.saved = !trial.saved;
         setTrialSaved({ ...trialSaved, [trial.NCTId]: trial.saved });
@@ -108,7 +110,6 @@ const TrialSearchPage = () => {
                 if(trial.ResponsiblePartyInvestigatorFullName){
                     Object.assign(body, {principal_investigator: trial.ResponsiblePartyInvestigatorFullName});
                 }
-                console.log(body);
                 const requestOptions = {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -155,11 +156,10 @@ const TrialSearchPage = () => {
         }
     };
 
-    const fetchTrials = async (e) => {
+    const fetchTrials = async () => {
         try {
             setLoading(true);
-            const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&next_page=${pageSearchDetails["nextPage"]}`;
-            console.log(endpoint);
+            const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&next_page=${pageTokens[pageTokenPointer]}`;
             const response = await fetch(`${API_URL}${endpoint}`);
             if (!response.ok) {
                 throw new Error(`Failed to fetch trials. Status: ${response.status}`);
@@ -177,6 +177,43 @@ const TrialSearchPage = () => {
         if(responseTrials){
             const defaultTrial = responseTrials[0];
             setCurrentLocation({latitude: defaultTrial.Distance[1], longitude: defaultTrial.Distance[2]});
+        }
+    }
+
+    const nextPage = (e) => {
+        e.preventDefault();
+        if(responseTrials){
+
+            if(pageTokenPointer == pageTokens.length - 1) {
+                const nextPage = responseTrials[0].nextPage;
+                setPageTokens([...pageTokens, nextPage]);
+                setPageTokenPointer(pageTokenPointer + 1);
+            }
+            else{
+                setPageTokenPointer(pageTokenPointer+1);
+            }
+            
+        }
+    }
+
+    const prevPage = (e) => {
+        e.preventDefault();
+        setPageTokenPointer(pageTokenPointer - 1);
+    }
+
+    const resetPageTokens = () => {
+        setPageTokenPointer(0);
+        setPageTokens([""]);
+    }
+
+    const updateHasNextPage = () => {
+        if(responseTrials){
+            if(responseTrials[0].nextPage){
+                setHasNextPage(true);
+            }
+            else{
+                setHasNextPage(false);
+            }
         }
     }
 
@@ -201,22 +238,18 @@ const TrialSearchPage = () => {
         );
     }
 
-    const updatePageSearchDetails = () => {
-        if(responseTrials){
-            const nextPage = responseTrials[0].nextPage;
-            setPageSearchDetails({nextPage: nextPage});
-        }
-        
-    }
-
     useEffect(() => {
         fetchProfilesList();
     }, []);
 
     useEffect(() => {
         updateDefaultLocation();
-        updatePageSearchDetails();
+        updateHasNextPage();
     }, [responseTrials]);
+
+    useDidMountEffect(() => {
+        fetchTrials();
+    }, [pageTokenPointer]);  
 
     const navigateToBookmarks = () => {
         navigate('/savedTrials');
@@ -229,8 +262,8 @@ const TrialSearchPage = () => {
                     value={selectedProfileId}
                     onChange={(e) => {
                         setSelectedProfileId(e.target.value);
-                        setPageSearchDetails({nextPage: ""});
                         setResponseTrials(null);
+                        resetPageTokens();
                     }
                 }
                 >
@@ -243,8 +276,9 @@ const TrialSearchPage = () => {
                     }
                 </StyledDropDown>
 
-                <SizedButton onClick={(e) => {
-                    fetchTrials(e);
+                <SizedButton onClick={() => {
+                    resetPageTokens();
+                    fetchTrials();
                 }}>Search</SizedButton>
                 <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>
             </TrialSearchHeader>
@@ -252,6 +286,8 @@ const TrialSearchPage = () => {
             <div style={{ display: 'flex' }}>
                 <TrialsListContainer>
                     {displayTrials()}
+                    {responseTrials && !loading && pageTokenPointer > 0 && <StyledButton onClick={e => {prevPage(e);}}>Previous Page</StyledButton>}
+                    {responseTrials && !loading && hasNextPage && <StyledButton style={{float: 'right'}} onClick={e => {nextPage(e);}}>Next Page</StyledButton>}
                 </TrialsListContainer>
                 <MapContainer>
                     {(responseTrials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]}/>}
