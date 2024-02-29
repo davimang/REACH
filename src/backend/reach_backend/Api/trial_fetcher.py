@@ -67,8 +67,6 @@ class TrialFetcher:
             temp = TrialFilterer.filter_trials(temp, input_params)
             if temp.shape[0] > 0:  # if not empty, add to accepted trials
                 studies = pd.concat([studies, temp], ignore_index=True)
-
-            print(studies)
             
 
         if studies.shape[0] == 0:

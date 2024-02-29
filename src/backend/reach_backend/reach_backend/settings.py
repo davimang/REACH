@@ -122,7 +122,7 @@ WSGI_APPLICATION = "reach_backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if os.getenv("USE_DEFAULT_DB", None) == "true":
+if os.getenv("USE_DEFAULT_DB", None):
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
