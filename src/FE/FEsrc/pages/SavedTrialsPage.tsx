@@ -119,8 +119,10 @@ const SaveTrialsPage = () => {
     };
 
     const updateDefaultLocation = () => {
+        console.log(trials);
         if(trials){
             const defaultTrial = trials[0];
+            console.log(defaultTrial);
             if(defaultTrial){
                 setCurrentLocation({latitude: defaultTrial.location["latitude"], longitude: defaultTrial.location["longitude"]});
             }
@@ -130,8 +132,11 @@ const SaveTrialsPage = () => {
     useEffect(() => {
         fetchSavedTrials();
         fetchProfilesList();
-        updateDefaultLocation();
     }, []);
+
+    useEffect(() => {
+        updateDefaultLocation();
+    }, [trials])
 
     useEffect(() => {
         fetchSavedTrials();

@@ -18,7 +18,7 @@ class TrialFilterer:
     def filter_trials(studies: pd.DataFrame, input_params: dict) -> pd.DataFrame:
         """filters trials based on input criteria"""
         age = input_params["age"]
-
+        
         # convert min, max ages, filter out ineligible
         studies["MinimumAge"] = studies["MinimumAge"].apply(TrialFilterer.clean_age)
         studies["MaximumAge"] = studies["MaximumAge"].apply(TrialFilterer.clean_age)
@@ -65,7 +65,7 @@ class TrialFilterer:
         for param in filtering_dict_num.keys():
             if info.get(param, 0) > 0:
                 df.loc[df["Keyword"].str.contains(
-                    "|".join(filtering_dict_num.items()[param]), na=False
+                    "|".join(filtering_dict_num[param]), na=False
                 ),
                 ["KeywordRank"],
             ] += 1
@@ -73,7 +73,7 @@ class TrialFilterer:
         for param in filtering_dict_boolean.keys():
             if info.get(param, 0):
                 df.loc[df["Keyword"].str.contains(
-                    "|".join(filtering_dict_num.items()[param]), na=False
+                    "|".join(filtering_dict_boolean[param]), na=False
                 ),
                 ["KeywordRank"],
             ] += 1
@@ -171,7 +171,7 @@ class TrialFilterer:
     @staticmethod
     def filter_gender(sex: str, df: pd.DataFrame) -> pd.DataFrame:
         """filters out non-applicable gender-based studies"""
-        df = df[(df["Gender"] == "All") | (df["Gender"] == sex)]
+        df = df[(df["Gender"] == "ALL") | (df["Gender"] == sex.upper())]
         return df
 
     @staticmethod

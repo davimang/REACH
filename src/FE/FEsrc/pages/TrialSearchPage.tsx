@@ -50,7 +50,7 @@ const TrialSearchPage = () => {
     const [responseTrials, setResponseTrials] = useState<TrialInfoList | null>(null);
     const [selectedProfileId, setSelectedProfileId] = useState('');
     const [loading, setLoading] = useState(false);
-    const [maxRank, setMaxRank] = useState(0);
+    const [pageSearchDetails, setPageSearchDetails] = useState({nextPage: ""});
     const [currentLocation, setCurrentLocation] = useState({});
     const [trialSaved, setTrialSaved] = useState({});
     const [savedTrialIds, setSavedTrialIds] = useState({});
@@ -146,7 +146,7 @@ const TrialSearchPage = () => {
     const fetchTrials = async (e) => {
         try {
             setLoading(true);
-            const endpoint = `/search_trials/?info_id=${selectedProfileId}&rank=${maxRank}`;
+            const endpoint = `/search_trials/?info_id=${selectedProfileId}&next_page=${pageSearchDetails["nextPage"]}`;
             console.log(endpoint);
             const response = await fetch(`${API_URL}${endpoint}`);
             if (!response.ok) {
@@ -160,17 +160,6 @@ const TrialSearchPage = () => {
             setLoading(false);
         }
     };
-
-    const updateRank = () => {
-        if (responseTrials) {
-            Object.values(responseTrials).map(trial => {
-                setTrialSaved({ ...trialSaved, [trial.NCTId]: false });
-                if(trial.Rank > maxRank){
-                    setMaxRank(trial.Rank);
-                }
-            })
-        }
-    }
 
     const updateDefaultLocation = () => {
         if(responseTrials){
@@ -200,13 +189,21 @@ const TrialSearchPage = () => {
         );
     }
 
+    const updatePageSearchDetails = () => {
+        if(responseTrials){
+            const nextPage = responseTrials[0].nextPage;
+            setPageSearchDetails({nextPage: nextPage});
+        }
+        
+    }
+
     useEffect(() => {
         fetchProfilesList();
     }, []);
 
     useEffect(() => {
-        updateRank();
         updateDefaultLocation();
+        updatePageSearchDetails();
     }, [responseTrials]);
 
     const navigateToBookmarks = () => {
@@ -220,7 +217,8 @@ const TrialSearchPage = () => {
                     value={selectedProfileId}
                     onChange={(e) => {
                         setSelectedProfileId(e.target.value);
-                        setMaxRank(0);
+                        setPageSearchDetails({nextPage: ""});
+                        setResponseTrials(null);
                     }
                 }
                 >

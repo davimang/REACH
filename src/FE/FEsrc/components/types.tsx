@@ -53,7 +53,7 @@ export interface TrialInfo {
     CentralContactEMail: string;
     ResponsiblePartyInvestigatorFullName: string;
     FullAddress: string;
-
+    nextPage: string;
 }
 
 export interface TrialInfoList {

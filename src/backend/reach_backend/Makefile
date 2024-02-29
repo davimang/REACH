@@ -40,3 +40,7 @@ super:
 #run api tests
 test:
 	python manage.py test Api.tests
+
+# deploy to gcp
+deploy:
+	gcloud builds submit --config cloudmigrate.yaml
