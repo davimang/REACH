@@ -71,8 +71,9 @@ const TrialSearchPage = () => {
 
     const handleSave = async (trial) => {
         console.log(trialSaved);
-        const isSaved = trialSaved[trial.NCTId]
-        setTrialSaved({ ...trialSaved, [trial.NCTId]: !isSaved });
+        const isSaved = trial.saved
+        trial.saved = !trial.saved;
+        setTrialSaved({ ...trialSaved, [trial.NCTId]: trial.saved });
         const endpoint = `/trials/`;
         if (!isSaved) {
             try {
@@ -121,7 +122,10 @@ const TrialSearchPage = () => {
                 const requestOptions = {
                     method: 'DELETE'
                 };
-                await fetch(`${API_URL}${endpoint}${savedTrialIds[trial.NCTId]}/`, requestOptions).then(response => console.log(response));
+                
+                const trialId = savedTrialIds[trial.NCTId] ? savedTrialIds[trial.NCTId] : trial.savedId;
+
+                await fetch(`${API_URL}${endpoint}${trialId}/`, requestOptions).then(response => console.log(response));
             }
             catch(error){
                 console.error('Error deleting trial:', error.message);
@@ -146,7 +150,7 @@ const TrialSearchPage = () => {
     const fetchTrials = async (e) => {
         try {
             setLoading(true);
-            const endpoint = `/search_trials/?info_id=${selectedProfileId}&next_page=${pageSearchDetails["nextPage"]}`;
+            const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&next_page=${pageSearchDetails["nextPage"]}`;
             console.log(endpoint);
             const response = await fetch(`${API_URL}${endpoint}`);
             if (!response.ok) {

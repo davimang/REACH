@@ -54,6 +54,8 @@ export interface TrialInfo {
     ResponsiblePartyInvestigatorFullName: string;
     FullAddress: string;
     nextPage: string;
+    saved: boolean;
+    savedId: number;
 }
 
 export interface TrialInfoList {
