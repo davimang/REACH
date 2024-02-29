@@ -44,20 +44,15 @@ class TrialFetcher:
         studies = pd.DataFrame()
 
         # keep pulling trials until you hit 5 or 
-        first_request = True
-        trials_filtered = 0
-        next_page = input_params.get("nextPage")
-        while studies.shape[0] < 5:
+        next_page = input_params.get("next_page")
+        while studies.shape[0] < 5:            
             search_url = search_template + f"&pageToken={next_page}" if next_page else search_template
+            print(search_url)
             # timed section
             response = requests.get(search_url, timeout=TIMEOUT_SEC)
             
             json_response = response.json()
-            
-            if first_request:
-                max_results = json_response.get("totalCount")
-                print(max_results)
-                first_request = False
+            next_page = json_response.get("nextPageToken")
             content = build_study_dict(json_response)
             try:  # break if the timeout is reached (or the api returns unreadable data)
                 buffer = io.StringIO(content)
@@ -65,7 +60,7 @@ class TrialFetcher:
             except ValueError:  # if data can't be read
                 break
 
-            if max_results < trials_filtered:  # break if exceeding max results
+            if not next_page:
                 break
 
             # remove any invalid trials
@@ -74,9 +69,7 @@ class TrialFetcher:
                 studies = pd.concat([studies, temp], ignore_index=True)
 
             print(studies)
-
-            trials_filtered += 10
-            next_page = json_response.get("nextPageToken")
+            
 
         if studies.shape[0] == 0:
             return pd.DataFrame(
@@ -100,6 +93,7 @@ class TrialFetcher:
         studies["url"] = (
             "https://clinicaltrials.gov/study/" + studies["NCTId"]
         )  # create url
+        studies["nextPage"] = next_page
         studies = TrialFilterer.post_filter(
             studies, input_params
         )  # calculate distances
@@ -118,7 +112,8 @@ class TrialFetcher:
                 "FullAddress",
                 "PointOfContactEMail",
                 "CentralContactEMail",
-                "ResponsiblePartyInvestigatorFullName"
+                "ResponsiblePartyInvestigatorFullName",
+                "nextPage",
             ]
         ]
         results_json = studies.to_json(orient="index")  # convert to json
@@ -171,6 +166,8 @@ def build_study_dict(response):
 
             if state := location.get("state"):
                 states.append(state)
+            
+            break
 
         new_study_format = {
             "NCTId":nctid,
