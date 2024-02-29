@@ -7,7 +7,7 @@ import { StyledButton } from './ButtonStyle';
 const Header = styled.div`
     padding: 25px;
     background-color: #1D366F;
-    height: 100px;
+    height: 90px;
     min-width: fit-content;
     position: sticky;
     top: 0;

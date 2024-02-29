@@ -47,12 +47,11 @@ class TrialFetcher:
         next_page = input_params.get("next_page")
         while studies.shape[0] < 5:            
             search_url = search_template + f"&pageToken={next_page}" if next_page else search_template
-            print(search_url)
             # timed section
             response = requests.get(search_url, timeout=TIMEOUT_SEC)
             
             json_response = response.json()
-            next_page = json_response.get("nextPageToken")
+            next_page = json_response.get("nextPageToken", "")
             content = build_study_dict(json_response)
             try:  # break if the timeout is reached (or the api returns unreadable data)
                 buffer = io.StringIO(content)
@@ -96,7 +95,6 @@ class TrialFetcher:
             studies, input_params
         )  # calculate distances
         # take only necessary fields
-        print(studies.columns)
 
         studies = studies[
             [
@@ -114,7 +112,7 @@ class TrialFetcher:
                 "nextPage",
             ]
         ]
-        results_json = studies.to_json(orient="index")  # convert to json
+        results_json = studies.to_dict(orient='index')  # convert to json
         return results_json  # return
 
 def build_study_dict(response):

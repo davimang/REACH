@@ -1,5 +1,5 @@
 """Views for the api service."""
-
+import json
 from datetime import date
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
@@ -144,6 +144,7 @@ def search_trials(request):
     query_params = request.query_params
     info_profile_id = int(query_params.get("info_id", 0))
     next_page = str(query_params.get("next_page", ""))
+    user_id = int(query_params.get("user_id"))
     if not info_profile_id:
         return Response(
             "Patient information is required to make a search.",
@@ -152,7 +153,17 @@ def search_trials(request):
     info_profile = get_object_or_404(PatientInfo, pk=info_profile_id)
     trial_input_info = build_input_info(info_profile=info_profile, next_page=next_page)
     trials = trial_fetcher.search_studies(trial_input_info)
-    return Response(trials)
+
+    # saved trials attached to current search profile
+    saved_trials = Trial.objects.values_list('nctid', flat=True).filter(user=user_id)
+
+    for trial in trials.values():
+        trial["saved"] = False
+        if trial["NCTId"] in saved_trials:
+            trial["saved"] = True
+            trial["savedId"] = Trial.objects.filter(nctid=trial["NCTId"])[0].id
+
+    return Response(json.dumps(trials))
 
 
 def build_input_info(info_profile, next_page):

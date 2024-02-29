@@ -40,7 +40,7 @@ const TrialCard: React.FC<TrialProps> = ({ trial, trialSaved, handleSave, setCur
 
             <TrialSymbols>
                 <BookmarkImage
-                    src={trialSaved[trial.NCTId] ? require('../images/Saved.svg') : require('../images/Bookmark.svg')}
+                    src={trial.saved || trialSaved[trial.NCTId] ? require('../images/Saved.svg') : require('../images/Bookmark.svg')}
                     onClick={() => handleSave(trial)}
                 />
 
