@@ -182,7 +182,7 @@ def build_study_dict(response):
             "Gender":gender,
             "Keyword":"|".join(keywords),
             "PointOfContactEMail":"",
-            "CentralContactEMail":"|".join(contacts),
+            "CentralContactEMail": contacts[0] if contacts else "",
             "ResponsiblePartyInvestigatorFullName":investigator
         }
 
