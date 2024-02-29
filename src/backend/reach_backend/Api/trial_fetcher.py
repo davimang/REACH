@@ -4,7 +4,7 @@ import re
 import json
 import requests
 import pandas as pd
-from trial_filterer import TrialFilterer
+from .trial_filterer import TrialFilterer
 
 API_URL2 = (
     r"https://clinicaltrials.gov/api/v2/studies?format=json&countTotal=true&filter.overallStatus=RECRUITING&"
