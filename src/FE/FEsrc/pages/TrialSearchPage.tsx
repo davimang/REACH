@@ -35,8 +35,16 @@ const SizedButton = styled(StyledButton)`
 `;
 
 const TrialsListContainer = styled.div`
-    width: 600px;
-    padding: 15px;
+    width: 42%;
+    padding: 10px;
+    height: 450px;
+    overflow-y: auto;
+`;
+
+const MapContainer = styled.div`
+    padding: 10px;
+    width: 58%;
+    height: 95%;
 `;
 
 const DialogContentInfo = styled.div`
@@ -242,10 +250,12 @@ const TrialSearchPage = () => {
             </TrialSearchHeader>
 
             <div style={{ display: 'flex' }}>
-                <TrialsListContainer style={{overflow: 'auto'}}>
+                <TrialsListContainer>
                     {displayTrials()}
                 </TrialsListContainer>
-                {(responseTrials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]}/>}
+                <MapContainer>
+                    {(responseTrials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]}/>}
+                </MapContainer>
             </div>
       
             <Dialog

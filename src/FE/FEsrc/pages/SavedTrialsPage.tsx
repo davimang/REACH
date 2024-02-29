@@ -20,8 +20,16 @@ const DialogContentInfo = styled.div`
 
 
 const TrialsListContainer = styled.div`
-    width: 600px;
-    padding: 15px;
+    width: 42%;
+    padding: 10px;
+    height: 450px;
+    overflow-y: auto;
+`;
+
+const MapContainer = styled.div`
+    padding: 10px;
+    width: 58%;
+    height: 95%;
 `;
 
 const TrialSearchHeader = styled.div`
@@ -180,7 +188,9 @@ const SaveTrialsPage = () => {
                 <TrialsListContainer>
                     {displayTrials()}
                 </TrialsListContainer>
-                {(trials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]}/>}
+                <MapContainer>
+                    {(trials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]}/>}
+                </MapContainer>
             </div>
               
             <Dialog
