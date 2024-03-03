@@ -4,7 +4,7 @@ import regex as re
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from geopy.exc import GeopyError
-from .filtering_dictionary import (filtering_dict_num,
+from filtering_dictionary import (filtering_dict_num,
                                    filtering_dict_boolean,
                                    filtering_dict_special)
 
@@ -187,7 +187,7 @@ class TrialFilterer:
                 2,
             ), fac_loc.latitude, fac_loc.longitude
         except AttributeError:
-            return 999999999, -1, -1
+            return -1, 0, 0
 
     # convert min and max ages to float type
     @staticmethod

@@ -4,7 +4,10 @@ import re
 import json
 import requests
 import pandas as pd
-from .trial_filterer import TrialFilterer
+from trial_filterer import TrialFilterer
+from geopy.geocoders import Nominatim
+from geopy.exc import GeopyError
+locator = Nominatim(user_agent="my_request")
 
 API_URL2 = (
     r"https://clinicaltrials.gov/api/v2/studies?format=json&countTotal=true&filter.overallStatus=RECRUITING&"
@@ -36,8 +39,29 @@ class TrialFetcher:
             for cond in conditions[1:]:
                 condition_search += "+" + cond
 
+        home_address = (
+            input_params["address"]["street"]
+            + ", "
+            + input_params["address"]["city"]
+            + ", "
+            + input_params["address"]["province"]
+            + " "
+            + input_params["address"]["postalCode"]   
+            )
+
+        home_geo = locator.geocode(home_address, timeout=10)
+
         # put expression together
         search_template = API_URL2 + "query.cond=" + condition_search
+
+        try:
+            distance = float(input_params['max_distance'])
+            search_template = (search_template + "&filter.geo=distance("
+            + str(home_geo.latitude) + "," + str(home_geo.longitude) + "," +
+            str(distance) + "km)&")
+            print(search_template)
+        except:
+            pass
 
         # start one rank up from the last rank returned by a previous call
        
@@ -64,6 +88,8 @@ class TrialFetcher:
 
             # remove any invalid trials
             temp = TrialFilterer.filter_trials(temp, input_params)
+
+            print(temp)
             if temp.shape[0] > 0:  # if not empty, add to accepted trials
                 studies = pd.concat([studies, temp], ignore_index=True)
             
