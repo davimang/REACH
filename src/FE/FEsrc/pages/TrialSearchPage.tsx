@@ -14,6 +14,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const TrialSearchHeader = styled.div`
     background-color: #213E80;
@@ -53,6 +54,13 @@ const DialogContentInfo = styled.div`
     width: 100%;
 `;
 
+const Loading = styled.div`
+margin: auto;
+height: 50%;
+width: 50%;
+padding: 10px;
+`;
+
 const TrialSearchPage = () => {
     const navigate = useNavigate();
     const [responseProfiles, setResponseProfiles] = useState<PatientInfoList | null>(null);
@@ -66,6 +74,7 @@ const TrialSearchPage = () => {
     const [open, setOpen] = useState(false);
     const[pageTokens, setPageTokens] = useState([""]);
     const [pageTokenPointer, setPageTokenPointer] = useState(0);
+    const [maxDistance, setMaxDistance] = useState('');
     const [modalDetails, setModalDetails] = useState({
         title: "",
         description: "",
@@ -159,7 +168,7 @@ const TrialSearchPage = () => {
     const fetchTrials = async () => {
         try {
             setLoading(true);
-            const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&next_page=${pageTokens[pageTokenPointer]}`;
+            const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&next_page=${pageTokens[pageTokenPointer]}&max_distance=${maxDistance}`;
             const response = await fetch(`${API_URL}${endpoint}`);
             if (!response.ok) {
                 throw new Error(`Failed to fetch trials. Status: ${response.status}`);
@@ -219,9 +228,6 @@ const TrialSearchPage = () => {
 
     const displayTrials = () => {
         return (
-            loading ?
-                <div>Loading... </div>
-                :
                 responseTrials &&
                 Object.values(responseTrials).map((trial) => (
                     <TrialCard
@@ -276,6 +282,19 @@ const TrialSearchPage = () => {
                     }
                 </StyledDropDown>
 
+                <StyledDropDown 
+                    value={maxDistance}
+                    onChange={(e) => setMaxDistance(e.target.value)}
+                >
+                    <option value=''>-- Distance Limit --</option>
+                    <option value={250}>250km</option>
+                    <option value={500}>500Km</option>
+                    <option value={1000}>1000Km</option>
+                    <option value={2500}>2500Km</option>
+                    <option value={5000}>5000Km</option>
+                    <option value={10000}>10000Km</option>
+                </StyledDropDown>
+                
                 <SizedButton onClick={() => {
                     resetPageTokens();
                     fetchTrials();
@@ -283,7 +302,7 @@ const TrialSearchPage = () => {
                 <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>
             </TrialSearchHeader>
 
-            <div style={{ display: 'flex' }}>
+            {loading ? <Loading> <CircularProgress color="success" /> </Loading> : <div style={{ display: 'flex' }}>                
                 <TrialsListContainer>
                     {displayTrials()}
                     {responseTrials && !loading && pageTokenPointer > 0 && <StyledButton onClick={e => {prevPage(e);}}>Previous Page</StyledButton>}
@@ -292,7 +311,8 @@ const TrialSearchPage = () => {
                 <MapContainer>
                     {(responseTrials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]}/>}
                 </MapContainer>
-            </div>
+            </div>}
+            
       
             <Dialog
                 open={open}

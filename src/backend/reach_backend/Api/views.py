@@ -145,13 +145,14 @@ def search_trials(request):
     info_profile_id = int(query_params.get("info_id", 0))
     next_page = str(query_params.get("next_page", ""))
     user_id = int(query_params.get("user_id"))
+    max_distance = int(query_params.get("max_distance")) if query_params.get("max_distance") else None
     if not info_profile_id:
         return Response(
             "Patient information is required to make a search.",
             status=status.HTTP_400_BAD_REQUEST,
         )
     info_profile = get_object_or_404(PatientInfo, pk=info_profile_id)
-    trial_input_info = build_input_info(info_profile=info_profile, next_page=next_page)
+    trial_input_info = build_input_info(info_profile=info_profile, next_page=next_page, max_distance=max_distance)
     trials = trial_fetcher.search_studies(trial_input_info)
 
     # saved trials attached to current search profile
@@ -166,7 +167,7 @@ def search_trials(request):
     return Response(json.dumps(trials))
 
 
-def build_input_info(info_profile, next_page):
+def build_input_info(info_profile, next_page, max_distance):
     """Helper function to build the dict for trial fetching/filtering."""
     age = calculate_age(info_profile.date_of_birth)
     sex = gender_mapping[info_profile.gender]
@@ -179,6 +180,7 @@ def build_input_info(info_profile, next_page):
         "address": address,
         "conditions": [condition],
         "next_page": next_page,
+        "max_distance": max_distance,
         **advanced_info,
     }
     return info
