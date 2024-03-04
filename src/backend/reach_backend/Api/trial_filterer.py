@@ -4,8 +4,7 @@ import regex as re
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from geopy.location import Location
-from geopy.exc import GeopyError
-from    filtering_dictionary import (filtering_dict_num,
+from .filtering_dictionary import (filtering_dict_num,
                                    filtering_dict_boolean,
                                    filtering_dict_special)
 
@@ -36,7 +35,6 @@ class TrialFilterer:
     def post_filter(studies: pd.DataFrame, input_params: str,
                     home_geo: Location) -> pd.DataFrame:
         """creates full address and populates distance"""
-        print(studies)
 
         studies = TrialFilterer.generate_address(studies)
 
@@ -50,7 +48,6 @@ class TrialFilterer:
 
         max_distance = input_params.get('max_distance', 99999999)
         studies = studies[studies['Distance'] <= max_distance]
-        print(studies['Distance'])
         return studies
 
     @staticmethod

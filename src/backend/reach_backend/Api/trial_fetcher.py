@@ -3,9 +3,9 @@ import io
 import json
 import requests
 import pandas as pd
-from trial_filterer import TrialFilterer
 from geopy.geocoders import Nominatim
-from geopy.exc import GeopyError
+from .trial_filterer import TrialFilterer
+
 locator = Nominatim(user_agent="my_request")
 
 API_URL2 = (
@@ -52,6 +52,10 @@ class TrialFetcher:
 
         # put expression together
         search_template = API_URL2 + "query.cond=" + condition_search
+        search_template = (search_template + "&filter.geo=distance(" +
+                           str(home_geo.latitude) + "," + str(home_geo.longitude) +
+                           "," + str(input_params.get('max_distance',9999999)) + "km)"
+        )
 
         # start one rank up from the last rank returned by a previous call
        
@@ -123,7 +127,6 @@ class TrialFetcher:
                 "BriefTitle",
                 "DetailedDescription",
                 "OverallStatus",
-                "Distance",
                 "KeywordRank",
                 "url",
                 "FullAddress",
@@ -136,7 +139,6 @@ class TrialFetcher:
                 "nextPage",
             ]
         ]
-        studies.to_csv('test.csv')
         results_json = studies.to_dict(orient='index')  # convert to json
         return results_json  # return
 
@@ -182,8 +184,8 @@ def build_study_dict(response):
             if city := location.get("city"):
                 cities.append(city)
 
-            if zip := location.get("zip"):
-                zips.append(zip)
+            if zipc := location.get("zip"):
+                zips.append(zipc)
 
             if country := location.get("country"):
                 countries.append(country)
