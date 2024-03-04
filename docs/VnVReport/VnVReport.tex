@@ -3,6 +3,7 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
+\usepackage{xcolor}
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -65,6 +66,21 @@ Date 2 & 1.1 & Notes\\
 This document ...
 
 \section{Functional Requirements Evaluation}
+
+\large{\textbf{User Data}}
+
+\normalsize
+
+\begin{enumerate}
+  \item DT-1
+  Result: \textcolor{green}{Passed} - New account can successfully be created, and data is stored successfully in the database. Therefore, the tester was able to verify that the data is 
+  persistent, so this test was successful.
+  \item DT-2
+  Result: \textcolor{green}{Passed} - Account information can successfully be updated, and the changes are reflected in the database. Therefore, the tester was able to verify
+  that the updates are persistent, so this test was successful.
+  \item DT-3
+  Result: \textcolor{gray}{Not run} - reason being that the database application we used will ensure the issue brought up by this test can never happen.
+\end{enumerate}
 
 \section{Nonfunctional Requirements Evaluation}
 
