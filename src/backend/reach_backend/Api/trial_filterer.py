@@ -3,8 +3,9 @@ import pandas as pd
 import regex as re
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
+from geopy.location import Location
 from geopy.exc import GeopyError
-from filtering_dictionary import (filtering_dict_num,
+from    filtering_dictionary import (filtering_dict_num,
                                    filtering_dict_boolean,
                                    filtering_dict_special)
 
@@ -32,28 +33,24 @@ class TrialFilterer:
         return studies
 
     @staticmethod
-    def post_filter(studies: pd.DataFrame, input_params: str) -> pd.DataFrame:
-        """calculates the geodesic distance to the trial"""
-        address = input_params["address"]
-        home_address = (
-            address["street"]
-            + ", "
-            + address["city"]
-            + ", "
-            + address["province"]
-            + " "
-            + address["postalCode"]
-        )
+    def post_filter(studies: pd.DataFrame, input_params: str,
+                    home_geo: Location) -> pd.DataFrame:
+        """creates full address and populates distance"""
+        print(studies)
 
-        try:
-            home_address = locator.geocode(home_address, timeout=10)
-        except GeopyError:
-            home_address = None
         studies = TrialFilterer.generate_address(studies)
-        studies["Distance"] = (
-            studies["FullAddress"].apply(
-            lambda x: TrialFilterer.get_distance_km(home_address, x)
-        ))
+
+        studies['Distance'] = -1
+        
+        for i in studies.index:
+            studies.at[i, 'Distance'] = TrialFilterer.get_distance_km(
+                studies.at[i, 'LocationLatitude'], studies.at[i, 'LocationLongitude'],
+                home_geo.latitude, home_geo.longitude
+            )
+
+        max_distance = input_params.get('max_distance', 99999999)
+        studies = studies[studies['Distance'] <= max_distance]
+        print(studies['Distance'])
         return studies
 
     @staticmethod
@@ -175,19 +172,14 @@ class TrialFilterer:
         return df
 
     @staticmethod
-    def get_distance_km(home_address: str, facility_address: str) -> float:
+    def get_distance_km(
+        lat1: float,
+        long1: float,
+        lat2: float,
+        long2: float
+    ) -> float:
         """calculates distance between two addresses"""
-        fac_loc = locator.geocode(facility_address, timeout=10)
-        try:
-            return round(
-                geodesic(
-                    (home_address.latitude, home_address.longitude),
-                    (fac_loc.latitude, fac_loc.longitude),
-                ).kilometers,
-                2,
-            ), fac_loc.latitude, fac_loc.longitude
-        except AttributeError:
-            return -1, 0, 0
+        return geodesic((lat1,long1),(lat2,long2)).kilometers
 
     # convert min and max ages to float type
     @staticmethod

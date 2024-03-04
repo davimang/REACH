@@ -5,7 +5,7 @@ input_params = {
     "maxRank" : 0,
     "age" : 40,
     "sex" : "Male",
-    "max_distance" : 100,
+    "max_distance" : 500,
     "address" : {
         "street" : "1280 Main St W",
         "city" : "Hamilton",
