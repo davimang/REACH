@@ -1,8 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useAuth } from '../contexts/AuthContext';
 import { StyledButton } from './ButtonStyle';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
+const ProfileIcon = styled(AccountCircleIcon)`
+    color: #039D5F;
+    background-color: #039D5F;
+    border-radius: 50%;
+    padding: 0px;
+    fill: white;
+    cursor: pointer;
+    font-size: 60px;
+    margin-left: auto;
+    margin-right: 10px;
+`;
 
 const Header = styled.div`
     padding: 25px;
@@ -33,7 +47,11 @@ const MenuButtons = styled.div`
 
 const MenuHeader: React.FC = () => {
     const { isAuthenticated, userId, login, logout, register } = useAuth();
-
+    // constant for going to create profile page
+    const navigate = useNavigate();
+    const navigateToProfileCreation = () => {
+        navigate('/createProfile');
+    }
     return (
         <Header>
             <HeaderComponents>
@@ -55,14 +73,19 @@ const MenuHeader: React.FC = () => {
                         <div style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10 }}><HeaderButton>About Us</HeaderButton></div>
                     </Link>
                 </MenuButtons>
-                {!isAuthenticated ? (
+                {isAuthenticated ? (
                     <Link to='/login'>
                         <div style={{ borderRadius: 10, width: 125, paddingLeft: 20 }}><HeaderButton>Sign In</HeaderButton></div>
                     </Link>
                 ) : (
-                    <Link to='/listprofiles'>
-                        <div style={{ borderRadius: 10, width: 125, paddingLeft: 20 }}><HeaderButton>Profiles</HeaderButton></div>
-                    </Link>
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                        <Link to='/listprofiles'>
+                            <div style={{ borderRadius: 10, width: 125, paddingLeft: 20, marginRight: 10 }}><HeaderButton>Profiles</HeaderButton></div>
+                        </Link>
+                        <Link to='/savedTrials'>
+                            <div style={{ borderRadius: 10, width: 160, paddingLeft: 20 }}><HeaderButton>Saved Trials</HeaderButton></div>
+                        </Link>
+                    </div>                    
                 )}
             </HeaderComponents >
         </Header >

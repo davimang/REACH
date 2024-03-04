@@ -14,7 +14,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const TrialSearchHeader = styled.div`
     background-color: #213E80;
@@ -24,13 +23,6 @@ const TrialSearchHeader = styled.div`
     align-items: center;
 `;
 
-const ProfileIcon = styled(AccountCircleIcon)`
-    color: white;
-    cursor: pointer;
-    font-size: 50px;
-    margin-left: auto;
-    margin-right: 10px;
-`;
 const StyledDropDown = styled(DropDownInput)`
     margin: 10px;
     width: 400px;
@@ -84,10 +76,7 @@ const TrialSearchPage = () => {
     })
     const userId = localStorage.getItem('userId');
 
-    // constant for going to create profile page
-    const navigateToProfileCreation = () => {
-        navigate('/createProfile');
-    }
+    
 
     const handleModal = () => {
         setOpen(!open);
@@ -289,12 +278,12 @@ const TrialSearchPage = () => {
                     }
                 </StyledDropDown>
 
-                <ProfileIcon onClick={navigateToProfileCreation} />
+
                 <SizedButton onClick={() => {
                     resetPageTokens();
                     fetchTrials();
                 }}>Search</SizedButton>
-                <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>
+                <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>      
             </TrialSearchHeader>
 
             <div style={{ display: 'flex' }}>
