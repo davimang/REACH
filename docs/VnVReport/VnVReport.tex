@@ -63,8 +63,6 @@ Date 2 & 1.1 & Notes\\
 
 \pagenumbering{arabic}
 
-This document ...
-
 \section{Functional Requirements Evaluation}
 
 \large{\textbf{User Data}}
@@ -100,6 +98,24 @@ This document ...
   successful.
   \item ST-3 \textcolor{red}{Failed} - When attempting to search for trials with no profile data selected, the app did not behave as intended (it
   still tried to conduct a search), therefore this test was unsuccessful.
+  \item ST-4 \textcolor{green}{Passed} - The tester was able to switch between multiple profiles, and conduct a search based on each respective profile.
+  \item ST-5 \textcolor{green}{Passed} - Upon selecting a displayed trial, the tester was able to verify that the location displayed on the map updates and displays correctly.\\
+
+\end{enumerate}
+
+\noindent{\large{\textbf{Bookmarking}}}
+
+\normalsize
+
+\begin{enumerate}
+  \item BT-1 \textcolor{green}{Passed} - The tester was able to save a trial, and view the trial in the bookmarks page. Additionally, there was an indication that
+  the trial was saved, upon saving the trial. Therefore, this test was successful.
+  \item BT-2 \textcolor{green}{Passed} - The tester was able to delete a trial that was previously saved, and verified that the deletion was recognized in the frontned (i.e., by 
+  no longer being part of the list of saved trials). Therefore, this test was successful.
+  \item BT-3 \textcolor{green}{Passed} - The tester was able to verify that the details provided by the saved trial are the same as the details related to the trial 
+  on the search trial page.
+  \item BT-4 \textcolor{green}{Passed} - The tester was able to verify that the saved trials are filtered correctly upon selecting a profile to filter by. When selecting a 
+  profile, only the trials saved under that profile are displayed, and when selecting no profile, all saved trials are displayed to the user.
 
 \end{enumerate}
 
