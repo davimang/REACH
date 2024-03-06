@@ -63,7 +63,7 @@ const ListProfiles: React.FC = () => {
       const requestOptions = {
         headers: { 'Authorization': `Bearer ${authToken}` }
       };
-      fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => { setProfiles(response) });
+      fetch(`${API_URL}${endpoint}`, requestOptions).then(response => response.json()).then(response => { setProfiles(response) });
       console.log(profiles)
     } catch (error) {
       console.error('Error fetching profiles:', error.message);
@@ -76,7 +76,7 @@ const ListProfiles: React.FC = () => {
       const requestOptions = {
         headers: { 'Authorization': `Bearer ${authToken}` }
       };
-      fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => { setUserData(response) });
+      fetch(`${API_URL}${endpoint}`, requestOptions).then(response => response.json()).then(response => { setUserData(response) });
       console.log(userData)
     } catch (error) {
       console.error('Error fetching account info:', error.message);
