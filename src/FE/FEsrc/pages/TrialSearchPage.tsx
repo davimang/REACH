@@ -56,13 +56,12 @@ const DialogContentInfo = styled.div`
 `;
 
 const Loading = styled.div`
-position: fixed;
-left: 50%;
-top: 50%;
-width: 100%;
-height: 100%;
-z-index: 9999;
-        
+    position: fixed;
+    left: 45%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;    
 `;
 
 const TrialSearchPage = () => {

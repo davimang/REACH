@@ -47,6 +47,16 @@ const StyledDropDown = styled(DropDownInput)`
 `;
 
 
+const EmptyResponse = styled.div`
+    position: fixed;
+    left: 45%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    font-size: 30px;
+    color: white;
+`
 
 const SaveTrialsPage = () => {
 
@@ -184,14 +194,16 @@ const SaveTrialsPage = () => {
                     }
                 </StyledDropDown>
             </TrialSearchHeader>
-            <div style={{ display: 'flex' }}>
+            
+            {(trials.length == 0) ? <EmptyResponse>No Trials Found!</EmptyResponse>: <div style={{ display: 'flex' }}>
                 <TrialsListContainer>
                     {displayTrials()}
                 </TrialsListContainer>
                 <MapContainer>
                     {(trials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]}/>}
                 </MapContainer>
-            </div>
+            </div>}
+            
               
             <Dialog
                 open={open}
