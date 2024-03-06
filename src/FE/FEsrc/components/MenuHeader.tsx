@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useAuth } from '../contexts/AuthContext';
 import { StyledButton } from './ButtonStyle';
@@ -32,7 +32,13 @@ const MenuButtons = styled.div`
 `;
 
 const MenuHeader: React.FC = () => {
+    const navigate = useNavigate();
     const { isAuthenticated, userId, login, logout, register } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
 
     return (
         <Header>
@@ -60,9 +66,14 @@ const MenuHeader: React.FC = () => {
                         <div style={{ borderRadius: 10, width: 125, paddingLeft: 20 }}><HeaderButton>Sign In</HeaderButton></div>
                     </Link>
                 ) : (
-                    <Link to='/listprofiles'>
-                        <div style={{ borderRadius: 10, width: 125, paddingLeft: 20 }}><HeaderButton>Profiles</HeaderButton></div>
-                    </Link>
+                    <MenuButtons>
+                        <Link to='/listprofiles'>
+                            <div style={{ borderTopLeftRadius: 10, borderBottomLeftRadius: 10, width: 125, paddingLeft: 20 }}><HeaderButton>Profiles</HeaderButton></div>
+                        </Link>
+                        <div style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10, backgroundColor: '#FFFFFF', width: 80, paddingLeft: 2 }}>
+                            <HeaderButton onClick={handleLogout}>Log Out</HeaderButton>
+                        </div>
+                    </MenuButtons>
                 )}
             </HeaderComponents >
         </Header >
