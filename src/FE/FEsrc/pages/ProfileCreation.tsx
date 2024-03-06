@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { API_URL } from '..';
 import { conditions } from '../components/Constants';
-import { FormContainer, Form, FormLabel, TextInput, AutocompleteInput, ButtonContainer, FormButton, DropDownInput, AutocompleteTextField, FormButtonDisabled, ErrorMessage } from '../components/FormStyles';
+import { FormContainer, Form, FormLabel, TextInput, AutocompleteInput, ButtonContainer, FormButton, DropDownInput, AutocompleteTextField, FormButtonDisabled, ErrorMessage, FormTitle, FormDisclaimerText } from '../components/FormStyles';
 import { checkEmpty, fieldValidation } from '../hooks/Validation';
 import { Conditions } from '../constants/ConditionFields';
 import AdvancedFormField, { FieldInfo } from '../components/AdvancedFormField';
@@ -115,6 +115,12 @@ const ProfileCreationPage = () => {
         <>
             <ProfileCreationContainer>
                 <FormContainer>
+                    <FormTitle>New Patient Profile</FormTitle>
+                    <FormDisclaimerText>
+                        Filling in this patient profile form allows users to save a patient's medical information in order 
+                        to more efficiently search for clinical trials. Please keep privacy and confidentiality in mind 
+                        (i.e. use initials) when creating these patient profiles.
+                    </FormDisclaimerText>
                     <Form onSubmit={handleSubmit}>
                         <FormLabel>Name</FormLabel>
                         <TextInput

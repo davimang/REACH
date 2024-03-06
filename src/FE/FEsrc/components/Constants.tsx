@@ -1,4 +1,7 @@
 export const conditions: readonly String[] = [
+    "Asthma",
+    "Chronic Obstructive Pulmonary Disease (COPD)",
+    "Interstitial Lung Disease (ILD)",
     "Meningitis - fungal",
     "Coma - hyperosmolar nonketotic (HONK)",
     "Filtering bleb failed",
@@ -129,7 +132,6 @@ export const conditions: readonly String[] = [
     "Liver transplant",
     "Open heart surgery",
     "Gastric obstruction",
-    "Asthma",
     "Insomnia",
     "Parapsoriasis",
     "Atrial septal defect",

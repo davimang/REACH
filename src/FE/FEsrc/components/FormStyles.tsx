@@ -4,7 +4,7 @@ import { StyledButton, StyledButtonDisabled } from './ButtonStyle';
 
 export const FormContainer = styled.div`
   width: 20vw;
-  min-width: 300px;
+  min-width: 375px;
   padding: 10px 25px;
   margin: auto;
   user-select: none;
@@ -14,6 +14,20 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: left;
+`;
+
+export const FormDisclaimerText = styled.div`
+    background-color: #039D5F;
+    border-radius: 5px;
+    padding: 10px;
+    color: #EDF2F7;
+`;
+
+export const FormTitle = styled.div`
+  color: #EDF2F7;
+  font-weight: bold;
+  font-size: 26px;
+  margin-bottom: 15px;
 `;
 
 export const ButtonContainer = styled.div`
@@ -27,7 +41,6 @@ export const FormLabel = styled.label`
   font-weight: bold;
   margin-top: 15px;
   display: flex;
-  justify-content: space-between;
 `;
 
 const inputSize = `

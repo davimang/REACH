@@ -29,7 +29,13 @@ const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
         <>
             <FormLabel>
                 {fieldInfo.label}
-                {fieldInfo.i && <Tooltip title={fieldInfo.i} placement='right' arrow><div>i</div></Tooltip>}
+                {fieldInfo.i && <Tooltip title={fieldInfo.i} placement='right' arrow>
+                    <img
+                        src={require('../images/Info.svg')}
+                        height={18}
+                        style={{ paddingLeft: 10}}
+                    />
+                </Tooltip>}
             </FormLabel>
             {fieldInfo.inputType == "dropdown" ?
             <DropDownInput
