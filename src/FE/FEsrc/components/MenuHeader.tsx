@@ -68,9 +68,9 @@ const MenuHeader: React.FC = () => {
                 ) : (
                     <MenuButtons>
                         <Link to='/listprofiles'>
-                            <div style={{ borderTopLeftRadius: 10, borderBottomLeftRadius: 10, width: 125, paddingLeft: 20 }}><HeaderButton>Profiles</HeaderButton></div>
+                            <div style={{ borderTopLeftRadius: 10, borderBottomLeftRadius: 10, width: 110, paddingLeft: 20 }}><HeaderButton>Profiles</HeaderButton></div>
                         </Link>
-                        <div style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10, backgroundColor: '#FFFFFF', width: 80, paddingLeft: 2 }}>
+                        <div style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10, backgroundColor: '#FFFFFF', width: 110, paddingLeft: 2 }}>
                             <HeaderButton onClick={handleLogout}>Sign Out</HeaderButton>
                         </div>
                     </MenuButtons>
