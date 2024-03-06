@@ -228,4 +228,14 @@ graduate attribute of Reflection.  Please answer the following question:
   teams will have had to deviate from their original VnV Plan.)
 \end{enumerate}
 
+There were a few ways in which the VnV plan was different from the activities that were actually conducted. First, there were a few tests written 
+for functionality that is no longer planned to be in the app. For example, the email notification system/module is no longer in scope, and as a result,
+tests were obviously not conducted for this module. Furthermore, there were some tests that did not need to be done as a direct result of the 
+implementation, and more specifically, some of the tools that were used in the implementation. For example, a good chunk of the authentication tests did 
+not actually need to be done, since Django provides an out of the box solution to authenticating users (which we were able to take advantage of). It would be 
+very difficult to anticipate all of these changes in a future project, since there are so many variables affecting the testing stage (i.e., change in scope,
+implementation details, etc..). Fortunately, this is why we follow the iterative process, since it allows us to make continuous updates to our documentation,
+ensuring there is always consistency between the plan, report, the app itself, and the other documents (such as SRS, MIS, etc..).
+
+
 \end{document}
