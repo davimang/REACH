@@ -621,7 +621,106 @@ Test Case Derivation: From FR-15, the system shall allow a signed-in user to aut
 
 How test will be performed: Attempt to search without any fields filled in. Verify that the search fails.
 
+\item{ST-4\\}
+
+Control: Manual
+					
+Initial State: The user is logged in, and is at the search trials page with a set of information currently inputted for a search.
+					
+Input: User selects a new set of pre-saved search criteria, and hits search.
+					
+Output: A list of trials which were found on the basis of the previously selected set of criteria.
+
+Test Case Derivation: From FR-20, the system shall allow a user to switch between multiple sets of pre-saved conditions into the search parameters.
+
+How test will be performed: Verify that the trials returned and displayed to the user are based on the most recently selected set of 
+search criteria.
+
+\item{ST-5\\}
+
+Control: Manual
+					
+Initial State: The user is logged in, and has just conducted a search for trials.
+					
+Input: User selects one of the displayed trials.
+					
+Output: The map should change its location to the location of the selected trial.
+
+Test Case Derivation: From FR-19, the system shall allow a user to view the location of the selected trial on a map.
+
+How test will be performed: Verify that the location displayed on the map is indeed the correct location tied to the study.
+
+
 \end{enumerate}
+
+
+\subsubsection{Bookmarking}
+
+\begin{enumerate}
+
+\item{BT-1\\}
+
+Control: Manual
+					
+Initial State: The user is signed in, and has conducted a search for trials.
+					
+Input: Bookmark a trial.
+					
+Output: The trial indicates that it has been saved.
+
+Test Case Derivation: From FR-16, FR-18, a user must be able to save a trial, and access the trials that they have saved.
+
+How test will be performed: Manually save a trial, and verify that the newly saved trial has been saved, and is available to view.
+
+\item{BT-2\\}
+
+Control: Manual
+					
+Initial State: The user is signed in, and has saved at least one trial.
+					
+Input: View the saved trials page.
+					
+Output: The display of trials that have been previously saved by the user.
+
+Test Case Derivation: From FR-17, a user must be able to delete a trial that they have previously saved.
+
+How test will be performed: Manually delete a trial that has been previously saved, and verify that it no longer exists with the other saved trials.
+
+\item{BT-3\\}
+
+Control: Manual
+					
+Initial State: The user is signed in, has saved at least one trial, and is on the page for viewing their saved trials.
+					
+Input: View trial details.
+					
+Output: The details of the saved trial.
+
+Test Case Derivation: From FR-18, a user must be able to perform the same actions on the saved trials as they can on the trial results after 
+conducting a search. Therefore, the same information must be displayed to the user regarding the saved trial.
+
+How test will be performed: Manually click, or view, a saved trial and ensure the displayed information is the same as the information obtained 
+on the searching page.
+
+\item{BT-4\\}
+
+Control: Manual
+					
+Initial State: The user is signed in, has saved at least one trial under multiple profiles, and is on the page for viewing their saved trials.
+					
+Input: Select a profile to filter the saved trials by.
+					
+Output: The list of trials that have been saved under that profile.
+
+Test Case Derivation: From FR-19, a user must be able to perform the same actions on the saved trials as they can on the trial results after 
+conducting a search. Therefore, the same information must be displayed to the user regarding the saved trial.
+
+How test will be performed: Select a profile, and verify that the page updates the list of displayed trials to just the ones that were saved
+under the selected profile.
+
+
+\end{enumerate}
+
 
 \subsection{Tests for Nonfunctional Requirements}
 
@@ -850,6 +949,18 @@ How test will be performed: Users are asked to input their search criteria, and 
   \hline
   ST-3 & FR-15\\
   \hline
+  ST-4 & FR-21\\
+  \hline
+  ST-5 & FR-20\\
+  \hline
+  BT-1 & FR-16, FR-18\\
+  \hline
+  BT-2 & FR-17, FR-18\\
+  \hline
+  BT-3 & FR-18\\
+  \hline
+  BT-4 & FR-19\\
+  \hline
   UT-1 & NFR-3, NFR-4, NFR-5\\
   \hline
   UT-2 & NFR-3, NFR-4, NFR-5\\
@@ -864,12 +975,13 @@ How test will be performed: Users are asked to input their search criteria, and 
   \hline
   OT-2 & NFR-12\\
   \hline
- MT-1 & NFR-13\\
+  MT-1 & NFR-13\\
   \hline
- SEC-1 & NFR-15\\
+  SEC-1 & NFR-15\\
   \hline
- SEC-2 & NFR-16\\
- LT-1 & NFR-18\\
+  SEC-2 & NFR-16\\
+  \hline
+  LT-1 & NFR-18\\
   \hline
   \end{tabular}
 \end{table}
