@@ -16,6 +16,14 @@ export const Form = styled.form`
   align-items: left;
 `;
 
+export const FormDisclaimerTitle = styled.div`
+  display: flex;
+  color: #E20000;
+  font-family: math;
+  font-size: 20px;
+  padding-bottom: 2px;
+`;
+
 export const FormDisclaimerText = styled.div`
     background-color: #039D5F;
     border-radius: 5px;
@@ -57,7 +65,7 @@ const inputBorder = `
 
 const font = `
   font-family: math;
-  font-size: 20px;
+  font-size: 18px;
 `;
 
 export const TextInput = styled.input`
@@ -120,5 +128,5 @@ export const FormButtonDisabled = styled(StyledButtonDisabled)`
 export const ErrorMessage = styled.div`
   color: red;
   font-family: math;
-  font-size: 20px;
+  font-size: 18px;
 `;
