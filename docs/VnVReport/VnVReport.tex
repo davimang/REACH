@@ -182,8 +182,19 @@
 
 \subsection{Security}
 \begin{enumerate}
+  \item OT-1 \textcolor{gray}{Not run} - Application was updated to display a fixed amount (5) of results at a time. As the application no longer needs to display all available trials, this test is no longer necessary.  
+\item OT-2 \textcolor{green}{Passed} - Several testers accessed the web application from their respective devices and tried out the main functions of the application. All testers consistently rated the performance above 7, so the test passed.
+\end{enumerate}
+
+\subsection{Operational and Environmental}
+\begin{enumerate}
   \item SEC-1 \textcolor{red}{Failed} - The tester entered the password "pass" which does not conform to the NIST guidelines. The password was accepted and the account was created, so the test fails.
 \item SEC-2 \textcolor{green}{Passed} - Two tests were run. Firstly, a tester with the correct password but incorrect username attempted to access the database. This test was successful as the tester was denied access to the database. Secondly, a tester with correct credentials attempted to log into the database. This attempt was successful, so the second part of the test was also successful.
+\end{enumerate}
+
+\subsection{Legal}
+\begin{enumerate}
+  \item SEC-1 \textcolor{gray}{Not run} - This test case has not been run as the user consent function has not been implemented.
 \end{enumerate}
 
 	
@@ -266,7 +277,7 @@ cost us too much in terms of usability metrics (it was not a big factor) but by 
 \section{Code Coverage Metrics}
 
 \bibliographystyle{plainnat}
-\bibliography{../../refs/References}
+%\bibliography{../../refs/References}
 
 \newpage{}
 \section*{Appendix --- Reflection}
