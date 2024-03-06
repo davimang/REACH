@@ -1,13 +1,15 @@
 """Views for the api service."""
+
 import json
 from datetime import date
 from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from django_filters import rest_framework as filters
+from django.http import HttpResponseForbidden
 from .serializers import (
     UserSerializer,
     GroupSerializer,
@@ -18,6 +20,7 @@ from .serializers import (
 )
 from .trial_fetcher import TrialFetcher
 from .models import UserData, PatientInfo, Trial
+from .permissions import IsUser
 
 trial_fetcher = TrialFetcher()
 
@@ -29,7 +32,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = User.objects.all().order_by("-date_joined")
     serializer_class = UserSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsUser]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -37,7 +40,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsUser]
 
 
 class UserRegistrationView(generics.CreateAPIView):
@@ -87,7 +90,7 @@ class UserDataViewSet(viewsets.ModelViewSet):
 
     queryset = UserData.objects.all()
     serializer_class = UserDataSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsUser]
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = UserDataFilter
 
@@ -110,7 +113,7 @@ class PatientInfoViewSet(viewsets.ModelViewSet):
 
     queryset = PatientInfo.objects.all()
     serializer_class = PatientInfoSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsUser]
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = PatientInfoFilter
 
@@ -133,30 +136,37 @@ class TrialViewSet(viewsets.ModelViewSet):
 
     queryset = Trial.objects.all()
     serializer_class = TrialSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsUser]
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = TrialFilter
 
 
 @api_view(["GET"])
+@permission_classes([permissions.IsAuthenticated, IsUser])
 def search_trials(request):
     """Endpoint for getting eligible trials"""
     query_params = request.query_params
     info_profile_id = int(query_params.get("info_id", 0))
     next_page = str(query_params.get("next_page", ""))
     user_id = int(query_params.get("user_id"))
-    max_distance = int(query_params.get("max_distance")) if query_params.get("max_distance") else 15000
+    max_distance = (
+        int(query_params.get("max_distance"))
+        if query_params.get("max_distance")
+        else 15000
+    )
     if not info_profile_id:
         return Response(
             "Patient information is required to make a search.",
             status=status.HTTP_400_BAD_REQUEST,
         )
     info_profile = get_object_or_404(PatientInfo, pk=info_profile_id)
-    trial_input_info = build_input_info(info_profile=info_profile, next_page=next_page, max_distance=max_distance)
+    trial_input_info = build_input_info(
+        info_profile=info_profile, next_page=next_page, max_distance=max_distance
+    )
     trials = trial_fetcher.search_studies(trial_input_info)
 
     # saved trials attached to current search profile
-    saved_trials = Trial.objects.values_list('nctid', flat=True).filter(user=user_id)
+    saved_trials = Trial.objects.values_list("nctid", flat=True).filter(user=user_id)
 
     for trial in trials.values():
         trial["saved"] = False
