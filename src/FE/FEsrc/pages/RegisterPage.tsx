@@ -26,6 +26,7 @@ const RegisterPage: React.FC = () => {
 
     const emailErrorMessage = 'Invalid email';
     const usernameErrorMessage = 'Username is not available';
+    const passwordErrorMessage = 'Password must be at least 8 characters';
     const genericErrorMessage = 'This field cannot be empty';
 
     const validateEmail = (email) => {
@@ -41,9 +42,13 @@ const RegisterPage: React.FC = () => {
         return data.available;
     };
 
+    const validatePassword = (password) => {
+        return password.length >= 8;
+    }
+
     const emailField = fieldValidation(validateEmail);
     const usernameField = fieldValidation(validateUsername, 500);
-    const passwordField = fieldValidation(checkEmpty);
+    const passwordField = fieldValidation(validatePassword);
     const firstNameField = fieldValidation(checkEmpty);
     const lastNameField = fieldValidation(checkEmpty);
 
@@ -106,7 +111,7 @@ const RegisterPage: React.FC = () => {
                         placeholder='Password'
                         autoComplete='new-password'
                     />
-                    {passwordField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
+                    {passwordField.showErrorMessage && <ErrorMessage>{passwordErrorMessage}</ErrorMessage>}
                     <TextInput
                         type='text'
                         id='username'
