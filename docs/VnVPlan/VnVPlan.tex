@@ -5,6 +5,7 @@
 \usepackage{tabularx}
 \usepackage{hyperref}
 \usepackage{float}
+\usepackage{longtable}
 \hypersetup{
     colorlinks,
     citecolor=blue,
@@ -534,22 +535,6 @@ Test Case Derivation: From FR-10, the system shall create an email template for 
 
 How test will be performed: Manually select a given trial result, and select the option to generate a template. Verify that it is displayed to the user.
 
-
-\item{ET-2\\}
-
-Control: Automatic
-					
-Initial State: The user is not logged in to the system.
-					
-Input: N/A
-					
-Output: Email notification notifying user of available trial.
-
-Test Case Derivation: From FR-11, the system shall notify the user when new medical trials matching their specifications are available.
-
-How test will be performed: A test user will be created with their own email account, with common medical conditions. The email will be checked periodically for notifications.
-
-
 \end{enumerate}
 
 \subsubsection{Program Information}
@@ -906,9 +891,9 @@ How test will be performed: Users are asked to input their search criteria, and 
 
 \subsection{Traceability Between Test Cases and Requirements}
 
-\begin{table}[H]
-  \caption{Test Case Traceability}
-  \begin{tabular}{|p{7cm}|p{7cm}|}
+
+\begin{longtable}{|p{7cm}|p{7cm}|}
+  \caption{Test Case-Requirement Traceability}\\  
   \hline
   Test case & Requirement(s)\\
   \hline
@@ -937,8 +922,6 @@ How test will be performed: Users are asked to input their search criteria, and 
   DT-3 & FR-8\\
   \hline
   ET-1 & FR-10\\
-  \hline
-  ET-2 & FR-11\\
   \hline
   PT-1 & FR-12\\
   \hline
@@ -982,133 +965,84 @@ How test will be performed: Users are asked to input their search criteria, and 
   \hline
   LT-1 & NFR-18\\
   \hline
-  \end{tabular}
-\end{table}
+\end{longtable}
 
 \section{Unit Test Description}
 
-\wss{This section should not be filled in until after the MIS (detailed design
-  document) has been completed.}
-
-\wss{Reference your MIS (detailed design document) and explain your overall
-philosophy for test case selection.}  
-
-\wss{To save space and time, it may be an option to provide less detail in this section.  
-For the unit tests you can potentially layout your testing strategy here.  That is, you 
-can explain how tests will be selected for each module.  For instance, your test building 
-approach could be test cases for each access program, including one test for normal behaviour 
-and as many tests as needed for edge cases.  Rather than create the details of the input 
-and output here, you could point to the unit testing code.  For this to work, you code 
-needs to be well-documented, with meaningful names for all of the tests.}
-
 \subsection{Unit Testing Scope}
 
-\wss{What modules are outside of the scope.  If there are modules that are
-  developed by someone else, then you would say here if you aren't planning on
-  verifying them.  There may also be modules that are part of your software, but
-  have a lower priority for verification than others.  If this is the case,
-  explain your rationale for the ranking of module importance.}
+Our app is split up by two services - a backend and frontend service. With respect to unit testing, we decided to place more emphasis on the backend service modules,
+since we feel like they are more susceptible to small "edge case" errors, and therefore should be tested a bit more thoroughly. \\
+
+The frontend is continuously being tested, both through us, the developers, and through the many people who have conducted usability tests of the app using our survey, so we feel as though
+any errors in the frontend are much more likely to be found without the use of unit tests than the backend. Related to the frontend, the modules that we are not explicitly unit testing are: 
+the Email Template Module, Patient Data collection form module, Login Form Module, Profile Settings Module, and the Menu Module.\\
+
+For the backend, we treated each api endpoint that interacts with one of the data modules as a "unit test". A good chunk of the functionality specified 
+in the MIS for the backend modules are provided out of the box by Django and the Django Rest Framework, so this greatly reduced the number 
+of tests we needed to write (for example, any simple getter or setter of some data module attribute does not need to be tested, as Django 
+implements these for us). That said, we have explicit unit tests for the following modules (links to these tests will be provided below): User Data Module (UserData),
+Info Profile Data Module (PatientInfo), Trial Data Module (Trial), Fetch Trials Module (TrialFetcher), and Trial Filtering Module (TrialFilterer). The two backend 
+modules that we are not explicitly testing at all are the login and registration modules, since this functionality is provided directly by Django, with no 
+additional work needed from us.\\
+
+For more information on these modules, please see the \href{https://github.com/davimang/REACH/tree/main/docs/Design/SoftDetailedDes}{Module Interface Specification} and/or \href{https://github.com/davimang/REACH/blob/main/docs/Design/SoftArchitecture/MG.pdf}{Module Guide}.
 
 \subsection{Tests for Functional Requirements}
 
-\wss{Most of the verification will be through automated unit testing.  If
-  appropriate specific modules can be verified by a non-testing based
-  technique.  That can also be documented in this section.}
-
-\subsubsection{Module 1}
-
-\wss{Include a blurb here to explain why the subsections below cover the module.
-  References to the MIS would be good.  You will want tests from a black box
-  perspective and from a white box perspective.  Explain to the reader how the
-  tests were selected.}
-
-\begin{enumerate}
-
-\item{test-id1\\}
-
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
-
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
-
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
-
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
-
-How test will be performed: 
-
-\item{...\\}
-    
-\end{enumerate}
-
-\subsubsection{Module 2}
-
-...
-
-\subsection{Tests for Nonfunctional Requirements}
-
-\wss{If there is a module that needs to be independently assessed for
-  performance, those test cases can go here.  In some projects, planning for
-  nonfunctional tests of units will not be that relevant.}
-
-\wss{These tests may involve collecting performance data from previously
-  mentioned functional tests.}
-
-\subsubsection{Module ?}
-		
-\begin{enumerate}
-
-\item{test-id1\\}
-
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input/Condition: 
-					
-Output/Result: 
-					
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
-
-\end{enumerate}
-
-\subsubsection{Module ?}
-
-...
+The following link contains the unit tests for the modules specified above: \url{https://github.com/davimang/REACH/tree/main/src/backend/reach_backend/Api/tests}.
+The tests are well documented, with a descriptive name, and a docstring that specifies what the test is for, what module it is testing, and the id of the test for 
+traceability purposes.
 
 \subsection{Traceability Between Test Cases and Modules}
-
-\wss{Provide evidence that all of the modules have been considered.}
+\begin{longtable}{|p{7cm}|p{7cm}|}
+  \caption{Test Case-Module Traceability}\\ 
+  \hline
+  Test case & Module\\
+  \hline
+  UNT-1 & M3\\
+  \hline
+  UNT-2 & M3\\
+  \hline
+  UNT-3 & M3\\
+  \hline
+  UNT-4 & M3\\
+  \hline
+  UNT-5 & M2\\
+  \hline
+  UNT-6 & M2\\
+  \hline
+  UNT-7 & M1\\
+  \hline
+  UNT-8 & M1\\
+  \hline
+  UNT-9 & M4\\
+  \hline
+  UNT-10 & M4\\
+  \hline
+  UNT-11 & M4\\
+  \hline
+  UNT-12 & M4\\
+  \hline
+  UNT-13 & M4\\
+  \hline
+  UNT-14 & M4\\
+  \hline
+  UNT-15 & M5\\
+  \hline
+  UNT-16 & M5\\
+  \hline
+  UNT-17 & M5\\
+  \hline
+  UNT-18 & M5\\
+  \hline
+  UNT-19 & M5\\
+  \hline
+  UNT-20 & M5\\
+  \hline
+  UNT-21 & M4\\
+  \hline
+\end{longtable}
 
 \newpage
 				
