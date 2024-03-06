@@ -41,10 +41,10 @@ class TrialFilterer:
         studies['Distance'] = -1
         
         for i in studies.index:
-            studies.at[i, 'Distance'] = TrialFilterer.get_distance_km(
+            studies.at[i, 'Distance'] = round(TrialFilterer.get_distance_km(
                 studies.at[i, 'LocationLatitude'], studies.at[i, 'LocationLongitude'],
                 home_geo.latitude, home_geo.longitude
-            )
+            ), 2)
 
         max_distance = input_params.get('max_distance', 99999999)
         studies = studies[studies['Distance'] <= max_distance]

@@ -145,7 +145,7 @@ def search_trials(request):
     info_profile_id = int(query_params.get("info_id", 0))
     next_page = str(query_params.get("next_page", ""))
     user_id = int(query_params.get("user_id"))
-    max_distance = int(query_params.get("max_distance")) if query_params.get("max_distance") else None
+    max_distance = int(query_params.get("max_distance")) if query_params.get("max_distance") else 15000
     if not info_profile_id:
         return Response(
             "Patient information is required to make a search.",

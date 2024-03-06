@@ -45,7 +45,9 @@ export interface TrialInfo {
     BriefTitle: string;
     DetailedDescription: string;
     OverallStatus: string;
-    Distance: Array<number>;
+    Distance: number;
+    LocationLatitude: number;
+    LocationLongitude: number;
     KeywordRank: number;
     url: string;
     Rank: number;

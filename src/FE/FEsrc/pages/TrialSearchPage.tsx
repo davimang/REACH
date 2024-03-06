@@ -15,6 +15,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CircularProgress from '@mui/material/CircularProgress';
+import { ErrorMessage } from '../components/FormStyles';
 
 const TrialSearchHeader = styled.div`
     background-color: #213E80;
@@ -55,10 +56,13 @@ const DialogContentInfo = styled.div`
 `;
 
 const Loading = styled.div`
-margin: auto;
-height: 50%;
-width: 50%;
-padding: 10px;
+position: fixed;
+left: 50%;
+top: 50%;
+width: 100%;
+height: 100%;
+z-index: 9999;
+        
 `;
 
 const TrialSearchPage = () => {
@@ -75,6 +79,7 @@ const TrialSearchPage = () => {
     const[pageTokens, setPageTokens] = useState([""]);
     const [pageTokenPointer, setPageTokenPointer] = useState(0);
     const [maxDistance, setMaxDistance] = useState('');
+    const [profileError, setProfileError] = useState(false);
     const [modalDetails, setModalDetails] = useState({
         title: "",
         description: "",
@@ -101,11 +106,11 @@ const TrialSearchPage = () => {
                     description: trial.DetailedDescription ? trial.DetailedDescription: "N/A",
                     url: trial.url,
                     location: {
-                        latitude: trial.Distance[1],
-                        longitude: trial.Distance[2]
+                        latitude: trial.LocationLatitude,
+                        longitude: trial.LocationLongitude
                     },
                     status: "Recruiting",
-                    distance: trial.Distance[0],
+                    distance: trial.Distance,
                     nctid: trial.NCTId,
                     user: userId,
                     profile: selectedProfileId
@@ -166,6 +171,11 @@ const TrialSearchPage = () => {
     };
 
     const fetchTrials = async () => {
+        setResponseTrials(null);
+        if(!selectedProfileId) {
+            setProfileError(true);
+            return;
+        }
         try {
             setLoading(true);
             const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&next_page=${pageTokens[pageTokenPointer]}&max_distance=${maxDistance}`;
@@ -185,7 +195,7 @@ const TrialSearchPage = () => {
     const updateDefaultLocation = () => {
         if(responseTrials){
             const defaultTrial = responseTrials[0];
-            setCurrentLocation({latitude: defaultTrial.Distance[1], longitude: defaultTrial.Distance[2]});
+            setCurrentLocation({latitude: defaultTrial.LocationLatitude, longitude: defaultTrial.LocationLongitude});
         }
     }
 
@@ -270,6 +280,7 @@ const TrialSearchPage = () => {
                         setSelectedProfileId(e.target.value);
                         setResponseTrials(null);
                         resetPageTokens();
+                        setProfileError(false);
                     }
                 }
                 >
@@ -281,7 +292,7 @@ const TrialSearchPage = () => {
                         ))
                     }
                 </StyledDropDown>
-
+                {profileError && <ErrorMessage>Please select a profile.</ErrorMessage>}
                 <StyledDropDown 
                     value={maxDistance}
                     onChange={(e) => setMaxDistance(e.target.value)}
@@ -302,7 +313,7 @@ const TrialSearchPage = () => {
                 <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>
             </TrialSearchHeader>
 
-            {loading ? <Loading> <CircularProgress color="success" /> </Loading> : <div style={{ display: 'flex' }}>                
+            {loading ? <Loading> <CircularProgress size="5rem" color="success" /> </Loading> : <div style={{ display: 'flex' }}>                
                 <TrialsListContainer>
                     {displayTrials()}
                     {responseTrials && !loading && pageTokenPointer > 0 && <StyledButton onClick={e => {prevPage(e);}}>Previous Page</StyledButton>}
