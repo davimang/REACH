@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { API_URL } from '..';
 import { conditions } from '../components/Constants';
-import { FormContainer, Form, FormLabel, TextInput, AutocompleteInput, ButtonContainer, FormButton, DropDownInput, AutocompleteTextField, FormButtonDisabled, ErrorMessage } from '../components/FormStyles';
+import { FormContainer, Form, FormLabel, TextInput, AutocompleteInput, ButtonContainer, FormButton, DropDownInput, AutocompleteTextField, FormButtonDisabled, ErrorMessage, FormTitle, FormDisclaimerText, FormDisclaimerTitle } from '../components/FormStyles';
 import { checkEmpty, fieldValidation } from '../hooks/Validation';
+import { Conditions } from '../constants/ConditionFields';
+import AdvancedFormField, { FieldInfo } from '../components/AdvancedFormField';
 
 const ProfileCreationContainer = styled.div`
     min-width: fit-content;
@@ -19,28 +21,19 @@ const ProfileCreationPage = () => {
 
     const genderMapping = { 'Male': 'M', 'Female': 'F', 'Other': 'O' };
 
-    const [advancedInfoAsthma, setAdvancedInfoAsthma] = useState({
-        numExacerbations: 0,
-        numFlares: 0,
-        usesInhaler: false,
-        usesInjection: false,
-        isSmoker: false,
-        asthmaSeverity: '',
-        isEosinophilic: false,
-    });
+    const [advancedInfo, setAdvancedInfo] = useState({});
 
     const [formValues, setFormValues] = useState({
         user: userId,
         condition: '',
-        advancedInfo: advancedInfoAsthma
+        advancedInfo: advancedInfo
     });
 
-    const validateAddress = (value) => {
-        return value.split(',').length === 4;
-    };
-
     const nameField = fieldValidation(checkEmpty);
-    const addressField = fieldValidation(validateAddress);
+    const streetField = fieldValidation(checkEmpty);
+    const cityField = fieldValidation(checkEmpty);
+    const provinceField = fieldValidation(checkEmpty);
+    const postalCodeField = fieldValidation(checkEmpty);
     const dateOfBirthField = fieldValidation(checkEmpty);
     const genderField = fieldValidation(checkEmpty);
 
@@ -51,35 +44,15 @@ const ProfileCreationPage = () => {
     const addressErrorMessage = 'Invalid address, please enter a valid address in the format: street, city, province, postal code';
     const genericErrorMessage = 'This field cannot be empty';
 
-    const enableSubmit = nameField.valid && addressField.valid && dateOfBirthField.valid && genderField.valid;
-
-    const [isHidden, setIsHidden] = useState({ asthma: true, COPD: true });
-
-    const handleAdvancedInfo = () => {
-
-        if (formValues.condition == 'Asthma') {
-            setIsHidden({ COPD: true, asthma: false });
-        }
-        else if (formValues.condition == 'COPD') {
-            setIsHidden({ COPD: false, asthma: true });
-        }
-        else {
-            setIsHidden({ COPD: true, asthma: true });
-        }
-    };
-
-    const formatAddress = (address) => {
-        const splitAddress = address.split(',');
-        return {
-            street: splitAddress[0],
-            city: splitAddress[1],
-            province: splitAddress[2],
-            postalCode: splitAddress[3]
-        }
-    };
+    const enableSubmit = nameField.valid && streetField.valid && cityField.valid && provinceField.valid && postalCodeField.valid && dateOfBirthField.valid && genderField.valid;
 
     const createRequestOptions = () => {
-        const formattedAddress = formatAddress(addressField.value);
+        const formattedAddress = {
+            street: streetField.value,
+            city: cityField.value,
+            province: provinceField.value,
+            postalCode: postalCodeField.value
+        }
         const mappedGender = genderMapping[genderField.value];
         return {
             method: 'POST',
@@ -91,7 +64,7 @@ const ProfileCreationPage = () => {
                 title: nameField.value,
                 condition: formValues.condition,
                 address: formattedAddress,
-                advanced_info: advancedInfoAsthma
+                advanced_info: advancedInfo
             })
         };
     };
@@ -117,19 +90,39 @@ const ProfileCreationPage = () => {
     };
 
     useEffect(() => {
-        handleAdvancedInfo();
+        const temp = {};
+        Conditions[formValues.condition] && Object.values(Conditions[formValues.condition]).map((fieldVariable:{initial: string}, index) => {
+            const keys = Object.keys(Conditions[formValues.condition]);
+            temp[keys[index]] = fieldVariable.initial;
+            return temp;
+        })
+        setAdvancedInfo({...advancedInfo, ...temp})
     }, [formValues.condition]);
 
     useEffect(() => {
         if (error) {
             setError(false);
         }
-    }, [nameField.value, addressField.value, dateOfBirthField.value, genderField.value, formValues, advancedInfoAsthma]);
+    }, [nameField.value, streetField.value, cityField.value, provinceField.value, postalCodeField.value, dateOfBirthField.value, genderField.value, formValues, advancedInfo]);
 
     return (
         <>
             <ProfileCreationContainer>
                 <FormContainer>
+                    <FormTitle>New Patient Profile</FormTitle>
+                    <FormDisclaimerText>
+                        <FormDisclaimerTitle>
+                            <img
+                                src={require('../images/Exclaim.svg')}
+                                height={24}
+                                style={{ paddingRight: 5, paddingBottom: 5}}
+                            />
+                            <b style={{marginTop: 'auto', marginBottom: 'auto', textShadow: '1px 1px 1px black'}}>Please Note:</b>
+                        </FormDisclaimerTitle>
+                        Filling in this patient profile form allows users to save a patient's medical information in order 
+                        to more efficiently search for clinical trials. <b><u>Please keep privacy and confidentiality in mind 
+                        (i.e. use initials) when creating these patient profiles.</u></b>
+                    </FormDisclaimerText>
                     <Form onSubmit={handleSubmit}>
                         <FormLabel>Name</FormLabel>
                         <TextInput
@@ -140,16 +133,71 @@ const ProfileCreationPage = () => {
                             onBlur={nameField.handleBlur}
                         />
                         {nameField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
-
-                        <FormLabel>Address</FormLabel>
-                        <TextInput
-                            type='text'
-                            id='address'
-                            value={addressField.value}
-                            onChange={addressField.handleChange}
-                            onBlur={addressField.handleBlur}
-                        />
-                        {addressField.showErrorMessage && <ErrorMessage>{addressErrorMessage}</ErrorMessage>}
+                        
+                        <div>
+                            <div style={{display: 'flex'}}>
+                                <div>
+                                    <FormLabel>Street</FormLabel>
+                                    <TextInput
+                                        type='text'
+                                        id='street'
+                                        value={streetField.value}
+                                        onChange={streetField.handleChange}
+                                        onBlur={streetField.handleBlur}
+                                    />
+                                    {streetField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
+                                </div>
+                                <div style={{minWidth: 10}}/>
+                                <div style={{width: 125}}>
+                                    <FormLabel>City</FormLabel>
+                                    <TextInput
+                                        type='text'
+                                        id='city'
+                                        value={cityField.value}
+                                        onChange={cityField.handleChange}
+                                        onBlur={cityField.handleBlur}
+                                    />
+                                    {cityField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
+                                </div>
+                            </div>
+                            <div style={{display: 'flex'}}>
+                                <div>
+                                    <FormLabel>Province</FormLabel>
+                                    <DropDownInput
+                                        value={provinceField.value}
+                                        onChange={provinceField.handleChange}
+                                    >
+                                        <option value='' disabled>-- Select Province --</option>
+                                        <option value="Alberta">Alberta</option>
+                                        <option value="British Columbia">British Columbia</option>
+                                        <option value="Manitoba">Manitoba</option>
+                                        <option value="New Brunswick">New Brunswick</option>
+                                        <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+                                        <option value="Nova Scotia">Nova Scotia</option>
+                                        <option value="Northwest Territories">Northwest Territories</option>
+                                        <option value="Nunavut">Nunavut</option>
+                                        <option value="Ontario">Ontario</option>
+                                        <option value="Prince Edward Island">Prince Edward Island</option>
+                                        <option value="Quebec">Quebec</option>
+                                        <option value="Saskatchewan">Saskatchewan</option>
+                                        <option value="Yukon">Yukon</option>
+                                    </DropDownInput>
+                                    {provinceField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
+                                </div>
+                                <div style={{minWidth: 10}}/>
+                                <div>
+                                    <FormLabel>Postal Code</FormLabel>
+                                    <TextInput
+                                        type='text'
+                                        id='postalCode'
+                                        value={postalCodeField.value}
+                                        onChange={postalCodeField.handleChange}
+                                        onBlur={postalCodeField.handleBlur}
+                                    />
+                                    {postalCodeField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
+                                </div>
+                            </div>
+                        </div>
 
                         <FormLabel>Date of Birth</FormLabel>
                         <TextInput
@@ -161,12 +209,12 @@ const ProfileCreationPage = () => {
                         />
                         {dateOfBirthField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
 
-                        <FormLabel>Gender</FormLabel>
+                        <FormLabel>Sex</FormLabel>
                         <DropDownInput
                             value={genderField.value}
                             onChange={genderField.handleChange}
                         >
-                            <option value='' disabled>-- Select Gender --</option>
+                            <option value='' disabled>-- Select Sex --</option>
                             <option value='Male'>Male</option>
                             <option value='Female'>Female</option>
                             <option value='Other'>Other</option>
@@ -189,76 +237,22 @@ const ProfileCreationPage = () => {
                             }
                         />
 
-                        {!isHidden.asthma && (
-                            <>
-                                <FormLabel>Number of Exacerbations</FormLabel>
-                                <TextInput
-                                    type={'number'}
-                                    value={advancedInfoAsthma.numExacerbations}
-                                    onChange={(e) => {
-                                        setAdvancedInfoAsthma({ ...advancedInfoAsthma, numExacerbations: e.target.valueAsNumber })
-                                    }
-                                    }
-                                />
-                                <FormLabel>Number of Flares</FormLabel>
-                                <TextInput
-                                    type={'number'}
-                                    value={advancedInfoAsthma.numFlares}
-                                    onChange={(e) => {
-                                        setAdvancedInfoAsthma({ ...advancedInfoAsthma, numFlares: e.target.valueAsNumber })
-                                    }
-                                    }
-                                />
-                                <FormLabel>Uses Inhaler</FormLabel>
-                                <TextInput
-                                    style={{ width: 30, height: 30 }}
-                                    type={'checkbox'}
-                                    onChange={(e) => {
-                                        setAdvancedInfoAsthma({ ...advancedInfoAsthma, usesInhaler: e.target.checked })
-                                    }
-                                    }
-                                />
-                                <FormLabel>Uses Injection</FormLabel>
-                                <TextInput
-                                    style={{ width: 30, height: 30 }}
-                                    type={'checkbox'}
-                                    onChange={(e) => {
-                                        setAdvancedInfoAsthma({ ...advancedInfoAsthma, usesInjection: e.target.checked })
-                                    }
-                                    }
-                                />
-                                <FormLabel>Smoker</FormLabel>
-                                <TextInput
-                                    style={{ width: 30, height: 30 }}
-                                    type={'checkbox'}
-                                    onChange={(e) => {
-                                        setAdvancedInfoAsthma({ ...advancedInfoAsthma, isSmoker: e.target.checked })
-                                    }
-                                    }
-                                />
-                                <FormLabel>Asthma Severity</FormLabel>
-                                <DropDownInput
-                                    value={advancedInfoAsthma.asthmaSeverity}
-                                    onChange={(e) => {
-                                        setAdvancedInfoAsthma({ ...advancedInfoAsthma, asthmaSeverity: e.target.value })
-                                    }
-                                    }
-                                >
-                                    <option value='' disabled>-- Select Asthma Severity --</option>
-                                    <option value='Mild'>Mild</option>
-                                    <option value='Moderate'>Moderate</option>
-                                    <option value='Severe'>Severe</option>
-                                </DropDownInput>
-                                <FormLabel>Eosinophilic</FormLabel>
-                                <TextInput
-                                    style={{ width: 30, height: 30 }}
-                                    type={'checkbox'}
-                                    onChange={(e) => {
-                                        setAdvancedInfoAsthma({ ...advancedInfoAsthma, isEosinophilic: e.target.checked })
-                                    }
-                                    }
-                                />
-                            </>
+                        {Conditions[formValues.condition] && (
+                        <>
+                            {Object.values(Conditions[formValues.condition]).map((field: FieldInfo, index) => {
+                                const keys = Object.keys(Conditions[formValues.condition]);
+                                return (
+                                    <AdvancedFormField
+                                        key={index}
+                                        fieldInfo={field}
+                                        fieldVariable={keys[index]}
+                                        value={advancedInfo[keys[index]]}
+                                        advancedInfo={advancedInfo}
+                                        setAdvancedInfo={setAdvancedInfo}
+                                    />
+                                )
+                            })}
+                        </>
                         )}
 
                         {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
