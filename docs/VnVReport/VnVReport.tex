@@ -72,7 +72,36 @@
 
 \section{Functional Requirements Evaluation}
 
-\large{\textbf{User Data}}
+\noindent\large{\textbf{Authentication}}
+
+\normalsize
+
+\begin{enumerate}
+  \item AT-1
+  Result: \textcolor{green}{Passed} - The tester was able to successfully create an account, and was redirected to the next page, 
+  indicating that the account was created successfully. Therefore, this test was successful.
+  \item AT-2
+  Result: \textcolor{green}{Passed} - The tester was not able to create an account with an email that was already in use, 
+  and was blocked from clicking the register button. Therefore, this test was successful.
+  \item AT-3
+  Result: \textcolor{red}{Failed} - The tester was able to create an account with a password that did not meet the NIST guidelines. 
+  Therefore, this test failed.
+  \item AT-4
+  Result: \textcolor{green}{Passed} - The tester was able to successfully log in, the user was redirected to the home page, 
+  indicating that the login was successful. Therefore, this test was successful.
+  \item AT-5
+  Result: \textcolor{green}{Passed} - The tester was not able to log in with a username that did not exist, an error message was displayed,
+  and the user was not able to proceed to the next page. Therefore, this test was successful.
+  \item AT-6
+  Result: \textcolor{gray}{Not run} - Feature being tested was not yet implemented at the time of testing.
+  \item AT-7
+  Result: \textcolor{gray}{Not run} - Feature being tested was not yet implemented at the time of testing.
+  \item AT-8
+  Result: \textcolor{green}{Passed} - The tester was able to successfully log out, and was redirected to the login page. 
+  Therefore, this test was successful.
+\end{enumerate}
+
+\noindent\large{\textbf{User Data}}
 
 \normalsize
 
@@ -85,6 +114,15 @@
   that the updates are persistent, and so this test was successful.
   \item DT-3
   Result: \textcolor{gray}{Not run} - reason being that the database application we used will ensure the issue brought up by this test can never happen.\\
+\end{enumerate}
+
+\noindent\large{\textbf{Email}}
+
+\normalsize
+
+\begin{enumerate}
+  \item ET-1
+  Result: \textcolor{red}{Failed} - This feature was not implemented at the time of testing, and so the test was unsuccessful.
 \end{enumerate}
 
 \noindent{\large{\textbf{Program Information}}}
