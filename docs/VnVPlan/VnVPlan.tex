@@ -783,7 +783,7 @@ and keep track of how long it takes for the trials to load.
 					
 \item{PT-2\\}
 
-Type: Dynamic, Manual
+Type:  Manual
 					
 Initial State: N/A
 					
@@ -791,8 +791,7 @@ Input/Condition: API key available to authenticate against the API.
 					
 Output/Result: API calls should respond in less than 1 second.
 					
-How test will be performed: Using locust, simulate 1000 users concurrently searching for trials, and manually track 
-the max time recorded for a response from the API.
+How test will be performed: A tester will test each endpoint individually, and measure the response time. If all response times are below one second, the test passes.
 
 \end{enumerate}
 

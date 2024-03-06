@@ -125,8 +125,22 @@ Date 2 & 1.1 & Notes\\
 \subsection{Usability}
 		
 \subsection{Performance}
+\begin{enumerate}
+  \item PT-1 \textcolor{green}{Passed} - On average, the tests to load trials take on average 4.1 seconds. As this is below the benchmark of 5 seconds, the test passes.
+\item PT-2 \textcolor{green}{Passed} - All endpoints were tested manually to measure the time taken to establish connections between endpoints. All tests succeeded in under 1 second, so the tests pass.
+\end{enumerate}
 
-\subsection{etc.}
+\subsection{Maintainability}
+\begin{enumerate}
+  \item MT-1 \textcolor{red}{Failed} - Modified code in the pull request has been routinely and automatically linted by a Github CI component upon creation of pull requests. Some pull requests have been rejected by the linter, so the test fails.
+\end{enumerate}
+
+\subsection{Security}
+\begin{enumerate}
+  \item SEC-1 \textcolor{red}{Failed} - The tester entered the password "pass" which does not conform to the NIST guidelines. The password was accepted and the account was created, so the test fails.
+\item SEC-2 \textcolor{green}{Passed} - Two tests were run. Firstly, a tester with the correct password but incorrect username attempted to access the database. This test was successful as the tester was denied access to the database. Secondly, a tester with correct credentials attempted to log into the database. This attempt was successful, so the second part of the test was also successful.
+\end{enumerate}
+
 	
 \section{Comparison to Existing Implementation}	
 
