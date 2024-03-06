@@ -400,38 +400,38 @@ they should not be logged in.
 
 How test will be performed: Pre define a random username/password. Manually input these values and check the return value/output.
 
-% \item{AT-6\\}
-
-% Control: Manual
-					
-% Initial State: User is not signed in to the application, and would like to reset their password.
-					
-% Input: A valid email address.
-					
-% Output: The user should receive an email, containing a link which will allow them to reset their password.
-
-% Test Case Derivation: From FR-5, a user must receive an email when attempting to reset their password.
-
-% How test will be performed: Manually go on to the login page, enter an email address, and click reset password. Then, verify
-% that the email received is correct, and that the link takes the user to the reset password page.
-
-
-% \item{AT-6\\}
-
-% Control: Manual
-					
-% Initial State: User is not signed in to the application, and is about to reset their password.
-					
-% Input: A password that is different from the one currently tied to their account, satisfying the NIST guidelines.
-					
-% Output: The user's password should be reset, and they should be logged in to the application.
-
-% Test Case Derivation: From FR-5, a user must only be able to reset their password if the password they enter is new, and if it 
-% satisfies the NIST guidelines.
-
-% How test will be performed: Pre define a random email/password. Automated test to pass in these values and check the return value/output.
-
 \item{AT-6\\}
+
+Control: Manual
+					
+Initial State: User is not signed in to the application, and would like to reset their password.
+					
+Input: A valid email address.
+					
+Output: The user should receive an email, containing a link which will allow them to reset their password.
+
+Test Case Derivation: From FR-5, a user must receive an email when attempting to reset their password.
+
+How test will be performed: Manually go on to the login page, enter an email address, and click reset password. Then, verify
+that the email received is correct, and that the link takes the user to the reset password page.
+
+
+\item{AT-7\\}
+
+Control: Manual
+					
+Initial State: User is not signed in to the application, and is about to reset their password.
+					
+Input: A password that is different from the one currently tied to their account, satisfying the NIST guidelines.
+					
+Output: The user's password should be reset, and they should be logged in to the application.
+
+Test Case Derivation: From FR-5, a user must only be able to reset their password if the password they enter is new, and if it 
+satisfies the NIST guidelines.
+
+How test will be performed: Pre define a random email/password. Manually pass in these values and check the return value/output.
+
+\item{AT-8\\}
 
 Control: Manual
 					
@@ -446,19 +446,19 @@ Test Case Derivation: From FR-6, a user should be able to log out of the applica
 How test will be performed: Manually sign out of the application, and verify that it works.
 
 
-% \item{AT-9\\}
+\item{AT-9\\}
 
-% Control: Manual
+Control: Manual
 					
-% Initial State: User has created an account for the first time, or is logging in as a guest.
+Initial State: User has created an account for the first time, or is logging in as a guest.
 					
-% Input: N/A
+Input: N/A
 					
-% Output: The user is prompted to enter their personal data.
+Output: The user is prompted to enter their personal data.
 
-% Test Case Derivation: From FR-7, a user is prompted to enter personal information when creating an account or logging in as a guest.
+Test Case Derivation: From FR-7, a user is prompted to enter personal information when creating an account or logging in as a guest.
 
-% How test will be performed: Manually create an account and sign in as a guest, and verify the user is prompted.
+How test will be performed: Manually create an account and sign in as a guest, and verify the user is prompted.
 
 \end{enumerate}
 
