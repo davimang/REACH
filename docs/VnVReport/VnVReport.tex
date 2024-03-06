@@ -259,13 +259,26 @@ should be highlighted.}
 In terms of receiving feedback on our designs, our team has cultivated a diverse group of potential users 
 in order ascertain that our design is meeting the requirements of the primary stakeholders. 
 More specifically, throughout the term, 
-we held biweekly focus meetings with Dr. Ho and Dr. Scallan where we received crucial 
+we held biweekly focus meetings with our supervisors, Dr. Ho and Dr. Scallan, where we received crucial 
 pointers regarding key design issues in visibility, consistency and clarity. 
-For example, a salient piece of feedback that truly helped us in the development process
+
+A major component of our design, the map feature for displaying trial locations, 
+was not seriously considered until we received feedback from our supervisors. They impressed upon
+us the importance of having the feature fully functional early on in the development process.
+We thought this was the case after revision 0 and had tested that it was displaying locations
+accurately. However, we did not account for the resilience of the program and found that every few reloads
+the map might not show any results for trials. This was a major design issue
+especially because the majority of the trials had associated locations and as such this could not be
+attributed to anything but the way we embedded the map.  
+By unit testing this and gaining an understanding of the functionality at a granular level, 
+we were able to ensure that the map displayed 
+
+Another piece of feedback that helped us in the development process
 had to do with limiting distances for trial searches. Prior to this feedback, 
 we did not have a limit on how far away a trial could be. This potentially linked 
-users to trials that could be over 500 km away from their main address. It did not 
-cost us too much in terms of usability metrics (it was not a big factor) but by changing this 
+users to trials that could be over 500 km away from their main address. This issue did not 
+cost us too much in terms of usability metrics (it was not a big factor) but by changing it
+we improved user experience significantly as trial results were more relevant to users. 
 
 
 \section{Automated Testing}
