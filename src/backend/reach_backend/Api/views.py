@@ -20,7 +20,7 @@ from .serializers import (
 )
 from .trial_fetcher import TrialFetcher
 from .models import UserData, PatientInfo, Trial
-from .permissions import IsUser
+from .permissions import IsUser, IsUserObject
 
 trial_fetcher = TrialFetcher()
 
@@ -40,7 +40,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated, IsUser]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class UserRegistrationView(generics.CreateAPIView):
@@ -90,7 +90,7 @@ class UserDataViewSet(viewsets.ModelViewSet):
 
     queryset = UserData.objects.all()
     serializer_class = UserDataSerializer
-    permission_classes = [permissions.IsAuthenticated, IsUser]
+    permission_classes = [permissions.IsAuthenticated, IsUserObject]
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = UserDataFilter
 
