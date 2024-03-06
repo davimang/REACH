@@ -4,10 +4,9 @@ import { StyledButton, StyledButtonDisabled } from './ButtonStyle';
 
 export const FormContainer = styled.div`
   width: 20vw;
-  min-width: 300px;
-  padding: 25px;
+  min-width: 375px;
+  padding: 10px 25px;
   margin: auto;
-  margin-top: 80px;
   user-select: none;
 `;
 
@@ -15,6 +14,28 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: left;
+`;
+
+export const FormDisclaimerTitle = styled.div`
+  display: flex;
+  color: #E20000;
+  font-family: math;
+  font-size: 20px;
+  padding-bottom: 2px;
+`;
+
+export const FormDisclaimerText = styled.div`
+    background-color: #039D5F;
+    border-radius: 5px;
+    padding: 10px;
+    color: #EDF2F7;
+`;
+
+export const FormTitle = styled.div`
+  color: #EDF2F7;
+  font-weight: bold;
+  font-size: 26px;
+  margin-bottom: 15px;
 `;
 
 export const ButtonContainer = styled.div`
@@ -27,6 +48,7 @@ export const FormLabel = styled.label`
   color: #EDF2F7;
   font-weight: bold;
   margin-top: 15px;
+  display: flex;
 `;
 
 const inputSize = `
@@ -43,7 +65,7 @@ const inputBorder = `
 
 const font = `
   font-family: math;
-  font-size: 30px;
+  font-size: 18px;
 `;
 
 export const TextInput = styled.input`
@@ -93,16 +115,18 @@ export const FormButton = styled(StyledButton)`
   ${inputSize}
   width: 50%;
   ${font}
+  font-size: 30px;
 `;
 
 export const FormButtonDisabled = styled(StyledButtonDisabled)`
   ${inputSize}
   width: 50%;
   ${font}
+  font-size: 30px;
 `;
 
 export const ErrorMessage = styled.div`
   color: red;
   font-family: math;
-  font-size: 20px;
+  font-size: 18px;
 `;
