@@ -52,13 +52,17 @@ interface UserData {
 
 const ListProfiles: React.FC = () => {
 
-  const userId = localStorage.getItem('userId') ? localStorage.getItem('userId') : 1;
+  const userId = localStorage.getItem('userId');
   const [profiles, setProfiles] = useState<PatientProfile[]>([]);
   const [userData, setUserData] = useState<UserData>({ first_name: 'name', last_name: 'name', created: 'date' });
+  const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
   const fetchProfilesList = () => {
     try {
       const endpoint = `/patientinfo/?user=${userId}`;
+      const requestOptions = {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      };
       fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => { setProfiles(response) });
       console.log(profiles)
     } catch (error) {
@@ -69,12 +73,19 @@ const ListProfiles: React.FC = () => {
   const fetchUserData = () => {
     try {
       const endpoint = `/userdata/${userId}/`;
+      const requestOptions = {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      };
       fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => { setUserData(response) });
       console.log(userData)
     } catch (error) {
       console.error('Error fetching account info:', error.message);
     }
   }
+
+  useEffect(() => {
+    setAuthToken(localStorage.getItem('accessToken'));
+  }, [localStorage.getItem('accessToken')]);
 
   useEffect(() => {
     fetchProfilesList();

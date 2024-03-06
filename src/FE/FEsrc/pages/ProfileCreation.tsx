@@ -29,6 +29,8 @@ const ProfileCreationPage = () => {
         advancedInfo: advancedInfo
     });
 
+    const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
+
     const nameField = fieldValidation(checkEmpty);
     const streetField = fieldValidation(checkEmpty);
     const cityField = fieldValidation(checkEmpty);
@@ -56,7 +58,7 @@ const ProfileCreationPage = () => {
         const mappedGender = genderMapping[genderField.value];
         return {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
             body: JSON.stringify({
                 date_of_birth: dateOfBirthField.value,
                 user: formValues.user,
@@ -91,12 +93,12 @@ const ProfileCreationPage = () => {
 
     useEffect(() => {
         const temp = {};
-        Conditions[formValues.condition] && Object.values(Conditions[formValues.condition]).map((fieldVariable:{initial: string}, index) => {
+        Conditions[formValues.condition] && Object.values(Conditions[formValues.condition]).map((fieldVariable: { initial: string }, index) => {
             const keys = Object.keys(Conditions[formValues.condition]);
             temp[keys[index]] = fieldVariable.initial;
             return temp;
         })
-        setAdvancedInfo({...advancedInfo, ...temp})
+        setAdvancedInfo({ ...advancedInfo, ...temp })
     }, [formValues.condition]);
 
     useEffect(() => {
@@ -104,6 +106,10 @@ const ProfileCreationPage = () => {
             setError(false);
         }
     }, [nameField.value, streetField.value, cityField.value, provinceField.value, postalCodeField.value, dateOfBirthField.value, genderField.value, formValues, advancedInfo]);
+
+    useEffect(() => {
+        setAuthToken(localStorage.getItem('accessToken'));
+    }, [localStorage.getItem('accessToken')]);
 
     return (
         <>
@@ -115,13 +121,13 @@ const ProfileCreationPage = () => {
                             <img
                                 src={require('../images/Exclaim.svg')}
                                 height={24}
-                                style={{ paddingRight: 5, paddingBottom: 5}}
+                                style={{ paddingRight: 5, paddingBottom: 5 }}
                             />
-                            <b style={{marginTop: 'auto', marginBottom: 'auto', textShadow: '1px 1px 1px black'}}>Please Note:</b>
+                            <b style={{ marginTop: 'auto', marginBottom: 'auto', textShadow: '1px 1px 1px black' }}>Please Note:</b>
                         </FormDisclaimerTitle>
-                        Filling in this patient profile form allows users to save a patient's medical information in order 
-                        to more efficiently search for clinical trials. <b><u>Please keep privacy and confidentiality in mind 
-                        (i.e. use initials) when creating these patient profiles.</u></b>
+                        Filling in this patient profile form allows users to save a patient's medical information in order
+                        to more efficiently search for clinical trials. <b><u>Please keep privacy and confidentiality in mind
+                            (i.e. use initials) when creating these patient profiles.</u></b>
                     </FormDisclaimerText>
                     <Form onSubmit={handleSubmit}>
                         <FormLabel>Name</FormLabel>
@@ -133,9 +139,9 @@ const ProfileCreationPage = () => {
                             onBlur={nameField.handleBlur}
                         />
                         {nameField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
-                        
+
                         <div>
-                            <div style={{display: 'flex'}}>
+                            <div style={{ display: 'flex' }}>
                                 <div>
                                     <FormLabel>Street</FormLabel>
                                     <TextInput
@@ -147,8 +153,8 @@ const ProfileCreationPage = () => {
                                     />
                                     {streetField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
                                 </div>
-                                <div style={{minWidth: 10}}/>
-                                <div style={{width: 125}}>
+                                <div style={{ minWidth: 10 }} />
+                                <div style={{ width: 125 }}>
                                     <FormLabel>City</FormLabel>
                                     <TextInput
                                         type='text'
@@ -160,7 +166,7 @@ const ProfileCreationPage = () => {
                                     {cityField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
                                 </div>
                             </div>
-                            <div style={{display: 'flex'}}>
+                            <div style={{ display: 'flex' }}>
                                 <div>
                                     <FormLabel>Province</FormLabel>
                                     <DropDownInput
@@ -184,7 +190,7 @@ const ProfileCreationPage = () => {
                                     </DropDownInput>
                                     {provinceField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
                                 </div>
-                                <div style={{minWidth: 10}}/>
+                                <div style={{ minWidth: 10 }} />
                                 <div>
                                     <FormLabel>Postal Code</FormLabel>
                                     <TextInput
@@ -238,21 +244,21 @@ const ProfileCreationPage = () => {
                         />
 
                         {Conditions[formValues.condition] && (
-                        <>
-                            {Object.values(Conditions[formValues.condition]).map((field: FieldInfo, index) => {
-                                const keys = Object.keys(Conditions[formValues.condition]);
-                                return (
-                                    <AdvancedFormField
-                                        key={index}
-                                        fieldInfo={field}
-                                        fieldVariable={keys[index]}
-                                        value={advancedInfo[keys[index]]}
-                                        advancedInfo={advancedInfo}
-                                        setAdvancedInfo={setAdvancedInfo}
-                                    />
-                                )
-                            })}
-                        </>
+                            <>
+                                {Object.values(Conditions[formValues.condition]).map((field: FieldInfo, index) => {
+                                    const keys = Object.keys(Conditions[formValues.condition]);
+                                    return (
+                                        <AdvancedFormField
+                                            key={index}
+                                            fieldInfo={field}
+                                            fieldVariable={keys[index]}
+                                            value={advancedInfo[keys[index]]}
+                                            advancedInfo={advancedInfo}
+                                            setAdvancedInfo={setAdvancedInfo}
+                                        />
+                                    )
+                                })}
+                            </>
                         )}
 
                         {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
