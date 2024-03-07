@@ -280,13 +280,15 @@ to the platform that will center on UI/UX improvements from a front-end lens.
 
 \section{Automated Testing}
 Using pipelines, we streamlined our testing process via the integration of unit 
-testing into our linter workflow. Pytest was used as a testing framework
+testing into our linter workflow. Before merging our code into the main branch, we adhere
+to running multistage pipelines that lint and use use pytest to test our code.
+Pytest serves as our testing framework
 due to its robust nature and automation capabilities. Additionally, the key functionality we tested includes (but is not limited to)
-filters, saving trials, profile creation, and age and distance calculations. 
-
-Pytest, having a high degree of organization and flexibility in terms of execution is perfect
+filters, saving trials, profile creation, and age and distance calculations. Pytest, having a high degree of organization and flexibility 
+in terms of execution, is perfect
 for our particular use case. It simplifies the process of running multiple tests and interpreting results
 allowing for better collaboration and clarity between team members. 
+
 
 \section{Trace to Requirements}
 
