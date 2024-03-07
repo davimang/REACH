@@ -6,6 +6,7 @@ import UserDataCard from '../components/UserDataCard';
 import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import { StyledButton } from '../components/ButtonStyle';
+import { PatientInfo } from '../components/types';
 
 const AccountProfilePageContainer = styled.div`
     display: flex;
@@ -38,12 +39,6 @@ const SizedButton = styled(StyledButton)`
     margin-left: 4em;
 `;
 
-
-interface PatientProfile {
-  title: string;
-  condition: string;
-}
-
 interface UserData {
   first_name: string;
   last_name: string;
@@ -53,7 +48,7 @@ interface UserData {
 const ListProfiles: React.FC = () => {
 
   const userId = localStorage.getItem('userId') ? localStorage.getItem('userId') : 1;
-  const [profiles, setProfiles] = useState<PatientProfile[]>([]);
+  const [profiles, setProfiles] = useState<PatientInfo[]>([]);
   const [userData, setUserData] = useState<UserData>({ first_name: 'name', last_name: 'name', created: 'date' });
 
   const fetchProfilesList = () => {
@@ -90,9 +85,9 @@ const ListProfiles: React.FC = () => {
       <ProfileListContainer>
         <Header>Profiles</Header>
         {profiles.map((profile, index) => (
-          <UserProfileCard key={index} name={`${profile.title}`} condition={`${profile.condition}`} />
+          <UserProfileCard key={index} profile={profile} />
         ))}
-        <Link to='/createProfile'>
+        <Link to={`/createProfile`}>
           <SizedButton>Add Profile</SizedButton>
         </Link>
       </ProfileListContainer>

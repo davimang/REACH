@@ -30,7 +30,7 @@ export interface PatientInfo {
     date_of_birth: string;
     address: Address;
     gender: string;
-    advanced_info: number; // TODO: will be dict of advanced info - must update this type later
+    advanced_info: Object;
     title: string;
     condition: string;
     user: number;
