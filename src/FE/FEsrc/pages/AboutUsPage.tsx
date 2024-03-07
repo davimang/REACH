@@ -29,7 +29,6 @@ const AboutUsPage = () => {
                     difficulties in accessing information about studies and suboptimal 
                     connectivity between research teams, healthcare providers, and patients. 
                 </p>
-                <h1>The Team</h1>
                 <p>REACH was developed by a team of final year Software Engineering students as part 
                     of an 8-month long course, who were supervised by two Respirologists - Drs. Terence 
                     Ho and Ciaran Scallan from McMaster University. It was created to make it easier for 
