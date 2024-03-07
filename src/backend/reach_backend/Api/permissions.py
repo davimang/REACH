@@ -17,6 +17,13 @@ class IsUser(BasePermission):
         return user_id == request.user.id
 
 
+class IsProfileUser(BasePermission):
+
+    def has_permission(self, request, view):
+        if request.query_params.get("profile_id") is not None:
+            user_id = int(request.query_params.get("profile_id", 0))
+
+
 class IsUserObject(BasePermission):
     """Custom permission class to allow only users to view or edit their own data."""
 
