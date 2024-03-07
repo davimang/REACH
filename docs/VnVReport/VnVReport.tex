@@ -1,5 +1,6 @@
 \documentclass[12pt, titlepage]{article}
 
+\usepackage{fullpage}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
@@ -11,6 +12,9 @@
     linkcolor=red,
     urlcolor=blue
 }
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage{float}
 \usepackage[round]{natbib}
 
 \input{../Comments}
@@ -187,6 +191,15 @@ The following tests were conducted as part of the usability test:
   \item UT-11 \textcolor{green}{Passed} - On average, the usability test participants rated their ease to complete this test (navigating to the REACH home page) a 5/5 on average. As this is above the minimum rating of 3.5/5, the test passes.
   \item UT-12 \textcolor{green}{Passed} - On average, 100\% of users did not report any issues navigating the interface after changing their preferred language. As this is above the minimum 95\% of users, the test passes.
 \end{enumerate}
+
+The following graph summarizes and displays the results of the usability test (visualizing the passed/failed tests UT-1 to UT-11):
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{images/AverageRatingsUT.png}
+  \caption{Average Participants Ratings for Tests in Usability Test}
+  \label{fig:figure1}
+\end{figure}
 		
 \subsection{Performance}
 \begin{enumerate}
