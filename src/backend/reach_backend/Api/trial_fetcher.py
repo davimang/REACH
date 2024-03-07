@@ -141,7 +141,6 @@ class TrialFetcher:
         ]
         studies.sort_values(by='Distance', ascending=True, inplace=True)
         studies.reset_index(inplace=True, drop=True)
-        studies.to_csv("sorted.csv")
         results_json = studies.to_dict(orient='index')  # convert to json
         return results_json  # return
 

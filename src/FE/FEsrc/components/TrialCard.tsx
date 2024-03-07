@@ -17,7 +17,7 @@ const TrialCard: React.FC<TrialProps> = ({ trial, trialSaved, handleSave, setCur
                 <TrialTitle
                     onClick={(e) => {
                         e.preventDefault();
-                        setCurrentLocation({latitude: trial.Distance[1], longitude: trial.Distance[2]});
+                        setCurrentLocation({latitude: trial.LocationLatitude, longitude: trial.LocationLongitude});
                     }
                 }
                 >
@@ -47,7 +47,7 @@ const TrialCard: React.FC<TrialProps> = ({ trial, trialSaved, handleSave, setCur
                 <TrialLocation>
                     <LocationImage src={require('../images/Location.svg')} />
                     <LocationText>
-                        <b style={{ color: 'white' }}>{trial.Distance[0]} km</b>
+                        <b style={{ color: 'white' }}>{trial.Distance} km</b>
                         <div style={{ fontSize: 14, color: '#BDBDBD' }}>from you</div>
                     </LocationText>
                 </TrialLocation>

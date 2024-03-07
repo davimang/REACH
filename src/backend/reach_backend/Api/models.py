@@ -34,9 +34,9 @@ class PatientInfo(models.Model):
     gender = models.CharField(max_length=1, choices=Gender.choices)
     advanced_info = models.JSONField(null=True)
     # title for the information profile
-    title = models.CharField(max_length=20, default="")
+    title = models.CharField(max_length=50, default="")
     # for now, one condition per profile
-    condition = models.CharField(max_length=30, default="")
+    condition = models.CharField(max_length=100, default="")
 
 
 class Trial(models.Model):
