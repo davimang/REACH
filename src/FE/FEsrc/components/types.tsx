@@ -76,3 +76,10 @@ export interface SavedTrial {
     status: string;
     location: Object;
 }
+
+export interface UserData {
+    first_name: string;
+    last_name: string;
+    is_clinician: boolean;
+    created: string;
+}

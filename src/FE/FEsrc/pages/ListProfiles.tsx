@@ -7,6 +7,7 @@ import styled from '@emotion/styled';
 import { Button } from '@mui/material';
 import { StyledButton } from '../components/ButtonStyle';
 import { PatientInfo } from '../components/types';
+import { UserData } from '../components/types';
 
 const AccountProfilePageContainer = styled.div`
     display: flex;
@@ -39,17 +40,11 @@ const SizedButton = styled(StyledButton)`
     margin-left: 4em;
 `;
 
-interface UserData {
-  first_name: string;
-  last_name: string;
-  created: string;
-}
-
 const ListProfiles: React.FC = () => {
 
   const userId = localStorage.getItem('userId') ? localStorage.getItem('userId') : 1;
   const [profiles, setProfiles] = useState<PatientInfo[]>([]);
-  const [userData, setUserData] = useState<UserData>({ first_name: 'name', last_name: 'name', created: 'date' });
+  const [userData, setUserData] = useState<UserData>({first_name: "", last_name: "", created: "", is_clinician: false});
 
   const fetchProfilesList = () => {
     try {
@@ -80,7 +75,7 @@ const ListProfiles: React.FC = () => {
 
     <AccountProfilePageContainer>
       <UserDataContainer>
-        <UserDataCard firstName={`${userData.first_name}`} lastName={`${userData.last_name}`} createdDate={`${userData.created}`} />
+        <UserDataCard userData={userData} />
       </UserDataContainer>
       <ProfileListContainer>
         <Header>Profiles</Header>

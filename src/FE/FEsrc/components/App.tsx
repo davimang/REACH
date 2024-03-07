@@ -15,6 +15,7 @@ import SaveTrialsPage from '../pages/SavedTrialsPage';
 import ProfileCreationPage from '../pages/ProfileCreation';
 import ListProfiles from '../pages/ListProfiles';
 import EditProfilePage from '../pages/EditProfilePage';
+import EditAccountInfoPage from '../pages/EditAccountInfoPage';
 
 function App() {
 
@@ -33,7 +34,8 @@ function App() {
                     <Route path='/savedTrials' element={<SaveTrialsPage />} />
                     <Route path='/createProfile' element={<ProfileCreationPage />} /> 
                     <Route path='/listprofiles' element={<ListProfiles />} />
-                    <Route path='/editProfile' element={<EditProfilePage />} /> 
+                    <Route path='/editProfile' element={<EditProfilePage />} />
+                    <Route path='/editAccount' element={<EditAccountInfoPage/>} />  
                 </Routes>
             </BrowserRouter>
         </AuthProvider>
