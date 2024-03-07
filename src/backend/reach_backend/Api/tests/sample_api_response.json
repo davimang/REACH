@@ -1,0 +1,509 @@
+{
+    "studies": [
+        {
+            "protocolSection": {
+                "identificationModule": {
+                    "nctId": "NCT05369832",
+                    "briefTitle": "An Open-label Study of Ozanimod in Moderate to Severe Ulcerative Colitis in Clinical Practice"
+                },
+                "statusModule": {
+                    "overallStatus": "RECRUITING"
+                },
+                "sponsorCollaboratorsModule": {
+                    "responsibleParty": {}
+                },
+                "descriptionModule": {},
+                "conditionsModule": {
+                    "conditions": [
+                        "Colitis, Ulcerative"
+                    ],
+                    "keywords": [
+                        "Ulcerative Colitis",
+                        "Ozanimod",
+                        "RPC-1063",
+                        "Zeposia®",
+                        "Inflammatory bowel disease"
+                    ]
+                },
+                "eligibilityModule": {
+                    "sex": "ALL",
+                    "minimumAge": "18 Years"
+                },
+                "contactsLocationsModule": {
+                    "centralContacts": [
+                        {
+                            "email": "Clinical.Trials@bms.com"
+                        },
+                        {}
+                    ],
+                    "locations": [
+                        {
+                            "city": "Dothan",
+                            "state": "Alabama",
+                            "zip": "36305-1156",
+                            "country": "United States"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "protocolSection": {
+                "identificationModule": {
+                    "nctId": "NCT04034732",
+                    "briefTitle": "MBRP on Reducing Craving and Addictive Behaviour in Adults"
+                },
+                "statusModule": {
+                    "overallStatus": "RECRUITING"
+                },
+                "sponsorCollaboratorsModule": {
+                    "responsibleParty": {
+                        "investigatorFullName": "Daisy Dexing Zhang"
+                    }
+                },
+                "descriptionModule": {
+                    "detailedDescription": "Overall Study Design This is a feasibility study and it is a single-blinded, randomized controlled trial with two study arms: the mindfulness-based relapse prevention (MBRP) programme led by trained mindfulness instructors and a usual care control group (UCCG). The MBRP will last for 8 weeks and outcome measures will be collected at similar time points in both the MBRP and UCCG groups (baseline, immediately post intervention, at 3 months post intervention, 6 months post intervention, 9 months post intervention and 12 months post intervention) . Qualitative focus group discussions or individual interviews will be conducted to obtain feedback of the MBRP programme from participants after the MBRP course. The study design, implementation and result reporting will follow the recommendations from the Standard Protocol Items Recommendations for Interventional Trials (SPIRIT), Consolidated Standards of Reporting Trials (CONSROT), and Consolidated criteria for reporting qualitative research (COREQ).\n\nSubjects Recruitment Process To increase the representativeness of the recruited participants with substance abuse disorder, study team will recruit the study's participants from the Counselling Centres for Psychotropic Substance Abusers (CCPSAs), residential detoxification centres, other non-governmental organisations (NGOs) that provide outreach or counselling services to psychotropic substance users, and substance abuse clinics (SACs). Similar approaches for recruitment have been adopted in previous local studies. Clients who receive services at the CCPSAs or the participating NGOs and SACs will be invited to be screened by the senior research assistant (RA) to determine eligibility to enrol in the study. The senior research assistant will visit the centres to identify all eligible subjects, invite them to participate and they will then be invited to be screened further for eligibility by a clinician and obtain their written consent.\n\nIntervention and Control Mindfulness-based Relapses Prevention (MBRP) The MBRP program will be delivered by an instructor with training in MBSR/MBCT who has more than two years of teaching experience in MBSR/MBCT. MBRP programme consists of two-and-a-half-hour weekly sessions for eight weeks with the objective and activity of each session described in Appendix A and the manualized MBRP programme will be used with each session having a central theme, with meditation practices and related relapse prevention exercises and discussions. Themes will include the concept of \"automatic pilot\" and its relationship to addiction relapse, recognizing thoughts and emotions in relation to triggers of relapse, integrating mindfulness practices into daily activities, practicing mindfulness skills in high risk situations and the role of thoughts and emotions in relapse. Each class will consist of between 10-12 participants. The program will also include daily homework exercises that consist of guided (taped) or unguided awareness exercises directed at increasing moment-by-moment non-judgmental awareness of bodily sensations, thoughts and feelings, together with exercises designed to integrate the application of awareness skills into daily life. The mindfulness curriculum will include training in mindfulness through (1) a body scan, the gradual moving of attention through the body from head to feet while lying on a mat on the floor, brining awareness particularly to bodily sensations; (2) sitting meditation, in which attention is brought to breathing sensations and the flow of bodily sensations, thoughts, and emotions; and (3) mindful stretching exercises, to cultivate awareness during simple stretching movement. The key themes of MBRP will include the empowerment of participants and a focus on awareness and acceptance of experience at the present moment. Participants are guided to develop a \"decentered\" perspective on thoughts and feelings, in which these are viewed as passing events in the mind. Two to four mindfulness instructors will be hired for the MBRP courses, which can provide with better generalisibility of the intervention.\n\nFidelity Check of MBRP Fidelity check will be conducted by randomly selecting 25% of the MBRP courses and scoring the courses using a checklist specifically designed for the MBRP course with reference to our previous mindfulness-based interventional course checklists.\n\nUsual Care Control Group (UCCG) Participants in the UCCG condition will remain in their standard outpatient aftercare provided by the treatment agency with an aim to maintain their abstinence with the help from social workers or other healthcare professionals through different activities, such as topics on life training skills such as rational thinking skills, grief and loss, assertiveness, self esteem, goal setting, effects of drugs on interpersonal relationships and experience. Frequency of their visits to / contacts with healthcare professionals will be recorded.\n\nCourse Attendance, Participant Feedback and Qualitative Components Course attendances will be recorded. A questionnaire will be used to assess course satisfaction at the end of the 8 week course using a 10 point Likert scale ranging from \"Not at all\" to \"Very\". Questions will include: How important is this program to you?\" and \"How likely are you going to continue engaging in mindfulness practice after this course?\" and \"Would you recommend this course to your friends or people affected with addiction problems?\". Furthermore, qualitative focus group discussions lasting for about one hour will be conducted after the course and moderated by an experienced research assistant in running focus group discussions with the support of another one in taking field notes. The discussions will be audio-recorded to ensure data accuracy. A topic guide will be used which covers open-ended questions categorized by the following topics: overall viewpoints; practice of mindfulness; perceived facilitators and barriers when applying mindfulness skills; perceived changes after the course and suggestions for improvement. For those who are not in the last course, a 30-minute individual interview through telephone will be invited. Personal preferences will be highly respected during the qualitative focus group discussions and interviews. Participants can choose to talk as much or little as they wish, or request for not recording any comments already been expressed.\n\nAll the quantitative assessments used in this study are widely used validated tools among drug users or used in our previous studies. Data will be gathered from structured interviews administered by a trained research assistant and clinician. The assessment components will include the following items.\n\nBasic demographic data (age, sex, education, employment, marital status, district of residence, smoking and drinking status) will be collected. A trained clinician will administer the Structured Clinical Interview for DSM-5 (SCID-5 for DSM-5) to assess substance abuse and dependence and other disorders at the eligibility screening interview.\n\nThe quantitative primary and secondary outcome measures will be collected at baseline and at eight weeks (end of intervention), and at three, six, nine and twelve months after completing the MBRP by a blinded research assistant who does not know the outcome of the random group allocation.\n\nData analyses Descriptive statistics of the characteristics of all subjects will be computed and the demographic and clinical data of the two groups (MBRP and UCCG) will be compared via χ2 test. Student's t-tests will be employed to analyse the baseline psychological data of the two groups. Linear mixed models will be used to analyse effects of the MBRP compared to UCCG on primary and secondary outcomes, as well as potential influencing factors of the changes in outcomes, including age, sex, severity and duration of drug use, abuse of other drugs and duration of abstinence at baseline. Finally, study team will examine the correlation between the psychological parameters (secondary outcome measures) and drug craving as well as correlation between psychological parameters and drug abstinence. Intention to treat and modified intention to treat analyses would be applied. The significance level will be set at p \\< 0.05 (two sides).\n\nFor qualitative results, the audio recordings will be transcribed verbatim. A quality check will be completed independently by another research assistant. Framework analysis will be used by first reading through the transcripts and field notes to become familiar with the data by two researchers, then conceptualizing the themes and subthemes and piloted coding with the themes. Based on similarities and differences between initial themes, the themes and subthemes will be finalized which will include: comments on the course, home practice, changes after the course, barriers and facilitators for course participation and compliance and suggestions for course improvement. Any discrepancies will be discussed and a consensus will be reached within the team. The results will be then finally summarized and interpreted."
+                },
+                "conditionsModule": {
+                    "conditions": [
+                        "Substance Abuse",
+                        "Substance Use Disorders"
+                    ],
+                    "keywords": [
+                        "Mindfulness-based intervention",
+                        "Mindfulness",
+                        "Relapse prevention"
+                    ]
+                },
+                "eligibilityModule": {
+                    "sex": "ALL",
+                    "minimumAge": "18 Years",
+                    "maximumAge": "70 Years"
+                },
+                "contactsLocationsModule": {
+                    "centralContacts": [
+                        {
+                            "email": "zhangdxdaisy@cuhk.edu.hk"
+                        }
+                    ],
+                    "locations": [
+                        {
+                            "city": "Hong Kong",
+                            "country": "Hong Kong"
+                        },
+                        {
+                            "city": "Hong Kong",
+                            "country": "Hong Kong"
+                        },
+                        {
+                            "city": "Hong Kong",
+                            "country": "Hong Kong"
+                        },
+                        {
+                            "city": "Hong Kong",
+                            "country": "Hong Kong"
+                        },
+                        {
+                            "city": "Hong Kong",
+                            "country": "Hong Kong"
+                        },
+                        {
+                            "city": "Hong Kong",
+                            "country": "Hong Kong"
+                        },
+                        {
+                            "city": "Hong Kong",
+                            "country": "Hong Kong"
+                        },
+                        {
+                            "city": "Hong Kong",
+                            "country": "Hong Kong"
+                        },
+                        {
+                            "city": "Hong Kong",
+                            "country": "Hong Kong"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "protocolSection": {
+                "identificationModule": {
+                    "nctId": "NCT06204432",
+                    "briefTitle": "Sodium Citrate in Smell Retraining for People With Post-COVID-19 Olfactory Dysfunction"
+                },
+                "statusModule": {
+                    "overallStatus": "RECRUITING"
+                },
+                "sponsorCollaboratorsModule": {
+                    "responsibleParty": {}
+                },
+                "descriptionModule": {
+                    "detailedDescription": "Background: Loss of sense of smell is a hallmark of COVID-19 infection. While about 80% of post-COVID olfactory dysfunction (OD) will experience some spontaneous recovery within 2 months of initial infection, about 20% will continue to suffer long-term.1 Participants with persistent OD suffer great disability including loss of pleasure with eating leading to weight loss and/or gain and other health risks, including possible dementia. Further, loss of smell may lead to harm, with chief examples of inability to smell gas leaks or food that has gone bad. Currently, use of \"smell retraining\" is recognized internationally as the most accepted method to treat patients with OD, including post-viral or post-infectious OD.2 Some authors have extrapolated that smell retraining may be of benefit in post-COVID OD, however, data is sparse.3\n\nIncreased extracellular calcium has been shown to inhibit the olfaction cascade occurring in the nose by either phosphorylating adenylate cyclase or by interacting and decreasing cyclic nucleotide-gated channels sensitivity to cyclin nucleotides. Several studies have been performed to date using sodium citrate administered as a nasal spray to effectively reduce extracellular calcium resulting in temporary sense of smell benefit in those who have smell loss from a variety of causes, most significantly, post-viral or post-infectious loss (PIOD).\n\nSeveral studies over the last two decades have examined the effect of sodium citrate on olfactory function in those with OD (mainly post-infectious OD) all of which have shown acute improvement in smell, peaking typically around 1 hour after application.4-7 Most recently, in 2021 Whitcroft et al conducted a controlled clinical trial on 60 PIOD participants. They applied sodium citrate intranasal spray to participants' right nostril for two weeks and olfaction was evaluated by Sniffin' Sticks composite TDI score both before the trial and after 2 weeks of sodium citrate use. They found a significant improvement in TDI score, though not reaching clinical significance. Further, while the proportion of participants reporting parosmia did not change, there was a significant reduction in participants reporting phantosmia.8\n\nThe hypothesis is that the administration of sodium citrate to the nasal cavity, providing a temporary improvement in sense of smell, before the performance of smell retraining may augment its effects and yield better recovery in post-COVID-19 OD.\n\nPurpose: The goal of this pilot study is to assess the feasibility and impact of using sodium citrate nasal spray as an adjunct to olfactory retraining in participants with long-term post-COVID-19 olfactory dysfunction.\n\nParticipants: Adults (\\> 18 years) with \\> 3 months of subjective olfactory loss.\n\nMethods: All participants will undergo initial smell testing with the University of Pennsylvania Smell Identification Test (UPSIT) to confirm smell loss before enrollment.\n\nFollowing screening and consent, enrollment will involve collecting participant data such as medication allergies, time between COVID-19 infection and smell loss, previous smell loss therapies tried, presence of gustatory dysfunction, and use of paxlovid. Participants; olfaction will then be objectively evaluated using \"Sniffin' Sticks,\" a validated psychophysical tool that allows for more detailed assessment of odor threshold, discrimination, and identification.\n\nParticipants will be randomized into two groups and blinded. The Sodium Citrate arm will apply a nasal spray of sodium citrate (0.5 mL per nostril) and then perform olfactory training exercises, twice a day for 12 weeks The Normal Saline arm will apply a spray of normal saline (0.5 mL per nostril) and then perform olfactory training exercises, twice a day for 12 weeks. Olfactory training will involve mindful inhalation of 4 primary odortants (lavender, clove, eucalyptus, and lemon), at least 20 seconds for each.\n\nAll materials will be provided by AdvancedRx, who will also perform the randomization to ensure investigators are blind as well. Nasal sprays will be shipped in 1-month quantities and adherence will be checked at the end of each month by assessing the amount of spray left in each bottle. During the 12 weeks, at days 7, 28, and 56, investigators will contact the participants to discuss if any adverse events have occurred.\n\nAt the end of the 12 weeks, \"Sniffin' Sticks\" assessment will be repeated, and results compared within and between the groups. Also, the number of eligible participants encountered, the number enrolled, the number who completed the study, the adherence rate, and the adverse event rates will be assessed within the overarching 1 year study period."
+                },
+                "conditionsModule": {
+                    "conditions": [
+                        "Long Haul COVID-19",
+                        "Post-Acute COVID-19 Syndrome",
+                        "Anosmia",
+                        "Olfaction Disorders"
+                    ],
+                    "keywords": [
+                        "Olfaction disorders",
+                        "Sodium citrate",
+                        "COVID-19",
+                        "Olfactory training"
+                    ]
+                },
+                "eligibilityModule": {
+                    "sex": "ALL",
+                    "minimumAge": "18 Years"
+                },
+                "contactsLocationsModule": {
+                    "centralContacts": [
+                        {
+                            "email": "taylor_stack@med.unc.edu"
+                        },
+                        {
+                            "email": "aurelia_monk@med.unc.edu"
+                        }
+                    ],
+                    "locations": [
+                        {
+                            "city": "Chapel Hill",
+                            "state": "North Carolina",
+                            "zip": "27599",
+                            "country": "United States"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "protocolSection": {
+                "identificationModule": {
+                    "nctId": "NCT01155232",
+                    "briefTitle": "Effects of Teriparatide (PTH) on Bone in Men and Women With Osteoporosis"
+                },
+                "statusModule": {
+                    "overallStatus": "RECRUITING"
+                },
+                "sponsorCollaboratorsModule": {
+                    "responsibleParty": {}
+                },
+                "descriptionModule": {
+                    "detailedDescription": "Teriparatide (PTH) is the only bone formation therapy that has been approved for the treatment of postmenopausal osteoporosis in Canada. Randomized controlled trials have shown that teriparatide increases bone mineral density (BMD) at the lumbar spine and total hip, while BMD at the forearm may decrease after 20 months of therapy. It is believed that the decline in BMD at the distal radius observed during teriparatide therapy may not be indicative of decreases in bone strength, but may be a result of increases in the width of the radius. Teriparatide works by inducing new periosteal bone apposition, which results in improved bone geometry and increased bone strength that may not be reflected by BMD measurements. However, there is no published data on bone geometric changes at the radius either by bone biopsy or by HR-pQCT in patients receiving teriparatide therapy. It is our intention to fill this gap in knowledge with regard to how teriparatide affects BMD and bone structure at the radius and tibia in men and women with osteoporosis.\n\nThe main objectives of this study are to determine the effect of 24 months of teriparatide therapy on cortical thickness, trabecular thickness, trabecular number, trabecular separation and BV/TV, as measured by HR-pQCT (XtremeCT, Scanco Medical, Switzerland) at the radius and tibia in men and women with osteoporosis. The primary outcome will be cortical thickness; the other measures will be secondary outcomes. The secondary objective is to determine the effect of 24 months of teriparatide therapy on moment of inertia, connectivity index, and bone strength, as measured by the HR-pQCT and calculated using finite element modeling analysis at the radius and tibia in men and women with osteoporosis.\n\nThis is an open label before and after study of a cohort of 100 men and women taking teriparatide for 24 months. As this is an observational study, study medication will not be supplied to study participants.\n\nRecruitment of these subjects will be by referral from specialty clinics of the participating investigators. Participants will undergo two (2) procedures on five (7) separate occasions (at baseline, 6, 12, 18 and at 24 months, and then post therapy at 36 and 48 months). The procedures are HR-pQCT and DXA. In addition to the above procedures, subjects will be asked to complete blood tests which are part of standard clinical practice. Blood will be done both at baseline, 1 month and at 18 month. A follow up phone call will also be made to the patient at 1 month to discuss any updates in patient's health status and to ensure that patients complete the 1 month blood tests.\n\nUnderstanding the effect of teriparatide on bone geometry and BMD will enable us to better understand the effect of teriparatide on bone strength at the radius and the tibia, and bone strength in general, even when the BMD stays the same or decreases after a course of treatment."
+                },
+                "conditionsModule": {
+                    "conditions": [
+                        "Osteoporosis"
+                    ],
+                    "keywords": [
+                        "osteoporosis",
+                        "Forteo",
+                        "Parathyroid hormone",
+                        "HR-pQCT"
+                    ]
+                },
+                "eligibilityModule": {
+                    "sex": "ALL"
+                },
+                "contactsLocationsModule": {
+                    "centralContacts": [
+                        {
+                            "email": "jessica.chang@uhn.on.ca"
+                        },
+                        {
+                            "email": "jscher@uhnresearch.ca"
+                        }
+                    ],
+                    "locations": [
+                        {
+                            "city": "Toronto",
+                            "state": "Ontario",
+                            "zip": "M5G 2C4",
+                            "country": "Canada"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "protocolSection": {
+                "identificationModule": {
+                    "nctId": "NCT05778032",
+                    "briefTitle": "Biological Age Assessment in Adults With Prader-Willi Syndrome (ETABIOLPWS)"
+                },
+                "statusModule": {
+                    "overallStatus": "RECRUITING"
+                },
+                "sponsorCollaboratorsModule": {
+                    "responsibleParty": {}
+                },
+                "descriptionModule": {
+                    "detailedDescription": "Methods Thirty adults affected by clinically diagnosed and genetically confirmed PWS are recruited, regardless of the treatment (previous or concomitant) with rhGH (F/M = 15/15; age: ≥ 18 years; BMI \\> 35 kg/m2), hospitalized for a period of integrated multidisciplinary metabolic rehabilitation at the Division of Auxology, Istituto Auxologico Italiano, Piancavallo (VB), Italy.\n\nAfter verifying the inclusion criteria, clinical and anthropometric data will be collected, including the evaluation of body composition with bioimpedance analysis. Cognitive function will be assessed with a psychometric scale (Wechsler Adult Intelligence Scale).\n\nBlood samples will be taken from each patient upon admission to the hospital (T0) and after 3 weeks of rehabilitation hospitalization (at the same time to reduce circadian variability) for the determination of the basal glycometabolic profile (glucose, insulin, HOMA-IR, glycated Hb , triglycerides, total cholesterol, LDL, HDL, and hsPCR), as well as circulating levels of leptin, IL-6, and TNF-α.\n\nThe samples taken will be used for DNA extraction. DNA methylation will be performed by treatment with sodium bisulphite and PCR-Pyrosequencing.\n\nBiological age measurement Biological (epigenetic) age will be measured using the two algorithms of Zbiec-Piekarska (9) and Daunay (10), based on the level of DNA methylation in specific gene loci. To have an estimate of the epigenetic (biological) age that is independent of the chronological age, we will use a measure defined as age acceleration, from which, with statistical inference, we will calculate the age acceleration. To calculate it, a linear regression model with the chronological age as the independent variable and the epigenetic age as the dependent variable will be applied; the difference between the observed value and the one predicted by the model will constitute the age acceleration due to epigenetic effects. In the event that the epigenetic age is greater than the chronological age, the age acceleration will have a positive value expressed in years, negative if vice versa."
+                },
+                "conditionsModule": {
+                    "conditions": [
+                        "Prader-Willi Syndrome"
+                    ],
+                    "keywords": [
+                        "Prader-Willi syndrome",
+                        "Obesity",
+                        "Biological age",
+                        "Metabolic rehabilitation"
+                    ]
+                },
+                "eligibilityModule": {
+                    "sex": "ALL",
+                    "minimumAge": "18 Years"
+                },
+                "contactsLocationsModule": {
+                    "centralContacts": [
+                        {
+                            "email": "sartorio@auxologico.it"
+                        },
+                        {
+                            "email": "luca.grappiolo@auxologico.it"
+                        }
+                    ],
+                    "locations": [
+                        {
+                            "city": "Oggebbio",
+                            "state": "Verbania",
+                            "zip": "28824",
+                            "country": "Italy"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "protocolSection": {
+                "identificationModule": {
+                    "nctId": "NCT05658432",
+                    "briefTitle": "Effects of Exercise Program Via Tele Rehabilitation on Patients With Fibromyalgia"
+                },
+                "statusModule": {
+                    "overallStatus": "RECRUITING"
+                },
+                "sponsorCollaboratorsModule": {
+                    "responsibleParty": {
+                        "investigatorFullName": "Yeşim Kurtaiş Aytür, MD"
+                    }
+                },
+                "descriptionModule": {
+                    "detailedDescription": "This study is a randomized, parallel, superiority, controlled trial. Participants will be female patients with fibromyalgia who are admitted to Fibromyalgia Out-patient Clinic of Ankara University, Faculty of Medicine, Physical Medicine and Rehabillitation Department. Eligible patients will be randomized to be allocated to one of the two groups, experiment or control. Both groups will be informed about the possible positive effects of exercise. The experimental group will perform an exercise program including aerobic, range of motion, stretching exercises on zoom sessions of 45 minutes each, under the supervision of the investigator, following a prerecorded exercise video. They will exercise thrice a week for 8 weeks, in groups of five. Control group will have access to the same exercise video and guided for the first session. They will be asked to do the exercises at home, exact the same duration and frequency of the experimental group but without supervision, for 8 weeks. The control group will be called first once a week, than once in two weeks to remind exercising and fill out their exercise diary. All patients will be assessed by VAS for pain, Fibromyalgia Impact Questionnaire (FIQ), Hospital Anxiety and Depression Scale (HADS), cardiopulmonary exercise test and 6 min. walking test (6MWT) before and at the end of 8-weeks exercise program. Other symptoms related to fibromyalgia such as fatigue, sleep etc will also be recorded. Primary outcome measure is pain. Secondary outcome measures will be cardiopulmonary fitness level (VO2max), functional physical activity level (6MWT), symptom severity, disease impact (FIQ), psychological status (HADS) and subjective assessment of general well-being. The study's hypothesis suggest that improvement will be superior in the experimental group without any side effects."
+                },
+                "conditionsModule": {
+                    "conditions": [
+                        "Fibromyalgia"
+                    ],
+                    "keywords": [
+                        "fibromyalgia",
+                        "cardiopulmonary fitness",
+                        "exercise",
+                        "telehealth",
+                        "telerehabilitation"
+                    ]
+                },
+                "eligibilityModule": {
+                    "sex": "FEMALE",
+                    "minimumAge": "18 Years",
+                    "maximumAge": "65 Years"
+                },
+                "contactsLocationsModule": {
+                    "centralContacts": [
+                        {
+                            "email": "yildiz.tuba.66@gmail.com"
+                        },
+                        {
+                            "email": "kurtais@gmail.com"
+                        }
+                    ],
+                    "locations": [
+                        {
+                            "city": "Ankara",
+                            "zip": "06230",
+                            "country": "Turkey"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "protocolSection": {
+                "identificationModule": {
+                    "nctId": "NCT06214832",
+                    "briefTitle": "An Observation Study on the Identification of Prescription Patterns of Lodient Tab(Telmisartan/S-amlodipine)"
+                },
+                "statusModule": {
+                    "overallStatus": "RECRUITING"
+                },
+                "sponsorCollaboratorsModule": {
+                    "responsibleParty": {}
+                },
+                "descriptionModule": {
+                    "detailedDescription": "This study aims to observe changes in symptoms according to the treatment effect of hypertension for 6 months after Lodient Tab prescription."
+                },
+                "conditionsModule": {
+                    "conditions": [
+                        "Hypertension"
+                    ]
+                },
+                "eligibilityModule": {
+                    "sex": "ALL",
+                    "minimumAge": "19 Years"
+                },
+                "contactsLocationsModule": {
+                    "centralContacts": [
+                        {
+                            "email": "song2you@naver.com"
+                        }
+                    ],
+                    "locations": [
+                        {
+                            "city": "Seoul",
+                            "country": "Korea, Republic of"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "protocolSection": {
+                "identificationModule": {
+                    "nctId": "NCT05164432",
+                    "briefTitle": "Prediction of Adverse Outcome Using Fetal MRI in Pregnancies at Risk of Preterm Birth"
+                },
+                "statusModule": {
+                    "overallStatus": "RECRUITING"
+                },
+                "sponsorCollaboratorsModule": {
+                    "responsibleParty": {}
+                },
+                "descriptionModule": {
+                    "detailedDescription": "1.4% of babies have a very premature birth (PTB) (less than 32 weeks of pregnancy). This can result in severe life-long complications including cerebral palsy, learning and behavioural difficulties and breathing problems. Besides immeasurable human costs for the baby and family this also has significant cost implications for the NHS.\n\nInfection may cause both early delivery and subsequent abnormal brain and lung development. Where obvious signs of infection are not present in the mother, subtle infection is often present in the unborn baby. Currently there is no test routinely used to see if there is an infection of the baby in the womb.\n\nFetal Magnetic Resonance Imaging (MRI), already used in clinical practice, can produce very clear images of the baby's brain and lungs. It can also assess blood flow and structure in detail, as well as overall size. The investigators already have data, which shows areas of the brain and lungs are smaller in babies that subsequently deliver very preterm, indicating factors that drive preterm birth may already be affecting how the baby develops in the womb.\n\nMRI can also give information regarding infection in the fetus by measuring an organ in the neck (the thymus) vital to the baby's immune system and by scanning the placenta. The investigators have new data that suggests that these methods could help pick up infection. Women who have previously undergone preterm birth have helped shape this study.\n\nAims The investigators want to ascertain if it is possible to predict which babies are likely to develop serious complications after preterm birth. Using MRI, the thymus and placenta will be assessed for signs of infection and how the lungs and brain are developing whilst still in the womb will be monitored. The investigators will evaluate if these scans accurately identify the babies that do poorly after birth.\n\nStudy Design 75 pregnant women at high risk of PTB (between 16- 32 weeks of pregnancy) and 100 women with uncomplicated pregnancies will be invited to participate.\n\nWomen will be identified as high-risk if:\n\n1. they have no symptoms but are, attending the Preterm Surveillance Clinic at St Thomas's Hospital, with risk factors for PTB (a previous premature delivery or surgery to the neck of the womb (cervix)) and are likely to deliver early, which we can pick up by seeing if the cervix has already shortened, and by doing a vaginal swab test.\n2. they have lost the fluid (waters) around the baby\n3. the cervix has opened before 24 weeks These women will have an MRI scan of the fetal lung, brain, thymus and placenta. Repeat imaging will be offered every two weeks (maximum of three scans).\n\nAfter birth the investigators will see if infection is present by analysing the umbilical cord blood and looking at the placenta under a microscope. Information about complications the babies have until they leave hospital will be collected.\n\nAll of this information, as well as from scans from healthy pregnant women involved in other research studies both in this country and from abroad, will be combined in a new test, using 'machine learning', which involves computers analysing the data to see if babies most likely to have problems after birth can be identified. Results will be presented in scientific papers, at conferences and through social media.\n\nIf the test works, the next step would be to find out when the best time is to deliver the baby; this may be sooner if the fetus is known to have an infection. The appropriate timing of existing treatments to prevent brain and lung injury may also be facilitated with more studies in the future."
+                },
+                "conditionsModule": {
+                    "conditions": [
+                        "Preterm Birth Complication"
+                    ]
+                },
+                "eligibilityModule": {
+                    "sex": "FEMALE",
+                    "minimumAge": "16 Years"
+                },
+                "contactsLocationsModule": {
+                    "centralContacts": [
+                        {
+                            "email": "lisa.story@kcl.ac.uk"
+                        },
+                        {
+                            "email": "reza.razavi@kcl.ac.uk"
+                        }
+                    ],
+                    "locations": [
+                        {
+                            "city": "London",
+                            "state": "Greater London",
+                            "zip": "SE1 7EH",
+                            "country": "United Kingdom"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "protocolSection": {
+                "identificationModule": {
+                    "nctId": "NCT05508932",
+                    "briefTitle": "Atrial Fibrillation in Beta-Thalassemia"
+                },
+                "statusModule": {
+                    "overallStatus": "RECRUITING"
+                },
+                "sponsorCollaboratorsModule": {
+                    "responsibleParty": {
+                        "investigatorFullName": "Matteo Bertini"
+                    }
+                },
+                "descriptionModule": {
+                    "detailedDescription": "Observational, retrospective and prospective, single-center study, which involves the collection of clinical, laboratory, electrocardiographic and imaging data of patients with major or intermediate thalassemia who have performed, from 2012 to 2022, or will perform in the next 10 years, a cardiological evaluation at the Cardiology Unit of the University Hospital of Ferrara. Patients will be divided into two groups: thalassemia patients with atrial fibrillation (paroxysmal, persistent or permanent) and thalassemia patients with no history of atrial fibrillation.\n\nThe objective of the study is to evaluate whether there is a different prevalence of the characteristics analyzed among these patient populations."
+                },
+                "conditionsModule": {
+                    "conditions": [
+                        "Atrial Fibrillation",
+                        "Thalassemia"
+                    ],
+                    "keywords": [
+                        "Atrial Fibrillation",
+                        "Thalassemia",
+                        "Thalassaemia",
+                        "Arrhythmia",
+                        "Hemoglobinopathies"
+                    ]
+                },
+                "eligibilityModule": {
+                    "sex": "ALL",
+                    "minimumAge": "18 Years"
+                },
+                "contactsLocationsModule": {
+                    "locations": [
+                        {
+                            "city": "Ferrara",
+                            "country": "Italy"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "protocolSection": {
+                "identificationModule": {
+                    "nctId": "NCT05863832",
+                    "briefTitle": "Study to Assess the Safety & Efficacy of Oral Ciprodiazole Versus Currently Used Ciprofloxacin & Metronidazole"
+                },
+                "statusModule": {
+                    "overallStatus": "RECRUITING"
+                },
+                "sponsorCollaboratorsModule": {
+                    "responsibleParty": {}
+                },
+                "descriptionModule": {
+                    "detailedDescription": "Primary Objective\n\n1. Primary Safety:\n\n   To compare safety of oral Ciprodiazole ® tablets (Ciprofloxacin/Metronidazole) versus currently used Ciprofloxacin Tablets \\& Metronidazole tablets for pelvi-abdominal infections, either non-operative or post-operative following IV antibiotics.\n2. Primary Efficacy:\n\nTo compare efficacy of oral Ciprodiazole ® tablets (Ciprofolxacin/Metronidazole) versus currently used Ciprofloxacin Tablets \\& Metronidazole tablets for pelvi-abdominal infections, either non-operative or post-operative following IV antibiotics.\n\nSecondary Objective\n\n1. Secondary Safety:\n\n   * Presence of any signs/symptoms of post-operative wound infection such as redness, fever or wound discharge.\n   * Presence of undesirable effects on total leukocyte count and liver enzymes (SGOT\\& SGPT)\n2. Secondary Efficacy:\n\n   * To compare the complete resolution or improvement of Pelvi-abdominal infection between ciprodiazole® versus combined treatment, based on pelvi-abdominal ultrasound and others\n   * To compare the days for complete healing of post-operative wounds between ciprodiazole® versus combined treatment\n\nSTUDY DURATION:\n\n* Subjects will be enrolled for 12 months including screening visit\n* Follow up for 15 days from enrolment\n\nSTUDY POPULATION:\n\n312 Egyptian Patients with pelvi-abdominal infection or started IV antibiotics in post-operative period, for pelvi - abdominal surgeries and/or acute conditions\n\nASSESSMENT SCHEDULE:\n\nSubjects will be enrolled for 12 months including screening visit\n\n* Visit 1: Screening and treatment initiation visit, Day 0\n* Follow-up 1 visit: Day 8 (+/-) 3 days\n* Follow-up 2 visit \\& End of study visit: Day 15 (+/-) 3 days"
+                },
+                "conditionsModule": {
+                    "conditions": [
+                        "Surgical Site Infections"
+                    ]
+                },
+                "eligibilityModule": {
+                    "sex": "ALL",
+                    "minimumAge": "18 Years",
+                    "maximumAge": "65 Years"
+                },
+                "contactsLocationsModule": {
+                    "centralContacts": [
+                        {
+                            "email": "elkased@outlook.com"
+                        },
+                        {
+                            "email": "abdelaziz.ragab@med.menofia.edu.eg"
+                        }
+                    ],
+                    "locations": [
+                        {
+                            "city": "Shibīn Al Kawm",
+                            "state": "Menofia",
+                            "zip": "32951",
+                            "country": "Egypt"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "nextPageToken": "NF0g5JCBkQ"
+}

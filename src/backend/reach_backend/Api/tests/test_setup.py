@@ -14,7 +14,9 @@ class TestApiSetup(APITestCase):
         self.search_trials = reverse("search-trials")
         self.trials = "/trials/"
         self.profiles = "/patientinfo/"
+        self.userdata = "/userdata/"
         self.user = User.objects.create_user(username="test-user", password="test-pass")
+        self.user2 = User.objects.create_user(username="test-user2", password="test-pass2")
         self.patient_info_data = {
             "user": self.user,
             "date_of_birth": datetime(1954, 1, 1),
