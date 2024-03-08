@@ -42,7 +42,7 @@ const RegisterPage: React.FC = () => {
     };
 
     const emailField = fieldValidation(validateEmail);
-    const usernameField = fieldValidation(validateUsername, 500);
+    const usernameField = fieldValidation(validateUsername, '', 500);
     const passwordField = fieldValidation(checkEmpty);
     const firstNameField = fieldValidation(checkEmpty);
     const lastNameField = fieldValidation(checkEmpty);
