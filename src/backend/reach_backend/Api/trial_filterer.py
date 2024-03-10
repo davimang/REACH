@@ -1,12 +1,15 @@
 """TrialFilterer module"""
+
 import pandas as pd
 import regex as re
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from geopy.location import Location
-from filtering_dictionary import (filtering_dict_num,
-                                   filtering_dict_boolean,
-                                   filtering_dict_special)
+from .filtering_dictionary import (
+    filtering_dict_num,
+    filtering_dict_boolean,
+    filtering_dict_special,
+)
 
 locator = Nominatim(user_agent="my_request")
 
@@ -18,7 +21,7 @@ class TrialFilterer:
     def filter_trials(studies: pd.DataFrame, input_params: dict) -> pd.DataFrame:
         """filters trials based on input criteria"""
         age = input_params["age"]
-        
+
         # convert min, max ages, filter out ineligible
         studies["MinimumAge"] = studies["MinimumAge"].apply(TrialFilterer.clean_age)
         studies["MaximumAge"] = studies["MaximumAge"].apply(TrialFilterer.clean_age)
@@ -28,7 +31,7 @@ class TrialFilterer:
 
         studies = TrialFilterer.filter_gender(input_params["sex"], studies)
         return studies
-    
+
     @staticmethod
     def generate_keywords(input_params: dict):
         search_str = []
@@ -37,7 +40,6 @@ class TrialFilterer:
                 if input_params.get(k, 0) > 0:
                     search_str.append(filtering_dict_num.get(k, 0))
 
-        
         for k in filtering_dict_boolean.keys():
             if k in input_params.keys():
                 if input_params.get(k, 0):
@@ -51,7 +53,7 @@ class TrialFilterer:
         if input_params.get("WHOFunctionalClass", 0) > 2:
             search_str.append("severe+pulmonary+hypertension")
 
-        match input_params.get("PHType",0):
+        match input_params.get("PHType", 0):
             case 1:
                 search_str.append("pulmonary+arterial+hypertension")
             case 2:
@@ -74,25 +76,30 @@ class TrialFilterer:
             return "+OR+".join(search_str)
         return ""
 
-
     @staticmethod
-    def post_filter(studies: pd.DataFrame, input_params: str,
-                    home_geo: Location) -> pd.DataFrame:
+    def post_filter(
+        studies: pd.DataFrame, input_params: str, home_geo: Location
+    ) -> pd.DataFrame:
         """creates full address and populates distance"""
 
         studies = TrialFilterer.generate_address(studies)
 
-        studies['Distance'] = -1
-        
-        for i in studies.index:
-            studies.at[i, 'Distance'] = round(TrialFilterer.get_distance_km(
-                studies.at[i, 'LocationLatitude'], studies.at[i, 'LocationLongitude'],
-                home_geo.latitude, home_geo.longitude
-            ), 2)
+        studies["Distance"] = -1
 
-        max_distance = input_params.get('max_distance', 500) #default 500 km
-        studies = studies[studies['Distance'] <= max_distance]
-        return studies        
+        for i in studies.index:
+            studies.at[i, "Distance"] = round(
+                TrialFilterer.get_distance_km(
+                    studies.at[i, "LocationLatitude"],
+                    studies.at[i, "LocationLongitude"],
+                    home_geo.latitude,
+                    home_geo.longitude,
+                ),
+                2,
+            )
+
+        max_distance = input_params.get("max_distance", 500)  # default 500 km
+        studies = studies[studies["Distance"] <= max_distance]
+        return studies
 
     @staticmethod
     def generate_address(studies: pd.DataFrame) -> pd.DataFrame:
@@ -128,14 +135,9 @@ class TrialFilterer:
         return df
 
     @staticmethod
-    def get_distance_km(
-        lat1: float,
-        long1: float,
-        lat2: float,
-        long2: float
-    ) -> float:
+    def get_distance_km(lat1: float, long1: float, lat2: float, long2: float) -> float:
         """calculates distance between two addresses"""
-        return geodesic((lat1,long1),(lat2,long2)).kilometers
+        return geodesic((lat1, long1), (lat2, long2)).kilometers
 
     # convert min and max ages to float type
     @staticmethod

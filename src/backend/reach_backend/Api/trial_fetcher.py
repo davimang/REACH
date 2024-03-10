@@ -1,10 +1,11 @@
 """TrialFetcher module"""
+
 import io
 import json
 import requests
 import pandas as pd
 from geopy.geocoders import Nominatim
-from trial_filterer import TrialFilterer
+from .trial_filterer import TrialFilterer
 
 locator = Nominatim(user_agent="my_request")
 
@@ -45,16 +46,22 @@ class TrialFetcher:
             + ", "
             + input_params["address"]["province"]
             + " "
-            + input_params["address"]["postalCode"]   
-            )
+            + input_params["address"]["postalCode"]
+        )
 
         home_geo = locator.geocode(home_address, timeout=10)
 
         # put expression together
         search_template = API_URL2 + "query.cond=" + condition_search
-        search_template = (search_template + "&filter.geo=distance(" +
-                           str(home_geo.latitude) + "," + str(home_geo.longitude) +
-                           "," + str(input_params.get('max_distance',99999999)) + "km)"
+        search_template = (
+            search_template
+            + "&filter.geo=distance("
+            + str(home_geo.latitude)
+            + ","
+            + str(home_geo.longitude)
+            + ","
+            + str(input_params.get("max_distance", 99999999))
+            + "km)"
         )
 
         keywords = TrialFilterer.generate_keywords(input_params)
@@ -64,16 +71,20 @@ class TrialFetcher:
         print(search_template)
 
         # start one rank up from the last rank returned by a previous call
-       
+
         studies = pd.DataFrame()
 
-        # keep pulling trials until you hit 5 or 
+        # keep pulling trials until you hit 5 or
         next_page = input_params.get("next_page")
-        while studies.shape[0] < 5:            
-            search_url = search_template + f"&pageToken={next_page}" if next_page else search_template
+        while studies.shape[0] < 5:
+            search_url = (
+                search_template + f"&pageToken={next_page}"
+                if next_page
+                else search_template
+            )
             # timed section
             response = requests.get(search_url, timeout=TIMEOUT_SEC)
-            
+
             json_response = response.json()
             next_page = json_response.get("nextPageToken", "")
             content = build_study_dict(json_response)
@@ -87,17 +98,14 @@ class TrialFetcher:
                 break
 
             # remove any invalid trials
-            #temp = TrialFilterer.filter_trials(temp, input_params)
+            # temp = TrialFilterer.filter_trials(temp, input_params)
 
-            temp = TrialFilterer.post_filter(
-                temp, input_params, home_geo
-            )
+            temp = TrialFilterer.post_filter(temp, input_params, home_geo)
 
             if temp.shape[0] > 0:  # if not empty, add to accepted trials
                 studies = pd.concat([studies, temp], ignore_index=True)
 
-            studies.drop_duplicates(subset=['NCTId'],inplace=True)
-            
+            studies.drop_duplicates(subset=["NCTId"], inplace=True)
 
         if studies.shape[0] == 0:
             return pd.DataFrame(
@@ -113,7 +121,7 @@ class TrialFetcher:
                     "LocationLongitude",
                     "PointOfContactEMail",
                     "CentralContactEMail",
-                    "ResponsiblePartyInvestigatorFullName"
+                    "ResponsiblePartyInvestigatorFullName",
                 ]
             )
         studies = studies.head(
@@ -123,7 +131,7 @@ class TrialFetcher:
             "https://clinicaltrials.gov/study/" + studies["NCTId"]
         )  # create url
         studies["nextPage"] = next_page
-        
+
         # take only necessary fields
 
         studies = studies[
@@ -143,20 +151,21 @@ class TrialFetcher:
                 "nextPage",
             ]
         ]
-        studies.sort_values(by='Distance', ascending=True, inplace=True)
+        studies.sort_values(by="Distance", ascending=True, inplace=True)
         studies.reset_index(inplace=True, drop=True)
-        results_json = studies.to_dict(orient='index')  # convert to json
+        results_json = studies.to_dict(orient="index")  # convert to json
         return results_json  # return
+
 
 def build_study_dict(response):
     """Helper function to reformat the v2 api response from clinicaltrials.gov."""
     studies = response["studies"]
-   
+
     list_of_new_study_formats = []
 
     for study in studies:
         study = study["protocolSection"]
-        
+
         study_id_module = study["identificationModule"]
         study_conditions_module = study["conditionsModule"]
         description_module = study["descriptionModule"]
@@ -172,9 +181,13 @@ def build_study_dict(response):
         min_age = eligibility_module.get("minimumAge", "0 Years")
         max_age = eligibility_module.get("maximumAge", "100 Years")
         gender = eligibility_module.get("sex", "ALL")
-        investigator = collaborator_module.get("responsibleParty", {}).get("investigatorFullName", "")
+        investigator = collaborator_module.get("responsibleParty", {}).get(
+            "investigatorFullName", ""
+        )
 
-        central_contacts = contacts_locations_module.get("centralContacts", []) #maybe change
+        central_contacts = contacts_locations_module.get(
+            "centralContacts", []
+        )  # maybe change
         contacts = []
         for contact in central_contacts:
             contacts.append(contact.get("email", ""))
@@ -199,36 +212,35 @@ def build_study_dict(response):
             if state := location.get("state"):
                 states.append(state)
 
-            if lat := location.get("geoPoint",{}).get("lat"):
+            if lat := location.get("geoPoint", {}).get("lat"):
                 lats.append(lat)
 
-            if long := location.get("geoPoint",{}).get("lon"):
+            if long := location.get("geoPoint", {}).get("lon"):
                 longs.append(long)
-            
+
             break
 
         new_study_format = {
-            "NCTId":nctid,
+            "NCTId": nctid,
             "Condition": "|".join(conditions),
             "BriefTitle": brief_title,
-            "DetailedDescription":description,
+            "DetailedDescription": description,
             "MinimumAge": min_age,
             "MaximumAge": max_age,
-            "LocationCountry": countries[0] if len(countries) > 0 else '',
-            "LocationState": states[0] if len(states) > 0 else '',
-            "LocationCity": cities[0] if len(cities) > 0 else '',
-            "LocationZip": zips[0] if len(zips) > 0 else '',
+            "LocationCountry": countries[0] if len(countries) > 0 else "",
+            "LocationState": states[0] if len(states) > 0 else "",
+            "LocationCity": cities[0] if len(cities) > 0 else "",
+            "LocationZip": zips[0] if len(zips) > 0 else "",
             "LocationLatitude": float(lats[0]) if len(lats) > 0 else -1,
             "LocationLongitude": float(longs[0]) if len(longs) > 0 else -1,
-            "OverallStatus":"Recruiting",
-            "Gender":gender,
-            "Keyword":"|".join(keywords),
-            "PointOfContactEMail":"",
+            "OverallStatus": "Recruiting",
+            "Gender": gender,
+            "Keyword": "|".join(keywords),
+            "PointOfContactEMail": "",
             "CentralContactEMail": contacts[0] if contacts else "",
-            "ResponsiblePartyInvestigatorFullName":investigator
+            "ResponsiblePartyInvestigatorFullName": investigator,
         }
 
         list_of_new_study_formats.append(new_study_format)
 
-    
     return json.dumps(list_of_new_study_formats)
