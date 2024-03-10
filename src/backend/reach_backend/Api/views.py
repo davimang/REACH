@@ -20,7 +20,7 @@ from .serializers import (
 )
 from .trial_fetcher import TrialFetcher
 from .models import UserData, PatientInfo, Trial
-from .permissions import IsUser, IsUserObject
+from .permissions import IsUser, IsObjectOwner
 
 trial_fetcher = TrialFetcher()
 
@@ -32,7 +32,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = User.objects.all().order_by("-date_joined")
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated, IsUser]
+    permission_classes = [permissions.IsAdminUser]
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -40,7 +40,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAdminUser]
 
 
 class UserRegistrationView(generics.CreateAPIView):
@@ -88,9 +88,13 @@ class UserDataFilter(filters.FilterSet):
 class UserDataViewSet(viewsets.ModelViewSet):
     """Api endpoints for user data."""
 
+    def get_queryset(self):
+        """Get the queryset for the user data viewset."""
+        return UserData.objects.filter(user=self.request.user)
+
     queryset = UserData.objects.all()
     serializer_class = UserDataSerializer
-    permission_classes = [permissions.IsAuthenticated, IsUserObject]
+    permission_classes = [permissions.IsAuthenticated, IsObjectOwner]
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = UserDataFilter
 
@@ -109,11 +113,15 @@ class PatientInfoFilter(filters.FilterSet):
 
 
 class PatientInfoViewSet(viewsets.ModelViewSet):
-    """Api endpoints for user data."""
+    """Api endpoints for patient info."""
+
+    def get_queryset(self):
+        """Get the queryset for the patient info viewset."""
+        return PatientInfo.objects.filter(user=self.request.user)
 
     queryset = PatientInfo.objects.all()
     serializer_class = PatientInfoSerializer
-    permission_classes = [permissions.IsAuthenticated, IsUser]
+    permission_classes = [permissions.IsAuthenticated, IsObjectOwner]
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = PatientInfoFilter
 
@@ -134,9 +142,16 @@ class TrialFilter(filters.FilterSet):
 class TrialViewSet(viewsets.ModelViewSet):
     """Api endpoints for user data."""
 
+    def get_queryset(self):
+        """Get the queryset for the trial viewset."""
+        return Trial.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
     queryset = Trial.objects.all()
     serializer_class = TrialSerializer
-    permission_classes = [permissions.IsAuthenticated, IsUser]
+    permission_classes = [permissions.IsAuthenticated, IsObjectOwner]
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = TrialFilter
 

@@ -1,4 +1,5 @@
 from rest_framework.permissions import BasePermission
+from rest_framework import request
 
 
 class IsUser(BasePermission):
@@ -24,10 +25,13 @@ class IsProfileUser(BasePermission):
             user_id = int(request.query_params.get("profile_id", 0))
 
 
-class IsUserObject(BasePermission):
+class IsObjectOwner(BasePermission):
     """Custom permission class to allow only users to view or edit their own data."""
 
     def has_object_permission(self, request, view, obj):
         """Return True if user id for object is equal to requesting user, False otherwise."""
 
-        return obj.user.id == request.user.id
+        if obj.user.id == request.user.id:
+            return True
+
+        return False
