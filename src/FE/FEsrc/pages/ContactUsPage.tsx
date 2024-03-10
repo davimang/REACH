@@ -48,6 +48,18 @@ const ContactUsPage = () => {
                 <p>Linkedin: link to linkedin</p>
                 <p>Phone: 647-926-7093</p>
             </ContactUsText>
+            <ContactUsText>
+                <h1>Dr. Terence Ho</h1>
+                <p>Email: hot4@mcmaster.ca</p>
+                <p>Linkedin: link to linkedin</p>
+                <p>Phone: --- --- ----</p>
+            </ContactUsText>
+            <ContactUsText>
+                <h1>Dr. Ciaran Scallan</h1>
+                <p>Email: scallc@mcmaster.ca</p>
+                <p>Linkedin: link to linkedin</p>
+                <p>Phone: --- --- ----</p>
+            </ContactUsText>
         </ContactUsContainer>
     );
 }

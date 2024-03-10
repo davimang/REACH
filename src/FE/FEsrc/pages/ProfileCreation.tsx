@@ -13,7 +13,23 @@ const ProfileCreationContainer = styled.div`
     padding: 15px;
 `;
 
-const ProfileCreationPage = () => {
+const defaultProps = {
+    defaultProfileName: "",
+    defaultStreet: "",
+    defaultCity: "",
+    defaultPostalCode: "",
+    defaultProvince: "",
+    defaultDateOfBirth: "",
+    defaultGender: "",
+    defaultCondition: "",
+    editing: false,
+    defaultAdvancedInfo: {}
+};
+
+
+const ProfileCreationPage = (props) => {
+
+    props = { ...defaultProps, ...props };
 
     const userId = localStorage.getItem('userId');
 
@@ -21,34 +37,33 @@ const ProfileCreationPage = () => {
 
     const genderMapping = { 'Male': 'M', 'Female': 'F', 'Other': 'O' };
 
-    const [advancedInfo, setAdvancedInfo] = useState({});
-
+    const [advancedInfo, setAdvancedInfo] = useState(props.defaultAdvancedInfo);
     const [formValues, setFormValues] = useState({
         user: userId,
-        condition: '',
+        condition: props.defaultCondition,
         advancedInfo: advancedInfo
     });
 
     const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
-    const nameField = fieldValidation(checkEmpty);
-    const streetField = fieldValidation(checkEmpty);
-    const cityField = fieldValidation(checkEmpty);
-    const provinceField = fieldValidation(checkEmpty);
-    const postalCodeField = fieldValidation(checkEmpty);
-    const dateOfBirthField = fieldValidation(checkEmpty);
-    const genderField = fieldValidation(checkEmpty);
+    const nameField = fieldValidation(checkEmpty, props.defaultProfileName);
+    const streetField = fieldValidation(checkEmpty, props.defaultStreet);
+    const cityField = fieldValidation(checkEmpty, props.defaultCity);
+    const provinceField = fieldValidation(checkEmpty, props.defaultProvince);
+    const postalCodeField = fieldValidation(checkEmpty, props.defaultPostalCode);
+    const dateOfBirthField = fieldValidation(checkEmpty, props.defaultDateOfBirth);
+    const genderField = fieldValidation(checkEmpty, props.defaultGender);
 
     const [error, setError] = useState(false);
 
     const errorMessage = 'Profile creation failed. Please try again.';
 
-    const addressErrorMessage = 'Invalid address, please enter a valid address in the format: street, city, province, postal code';
     const genericErrorMessage = 'This field cannot be empty';
 
     const enableSubmit = nameField.valid && streetField.valid && cityField.valid && provinceField.valid && postalCodeField.valid && dateOfBirthField.valid && genderField.valid;
 
     const createRequestOptions = () => {
+
         const formattedAddress = {
             street: streetField.value,
             city: cityField.value,
@@ -57,7 +72,7 @@ const ProfileCreationPage = () => {
         }
         const mappedGender = genderMapping[genderField.value];
         return {
-            method: 'POST',
+            method: !props.editing ? 'POST' : 'PATCH',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
             body: JSON.stringify({
                 date_of_birth: dateOfBirthField.value,
@@ -75,13 +90,14 @@ const ProfileCreationPage = () => {
         e.preventDefault();
 
         const requestOptions = createRequestOptions();
-
+        const endpoint = !props.editing ? `${API_URL}/patientinfo/` : `${API_URL}/patientinfo/${props.profileId}/`
+        console.log(endpoint);
         try {
-            const response = await fetch(`${API_URL}/patientinfo/`, requestOptions);
+            const response = await fetch(endpoint, requestOptions);
             const data = await response.json();
 
             if (response.ok) {
-                navigate('/');
+                navigate(!props.editing ? '/' : '/listprofiles');
             }
             else {
                 setError(true);
@@ -98,7 +114,7 @@ const ProfileCreationPage = () => {
             temp[keys[index]] = fieldVariable.initial;
             return temp;
         })
-        setAdvancedInfo({ ...advancedInfo, ...temp })
+        setAdvancedInfo({ ...temp, ...advancedInfo })
     }, [formValues.condition]);
 
     useEffect(() => {
@@ -233,9 +249,10 @@ const ProfileCreationPage = () => {
                             onInputChange={(event, value, reason) => {
                                 setFormValues({ ...formValues, condition: value })
                             }}
+                            defaultValue={formValues.condition}
                             freeSolo={true}
                             options={conditions}
-                            renderInput={(params) => <AutocompleteTextField {...params} label={formValues.condition ? null : "-- Select Condition --"} value={formValues.condition}
+                            renderInput={(params) => <AutocompleteTextField {...params} label={formValues.condition ? null : "-- Select Condition --"} defaultValue={formValues.condition} value={formValues.condition}
                                 onChange={(e) => {
                                     const newCondition = e.target.value;
                                     setFormValues({ ...formValues, condition: newCondition });

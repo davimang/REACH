@@ -1,8 +1,8 @@
 import e from 'express';
 import { useState, useEffect } from 'react';
 
-export const fieldValidation = (validationFunction, validationTimout = 100) => {
-    const [value, setValue] = useState('');
+export const fieldValidation = (validationFunction, defaultValue='', validationTimout = 100) => {
+    const [value, setValue] = useState(defaultValue);
     const [touched, setTouched] = useState(false);
     const [validated, setValidated] = useState(false);
     const [valid, setValid] = useState(false);

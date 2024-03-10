@@ -50,6 +50,7 @@ const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
             <TextInput
                 type={fieldInfo.inputType}
                 value={value}
+                checked={value}
                 style={{width: 30, height: 30}}
                 onChange={(e) => {
                     setAdvancedInfo({ ...advancedInfo, [fieldVariable]: e.target.checked})

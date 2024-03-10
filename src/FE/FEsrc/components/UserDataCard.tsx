@@ -1,15 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { UserData } from './types';
 
 interface UserDataCardProps {
-  firstName: string;
-  lastName: string;
-  createdDate: string;
+  userData: UserData;
 }
 
 
-const UserDataCard: React.FC<UserDataCardProps> = ({ firstName, lastName, createdDate }) => {
+const UserDataCard: React.FC<UserDataCardProps> = ({ userData }) => {
   return (
     <div className='cards' style={cardStyle} >
       <div className='name-circle' style={circleStyle} >
@@ -17,15 +15,20 @@ const UserDataCard: React.FC<UserDataCardProps> = ({ firstName, lastName, create
       </div>
       <div className='card-content' style={contentStyle}>
         <div className='profile-name' style={nameStyle}>
-          First Name: {firstName}
+          First Name: {userData.first_name}
         </div>
         <div className='profile-name' style={nameStyle}>
-          Last Name: {lastName}
+          Last Name: {userData.last_name}
         </div>
         <div className='profile-name' style={nameStyle}>
-          Account Created: {createdDate}
+          Account Created: {userData.created}
         </div>
-        <Link to='/savedTrials'>
+        <Link to='/editAccount' state={{
+          defaultFirstName: userData.first_name, 
+          defaultLastName: userData.last_name,
+          isClinician: userData.is_clinician
+         }
+        }>
           <div className='saved-trails-link'>
             Edit Account Info
           </div>
