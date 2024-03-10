@@ -63,6 +63,7 @@ const SaveTrialsPage = () => {
         address: "",
         url: ""
     })
+    const [name, setName] = useState('');
 
     const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
@@ -136,6 +137,38 @@ const SaveTrialsPage = () => {
         }
     };
 
+    const getProfile = (profileId?) => {
+        if (!profiles || !profileId)
+            return null;
+
+        for (const profile of Object.values(profiles)) {
+            if (profile.id == profileId) {
+                console.log(profile);
+                return profile;
+            }
+        }
+    }
+
+    const getName = async () => {
+        try {
+            const endpoint = `/userdata/${userId}/`;
+            const requestOptions = {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            };
+
+            const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch user. Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setName(data["first_name"] + " " + data["last_name"]);
+        } catch (error) {
+            console.error('Error fetching user:', error.message);
+        }
+    }
+
     const updateDefaultLocation = () => {
         console.log(trials);
         if (trials) {
@@ -154,6 +187,7 @@ const SaveTrialsPage = () => {
     useEffect(() => {
         fetchSavedTrials();
         fetchProfilesList();
+        getName();
     }, []);
 
     useEffect(() => {
@@ -208,7 +242,7 @@ const SaveTrialsPage = () => {
                 </MapContainer>
             </div>}
 
-            <TrialModal open={open} handleModal={handleModal} modalDetails={modalDetails} />
+            <TrialModal open={open} handleModal={handleModal} modalDetails={modalDetails} patientDetails={getProfile(selectedProfileId)} name={name} />
         </>
     );
 }

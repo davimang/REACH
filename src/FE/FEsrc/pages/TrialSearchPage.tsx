@@ -77,6 +77,7 @@ const TrialSearchPage = () => {
         address: "",
         url: ""
     })
+    const [name, setName] = useState('');
     const userId = localStorage.getItem('userId');
     const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
@@ -158,7 +159,7 @@ const TrialSearchPage = () => {
                 throw new Error(`Failed to fetch profiles. Status: ${response.status}`);
             }
             const data = await response.json();
-            setResponseProfiles(data);
+            await setResponseProfiles(data);
         } catch (error) {
             console.error('Error fetching profiles:', error.message);
         }
@@ -188,6 +189,38 @@ const TrialSearchPage = () => {
             setLoading(false);
         }
     };
+
+    const getProfile = (profileId?) => {
+        if (!responseProfiles || !profileId)
+            return null;
+
+        for (const profile of Object.values(responseProfiles)) {
+            if (profile.id == profileId) {
+                console.log(profile);
+                return profile;
+            }
+        }
+    }
+
+    const getName = async () => {
+        try {
+            const endpoint = `/userdata/${userId}/`;
+            const requestOptions = {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            };
+
+            const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch user. Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setName(data["first_name"] + " " + data["last_name"]);
+        } catch (error) {
+            console.error('Error fetching user:', error.message);
+        }
+    }
 
     const updateDefaultLocation = () => {
         if (responseTrials) {
@@ -257,6 +290,7 @@ const TrialSearchPage = () => {
 
     useEffect(() => {
         fetchProfilesList();
+        getName();
     }, []);
 
     useEffect(() => {
@@ -325,7 +359,7 @@ const TrialSearchPage = () => {
                 </MapContainer>
             </div>}
 
-            <TrialModal open={open} handleModal={handleModal} modalDetails={modalDetails} />
+            <TrialModal open={open} handleModal={handleModal} modalDetails={modalDetails} patientDetails={getProfile(selectedProfileId)} name={name} />
 
         </>
     );
