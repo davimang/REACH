@@ -33,7 +33,7 @@ const FilledBookmarkIcon = styled(BookmarkIcon)`
     color: #039D5F;
     cursor: pointer;
     font-size: 60px;
-    margin-left: 20px; /* Adjust the margin as needed */
+    margin-left: 20px;
 `;
 
 const HeaderComponents = styled.div`
