@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { useAuth } from '../contexts/AuthContext';
 import { StyledButton } from './ButtonStyle';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 const ProfileIcon = styled(AccountCircleIcon)`
     color: #039D5F;
@@ -26,6 +27,13 @@ const Header = styled.div`
     position: sticky;
     top: 0;
     z-index: 1;
+`;
+
+const FilledBookmarkIcon = styled(BookmarkIcon)`
+    color: #039D5F;
+    cursor: pointer;
+    font-size: 60px;
+    margin-left: 20px; /* Adjust the margin as needed */
 `;
 
 const HeaderComponents = styled.div`
@@ -73,9 +81,9 @@ const MenuHeader: React.FC = () => {
                         <div style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10 }}><HeaderButton>About Us</HeaderButton></div>
                     </Link>
                 </MenuButtons>
-                {isAuthenticated ? (
+                { isAuthenticated ? (
                     <Link to='/login'>
-                        <div style={{ borderRadius: 10, width: 125, paddingLeft: 20 }}><HeaderButton>Sign In</HeaderButton></div>
+                        <div style={{ borderRadius: 10, width: 125, paddingLeft: 20, marginRight: 10}}><HeaderButton>Sign In</HeaderButton></div>
                     </Link>
                 ) : (
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -83,7 +91,10 @@ const MenuHeader: React.FC = () => {
                             <div style={{ borderRadius: 10, width: 125, paddingLeft: 20, marginRight: 10 }}><HeaderButton>Profiles</HeaderButton></div>
                         </Link>
                         <Link to='/savedTrials'>
-                            <div style={{ borderRadius: 10, width: 160, paddingLeft: 20 }}><HeaderButton>Saved Trials</HeaderButton></div>
+                            <FilledBookmarkIcon /> 
+                        </Link>
+                        <Link to='/listprofiles'>
+                            <ProfileIcon />
                         </Link>
                     </div>                    
                 )}
