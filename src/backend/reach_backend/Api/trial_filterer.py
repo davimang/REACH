@@ -4,7 +4,7 @@ import regex as re
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from geopy.location import Location
-from .filtering_dictionary import (filtering_dict_num,
+from filtering_dictionary import (filtering_dict_num,
                                    filtering_dict_boolean,
                                    filtering_dict_special)
 
@@ -27,9 +27,53 @@ class TrialFilterer:
         ]
 
         studies = TrialFilterer.filter_gender(input_params["sex"], studies)
-        studies["KeywordRank"] = 0
-        studies = TrialFilterer.filter_keywords(studies, input_params)
         return studies
+    
+    @staticmethod
+    def generate_keywords(input_params: dict):
+        search_str = []
+        for k in filtering_dict_num.keys():
+            if k in input_params.keys():
+                if input_params.get(k, 0) > 0:
+                    search_str.append(filtering_dict_num.get(k, 0))
+
+        
+        for k in filtering_dict_boolean.keys():
+            if k in input_params.keys():
+                if input_params.get(k, 0):
+                    search_str.append(filtering_dict_boolean.get(k, 0))
+
+        if input_params.get("asthmaSeverity", 0) == "moderate":
+            search_str.append("moderate+asthma")
+        elif input_params.get("asthmaSeverity", 0) == "severe":
+            search_str.append("severe+asthma")
+
+        if input_params.get("WHOFunctionalClass", 0) > 2:
+            search_str.append("severe+pulmonary+hypertension")
+
+        match input_params.get("PHType",0):
+            case 1:
+                search_str.append("pulmonary+arterial+hypertension")
+            case 2:
+                search_str.append("left+heart+disease")
+            case 3:
+                search_str.append("lung+disease")
+            case 4:
+                search_str.append("blood+clot")
+            case 5:
+                search_str.append("unknown+case")
+
+        if input_params.get("packYears", 0) > 40:
+            search_str.append("heavy+smoker")
+        elif input_params.get("packYears", 0) > 20:
+            search_str.append("moderate+smoker")
+        elif input_params.get("packYears", 0) > 0:
+            search_str.append("light+smoker")
+
+        if len(search_str) > 0:
+            return "+OR+".join(search_str)
+        return ""
+
 
     @staticmethod
     def post_filter(studies: pd.DataFrame, input_params: str,
@@ -46,94 +90,9 @@ class TrialFilterer:
                 home_geo.latitude, home_geo.longitude
             ), 2)
 
-        max_distance = input_params.get('max_distance', 99999999)
+        max_distance = input_params.get('max_distance', 500) #default 500 km
         studies = studies[studies['Distance'] <= max_distance]
-        return studies
-
-    @staticmethod
-    def filter_keywords(df: pd.DataFrame, info: dict) -> pd.DataFrame:
-        """increases rank for each met keyword"""
-
-        df = df[df['OverallStatus'] != "Completed"]
-
-        for param in filtering_dict_num.keys():
-            if info.get(param, 0) > 0:
-                df.loc[df["Keyword"].str.contains(
-                    "|".join(filtering_dict_num[param]), na=False
-                ),
-                ["KeywordRank"],
-            ] += 1
-
-        for param in filtering_dict_boolean.keys():
-            if info.get(param, 0):
-                df.loc[df["Keyword"].str.contains(
-                    "|".join(filtering_dict_boolean[param]), na=False
-                ),
-                ["KeywordRank"],
-            ] += 1
-
-        if info.get("asthmaSeverity", 0) in ["moderate", "severe"]:
-            df.loc[
-                df["Keyword"].str.contains(
-                    "|".join(
-                        [
-                            "severe asthma",
-                            "moderate asthma",
-                            "Severe asthma",
-                            "Moderate asthma",
-                        ]
-                    ),
-                    na=False,
-                ),
-                ["KeywordRank"],
-            ] += 1
-
-        if info.get("packYears", 0) > 40:
-            df.loc[
-                df["Keyword"].str.contains(
-                    "|".join(
-                        [
-                            "heavy smoker",
-                            "Heavy smoker",
-                            "frequent smoker",
-                            "Frequent smoker"
-                        ]
-                    ),
-                    na=False,
-                ),
-                ["KeywordRank"],
-            ] += 1
-        elif info.get("packYears", 0) > 20:
-            df.loc[
-                df["Keyword"].str.contains(
-                    "|".join(
-                        [
-                            "moderate smoker",
-                            "Moderate smoker",
-                        ]
-                    ),
-                    na=False,
-                ),
-                ["KeywordRank"],
-            ] += 1
-        elif info.get("packYears", 0) > 0:
-            df.loc[
-                df["Keyword"].str.contains(
-                    "|".join(
-                        [
-                            "light smoker",
-                            "light smoker",
-                            "smoker",
-                            "Smoker"
-                        ]
-                    ),
-                    na=False,
-                ),
-                ["KeywordRank"],
-            ] += 1
-
-        return df
-        
+        return studies        
 
     @staticmethod
     def generate_address(studies: pd.DataFrame) -> pd.DataFrame:
