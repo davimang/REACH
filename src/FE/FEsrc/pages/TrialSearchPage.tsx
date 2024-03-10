@@ -8,12 +8,7 @@ import { DropDownInput } from '../components/FormStyles';
 import TrialCard from '../components/TrialCard';
 import useDidMountEffect from '../components/useDidMountEffect';
 import Map from '../components/Map';
-import Box from '@mui/material/Box';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import TrialModal from '../components/TrialModal';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ErrorMessage } from '../components/FormStyles';
 
@@ -50,11 +45,6 @@ const MapContainer = styled.div`
     height: 95%;
 `;
 
-const DialogContentInfo = styled.div`
-    height: 25px;
-    width: 100%;
-`;
-
 const Loading = styled.div`
     position: fixed;
     left: 45%;
@@ -74,11 +64,11 @@ const TrialSearchPage = () => {
     const [currentLocation, setCurrentLocation] = useState({});
     const [trialSaved, setTrialSaved] = useState({});
     const [savedTrialIds, setSavedTrialIds] = useState({});
-    const [open, setOpen] = useState(false);
     const [pageTokens, setPageTokens] = useState([""]);
     const [pageTokenPointer, setPageTokenPointer] = useState(0);
     const [maxDistance, setMaxDistance] = useState('');
     const [profileError, setProfileError] = useState(false);
+    const [open, setOpen] = useState(false);
     const [modalDetails, setModalDetails] = useState({
         title: "",
         description: "",
@@ -92,7 +82,7 @@ const TrialSearchPage = () => {
 
     const handleModal = () => {
         setOpen(!open);
-    }
+    };
 
     const handleSave = async (trial) => {
         const isSaved = trial.saved
@@ -335,43 +325,7 @@ const TrialSearchPage = () => {
                 </MapContainer>
             </div>}
 
-
-            <Dialog
-                open={open}
-                onClose={handleModal}
-                aria-labelledby="scroll-dialog-title"
-                aria-describedby="scroll-dialog-description"
-                scroll="paper"
-            >
-                <DialogTitle id="scroll-dialog-title">{modalDetails["title"]}</DialogTitle>
-                <DialogContent >
-                    <Box border={1} padding={2}>
-                        <DialogContentInfo>
-                            <div>
-                                Contact Email: {modalDetails["contactEmail"]}
-                            </div>
-                            <div>
-                                Principal Investigator: {modalDetails["principalInvestigator"]}
-                            </div>
-                        </DialogContentInfo>
-                    </Box>
-                    <Box border={1} padding={2}>
-                        <DialogContentText
-                            id="scroll-dialog-description"
-                            tabIndex={-1}
-                        >{modalDetails["description"]}
-                        </DialogContentText >
-                    </Box>
-
-                </DialogContent>
-                <DialogActions>
-                    <StyledButton onClick={handleModal}>Close</StyledButton>
-                    <a href={modalDetails["url"]} target="_blank">
-                        <StyledButton>View Study</StyledButton>
-                    </a>
-                </DialogActions>
-
-            </Dialog>
+            <TrialModal open={open} handleModal={handleModal} modalDetails={modalDetails} />
 
         </>
     );
