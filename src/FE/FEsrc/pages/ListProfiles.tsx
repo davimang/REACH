@@ -9,10 +9,18 @@ import { StyledButton } from '../components/ButtonStyle';
 
 const AccountProfilePageContainer = styled.div`
     display: flex;
+    position: relative;
 `;
 
 const Header = styled.h1`
     color: white
+`;
+
+
+const ProfileButton = styled(Button)`
+    position: absolute;
+    top: 10px;
+    right: 10px;
 `;
 
 const ProfileListContainer = styled.div`
