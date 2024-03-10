@@ -4,7 +4,7 @@ import json
 import requests
 import pandas as pd
 from geopy.geocoders import Nominatim
-from .trial_filterer import TrialFilterer
+from trial_filterer import TrialFilterer
 
 locator = Nominatim(user_agent="my_request")
 
@@ -54,8 +54,14 @@ class TrialFetcher:
         search_template = API_URL2 + "query.cond=" + condition_search
         search_template = (search_template + "&filter.geo=distance(" +
                            str(home_geo.latitude) + "," + str(home_geo.longitude) +
-                           "," + str(input_params.get('max_distance',9999999)) + "km)"
+                           "," + str(input_params.get('max_distance',99999999)) + "km)"
         )
+
+        keywords = TrialFilterer.generate_keywords(input_params)
+        if len(keywords) > 0:
+            search_template = search_template + "&query.term=" + keywords
+
+        print(search_template)
 
         # start one rank up from the last rank returned by a previous call
        
@@ -81,7 +87,7 @@ class TrialFetcher:
                 break
 
             # remove any invalid trials
-            temp = TrialFilterer.filter_trials(temp, input_params)
+            #temp = TrialFilterer.filter_trials(temp, input_params)
 
             temp = TrialFilterer.post_filter(
                 temp, input_params, home_geo
@@ -101,7 +107,6 @@ class TrialFetcher:
                     "DetailedDescription",
                     "OverallStatus",
                     "Distance",
-                    "KeywordRank",
                     "url",
                     "FullAddress",
                     "LocationLatitude",
@@ -127,7 +132,6 @@ class TrialFetcher:
                 "BriefTitle",
                 "DetailedDescription",
                 "OverallStatus",
-                "KeywordRank",
                 "url",
                 "FullAddress",
                 "LocationLatitude",
