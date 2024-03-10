@@ -14,12 +14,12 @@ const ProfileCreationContainer = styled.div`
 `;
 
 const EditAccountInfoPage = (props) => {
-    
+
     const [initialLoad, setInitialLoad] = useState(true);
 
     const data = useLocation();
 
-    props = {...data.state};
+    props = { ...data.state };
 
     const userId = localStorage.getItem('userId');
 
@@ -30,6 +30,8 @@ const EditAccountInfoPage = (props) => {
     const [isClinician, setIsClinician] = useState(props.isClinician);
 
     const [error, setError] = useState(false);
+
+    const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
     const errorMessage = 'Failed to update account information. Please try again.';
 
@@ -43,7 +45,7 @@ const EditAccountInfoPage = (props) => {
 
         return {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
             body: JSON.stringify({
                 first_name: firstNameField.value,
                 last_name: lastNameField.value,
@@ -71,6 +73,10 @@ const EditAccountInfoPage = (props) => {
             setError(true);
         }
     };
+
+    useEffect(() => {
+        setAuthToken(localStorage.getItem('accessToken'));
+    }, [localStorage.getItem('accessToken')]);
 
     useDidMountEffect(() => {
         setInitialLoad(false);
@@ -111,11 +117,11 @@ const EditAccountInfoPage = (props) => {
                             type='checkbox'
                             value={isClinician}
                             checked={isClinician}
-                            style={{width: 30, height: 30}}
+                            style={{ width: 30, height: 30 }}
                             onChange={(e) => {
                                 setIsClinician(e.target.checked);
                             }
-                        }
+                            }
                         />
 
 
