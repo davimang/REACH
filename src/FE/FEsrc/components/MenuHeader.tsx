@@ -87,9 +87,9 @@ const MenuHeader: React.FC = () => {
                     </Link>
                 ) : (
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
-                        <Link to='/listprofiles'>
+                        {/* <Link to='/listprofiles'>
                             <div style={{ borderRadius: 10, width: 125, paddingLeft: 20, marginRight: 10 }}><HeaderButton>Profiles</HeaderButton></div>
-                        </Link>
+                        </Link>  -- Remove this for the moment bc button is unappealing*/} 
                         <Link to='/savedTrials'>
                             <FilledBookmarkIcon /> 
                         </Link>
