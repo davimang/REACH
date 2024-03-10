@@ -75,7 +75,7 @@ const TrialSearchPage = () => {
     const [trialSaved, setTrialSaved] = useState({});
     const [savedTrialIds, setSavedTrialIds] = useState({});
     const [open, setOpen] = useState(false);
-    const[pageTokens, setPageTokens] = useState([""]);
+    const [pageTokens, setPageTokens] = useState([""]);
     const [pageTokenPointer, setPageTokenPointer] = useState(0);
     const [maxDistance, setMaxDistance] = useState('');
     const [profileError, setProfileError] = useState(false);
@@ -88,6 +88,7 @@ const TrialSearchPage = () => {
         url: ""
     })
     const userId = localStorage.getItem('userId');
+    const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
     const handleModal = () => {
         setOpen(!open);
@@ -102,7 +103,7 @@ const TrialSearchPage = () => {
             try {
                 const body = {
                     title: trial.BriefTitle,
-                    description: trial.DetailedDescription ? trial.DetailedDescription: "N/A",
+                    description: trial.DetailedDescription ? trial.DetailedDescription : "N/A",
                     url: trial.url,
                     location: {
                         latitude: trial.LocationLatitude,
@@ -114,18 +115,18 @@ const TrialSearchPage = () => {
                     user: userId,
                     profile: selectedProfileId
                 }
-                if(trial.PointOfContactEMail){
-                    Object.assign(body, {contact_email: trial.PointOfContactEMail});
+                if (trial.PointOfContactEMail) {
+                    Object.assign(body, { contact_email: trial.PointOfContactEMail });
                 }
-                else if(trial.CentralContactEMail){
-                    Object.assign(body, {contact_email: trial.CentralContactEMail});
+                else if (trial.CentralContactEMail) {
+                    Object.assign(body, { contact_email: trial.CentralContactEMail });
                 }
-                if(trial.ResponsiblePartyInvestigatorFullName){
-                    Object.assign(body, {principal_investigator: trial.ResponsiblePartyInvestigatorFullName});
+                if (trial.ResponsiblePartyInvestigatorFullName) {
+                    Object.assign(body, { principal_investigator: trial.ResponsiblePartyInvestigatorFullName });
                 }
                 const requestOptions = {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${authToken}` },
                     body: JSON.stringify(body)
                 };
                 const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
@@ -139,17 +140,18 @@ const TrialSearchPage = () => {
                 console.error('Error saving trial:', error.message);
             }
         }
-        else{
-            try{
+        else {
+            try {
                 const requestOptions = {
-                    method: 'DELETE'
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${authToken}` }
                 };
-                
+
                 const trialId = savedTrialIds[trial.NCTId] ? savedTrialIds[trial.NCTId] : trial.savedId;
 
                 await fetch(`${API_URL}${endpoint}${trialId}/`, requestOptions).then(response => console.log(response));
             }
-            catch(error){
+            catch (error) {
                 console.error('Error deleting trial:', error.message);
             }
         }
@@ -158,7 +160,10 @@ const TrialSearchPage = () => {
     const fetchProfilesList = async () => {
         try {
             const endpoint = `/patientinfo/?user=${userId}`;
-            const response = await fetch(`${API_URL}${endpoint}`);
+            const requestOptions = {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            };
+            const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
             if (!response.ok) {
                 throw new Error(`Failed to fetch profiles. Status: ${response.status}`);
             }
@@ -171,14 +176,17 @@ const TrialSearchPage = () => {
 
     const fetchTrials = async () => {
         setResponseTrials(null);
-        if(!selectedProfileId) {
+        if (!selectedProfileId) {
             setProfileError(true);
             return;
         }
         try {
             setLoading(true);
             const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&next_page=${pageTokens[pageTokenPointer]}&max_distance=${maxDistance}`;
-            const response = await fetch(`${API_URL}${endpoint}`);
+            const requestOptions = {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            };
+            const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
             if (!response.ok) {
                 throw new Error(`Failed to fetch trials. Status: ${response.status}`);
             }
@@ -192,25 +200,25 @@ const TrialSearchPage = () => {
     };
 
     const updateDefaultLocation = () => {
-        if(responseTrials){
+        if (responseTrials) {
             const defaultTrial = responseTrials[0];
-            setCurrentLocation({latitude: defaultTrial.LocationLatitude, longitude: defaultTrial.LocationLongitude});
+            setCurrentLocation({ latitude: defaultTrial.LocationLatitude, longitude: defaultTrial.LocationLongitude });
         }
     }
 
     const nextPage = (e) => {
         e.preventDefault();
-        if(responseTrials){
+        if (responseTrials) {
 
-            if(pageTokenPointer == pageTokens.length - 1) {
+            if (pageTokenPointer == pageTokens.length - 1) {
                 const nextPage = responseTrials[0].nextPage;
                 setPageTokens([...pageTokens, nextPage]);
                 setPageTokenPointer(pageTokenPointer + 1);
             }
-            else{
-                setPageTokenPointer(pageTokenPointer+1);
+            else {
+                setPageTokenPointer(pageTokenPointer + 1);
             }
-            
+
         }
     }
 
@@ -225,11 +233,11 @@ const TrialSearchPage = () => {
     }
 
     const updateHasNextPage = () => {
-        if(responseTrials){
-            if(responseTrials[0].nextPage){
+        if (responseTrials) {
+            if (responseTrials[0].nextPage) {
                 setHasNextPage(true);
             }
-            else{
+            else {
                 setHasNextPage(false);
             }
         }
@@ -237,21 +245,25 @@ const TrialSearchPage = () => {
 
     const displayTrials = () => {
         return (
-                responseTrials &&
-                Object.values(responseTrials).map((trial) => (
-                    <TrialCard
-                        trial={trial}
-                        trialSaved={trialSaved}
-                        handleSave={handleSave}
-                        setCurrentLocation={setCurrentLocation}
-                        handleModal={handleModal}
-                        setModalDetails={setModalDetails}
-                    />
-                ))
-                
-                
+            responseTrials &&
+            Object.values(responseTrials).map((trial) => (
+                <TrialCard
+                    trial={trial}
+                    trialSaved={trialSaved}
+                    handleSave={handleSave}
+                    setCurrentLocation={setCurrentLocation}
+                    handleModal={handleModal}
+                    setModalDetails={setModalDetails}
+                />
+            ))
+
+
         );
     }
+
+    useEffect(() => {
+        setAuthToken(localStorage.getItem('accessToken'));
+    }, [localStorage.getItem('accessToken')]);
 
     useEffect(() => {
         fetchProfilesList();
@@ -264,7 +276,7 @@ const TrialSearchPage = () => {
 
     useDidMountEffect(() => {
         fetchTrials();
-    }, [pageTokenPointer]);  
+    }, [pageTokenPointer]);
 
     const navigateToBookmarks = () => {
         navigate('/savedTrials');
@@ -281,7 +293,7 @@ const TrialSearchPage = () => {
                         resetPageTokens();
                         setProfileError(false);
                     }
-                }
+                    }
                 >
                     <option value='' disabled>-- Select Patient Profile --</option>
                     {
@@ -292,7 +304,7 @@ const TrialSearchPage = () => {
                     }
                 </StyledDropDown>
                 {profileError && <ErrorMessage>Please select a profile.</ErrorMessage>}
-                <StyledDropDown 
+                <StyledDropDown
                     value={maxDistance}
                     onChange={(e) => setMaxDistance(e.target.value)}
                 >
@@ -304,7 +316,7 @@ const TrialSearchPage = () => {
                     <option value={5000}>5000Km</option>
                     <option value={10000}>10000Km</option>
                 </StyledDropDown>
-                
+
                 <SizedButton onClick={() => {
                     resetPageTokens();
                     fetchTrials();
@@ -312,18 +324,18 @@ const TrialSearchPage = () => {
                 <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>
             </TrialSearchHeader>
 
-            {loading ? <Loading> <CircularProgress size="5rem" color="success" /> </Loading> : <div style={{ display: 'flex' }}>                
+            {loading ? <Loading> <CircularProgress size="5rem" color="success" /> </Loading> : <div style={{ display: 'flex' }}>
                 <TrialsListContainer>
                     {displayTrials()}
-                    {responseTrials && !loading && pageTokenPointer > 0 && <StyledButton onClick={e => {prevPage(e);}}>Previous Page</StyledButton>}
-                    {responseTrials && !loading && hasNextPage && <StyledButton style={{float: 'right'}} onClick={e => {nextPage(e);}}>Next Page</StyledButton>}
+                    {responseTrials && !loading && pageTokenPointer > 0 && <StyledButton onClick={e => { prevPage(e); }}>Previous Page</StyledButton>}
+                    {responseTrials && !loading && hasNextPage && <StyledButton style={{ float: 'right' }} onClick={e => { nextPage(e); }}>Next Page</StyledButton>}
                 </TrialsListContainer>
                 <MapContainer>
-                    {(responseTrials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]}/>}
+                    {(responseTrials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]} />}
                 </MapContainer>
             </div>}
-            
-      
+
+
             <Dialog
                 open={open}
                 onClose={handleModal}
@@ -331,36 +343,36 @@ const TrialSearchPage = () => {
                 aria-describedby="scroll-dialog-description"
                 scroll="paper"
             >
-                    <DialogTitle id="scroll-dialog-title">{modalDetails["title"]}</DialogTitle>
-                    <DialogContent >
+                <DialogTitle id="scroll-dialog-title">{modalDetails["title"]}</DialogTitle>
+                <DialogContent >
                     <Box border={1} padding={2}>
-                    <DialogContentInfo>
-                    <div>
-                    Contact Email: {modalDetails["contactEmail"]}
-                    </div>
-                    <div>
-                    Principal Investigator: {modalDetails["principalInvestigator"]}
-                    </div>
-                    </DialogContentInfo>
+                        <DialogContentInfo>
+                            <div>
+                                Contact Email: {modalDetails["contactEmail"]}
+                            </div>
+                            <div>
+                                Principal Investigator: {modalDetails["principalInvestigator"]}
+                            </div>
+                        </DialogContentInfo>
                     </Box>
                     <Box border={1} padding={2}>
-                    <DialogContentText
-                        id="scroll-dialog-description"
-                        tabIndex={-1}
-                    >{modalDetails["description"]}
-                    </DialogContentText >
+                        <DialogContentText
+                            id="scroll-dialog-description"
+                            tabIndex={-1}
+                        >{modalDetails["description"]}
+                        </DialogContentText >
                     </Box>
-                    
-                    </DialogContent>
-                    <DialogActions>
-                        <StyledButton onClick={handleModal}>Close</StyledButton>
-                        <a href={modalDetails["url"]} target="_blank">
-                            <StyledButton>View Study</StyledButton>
-                        </a>
-                    </DialogActions>
-             
+
+                </DialogContent>
+                <DialogActions>
+                    <StyledButton onClick={handleModal}>Close</StyledButton>
+                    <a href={modalDetails["url"]} target="_blank">
+                        <StyledButton>View Study</StyledButton>
+                    </a>
+                </DialogActions>
+
             </Dialog>
-        
+
         </>
     );
 }

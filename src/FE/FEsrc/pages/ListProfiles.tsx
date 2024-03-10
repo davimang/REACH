@@ -42,14 +42,18 @@ const SizedButton = styled(StyledButton)`
 
 const ListProfiles: React.FC = () => {
 
-  const userId = localStorage.getItem('userId') ? localStorage.getItem('userId') : 1;
+  const userId = localStorage.getItem('userId');
   const [profiles, setProfiles] = useState<PatientInfo[]>([]);
-  const [userData, setUserData] = useState<UserData>({first_name: "", last_name: "", created: "", is_clinician: false});
+  const [userData, setUserData] = useState<UserData>({ first_name: "", last_name: "", created: "", is_clinician: false });
+  const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
   const fetchProfilesList = () => {
     try {
       const endpoint = `/patientinfo/?user=${userId}`;
-      fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => { setProfiles(response) });
+      const requestOptions = {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      };
+      fetch(`${API_URL}${endpoint}`, requestOptions).then(response => response.json()).then(response => { setProfiles(response) });
       console.log(profiles)
     } catch (error) {
       console.error('Error fetching profiles:', error.message);
@@ -59,12 +63,19 @@ const ListProfiles: React.FC = () => {
   const fetchUserData = () => {
     try {
       const endpoint = `/userdata/${userId}/`;
-      fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => { setUserData(response) });
+      const requestOptions = {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      };
+      fetch(`${API_URL}${endpoint}`, requestOptions).then(response => response.json()).then(response => { setUserData(response) });
       console.log(userData)
     } catch (error) {
       console.error('Error fetching account info:', error.message);
     }
   }
+
+  useEffect(() => {
+    setAuthToken(localStorage.getItem('accessToken'));
+  }, [localStorage.getItem('accessToken')]);
 
   useEffect(() => {
     fetchProfilesList();

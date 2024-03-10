@@ -63,6 +63,18 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         UserData.objects.create(user=user, **userInfo)
         return user
 
+    def is_valid(self, raise_exception=False):
+        """Check if the serializer is valid."""
+        password = self.initial_data.get("password")
+        password_valid = len(password) >= 8
+
+        if password_valid == False:
+            raise serializers.ValidationError(
+                "Password must be at least 8 characters long."
+            )
+
+        return password_valid and super().is_valid(raise_exception=raise_exception)
+
 
 class PatientInfoSerializer(serializers.ModelSerializer):
     """Serializer for the patient info model."""
