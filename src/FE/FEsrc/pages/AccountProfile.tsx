@@ -1,175 +1,84 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 import { API_URL } from '..';
-import { useAuth } from '../contexts/AuthContext';
-import { checkEmpty, fieldValidation } from '../hooks/Validation';
-import { FormContainer, Form, TextInput, FormButton, ErrorMessage, ButtonContainer, CheckboxContainer, CheckboxInput, CheckboxLabel, FormButtonDisabled } from '../components/FormStyles';
+import UserDataCard from '../components/UserDataCard';
+import styled from '@emotion/styled';
+import { Button } from '@mui/material';
+import { StyledButton } from '../components/ButtonStyle';
+import { UserData } from '../components/types';
+
+const AccountProfilePageContainer = styled.div`
+    display: flex;
+`;
 
 const Header = styled.h1`
-  color: white; 
-  font-size: 40px; 
+    color: white
 `;
 
-const AccountProfileContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const RegisterPageContainer = styled.div`
-  display: flex;
+const ProfileListContainer = styled.div`
+  display: grid;
   justify-content: center;
-  width: 100%;
-  align-items: center;
+  width: 45%;
 `;
 
-const AccountProfile: React.FC = () => {
-    const navigate = useNavigate();
-    const { register } = useAuth();
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-        username: '',
-        first_name: '',
-        last_name: '',
-        is_clinician: false,
-    });
+const UserDataContainer = styled.div`
+  padding: 25px;
+  width: 45%;
+  height: fit-content;
+  justify-content: center;
+  display: grid;
+  color: #FFFFFF;
+  font-size: 20px;
+  font-family: math;
+`;
 
-    const [error, setError] = useState(false);
+const SizedButton = styled(StyledButton)`
+    height: 65px;
+    width: inherit;
+    margin-left: 4em;
+`;
 
-    const errorMessage = 'Registration failed. Please try again.';
+const AccountProfilePage: React.FC = () => {
+  const userId = localStorage.getItem('userId');
+  const [userData, setUserData] = useState<UserData>({ first_name: "", last_name: "", created: "", is_clinician: false });
+  const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
-    const emailErrorMessage = 'Invalid email';
-    const usernameErrorMessage = 'Username is not available';
-    const genericErrorMessage = 'This field cannot be empty';
+  const fetchUserData = () => {
+    try {
+      const endpoint = `/userdata/${userId}/`;
+      const requestOptions = {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      };
+      fetch(`${API_URL}${endpoint}`, requestOptions)
+        .then(response => response.json())
+        .then(response => { setUserData(response) });
+    } catch (error) {
+      console.error('Error fetching account info:', error.message);
+    }
+  }
 
-    const emailField = fieldValidation(formData.email);
-    const usernameField = fieldValidation(formData.username, 500);
-    const passwordField = fieldValidation(checkEmpty);
-    const firstNameField = fieldValidation(checkEmpty);
-    const lastNameField = fieldValidation(checkEmpty);
+  useEffect(() => {
+    setAuthToken(localStorage.getItem('accessToken'));
+  }, [localStorage.getItem('accessToken')]);
 
-    const enableSubmit = emailField.valid && usernameField.valid && passwordField.valid && firstNameField.valid && lastNameField.valid;
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, type, checked } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value,
-        }));
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        try {
-            await register(
-                formData.username,
-                formData.password,
-                formData.email,
-                formData.first_name,
-                formData.last_name,
-                formData.is_clinician
-            );
-
-            navigate('/createProfile');
-        } catch (error) {
-            setError(true);
-        }
-    };
-
-    useEffect(() => {
-        if (error) {
-            setError(false);
-        }
-    }, [formData.username, formData.password, formData.email, formData.first_name, formData.last_name]);
-
-    useEffect(() => {
-        // Fetch user data from the account profile
-        const userId = localStorage.getItem('userId') || '1';
-        fetch(`${API_URL}/userdata/${userId}/`)
-            .then(response => response.json())
-            .then(response => {
-                setFormData({
-                    ...formData,
-                    email: response.email,
-                    first_name: response.first_name,
-                    last_name: response.last_name,
-                    is_clinician: response.is_clinician,
-                });
-            })
-            .catch(error => console.error('Error fetching account info:', error.message));
-    }, []);
-
-    return (
-        
-        <RegisterPageContainer>
-            {/* <Header>Account Profile</Header> */}
-            <FormContainer>
-                <Form onSubmit={handleSubmit} id='reg-form'>
-                    <TextInput
-                        type='email'
-                        id='email'
-                        name='email'
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        placeholder='Email'
-                    />
-                    <TextInput
-                        type='password'
-                        id='password'
-                        name='password'
-                        value={formData.password}
-                        onChange={handleInputChange}
-                        placeholder='Password'
-                        autoComplete='new-password'
-                    />
-                    <TextInput
-                        type='text'
-                        id='username'
-                        name='username'
-                        value={formData.username}
-                        onChange={handleInputChange}
-                        placeholder='Username'
-                    />
-                    <TextInput
-                        type='text'
-                        id='first_name'
-                        name='first_name'
-                        value={formData.first_name}
-                        onChange={handleInputChange}
-                        placeholder='First Name'
-                    />
-                    <TextInput
-                        type='text'
-                        id='last_name'
-                        name='last_name'
-                        value={formData.last_name}
-                        onChange={handleInputChange}
-                        placeholder='Last Name'
-                    />
-                    <CheckboxContainer>
-                        <CheckboxInput
-                            type='checkbox'
-                            name='is_clinician'
-                            checked={formData.is_clinician}
-                            onChange={handleInputChange}
-                        />
-                        <CheckboxLabel>Clinician</CheckboxLabel>
-                    </CheckboxContainer>
-                    {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                    <ButtonContainer>
-                        {enableSubmit ?
-                            <FormButton type='submit'>Save</FormButton>
-                            :
-                            <FormButtonDisabled disabled>Save</FormButtonDisabled>
-                        }
-                    </ButtonContainer>
-                </Form>
-            </FormContainer>
-        </RegisterPageContainer>
-    );
+  return (
+    <AccountProfilePageContainer>
+      <UserDataContainer>
+        <UserDataCard userData={userData} />
+        <Link to={`/editProfile`}> {/* Link to the edit profile page */}
+          <SizedButton>Edit Profile</SizedButton>
+        </Link>
+      </UserDataContainer>
+      <ProfileListContainer>
+        <Header>Profiles</Header>
+        {/* Add a button here to add a new profile if needed */}
+      </ProfileListContainer>
+    </AccountProfilePageContainer>
+  );
 };
 
-export default AccountProfile;
+export default AccountProfilePage;
