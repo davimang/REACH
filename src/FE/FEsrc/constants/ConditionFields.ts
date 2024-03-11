@@ -33,13 +33,15 @@ const asthma = {
         inputType: 'checkbox',
         clinician: false,
         i: "current or ex-smoker",
-    },
-    packYears: {
-        label: "Pack-Years",
-        initial: 0,
-        inputType: 'number',
-        clinician: false,
-        i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
+        children: {
+            packYears: {
+            label: "Pack-Years",
+            initial: 0,
+            inputType: 'number',
+            clinician: false,
+            i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
+            },
+        }
     },
     asthmaSeverity: {
         label: "Asthma Severity",
@@ -107,13 +109,15 @@ const copd = {
         inputType: 'checkbox',
         clinician: false,
         i: "current or ex-smoker",
-    },
-    packYears: {
-        label: "Pack-Years",
-        initial: 0,
-        inputType: 'number',
-        clinician: false,
-        i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
+        children: {
+            packYears: {
+            label: "Pack-Years",
+            initial: 0,
+            inputType: 'number',
+            clinician: false,
+            i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
+            },
+        }
     },
     onDualTherapy: {
         label: "On Dual Therapy Inhalers",
@@ -187,13 +191,15 @@ const ild = {
         inputType: 'checkbox',
         clinician: false,
         i: "current or ex-smoker",
-    },
-    packYears: {
-        label: "Pack-Years",
-        initial: 0,
-        inputType: 'number',
-        clinician: false,
-        i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
+        children: {
+            packYears: {
+            label: "Pack-Years",
+            initial: 0,
+            inputType: 'number',
+            clinician: false,
+            i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
+            },
+        }
     },
     pulmonaryHypertension: {
         label: "Co-Existing Pulmonary Hypertension",

@@ -9,6 +9,7 @@ export interface FieldInfo {
     dropdownOptions: string[] | null;
     clinician: boolean;
     i: string;
+    children: {[key: string]: FieldInfo} | null;
 }
 interface AdvancedFormFieldProps {
     fieldInfo: FieldInfo;
@@ -42,7 +43,7 @@ const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
                 value={value}
                 onChange={(e) => setAdvancedInfo({ ...advancedInfo, [fieldVariable]: e.target.value })}
             >
-                <option value='' disabled>{`-- Select ${fieldInfo.label} --`}</option>
+                <option value="" disabled>{`-- Select ${fieldInfo.label} --`}</option>
                 {fieldInfo.dropdownOptions && fieldInfo.dropdownOptions.map((option, index) => (
                     <option key={index} value={option}>{option}</option>
                 ))}
