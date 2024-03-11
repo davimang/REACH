@@ -32,9 +32,9 @@ def test_build_study_dict():
     Module: TrialFetcher
     Id: UNT-21
     """
-    sample_ctg_response = open("sample_api_response.json", encoding="utf-8")
 
-    response = json.load(sample_ctg_response)
+    with open("sample_api_response.json", encoding="utf-8") as sample_ctg_response:
+        response = json.load(sample_ctg_response)
 
     study_dict = build_study_dict(response)
 
