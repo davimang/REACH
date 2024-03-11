@@ -1,4 +1,5 @@
 """Module defining test setup/teardown class."""
+
 from datetime import datetime
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
@@ -16,7 +17,9 @@ class TestApiSetup(APITestCase):
         self.profiles = "/patientinfo/"
         self.userdata = "/userdata/"
         self.user = User.objects.create_user(username="test-user", password="test-pass")
-        self.user2 = User.objects.create_user(username="test-user2", password="test-pass2")
+        self.user2 = User.objects.create_user(
+            username="test-user2", password="test-pass2"
+        )
         self.patient_info_data = {
             "user": self.user,
             "date_of_birth": datetime(1954, 1, 1),
