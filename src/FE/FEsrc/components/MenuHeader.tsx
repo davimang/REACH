@@ -6,6 +6,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { StyledButton } from './ButtonStyle';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+
 
 const ProfileIcon = styled(AccountCircleIcon)`
     color: #039D5F;
@@ -52,6 +54,22 @@ const HeaderButton = styled(StyledButton)`
 const MenuButtons = styled.div`
     display: inline-flex;
 `;
+const ListButton = styled.div`
+    border-radius: 10px;
+    width: 125px;
+    padding: 10px 0;
+    margin-right: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    cursor: pointer;
+`;
+
+const ListIcon = styled(ListAltIcon)`
+    color: #039D5F;
+    font-size: 60px;
+`;
 
 const MenuHeader: React.FC = () => {
     const { isAuthenticated, userId, login, logout, register } = useAuth();
@@ -94,6 +112,9 @@ const MenuHeader: React.FC = () => {
                             <FilledBookmarkIcon /> 
                         </Link>
                         <Link to='/listprofiles'>
+                            <ListIcon />
+                        </Link>
+                        <Link to='/accountProfile'>
                             <ProfileIcon />
                         </Link>
                     </div>                    

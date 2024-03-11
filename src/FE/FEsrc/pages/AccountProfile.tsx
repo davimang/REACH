@@ -105,7 +105,7 @@ const AccountProfile: React.FC = () => {
     return (
         
         <RegisterPageContainer>
-            <Header>Account Profile</Header>
+            {/* <Header>Account Profile</Header> */}
             <FormContainer>
                 <Form onSubmit={handleSubmit} id='reg-form'>
                     <TextInput
