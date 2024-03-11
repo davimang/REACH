@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link} from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useAuth } from '../contexts/AuthContext';
 import { StyledButton } from './ButtonStyle';
@@ -72,7 +71,13 @@ const ListIcon = styled(ListAltIcon)`
 `;
 
 const MenuHeader: React.FC = () => {
+    const navigate = useNavigate();
     const { isAuthenticated, userId, login, logout, register } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
     // constant for going to create profile page
     const navigate = useNavigate();
     const navigateToProfileCreation = () => {
@@ -99,17 +104,17 @@ const MenuHeader: React.FC = () => {
                         <div style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10 }}><HeaderButton>About Us</HeaderButton></div>
                     </Link>
                 </MenuButtons>
-                { !isAuthenticated ? (
+                {!isAuthenticated ? (
                     <Link to='/login'>
-                        <div style={{ borderRadius: 10, width: 125, paddingLeft: 20, marginRight: 10}}><HeaderButton>Sign In</HeaderButton></div>
+                        <div style={{ borderRadius: 10, width: 125, paddingLeft: 20, marginRight: 10 }}><HeaderButton>Sign In</HeaderButton></div>
                     </Link>
                 ) : (
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                         {/* <Link to='/listprofiles'>
                             <div style={{ borderRadius: 10, width: 125, paddingLeft: 20, marginRight: 10 }}><HeaderButton>Profiles</HeaderButton></div>
-                        </Link>  -- Remove this for the moment bc button is unappealing*/} 
+                        </Link>  -- Remove this for the moment bc button is unappealing*/}
                         <Link to='/savedTrials'>
-                            <FilledBookmarkIcon /> 
+                            <FilledBookmarkIcon />
                         </Link>
                         <Link to='/listprofiles'>
                             <ListIcon />
@@ -117,7 +122,10 @@ const MenuHeader: React.FC = () => {
                         <Link to='/accountProfile'>
                             <ProfileIcon />
                         </Link>
-                    </div>                    
+                        <div style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10, backgroundColor: '#FFFFFF', width: 110, paddingLeft: 2 }}>
+                            <HeaderButton onClick={handleLogout}>Sign Out</HeaderButton>
+                        </div>
+                    </div>
                 )}
             </HeaderComponents >
         </Header >

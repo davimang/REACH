@@ -1,17 +1,21 @@
 """TrialFetcher module"""
+
 import io
-import re
 import json
 import requests
 import pandas as pd
+from geopy.geocoders import Nominatim
 from .trial_filterer import TrialFilterer
+
+locator = Nominatim(user_agent="my_request")
 
 API_URL2 = (
     r"https://clinicaltrials.gov/api/v2/studies?format=json&countTotal=true&filter.overallStatus=RECRUITING&"
     r"fields=NCTId,Condition,BriefTitle,DetailedDescription,"
-    r"MinimumAge,MaximumAge,LocationCountry,LocationState,"
+    r"MinimumAge,MaximumAge,LocationGeoPoint,LocationCountry,LocationState,"
     r"LocationCity,LocationZip,OverallStatus,Gender,Keyword,"
-    r"PointOfContactEMail,CentralContactEMail,ResponsiblePartyInvestigatorFullName&"
+    r"PointOfContactEMail,CentralContactEMail,ResponsiblePartyInvestigatorFullName,"
+    r"OverallOfficialName,LocationContactName&"
 )
 
 TIMEOUT_SEC = 5
@@ -36,20 +40,50 @@ class TrialFetcher:
             for cond in conditions[1:]:
                 condition_search += "+" + cond
 
+        home_address = (
+            input_params["address"]["street"]
+            + ", "
+            + input_params["address"]["city"]
+            + ", "
+            + input_params["address"]["province"]
+            + " "
+            + input_params["address"]["postalCode"]
+        )
+
+        home_geo = locator.geocode(home_address, timeout=10)
+
         # put expression together
         search_template = API_URL2 + "query.cond=" + condition_search
+        search_template = (
+            search_template
+            + "&filter.geo=distance("
+            + str(home_geo.latitude)
+            + ","
+            + str(home_geo.longitude)
+            + ","
+            + str(input_params.get("max_distance", 99999999))
+            + "km)"
+        )
+
+        keywords = TrialFilterer.generate_keywords(input_params)
+        if len(keywords) > 0:
+            search_template = search_template + "&query.term=" + keywords
 
         # start one rank up from the last rank returned by a previous call
-       
+
         studies = pd.DataFrame()
 
-        # keep pulling trials until you hit 5 or 
+        # keep pulling trials until you hit 5 or
         next_page = input_params.get("next_page")
-        while studies.shape[0] < 5:            
-            search_url = search_template + f"&pageToken={next_page}" if next_page else search_template
+        while studies.shape[0] < 5:
+            search_url = (
+                search_template + f"&pageToken={next_page}"
+                if next_page
+                else search_template
+            )
             # timed section
             response = requests.get(search_url, timeout=TIMEOUT_SEC)
-            
+
             json_response = response.json()
             next_page = json_response.get("nextPageToken", "")
             content = build_study_dict(json_response)
@@ -63,10 +97,14 @@ class TrialFetcher:
                 break
 
             # remove any invalid trials
-            temp = TrialFilterer.filter_trials(temp, input_params)
+            # temp = TrialFilterer.filter_trials(temp, input_params)
+
+            temp = TrialFilterer.post_filter(temp, input_params, home_geo)
+
             if temp.shape[0] > 0:  # if not empty, add to accepted trials
                 studies = pd.concat([studies, temp], ignore_index=True)
-            
+
+            studies.drop_duplicates(subset=["NCTId"], inplace=True)
 
         if studies.shape[0] == 0:
             return pd.DataFrame(
@@ -76,12 +114,15 @@ class TrialFetcher:
                     "DetailedDescription",
                     "OverallStatus",
                     "Distance",
-                    "KeywordRank",
                     "url",
                     "FullAddress",
+                    "LocationLatitude",
+                    "LocationLongitude",
+                    "OverallOfficialName",
+                    "LocationContactName",
                     "PointOfContactEMail",
                     "CentralContactEMail",
-                    "ResponsiblePartyInvestigatorFullName"
+                    "ResponsiblePartyInvestigatorFullName",
                 ]
             )
         studies = studies.head(
@@ -91,9 +132,7 @@ class TrialFetcher:
             "https://clinicaltrials.gov/study/" + studies["NCTId"]
         )  # create url
         studies["nextPage"] = next_page
-        studies = TrialFilterer.post_filter(
-            studies, input_params
-        )  # calculate distances
+
         # take only necessary fields
 
         studies = studies[
@@ -102,28 +141,34 @@ class TrialFetcher:
                 "BriefTitle",
                 "DetailedDescription",
                 "OverallStatus",
-                "Distance",
-                "KeywordRank",
                 "url",
                 "FullAddress",
+                "LocationLatitude",
+                "LocationLongitude",
+                "Distance",
+                "OverallOfficialName",
+                "LocationContactName",
                 "PointOfContactEMail",
                 "CentralContactEMail",
                 "ResponsiblePartyInvestigatorFullName",
                 "nextPage",
             ]
         ]
-        results_json = studies.to_dict(orient='index')  # convert to json
+        studies.sort_values(by="Distance", ascending=True, inplace=True)
+        studies.reset_index(inplace=True, drop=True)
+        results_json = studies.to_dict(orient="index")  # convert to json
         return results_json  # return
+
 
 def build_study_dict(response):
     """Helper function to reformat the v2 api response from clinicaltrials.gov."""
     studies = response["studies"]
-   
+
     list_of_new_study_formats = []
 
     for study in studies:
         study = study["protocolSection"]
-        
+
         study_id_module = study["identificationModule"]
         study_conditions_module = study["conditionsModule"]
         description_module = study["descriptionModule"]
@@ -139,9 +184,14 @@ def build_study_dict(response):
         min_age = eligibility_module.get("minimumAge", "0 Years")
         max_age = eligibility_module.get("maximumAge", "100 Years")
         gender = eligibility_module.get("sex", "ALL")
-        investigator = collaborator_module.get("responsibleParty", {}).get("investigatorFullName", "")
+        investigator = collaborator_module.get("responsibleParty", {}).get(
+            "investigatorFullName", ""
+        )
+        overallOfficial = contacts_locations_module.get("overallOfficials", {})
 
-        central_contacts = contacts_locations_module.get("centralContacts", []) #maybe change
+        central_contacts = contacts_locations_module.get(
+            "centralContacts", []
+        )  # maybe change
         contacts = []
         for contact in central_contacts:
             contacts.append(contact.get("email", ""))
@@ -150,41 +200,60 @@ def build_study_dict(response):
         zips = []
         countries = []
         states = []
+        lats = []
+        longs = []
+        names = []
+
         for location in locations:
             if city := location.get("city"):
                 cities.append(city)
 
-            if zip := location.get("zip"):
-                zips.append(zip)
+            if zipc := location.get("zip"):
+                zips.append(zipc)
 
             if country := location.get("country"):
                 countries.append(country)
 
             if state := location.get("state"):
                 states.append(state)
-            
+
+            if lat := location.get("geoPoint", {}).get("lat"):
+                lats.append(lat)
+
+            if long := location.get("geoPoint", {}).get("lon"):
+                longs.append(long)
+
+            location_contact = location.get("contacts", {})
+            if len(location_contact) > 0:
+                names.append(location_contact[0].get("name", ""))
+
             break
 
         new_study_format = {
-            "NCTId":nctid,
+            "NCTId": nctid,
             "Condition": "|".join(conditions),
             "BriefTitle": brief_title,
-            "DetailedDescription":description,
+            "DetailedDescription": description,
             "MinimumAge": min_age,
             "MaximumAge": max_age,
-            "LocationCountry":"|".join(countries),
-            "LocationState":"|".join(states),
-            "LocationCity":"|".join(cities),
-            "LocationZip":"|".join(zips),
-            "OverallStatus":"Recruiting",
-            "Gender":gender,
-            "Keyword":"|".join(keywords),
-            "PointOfContactEMail":"",
+            "LocationCountry": countries[0] if len(countries) > 0 else "",
+            "LocationState": states[0] if len(states) > 0 else "",
+            "LocationCity": cities[0] if len(cities) > 0 else "",
+            "LocationZip": zips[0] if len(zips) > 0 else "",
+            "LocationLatitude": float(lats[0]) if len(lats) > 0 else -1,
+            "LocationLongitude": float(longs[0]) if len(longs) > 0 else -1,
+            "OverallStatus": "Recruiting",
+            "Gender": gender,
+            "Keyword": "|".join(keywords),
+            "OverallOfficialName": (
+                overallOfficial[0].get("name", "") if len(overallOfficial) > 0 else ""
+            ),
+            "LocationContactName": names[0] if len(names) > 0 else "",
+            "PointOfContactEMail": "",
             "CentralContactEMail": contacts[0] if contacts else "",
-            "ResponsiblePartyInvestigatorFullName":investigator
+            "ResponsiblePartyInvestigatorFullName": investigator,
         }
 
         list_of_new_study_formats.append(new_study_format)
 
-    
     return json.dumps(list_of_new_study_formats)

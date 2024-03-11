@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Button, TextField, stepClasses } from '@mui/material';
 import { ClinicalTrial, ClinicalTrialsData } from './types';
@@ -19,6 +19,7 @@ const PatientForm = () => {
     const textFieldLabels = ['Condition', 'Age', 'Address'];
     const [responseData, setResponseData] = useState<ClinicalTrialsData | null>(null);
     const [loading, setLoading] = useState(false);
+    const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
     const ClinicalTrialComponent: React.FC<{ trial: ClinicalTrial }> = ({ trial }) => (
         <div key={trial.Rank}>
@@ -52,8 +53,10 @@ const PatientForm = () => {
 
             const { address, age, condition } = formValues;
             const endpoint = `/trials/?address=${address.replace(/\s/g, '+')}&age=${age}&condition=${condition.replace(/\s/g, '+')}`;
-
-            const response = await fetch(`${API_URL}${endpoint}`);
+            const requestOptions = {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            };
+            const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
 
             if (!response.ok) {
                 throw new Error(`Failed to fetch data. Status: ${response.status}`);
@@ -67,6 +70,10 @@ const PatientForm = () => {
             setLoading(false);
         }
     };
+
+    useEffect(() => {
+        setAuthToken(localStorage.getItem('accessToken'));
+    }, [localStorage.getItem('accessToken')]);
 
     return (
         <>

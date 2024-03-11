@@ -17,17 +17,23 @@ const TrialCard: React.FC<TrialProps> = ({ trial, trialSaved, handleSave, setCur
                 <TrialTitle
                     onClick={(e) => {
                         e.preventDefault();
-                        setCurrentLocation({latitude: trial.Distance[1], longitude: trial.Distance[2]});
+                        setCurrentLocation({ latitude: trial.LocationLatitude, longitude: trial.LocationLongitude });
                     }
-                }
+                    }
                 >
                     {trial.BriefTitle}
                 </TrialTitle>
 
-                <p><u style={{color: 'white'}}><a onClick={()=>{
-                    handleModal(); 
-                    setModalDetails({title: trial.BriefTitle, description: trial.DetailedDescription?trial.DetailedDescription:"N/A", url: trial.url, contactEmail: trial.PointOfContactEMail ? trial.PointOfContactEMail: (trial.CentralContactEMail ? trial.CentralContactEMail: "N/A"), principalInvestigator: trial.ResponsiblePartyInvestigatorFullName ? trial.ResponsiblePartyInvestigatorFullName: "N/A"});
-                    }
+                <p><u style={{ color: 'white' }}><a onClick={() => {
+                    handleModal();
+                    setModalDetails({
+                        title: trial.BriefTitle,
+                        description: trial.DetailedDescription ? trial.DetailedDescription : "N/A",
+                        url: trial.url,
+                        contactEmail: trial.PointOfContactEMail ? trial.PointOfContactEMail : (trial.CentralContactEMail ? trial.CentralContactEMail : "N/A"),
+                        principalInvestigator: trial.OverallOfficialName ? trial.OverallOfficialName : (trial.LocationContactName ? trial.LocationContactName : "N/A")
+                    });
+                }
                 } style={{ color: 'white', fontFamily: 'math', cursor: 'pointer' }}>
                     Learn More About This Study...
                 </a></u></p>
@@ -47,7 +53,7 @@ const TrialCard: React.FC<TrialProps> = ({ trial, trialSaved, handleSave, setCur
                 <TrialLocation>
                     <LocationImage src={require('../images/Location.svg')} />
                     <LocationText>
-                        <b style={{ color: 'white' }}>{trial.Distance[0]} km</b>
+                        <b style={{ color: 'white' }}>{trial.Distance} km</b>
                         <div style={{ fontSize: 14, color: '#BDBDBD' }}>from you</div>
                     </LocationText>
                 </TrialLocation>

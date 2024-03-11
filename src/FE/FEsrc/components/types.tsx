@@ -30,7 +30,7 @@ export interface PatientInfo {
     date_of_birth: string;
     address: Address;
     gender: string;
-    advanced_info: number; // TODO: will be dict of advanced info - must update this type later
+    advanced_info: Object;
     title: string;
     condition: string;
     user: number;
@@ -45,10 +45,14 @@ export interface TrialInfo {
     BriefTitle: string;
     DetailedDescription: string;
     OverallStatus: string;
-    Distance: Array<number>;
+    Distance: number;
+    LocationLatitude: number;
+    LocationLongitude: number;
     KeywordRank: number;
     url: string;
     Rank: number;
+    OverallOfficialName: string;
+    LocationContactName: string;
     PointOfContactEMail: string;
     CentralContactEMail: string;
     ResponsiblePartyInvestigatorFullName: string;
@@ -73,4 +77,11 @@ export interface SavedTrial {
     nctid: string;
     status: string;
     location: Object;
+}
+
+export interface UserData {
+    first_name: string;
+    last_name: string;
+    is_clinician: boolean;
+    created: string;
 }

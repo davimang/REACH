@@ -1,22 +1,33 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import { PatientInfo } from './types';
 interface UserProfileCardProps {
-  name: string;
-  condition: string;
+  profile: PatientInfo;
 }
 
-const UserProfileCard: React.FC<UserProfileCardProps> = ({ name, condition }) => {
+const UserProfileCard: React.FC<UserProfileCardProps> = ({ profile }) => {
   return (
     <div className='cards' style={cardStyle} >
       <div className='name-circle' style={circleStyle} >
-        <span> {name} </span>
+        <span> {profile.title} </span>
       </div>
       <div className='card-content' style={contentStyle}>
         <div className='profile-name' style={nameStyle}>
-          Condition: {condition}
+          Condition: {profile.condition}
         </div>
-        <Link to='/savedTrials'>
+        <Link to='/editProfile' state={{
+          defaultProfileName: profile.title, 
+          defaultStreet: profile.address.street,
+          defaultCity: profile.address.city,
+          defaultPostalCode: profile.address.postalCode,
+          defaultProvince: profile.address.province, 
+          defaultGender: profile.gender,
+          defaultCondition: profile.condition,
+          defaultDateOfBirth: profile.date_of_birth, 
+          defaultAdvancedInfo: profile.advanced_info,
+          profileId: profile.id}
+        }
+        >
           <div className='saved-trails-link'>
             Edit Profile
           </div>

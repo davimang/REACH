@@ -5,6 +5,7 @@
 \usepackage{tabularx}
 \usepackage{hyperref}
 \usepackage{float}
+\usepackage{longtable}
 \hypersetup{
     colorlinks,
     citecolor=blue,
@@ -296,10 +297,9 @@ we will be using tavern (an API testing framework built on top of pytest) to tes
 ideally run at scheduled intervals (i.e., nightly, weekly... whatever is reasonable for the resources available), which can be 
 done with the use of GitHub actions. Furthermore, we will be using several static analyzers to ensure code quality and maintainability. These 
 static analyzers include flake8 (which ensures the code will follow the pep8 coding standard), mypy (which ensures strict typing in python,
-and the use of comments+docstrings), and autoflake (which ensures there are no unused packages/imports in a python file). Finally, for analyzing 
-code coverage in our python service(s), we will use coverage.py, which produces useful coverage reports after running tests using pytest.\\
+and the use of comments+docstrings), and autoflake (which ensures there are no unused packages/imports in a python file).\\
 
-For the frontend, nothing has changed from the development plan (i.e., using jest for unit testing + code coverage, and ESLint for linting).
+For the frontend, nothing has changed from the development plan (i.e., using jest for unit testing and ESLint for linting).
 
 \subsection{Software Validation Plan}
 
@@ -324,11 +324,11 @@ general program/system information (i.e., the FAQ).
 
 \item{AT-1\\}
 
-Control: Automatic
+Control: Manual
 					
 Initial State: User is not signed in to the application, and is about to create an account.
 					
-Input: A valid, unique email, and a valid password satisfying the NIST guidelines
+Input: A valid, unique email, unique username, and a valid password satisfying the NIST guidelines
 					
 Output: The user's account should be created successfully, and a 201 CREATED response should be returned.
 
@@ -336,68 +336,68 @@ Test Case Derivation: As stated in FR-1 and FR-2, the system must only allow a u
 used by some other user yet), and if their password satisfies the NIST guidelines. Since the inputs to this test case satisfy these 
 requirements, the response should be a success.
 					
-How test will be performed: Pre define a valid username and password. Automated test to pass in these values and check the return value/output.
+How test will be performed: Pre define a valid email, username and password. Manually input these values on the registration and check the return value/output.
 					
 \item{AT-2\\}
 
-Control: Automatic
+Control: Manual
 					
 Initial State: User is not signed in to the application, and is about to create an account.
 					
-Input: An email that is already attached to another account, and a valid password.
+Input: An email that is already attached to another account, unique username, and a valid password.
 					
 Output: The user's account should not be created and a response stating this failure should be returned.
 
 Test Case Derivation: From FR-2, the email must be unique. Since it is not unique in this test case, the account should not 
 be created.
 
-How test will be performed: Pre define an invalid email. Automated test to pass in these values and check the return value/output.
+How test will be performed: Pre define an invalid email. Manually input these values and check the return value/output.
 
 \item{AT-3\\}
 
-Control: Automatic
+Control: Manual
 					
 Initial State: User is not signed in to the application, and is about to create an account.
 					
-Input: A valid, unique, email, and a password that does not satisfy the NIST guidelines.
+Input: A valid, unique, email, unique username, and a password that does not satisfy the NIST guidelines.
 					
 Output: The user's account should not be created and a response stating this failure should be returned.
 
 Test Case Derivation: From FR-1, the password must abide by the NIST guidelines. Since it does not in this test case, the account should not 
 be created.
 
-How test will be performed: Pre define an invalid password. Automated test to pass in these values and check the return value/output.
+How test will be performed: Pre define an invalid password. Manually input these values and check the return value/output.
 
 
 \item{AT-4\\}
 
-Control: Automatic
+Control: Manual
 					
 Initial State: User is not signed in to the application, and is about to log in to the application.
 					
-Input: A valid, unique, email, and a password that satisfies the NIST guidelines, which are tied to an account.
+Input: A valid unique username, and a password that satisfies the NIST guidelines, which are tied to an account.
 					
 Output: The user should be logged in to the application.
 
 Test Case Derivation: From FR-3, if the credentials are correct, a user should be logged in to the application.
 
-How test will be performed: Pre define a valid username and password tied to an account. Automated test to pass in these values and check the return value/output.
+How test will be performed: Pre define a valid username and password tied to an account. Manually input these values and check the return value/output.
 
 
 \item{AT-5\\}
 
-Control: Automatic
+Control: Manual
 					
 Initial State: User is not signed in to the application, and is about to log in to the application.
 					
-Input: An email that is not tied to an account, with a password that satisfies NIST guidelines (but can be any valid password).
+Input: A username that is not tied to an account, with a password that satisfies NIST guidelines (but can be any valid password).
 					
 Output: The user should not be logged in to the application.
 
-Test Case Derivation: From FR-3, a user is only logged in to an account if the credentials are correct. Since the email is not valid,
+Test Case Derivation: From FR-3, a user is only logged in to an account if the credentials are correct. Since the username is not valid,
 they should not be logged in.
 
-How test will be performed: Pre define a random email/password. Automated test to pass in these values and check the return value/output.
+How test will be performed: Pre define a random username/password. Manually input these values and check the return value/output.
 
 \item{AT-6\\}
 
@@ -417,7 +417,7 @@ that the email received is correct, and that the link takes the user to the rese
 
 \item{AT-7\\}
 
-Control: Automatic
+Control: Manual
 					
 Initial State: User is not signed in to the application, and is about to reset their password.
 					
@@ -428,7 +428,7 @@ Output: The user's password should be reset, and they should be logged in to the
 Test Case Derivation: From FR-5, a user must only be able to reset their password if the password they enter is new, and if it 
 satisfies the NIST guidelines.
 
-How test will be performed: Pre define a random email/password. Automated test to pass in these values and check the return value/output.
+How test will be performed: Pre define a random email/password. Manually pass in these values and check the return value/output.
 
 \item{AT-8\\}
 
@@ -445,19 +445,19 @@ Test Case Derivation: From FR-6, a user should be able to log out of the applica
 How test will be performed: Manually sign out of the application, and verify that it works.
 
 
-\item{AT-9\\}
+% \item{AT-9\\}
 
-Control: Manual
+% Control: Manual
 					
-Initial State: User has created an account for the first time, or is logging in as a guest.
+% Initial State: User has created an account for the first time, or is logging in as a guest.
 					
-Input: N/A
+% Input: N/A
 					
-Output: The user is prompted to enter their personal data.
+% Output: The user is prompted to enter their personal data.
 
-Test Case Derivation: From FR-7, a user is prompted to enter personal information when creating an account or logging in as a guest.
+% Test Case Derivation: From FR-7, a user is prompted to enter personal information when creating an account or logging in as a guest.
 
-How test will be performed: Manually create an account and sign in as a guest, and verify the user is prompted.
+% How test will be performed: Manually create an account and sign in as a guest, and verify the user is prompted.
 
 \end{enumerate}
 
@@ -534,29 +534,13 @@ Test Case Derivation: From FR-10, the system shall create an email template for 
 
 How test will be performed: Manually select a given trial result, and select the option to generate a template. Verify that it is displayed to the user.
 
-
-\item{ET-2\\}
-
-Control: Automatic
-					
-Initial State: The user is not logged in to the system.
-					
-Input: N/A
-					
-Output: Email notification notifying user of available trial.
-
-Test Case Derivation: From FR-11, the system shall notify the user when new medical trials matching their specifications are available.
-
-How test will be performed: A test user will be created with their own email account, with common medical conditions. The email will be checked periodically for notifications.
-
-
 \end{enumerate}
 
 \subsubsection{Program Information}
 
 \begin{enumerate}
 
-\item{PT-1\\}
+\item{PIT-1\\}
 
 Control: Manual
 					
@@ -621,12 +605,113 @@ Test Case Derivation: From FR-15, the system shall allow a signed-in user to aut
 
 How test will be performed: Attempt to search without any fields filled in. Verify that the search fails.
 
+\item{ST-4\\}
+
+Control: Manual
+					
+Initial State: The user is logged in, and is at the search trials page with a set of information currently inputted for a search.
+					
+Input: User selects a new set of pre-saved search criteria, and hits search.
+					
+Output: A list of trials which were found on the basis of the previously selected set of criteria.
+
+Test Case Derivation: From FR-20, the system shall allow a user to switch between multiple sets of pre-saved conditions into the search parameters.
+
+How test will be performed: Verify that the trials returned and displayed to the user are based on the most recently selected set of 
+search criteria.
+
+\item{ST-5\\}
+
+Control: Manual
+					
+Initial State: The user is logged in, and has just conducted a search for trials.
+					
+Input: User selects one of the displayed trials.
+					
+Output: The map should change its location to the location of the selected trial.
+
+Test Case Derivation: From FR-19, the system shall allow a user to view the location of the selected trial on a map.
+
+How test will be performed: Verify that the location displayed on the map is indeed the correct location tied to the study.
+
+
 \end{enumerate}
+
+
+\subsubsection{Bookmarking}
+
+\begin{enumerate}
+
+\item{BT-1\\}
+
+Control: Manual
+					
+Initial State: The user is signed in, and has conducted a search for trials.
+					
+Input: Bookmark a trial.
+					
+Output: The trial indicates that it has been saved.
+
+Test Case Derivation: From FR-16, FR-18, a user must be able to save a trial, and access the trials that they have saved.
+
+How test will be performed: Manually save a trial, and verify that the newly saved trial has been saved, and is available to view.
+
+\item{BT-2\\}
+
+Control: Manual
+					
+Initial State: The user is signed in, and has saved at least one trial.
+					
+Input: View the saved trials page.
+					
+Output: The display of trials that have been previously saved by the user.
+
+Test Case Derivation: From FR-17, a user must be able to delete a trial that they have previously saved.
+
+How test will be performed: Manually delete a trial that has been previously saved, and verify that it no longer exists with the other saved trials.
+
+\item{BT-3\\}
+
+Control: Manual
+					
+Initial State: The user is signed in, has saved at least one trial, and is on the page for viewing their saved trials.
+					
+Input: View trial details.
+					
+Output: The details of the saved trial.
+
+Test Case Derivation: From FR-18, a user must be able to perform the same actions on the saved trials as they can on the trial results after 
+conducting a search. Therefore, the same information must be displayed to the user regarding the saved trial.
+
+How test will be performed: Manually click, or view, a saved trial and ensure the displayed information is the same as the information obtained 
+on the searching page.
+
+\item{BT-4\\}
+
+Control: Manual
+					
+Initial State: The user is signed in, has saved at least one trial under multiple profiles, and is on the page for viewing their saved trials.
+					
+Input: Select a profile to filter the saved trials by.
+					
+Output: The list of trials that have been saved under that profile.
+
+Test Case Derivation: From FR-19, a user must be able to perform the same actions on the saved trials as they can on the trial results after 
+conducting a search. Therefore, the same information must be displayed to the user regarding the saved trial.
+
+How test will be performed: Select a profile, and verify that the page updates the list of displayed trials to just the ones that were saved
+under the selected profile.
+
+
+\end{enumerate}
+
 
 \subsection{Tests for Nonfunctional Requirements}
 
 \subsubsection{Useability}
 \label{sec:useabilityNFRtests}
+
+The tests in this section are to be completed as part of the \nameref{sec:Appendix}.
 
 \begin{enumerate}
 
@@ -638,21 +723,131 @@ Initial State: The user starts on the home screen.
 
 Test Case Derivation: From NFR-3, NFR-4, and NFR-5, regarding the learnability, simplicity, and legibility of the user interface.
 
-How test will be performed: Have the user sign in, search, and browse results without outside help. 95\% of users should be able to accomplish this.
-
+How test will be performed: Have the user navigate to the sign in page without outside help. Then ask the user to 
+rate how easy the task was on a scale of 1 to 5, where 1 is difficult and 5 is simple. The test passes if the average 
+rating is greater than 3.5.
 
 \item{UT-2}
 
 Control: Dynamic, Manual
 					
-Initial State: The user starts on the home screen.
+Initial State: The user starts on the sign in page.
 
 Test Case Derivation: From NFR-3, NFR-4, and NFR-5, regarding the learnability, simplicity, and legibility of the user interface.
 
-How test will be performed: Have the user sign in, search, and browse results without outside help. 
-Have the user then complete a survey(\nameref{sec:Appendix})
+How test will be performed: Have the user navigate to the registration page without outside help. Then ask the user to 
+rate how easy the task was on a scale of 1 to 5, where 1 is difficult and 5 is simple. The test passes if the average 
+rating is greater than 3.5.
 
 \item{UT-3}
+
+Control: Dynamic, Manual
+					
+Initial State: The user starts on the registration page.
+
+Test Case Derivation: From NFR-3, NFR-4, and NFR-5, regarding the learnability, simplicity, and legibility of the user interface.
+
+How test will be performed: Have the register a new account without outside help. Then ask the user to 
+rate how easy the task was on a scale of 1 to 5, where 1 is difficult and 5 is simple. The test passes if the average 
+rating is greater than 3.5.
+
+\item{UT-4}
+
+Control: Dynamic, Manual
+					
+Initial State: The user starts on the search trials page.
+
+Test Case Derivation: From NFR-3, NFR-4, and NFR-5, regarding the learnability, simplicity, and legibility of the user interface.
+
+How test will be performed: Have the user search for clinical trials without outside help. Then ask the user to 
+rate how easy the task was on a scale of 1 to 5, where 1 is difficult and 5 is simple. The test passes if the average 
+rating is greater than 3.5.
+
+\item{UT-5}
+
+Control: Dynamic, Manual
+					
+Initial State: The user starts on search trials page after a search has already been performed.
+
+Test Case Derivation: From NFR-3, NFR-4, and NFR-5, regarding the learnability, simplicity, and legibility of the user interface.
+
+How test will be performed: Have the user try viewing more details about a trial without outside help. Then ask the user to 
+rate how easy the task was on a scale of 1 to 5, where 1 is difficult and 5 is simple. The test passes if the average 
+rating is greater than 3.5.
+
+\item{UT-6}
+
+Control: Dynamic, Manual
+					
+Initial State: The user starts on search trials page after a search has already been performed.
+
+Test Case Derivation: From NFR-3, NFR-4, and NFR-5, regarding the learnability, simplicity, and legibility of the user interface.
+
+How test will be performed: Have the user bookmark a trial without outside help. Then ask the user to 
+rate how easy the task was on a scale of 1 to 5, where 1 is difficult and 5 is simple. The test passes if the average 
+rating is greater than 3.5.
+
+\item{UT-7}
+
+Control: Dynamic, Manual
+					
+Initial State: The user starts on search trials page after a search has already been performed and a trial has been bookmarked.
+
+Test Case Derivation: From NFR-3, NFR-4, and NFR-5, regarding the learnability, simplicity, and legibility of the user interface.
+
+How test will be performed: Have the user view the trials they bookmarked without outside help. Then ask the user to 
+rate how easy the task was on a scale of 1 to 5, where 1 is difficult and 5 is simple. The test passes if the average 
+rating is greater than 3.5.
+
+\item{UT-8}
+
+Control: Dynamic, Manual
+					
+Initial State: The user starts on the bookmarked trials page.
+
+Test Case Derivation: From NFR-3, NFR-4, and NFR-5, regarding the learnability, simplicity, and legibility of the user interface.
+
+How test will be performed: Have the user navigate back to the search trials page without outside help. Then ask the user to 
+rate how easy the task was on a scale of 1 to 5, where 1 is difficult and 5 is simple. The test passes if the average 
+rating is greater than 3.5.
+
+\item{UT-9}
+
+Control: Dynamic, Manual
+					
+Initial State: The user starts on the home page.
+
+Test Case Derivation: From NFR-3, NFR-4, and NFR-5, regarding the learnability, simplicity, and legibility of the user interface.
+
+How test will be performed: Have the user view their account and profile information without outside help. Then ask the user to 
+rate how easy the task was on a scale of 1 to 5, where 1 is difficult and 5 is simple. The test passes if the average 
+rating is greater than 3.5.
+
+\item{UT-10}
+
+Control: Dynamic, Manual
+					
+Initial State: The user starts on account information page.
+
+Test Case Derivation: From NFR-3, NFR-4, and NFR-5, regarding the learnability, simplicity, and legibility of the user interface.
+
+How test will be performed: Have the user attempt to add a new patient profile without outside help. Then ask the user to 
+rate how easy the task was on a scale of 1 to 5, where 1 is difficult and 5 is simple. The test passes if the average 
+rating is greater than 3.5.
+
+\item{UT-11}
+
+Control: Dynamic, Manual
+					
+Initial State: The user starts on the FAQs page.
+
+Test Case Derivation: From NFR-3, NFR-4, and NFR-5, regarding the learnability, simplicity, and legibility of the user interface.
+
+How test will be performed: Have the user navigate to the REACH home page without outside help. Then ask the user to 
+rate how easy the task was on a scale of 1 to 5, where 1 is difficult and 5 is simple. The test passes if the average 
+rating is greater than 3.5.
+
+\item{UT-12}
 
 Control: Dynamic, Manual
 					
@@ -684,7 +879,7 @@ and keep track of how long it takes for the trials to load.
 					
 \item{PT-2\\}
 
-Type: Dynamic, Manual
+Type:  Manual
 					
 Initial State: N/A
 					
@@ -692,8 +887,7 @@ Input/Condition: API key available to authenticate against the API.
 					
 Output/Result: API calls should respond in less than 1 second.
 					
-How test will be performed: Using locust, simulate 1000 users concurrently searching for trials, and manually track 
-the max time recorded for a response from the API.
+How test will be performed: A tester will test each endpoint individually, and measure the response time. If all response times are below one second, the test passes.
 
 \end{enumerate}
 
@@ -808,9 +1002,9 @@ How test will be performed: Users are asked to input their search criteria, and 
 
 \subsection{Traceability Between Test Cases and Requirements}
 
-\begin{table}[H]
-  \caption{Test Case Traceability}
-  \begin{tabular}{|p{7cm}|p{7cm}|}
+
+\begin{longtable}{|p{7cm}|p{7cm}|}
+  \caption{Test Case-Requirement Traceability}\\  
   \hline
   Test case & Requirement(s)\\
   \hline
@@ -840,9 +1034,7 @@ How test will be performed: Users are asked to input their search criteria, and 
   \hline
   ET-1 & FR-10\\
   \hline
-  ET-2 & FR-11\\
-  \hline
-  PT-1 & FR-12\\
+  PIT-1 & FR-12\\
   \hline
   ST-1 & FR-13, FR-14\\
   \hline
@@ -850,11 +1042,21 @@ How test will be performed: Users are asked to input their search criteria, and 
   \hline
   ST-3 & FR-15\\
   \hline
-  UT-1 & NFR-3, NFR-4, NFR-5\\
+  ST-4 & FR-21\\
   \hline
-  UT-2 & NFR-3, NFR-4, NFR-5\\
+  ST-5 & FR-20\\
   \hline
-  UT-3 & NFR-17\\
+  BT-1 & FR-16, FR-18\\
+  \hline
+  BT-2 & FR-17, FR-18\\
+  \hline
+  BT-3 & FR-18\\
+  \hline
+  BT-4 & FR-19\\
+  \hline
+  UT-1, UT-2, UT-3, UT-4, UT-5, UT-6, UT-7, UT-8, UT-9, UT-10, UT-11 & NFR-3, NFR-4, NFR-5\\
+  \hline
+  UT-12 & NFR-17\\
   \hline
   PT-1 & NFR-6\\
   \hline
@@ -864,140 +1066,92 @@ How test will be performed: Users are asked to input their search criteria, and 
   \hline
   OT-2 & NFR-12\\
   \hline
- MT-1 & NFR-13\\
+  MT-1 & NFR-13\\
   \hline
- SEC-1 & NFR-15\\
+  SEC-1 & NFR-15\\
   \hline
- SEC-2 & NFR-16\\
- LT-1 & NFR-18\\
+  SEC-2 & NFR-16\\
   \hline
-  \end{tabular}
-\end{table}
+  LT-1 & NFR-18\\
+  \hline
+\end{longtable}
 
 \section{Unit Test Description}
 
-\wss{This section should not be filled in until after the MIS (detailed design
-  document) has been completed.}
-
-\wss{Reference your MIS (detailed design document) and explain your overall
-philosophy for test case selection.}  
-
-\wss{To save space and time, it may be an option to provide less detail in this section.  
-For the unit tests you can potentially layout your testing strategy here.  That is, you 
-can explain how tests will be selected for each module.  For instance, your test building 
-approach could be test cases for each access program, including one test for normal behaviour 
-and as many tests as needed for edge cases.  Rather than create the details of the input 
-and output here, you could point to the unit testing code.  For this to work, you code 
-needs to be well-documented, with meaningful names for all of the tests.}
-
 \subsection{Unit Testing Scope}
 
-\wss{What modules are outside of the scope.  If there are modules that are
-  developed by someone else, then you would say here if you aren't planning on
-  verifying them.  There may also be modules that are part of your software, but
-  have a lower priority for verification than others.  If this is the case,
-  explain your rationale for the ranking of module importance.}
+Our app is split up by two services - a backend and frontend service. With respect to unit testing, we decided to place more emphasis on the backend service modules,
+since we feel like they are more susceptible to small "edge case" errors, and therefore should be tested a bit more thoroughly. \\
+
+The frontend is continuously being tested, both through us, the developers, and through the many people who have conducted usability tests of the app using our survey, so we feel as though
+any errors in the frontend are much more likely to be found without the use of unit tests than the backend. Related to the frontend, the modules that we are not explicitly unit testing are: 
+the Email Template Module, Patient Data collection form module, Login Form Module, Profile Settings Module, and the Menu Module.\\
+
+For the backend, we treated each api endpoint that interacts with one of the data modules as a "unit test". A good chunk of the functionality specified 
+in the MIS for the backend modules are provided out of the box by Django and the Django Rest Framework, so this greatly reduced the number 
+of tests we needed to write (for example, any simple getter or setter of some data module attribute does not need to be tested, as Django 
+implements these for us). That said, we have explicit unit tests for the following modules (links to these tests will be provided below): User Data Module (UserData),
+Info Profile Data Module (PatientInfo), Trial Data Module (Trial), Fetch Trials Module (TrialFetcher), and Trial Filtering Module (TrialFilterer). The two backend 
+modules that we are not explicitly testing at all are the login and registration modules, since this functionality is provided directly by Django, with no 
+additional work needed from us.\\
+
+For more information on these modules, please see the \href{https://github.com/davimang/REACH/tree/main/docs/Design/SoftDetailedDes}{Module Interface Specification} and/or \href{https://github.com/davimang/REACH/blob/main/docs/Design/SoftArchitecture/MG.pdf}{Module Guide}.
 
 \subsection{Tests for Functional Requirements}
 
-\wss{Most of the verification will be through automated unit testing.  If
-  appropriate specific modules can be verified by a non-testing based
-  technique.  That can also be documented in this section.}
-
-\subsubsection{Module 1}
-
-\wss{Include a blurb here to explain why the subsections below cover the module.
-  References to the MIS would be good.  You will want tests from a black box
-  perspective and from a white box perspective.  Explain to the reader how the
-  tests were selected.}
-
-\begin{enumerate}
-
-\item{test-id1\\}
-
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
-
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
-
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
-
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
-
-How test will be performed: 
-
-\item{...\\}
-    
-\end{enumerate}
-
-\subsubsection{Module 2}
-
-...
-
-\subsection{Tests for Nonfunctional Requirements}
-
-\wss{If there is a module that needs to be independently assessed for
-  performance, those test cases can go here.  In some projects, planning for
-  nonfunctional tests of units will not be that relevant.}
-
-\wss{These tests may involve collecting performance data from previously
-  mentioned functional tests.}
-
-\subsubsection{Module ?}
-		
-\begin{enumerate}
-
-\item{test-id1\\}
-
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input/Condition: 
-					
-Output/Result: 
-					
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
-
-\end{enumerate}
-
-\subsubsection{Module ?}
-
-...
+The following link contains the unit tests for the modules specified above: \url{https://github.com/davimang/REACH/tree/main/src/backend/reach_backend/Api/tests}.
+The tests are well documented, with a descriptive name, and a docstring that specifies what the test is for, what module it is testing, and the id of the test for 
+traceability purposes.
 
 \subsection{Traceability Between Test Cases and Modules}
-
-\wss{Provide evidence that all of the modules have been considered.}
+\begin{longtable}{|p{7cm}|p{7cm}|}
+  \caption{Test Case-Module Traceability}\\ 
+  \hline
+  Test case & Module\\
+  \hline
+  UNT-1 & M3\\
+  \hline
+  UNT-2 & M3\\
+  \hline
+  UNT-3 & M3\\
+  \hline
+  UNT-4 & M3\\
+  \hline
+  UNT-5 & M2\\
+  \hline
+  UNT-6 & M2\\
+  \hline
+  UNT-7 & M1\\
+  \hline
+  UNT-8 & M1\\
+  \hline
+  UNT-9 & M4\\
+  \hline
+  UNT-10 & M4\\
+  \hline
+  UNT-11 & M4\\
+  \hline
+  UNT-12 & M4\\
+  \hline
+  UNT-13 & M4\\
+  \hline
+  UNT-14 & M4\\
+  \hline
+  UNT-15 & M5\\
+  \hline
+  UNT-16 & M5\\
+  \hline
+  UNT-17 & M5\\
+  \hline
+  UNT-18 & M5\\
+  \hline
+  UNT-19 & M5\\
+  \hline
+  UNT-20 & M5\\
+  \hline
+  UNT-21 & M4\\
+  \hline
+\end{longtable}
 
 \newpage
 				

@@ -1,23 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { API_URL } from '..';
-import { PatientInfo, SavedTrial, TrialInfo } from '../components/types';
+import { PatientInfo, SavedTrial } from '../components/types';
 import SavedTrialCard from '../components/SavedTrialCard';
 import { DropDownInput } from '../components/FormStyles';
-import { StyledButton } from '../components/ButtonStyle';
 import Map from '../components/Map';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Box from '@mui/material/Box';
-
-const DialogContentInfo = styled.div`
-    height: 25px;
-    width: 100%;
-`;
-
+import TrialModal from '../components/TrialModal';
 
 const TrialsListContainer = styled.div`
     width: 42%;
@@ -47,6 +35,16 @@ const StyledDropDown = styled(DropDownInput)`
 `;
 
 
+const EmptyResponse = styled.div`
+    position: fixed;
+    left: 45%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    font-size: 30px;
+    color: white;
+`
 
 const SaveTrialsPage = () => {
 
@@ -65,6 +63,9 @@ const SaveTrialsPage = () => {
         address: "",
         url: ""
     })
+    const [name, setName] = useState('');
+
+    const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
     const handleModal = () => {
         setOpen(!open);
@@ -75,13 +76,13 @@ const SaveTrialsPage = () => {
         try {
             const endpoint = `/trials/${trialId}/`;
             const requestOptions = {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${authToken}` }
             };
             fetch(`${API_URL}${endpoint}`, requestOptions).then(response => console.log(response));
         } catch (error) {
             console.error('Error deleting trial:', error.message);
         }
-        console.log(trials)
         if (trials) {
             const newTrials = Object.values(trials).filter((trial) => trial.id !== trialId);
             setTrials(newTrials);
@@ -89,20 +90,26 @@ const SaveTrialsPage = () => {
     }
 
     const fetchSavedTrials = () => {
-        if(!selectedProfileId || selectedProfileId == "all"){
+        if (!selectedProfileId || selectedProfileId == "all") {
             try {
                 const endpoint = `/trials/?user=${userId}`;
-                fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => { setTrials(response) });
+                const requestOptions = {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                };
+                fetch(`${API_URL}${endpoint}`, requestOptions).then(response => response.json()).then(response => { setTrials(response) });
             } catch (error) {
                 console.error('Error fetching trials:', error.message);
             } finally {
                 setLoading(false);
             }
         }
-        else{
+        else {
             try {
                 const endpoint = `/trials/?profile=${selectedProfileId}`;
-                fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => { setTrials(response) });
+                const requestOptions = {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                };
+                fetch(`${API_URL}${endpoint}`, requestOptions).then(response => response.json()).then(response => { setTrials(response) });
             } catch (error) {
                 console.error('Error fetching trials:', error.message);
             } finally {
@@ -115,7 +122,10 @@ const SaveTrialsPage = () => {
     const fetchProfilesList = async () => {
         try {
             const endpoint = `/patientinfo/?user=${userId}`;
-            const response = await fetch(`${API_URL}${endpoint}`);
+            const requestOptions = {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            };
+            const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
             if (!response.ok) {
                 throw new Error(`Failed to fetch profiles. Status: ${response.status}`);
             }
@@ -126,20 +136,55 @@ const SaveTrialsPage = () => {
         }
     };
 
+    const getProfile = (profileId?) => {
+        if (!profiles || !profileId)
+            return null;
+
+        for (const profile of Object.values(profiles)) {
+            if (profile.id == profileId) {
+                console.log(profile);
+                return profile;
+            }
+        }
+    }
+
+    const getName = async () => {
+        try {
+            const endpoint = `/userdata/${userId}/`;
+            const requestOptions = {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            };
+
+            const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch user. Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setName(data["first_name"] + " " + data["last_name"]);
+        } catch (error) {
+            console.error('Error fetching user:', error.message);
+        }
+    }
+
     const updateDefaultLocation = () => {
-        console.log(trials);
-        if(trials){
+        if (trials) {
             const defaultTrial = trials[0];
-            console.log(defaultTrial);
-            if(defaultTrial){
-                setCurrentLocation({latitude: defaultTrial.location["latitude"], longitude: defaultTrial.location["longitude"]});
+            if (defaultTrial) {
+                setCurrentLocation({ latitude: defaultTrial.location["latitude"], longitude: defaultTrial.location["longitude"] });
             }
         }
     }
 
     useEffect(() => {
+        setAuthToken(localStorage.getItem('accessToken'));
+    }, [localStorage.getItem('accessToken')]);
+
+    useEffect(() => {
         fetchSavedTrials();
         fetchProfilesList();
+        getName();
     }, []);
 
     useEffect(() => {
@@ -163,7 +208,7 @@ const SaveTrialsPage = () => {
                         handleModal={handleModal}
                     />
                 ))
-                
+
         )
     }
 
@@ -184,51 +229,17 @@ const SaveTrialsPage = () => {
                     }
                 </StyledDropDown>
             </TrialSearchHeader>
-            <div style={{ display: 'flex' }}>
+
+            {(trials.length == 0) ? <EmptyResponse>No Trials Found!</EmptyResponse> : <div style={{ display: 'flex' }}>
                 <TrialsListContainer>
                     {displayTrials()}
                 </TrialsListContainer>
                 <MapContainer>
-                    {(trials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]}/>}
+                    {(trials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]} />}
                 </MapContainer>
-            </div>
-              
-            <Dialog
-                open={open}
-                onClose={handleModal}
-                aria-labelledby="scroll-dialog-title"
-                aria-describedby="scroll-dialog-description"
-                scroll="paper"
-            >
-                    <DialogTitle id="scroll-dialog-title">{modalDetails["title"]}</DialogTitle>
-                    <DialogContent >
-                    <Box border={1} padding={2}>
-                    <DialogContentInfo>
-                    <div>
-                    Contact Email: {modalDetails["contactEmail"]}
-                    </div>
-                    <div>
-                    Principal Investigator: {modalDetails["principalInvestigator"]}
-                    </div>
-                    </DialogContentInfo>
-                    </Box>
-                    <Box border={1} padding={2}>
-                    <DialogContentText
-                        id="scroll-dialog-description"
-                        tabIndex={-1}
-                    >{modalDetails["description"]}
-                    </DialogContentText >
-                    </Box>
-                    
-                    </DialogContent>
-                    <DialogActions>
-                        <StyledButton onClick={handleModal}>Close</StyledButton>
-                        <a href={modalDetails["url"]} target="_blank">
-                            <StyledButton>View Study</StyledButton>
-                        </a>
-                    </DialogActions>
-             
-            </Dialog>
+            </div>}
+
+            <TrialModal open={open} handleModal={handleModal} modalDetails={modalDetails} patientDetails={getProfile(selectedProfileId)} name={name} />
         </>
     );
 }
