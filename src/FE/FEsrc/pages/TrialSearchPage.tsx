@@ -196,7 +196,6 @@ const TrialSearchPage = () => {
 
         for (const profile of Object.values(responseProfiles)) {
             if (profile.id == profileId) {
-                console.log(profile);
                 return profile;
             }
         }

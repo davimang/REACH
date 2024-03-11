@@ -14,7 +14,8 @@ API_URL2 = (
     r"fields=NCTId,Condition,BriefTitle,DetailedDescription,"
     r"MinimumAge,MaximumAge,LocationGeoPoint,LocationCountry,LocationState,"
     r"LocationCity,LocationZip,OverallStatus,Gender,Keyword,"
-    r"PointOfContactEMail,CentralContactEMail,ResponsiblePartyInvestigatorFullName&"
+    r"PointOfContactEMail,CentralContactEMail,ResponsiblePartyInvestigatorFullName,"
+    r"OverallOfficialName,LocationContactName&"
 )
 
 TIMEOUT_SEC = 5
@@ -68,8 +69,6 @@ class TrialFetcher:
         if len(keywords) > 0:
             search_template = search_template + "&query.term=" + keywords
 
-        print(search_template)
-
         # start one rank up from the last rank returned by a previous call
 
         studies = pd.DataFrame()
@@ -119,6 +118,8 @@ class TrialFetcher:
                     "FullAddress",
                     "LocationLatitude",
                     "LocationLongitude",
+                    "OverallOfficialName",
+                    "LocationContactName",
                     "PointOfContactEMail",
                     "CentralContactEMail",
                     "ResponsiblePartyInvestigatorFullName",
@@ -145,6 +146,8 @@ class TrialFetcher:
                 "LocationLatitude",
                 "LocationLongitude",
                 "Distance",
+                "OverallOfficialName",
+                "LocationContactName",
                 "PointOfContactEMail",
                 "CentralContactEMail",
                 "ResponsiblePartyInvestigatorFullName",
@@ -184,6 +187,7 @@ def build_study_dict(response):
         investigator = collaborator_module.get("responsibleParty", {}).get(
             "investigatorFullName", ""
         )
+        overallOfficial = contacts_locations_module.get("overallOfficials", {})
 
         central_contacts = contacts_locations_module.get(
             "centralContacts", []
@@ -198,6 +202,7 @@ def build_study_dict(response):
         states = []
         lats = []
         longs = []
+        names = []
 
         for location in locations:
             if city := location.get("city"):
@@ -218,6 +223,10 @@ def build_study_dict(response):
             if long := location.get("geoPoint", {}).get("lon"):
                 longs.append(long)
 
+            location_contact = location.get("contacts", {})
+            if len(location_contact) > 0:
+                names.append(location_contact[0].get("name", ""))
+
             break
 
         new_study_format = {
@@ -236,6 +245,10 @@ def build_study_dict(response):
             "OverallStatus": "Recruiting",
             "Gender": gender,
             "Keyword": "|".join(keywords),
+            "OverallOfficialName": (
+                overallOfficial[0].get("name", "") if len(overallOfficial) > 0 else ""
+            ),
+            "LocationContactName": names[0] if len(names) > 0 else "",
             "PointOfContactEMail": "",
             "CentralContactEMail": contacts[0] if contacts else "",
             "ResponsiblePartyInvestigatorFullName": investigator,

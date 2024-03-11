@@ -51,6 +51,8 @@ export interface TrialInfo {
     KeywordRank: number;
     url: string;
     Rank: number;
+    OverallOfficialName: string;
+    LocationContactName: string;
     PointOfContactEMail: string;
     CentralContactEMail: string;
     ResponsiblePartyInvestigatorFullName: string;

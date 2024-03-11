@@ -83,7 +83,6 @@ const SaveTrialsPage = () => {
         } catch (error) {
             console.error('Error deleting trial:', error.message);
         }
-        console.log(trials)
         if (trials) {
             const newTrials = Object.values(trials).filter((trial) => trial.id !== trialId);
             setTrials(newTrials);
@@ -170,10 +169,8 @@ const SaveTrialsPage = () => {
     }
 
     const updateDefaultLocation = () => {
-        console.log(trials);
         if (trials) {
             const defaultTrial = trials[0];
-            console.log(defaultTrial);
             if (defaultTrial) {
                 setCurrentLocation({ latitude: defaultTrial.location["latitude"], longitude: defaultTrial.location["longitude"] });
             }
