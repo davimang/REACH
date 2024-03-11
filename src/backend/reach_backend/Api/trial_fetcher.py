@@ -10,7 +10,8 @@ from .trial_filterer import TrialFilterer
 locator = Nominatim(user_agent="my_request")
 
 API_URL2 = (
-    r"https://clinicaltrials.gov/api/v2/studies?format=json&countTotal=true&filter.overallStatus=RECRUITING&"
+    r"https://clinicaltrials.gov/api/v2/studies?"
+    r"format=json&countTotal=true&filter.overallStatus=RECRUITING&"
     r"fields=NCTId,Condition,BriefTitle,DetailedDescription,"
     r"MinimumAge,MaximumAge,LocationGeoPoint,LocationCountry,LocationState,"
     r"LocationCity,LocationZip,OverallStatus,Gender,Keyword,"
@@ -187,7 +188,7 @@ def build_study_dict(response):
         investigator = collaborator_module.get("responsibleParty", {}).get(
             "investigatorFullName", ""
         )
-        overallOfficial = contacts_locations_module.get("overallOfficials", {})
+        overall_official = contacts_locations_module.get("overallOfficials", {})
 
         central_contacts = contacts_locations_module.get(
             "centralContacts", []
@@ -246,7 +247,7 @@ def build_study_dict(response):
             "Gender": gender,
             "Keyword": "|".join(keywords),
             "OverallOfficialName": (
-                overallOfficial[0].get("name", "") if len(overallOfficial) > 0 else ""
+                overall_official[0].get("name", "") if len(overall_official) > 0 else ""
             ),
             "LocationContactName": names[0] if len(names) > 0 else "",
             "PointOfContactEMail": "",

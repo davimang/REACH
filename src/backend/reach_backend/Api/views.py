@@ -2,14 +2,14 @@
 
 import json
 from datetime import date
-from django.contrib.auth.models import User, Group
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from django_filters import rest_framework as filters
-from django.http import HttpResponseForbidden
 from .serializers import (
     UserSerializer,
     GroupSerializer,
@@ -21,6 +21,8 @@ from .serializers import (
 from .trial_fetcher import TrialFetcher
 from .models import UserData, PatientInfo, Trial
 from .permissions import IsUser, IsObjectOwner
+
+User = get_user_model()
 
 trial_fetcher = TrialFetcher()
 

@@ -5,11 +5,7 @@ import regex as re
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from geopy.location import Location
-from .filtering_dictionary import (
-    filtering_dict_num,
-    filtering_dict_boolean,
-    filtering_dict_special,
-)
+from .filtering_dictionary import filtering_dict_num, filtering_dict_boolean
 
 locator = Nominatim(user_agent="my_request")
 
@@ -34,6 +30,7 @@ class TrialFilterer:
 
     @staticmethod
     def generate_keywords(input_params: dict):
+        """Generate keywords for search based on input parameters"""
         search_str = []
         for k in filtering_dict_num.keys():
             if k in input_params.keys():

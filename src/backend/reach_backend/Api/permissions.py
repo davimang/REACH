@@ -1,5 +1,6 @@
+"""Custom permission classes for API views."""
+
 from rest_framework.permissions import BasePermission
-from rest_framework import request
 
 
 class IsUser(BasePermission):
