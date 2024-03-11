@@ -16,7 +16,7 @@ const TrialSearchHeader = styled.div`
     background-color: #213E80;
     min-width: 100%;
     height: 85px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
 `;
 
@@ -80,8 +80,6 @@ const TrialSearchPage = () => {
     const [name, setName] = useState('');
     const userId = localStorage.getItem('userId');
     const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
-
-    
 
     const handleModal = () => {
         setOpen(!open);
@@ -342,12 +340,11 @@ const TrialSearchPage = () => {
                     <option value={10000}>10000Km</option>
                 </StyledDropDown>
 
-
                 <SizedButton onClick={() => {
                     resetPageTokens();
                     fetchTrials();
                 }}>Search</SizedButton>
-                <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>      
+                <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>
             </TrialSearchHeader>
 
             {loading ? <Loading> <CircularProgress size="5rem" color="success" /> </Loading> : <div style={{ display: 'flex' }}>

@@ -104,7 +104,7 @@ const MenuHeader: React.FC = () => {
                         <Link to='/accountProfile'>
                             <ProfileIcon />
                         </Link>
-                        <div style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10, backgroundColor: '#FFFFFF', width: 110, paddingLeft: 2 }}>
+                        <div style={{ borderRadius: 10, width: 110 }}>
                             <HeaderButton onClick={handleLogout}>Sign Out</HeaderButton>
                         </div>
                     </div>
