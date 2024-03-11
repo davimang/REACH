@@ -144,7 +144,7 @@ const ProfileCreationPage = (props) => {
             field ? temp[Object.keys(field)[0]] = Object.values(field)[0] : null;
             return temp;
         })
-        setAdvancedInfo({ ...temp });
+        setAdvancedInfo({ ...temp, ...advancedInfo });
     }, [formValues.condition]);
 
     useEffect(() => {
