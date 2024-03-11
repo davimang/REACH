@@ -99,7 +99,7 @@ const MenuHeader: React.FC = () => {
                         <div style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10 }}><HeaderButton>About Us</HeaderButton></div>
                     </Link>
                 </MenuButtons>
-                { isAuthenticated ? (
+                { !isAuthenticated ? (
                     <Link to='/login'>
                         <div style={{ borderRadius: 10, width: 125, paddingLeft: 20, marginRight: 10}}><HeaderButton>Sign In</HeaderButton></div>
                     </Link>
