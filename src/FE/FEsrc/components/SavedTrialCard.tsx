@@ -15,16 +15,22 @@ const SavedTrialCard: React.FC<SavedTrialProps> = ({ trial, handleDelete, setCur
             <TrialDescription>
                 <TrialTitle
                     onClick={() => {
-                        setCurrentLocation({latitude: trial.location["latitude"], longitude: trial.location["longitude"]});
+                        setCurrentLocation({ latitude: trial.location["latitude"], longitude: trial.location["longitude"] });
                     }
-                }
+                    }
                 >
                     {trial.title}
                 </TrialTitle>
-                <p><u style={{color: 'white'}}><a onClick={()=>{
-                    handleModal(); 
-                    setModalDetails({title: trial.title, description: trial.description, url: trial.url, principalInvestigator: trial.principal_investigator?trial.principal_investigator:"N/A", contactEmail: trial.contact_email?trial.contact_email:"N/A"});
-                    }
+                <p><u style={{ color: 'white' }}><a onClick={() => {
+                    handleModal();
+                    setModalDetails({
+                        title: trial.title,
+                        description: trial.description,
+                        url: trial.url,
+                        principalInvestigator: trial.principal_investigator ? trial.principal_investigator : "N/A",
+                        contactEmail: trial.contact_email ? trial.contact_email : "N/A"
+                    });
+                }
                 } style={{ color: 'white', fontFamily: 'math', cursor: 'pointer' }}>
                     Learn More About This Study...
                 </a></u></p>
