@@ -29,4 +29,4 @@ jobs:
         black src/backend/reach_backend/Api
     - name: Run Tests
       run: |
-        python manage.py test Api.tests
+        python src/backend/reach_backend/manage.py test Api.tests
