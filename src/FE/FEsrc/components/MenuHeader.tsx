@@ -53,17 +53,6 @@ const HeaderButton = styled(StyledButton)`
 const MenuButtons = styled.div`
     display: inline-flex;
 `;
-const ListButton = styled.div`
-    border-radius: 10px;
-    width: 125px;
-    padding: 10px 0;
-    margin-right: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #FFFFFF;
-    cursor: pointer;
-`;
 
 const ListIcon = styled(ListAltIcon)`
     color: #039D5F;
@@ -78,11 +67,7 @@ const MenuHeader: React.FC = () => {
         logout();
         navigate('/login');
     };
-    // constant for going to create profile page
-    const navigate = useNavigate();
-    const navigateToProfileCreation = () => {
-        navigate('/createProfile');
-    }
+
     return (
         <Header>
             <HeaderComponents>
@@ -110,9 +95,6 @@ const MenuHeader: React.FC = () => {
                     </Link>
                 ) : (
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
-                        {/* <Link to='/listprofiles'>
-                            <div style={{ borderRadius: 10, width: 125, paddingLeft: 20, marginRight: 10 }}><HeaderButton>Profiles</HeaderButton></div>
-                        </Link>  -- Remove this for the moment bc button is unappealing*/}
                         <Link to='/savedTrials'>
                             <FilledBookmarkIcon />
                         </Link>

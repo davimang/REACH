@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { API_URL } from '..';
 import UserProfileCard from '../components/UserProfileCard';
-import UserDataCard from '../components/UserDataCard';
 import styled from '@emotion/styled';
 import { StyledButton } from '../components/ButtonStyle';
-import { PatientInfo, UserData } from '../components/types';
+import { PatientInfo } from '../components/types';
 
 const AccountProfilePageContainer = styled.div`
     display: flex;
@@ -24,15 +23,8 @@ const ProfileListContainer = styled.div`
     width: 45%;
 `;
 
-const UserDataContainer = styled.div`
-  padding: 25px;
-  width: 45%;
-  height: fit-content;
-  justify-content: center;
-  display: grid;
-  color: #FFFFFF;
-  font-size: 20px;
-  font-family: math;
+const AddProfileButtonContainer = styled.div`
+    margin-top: 20px;
 `;
 
 const SizedButton = styled(StyledButton)`
@@ -40,16 +32,10 @@ const SizedButton = styled(StyledButton)`
     width: 200px; 
 `;
 
-interface PatientProfile {
-  title: string;
-  condition: string;
-}
-
 const ListProfiles: React.FC = () => {
 
   const userId = localStorage.getItem('userId');
   const [profiles, setProfiles] = useState<PatientInfo[]>([]);
-  const [userData, setUserData] = useState<UserData>({ first_name: "", last_name: "", created: "", is_clinician: false });
   const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
   const fetchProfilesList = async () => {
@@ -65,43 +51,28 @@ const ListProfiles: React.FC = () => {
     }
   };
 
-  const fetchUserData = () => {
-    try {
-      const endpoint = `/userdata/${userId}/`;
-      const requestOptions = {
-        headers: { 'Authorization': `Bearer ${authToken}` }
-      };
-      fetch(`${API_URL}${endpoint}`, requestOptions).then(response => response.json()).then(response => { setUserData(response) });
-      console.log(userData)
-    } catch (error) {
-      console.error('Error fetching account info:', error.message);
-    }
-  }
-
   useEffect(() => {
     setAuthToken(localStorage.getItem('accessToken'));
   }, [localStorage.getItem('accessToken')]);
 
   useEffect(() => {
     fetchProfilesList();
-    fetchUserData();
   }, []);
 
   return (
 
     <AccountProfilePageContainer>
-      <UserDataContainer>
-        <UserDataCard userData={userData} />
-      </UserDataContainer>
+      <Header>Profiles</Header>
       <ProfileListContainer>
-        <Header>Profiles</Header>
         {profiles.map((profile, index) => (
           <UserProfileCard key={index} profile={profile} />
         ))}
+      </ProfileListContainer>
+      <AddProfileButtonContainer>
         <Link to='/createProfile'>
           <SizedButton>Add Profile</SizedButton>
         </Link>
-      </ProfileListContainer>
+      </AddProfileButtonContainer>
     </AccountProfilePageContainer>
   );
 };

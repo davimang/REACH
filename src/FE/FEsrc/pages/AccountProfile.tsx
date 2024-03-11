@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import { API_URL } from '..';
 import styled from '@emotion/styled';
 
@@ -42,17 +42,25 @@ interface UserData {
 
 const AccountProfile: React.FC = () => {
 
-  const userId = localStorage.getItem('userId') ? localStorage.getItem('userId') : 1;
+  const userId = localStorage.getItem('userId');
   const [userData, setUserData] = useState<UserData>({ first_name: '', last_name: '', email: '', clinician_account: false });
+  const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
   const fetchUserData = () => {
     try {
       const endpoint = `/userdata/${userId}/`;
-      fetch(`${API_URL}${endpoint}`).then(response => response.json()).then(response => { setUserData(response) });
+      const requestOptions = {
+        headers: { 'Authorization': `Bearer ${authToken}` }
+      };
+      fetch(`${API_URL}${endpoint}`, requestOptions).then(response => response.json()).then(response => { setUserData(response) });
     } catch (error) {
       console.error('Error fetching account info:', error.message);
     }
   }
+
+  useEffect(() => {
+    setAuthToken(localStorage.getItem('accessToken'));
+  }, [localStorage.getItem('accessToken')]);
 
   useEffect(() => {
     fetchUserData();
@@ -65,7 +73,7 @@ const AccountProfile: React.FC = () => {
         <p>Name: {`${userData.first_name} ${userData.last_name}`}</p>
         <p>Email: {`${userData.email}`}</p>
         <p>Clinician Account: {userData.clinician_account ? 'Yes' : 'No'}</p>
-        <Link to="/editAccount"> 
+        <Link to="/editAccount">
           <EditButton>Edit Account Information</EditButton>
         </Link>
       </AccountInfoContainer>
