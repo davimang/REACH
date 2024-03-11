@@ -17,15 +17,13 @@ const Header = styled.h1`
 `;
 
 const ProfileListContainer = styled.div`
-    width: 80%; /* Adjust the width as needed */
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-    gap: 20px; 
-    margin-bottom: 20px; 
+    justify-content: center;
+    width: 45%;
 `;
 
 const AddProfileButtonContainer = styled.div`
-    margin-top: 20px; /* Add margin top to create space between header and button */
+    margin-top: 20px;
 `;
 
 const SizedButton = styled(StyledButton)`
@@ -73,5 +71,4 @@ const ListProfiles: React.FC = () => {
         </AccountProfilePageContainer>
     );
 };
-
 export default ListProfiles;
