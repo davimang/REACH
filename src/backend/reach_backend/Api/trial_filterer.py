@@ -32,15 +32,13 @@ class TrialFilterer:
     def generate_keywords(input_params: dict):
         """Generate keywords for search based on input parameters"""
         search_str = []
-        for k in filtering_dict_num.keys():
-            if k in input_params.keys():
-                if input_params.get(k, 0) > 0:
-                    search_str.append(filtering_dict_num.get(k, 0))
+        for k in filtering_dict_num:
+            if k in input_params.keys() and input_params.get(k, 0) > 0:
+                search_str.append(filtering_dict_num.get(k, 0))
 
-        for k in filtering_dict_boolean.keys():
-            if k in input_params.keys():
-                if input_params.get(k, 0):
-                    search_str.append(filtering_dict_boolean.get(k, 0))
+        for k in filtering_dict_boolean:
+            if k in input_params.keys() and input_params.get(k, 0):
+                search_str.append(filtering_dict_boolean.get(k, 0))
 
         if input_params.get("asthmaSeverity", 0) == "moderate":
             search_str.append("moderate+asthma")
