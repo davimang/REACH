@@ -5,7 +5,7 @@ import json
 import requests
 import pandas as pd
 from geopy.geocoders import Nominatim
-from .trial_filterer import TrialFilterer
+from trial_filterer import TrialFilterer
 
 locator = Nominatim(user_agent="my_request")
 
