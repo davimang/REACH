@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '..';
-import { PatientInfoList, TrialInfoList } from '../components/types';
+import { PatientInfoList, TrialInfoList, TrialInfo } from '../components/types';
 import { StyledButton } from '../components/ButtonStyle';
 import { DropDownInput } from '../components/FormStyles';
 import TrialCard from '../components/TrialCard';
@@ -68,6 +68,8 @@ const TrialSearchPage = () => {
     const [pageTokenPointer, setPageTokenPointer] = useState(0);
     const [maxDistance, setMaxDistance] = useState('');
     const [profileError, setProfileError] = useState(false);
+    const [currentTrialCount, setCurrentTrialCount] = useState(0);
+    const [pageToken, setPageToken] = useState('');
     const [open, setOpen] = useState(false);
     const [modalDetails, setModalDetails] = useState({
         title: "",
@@ -166,28 +168,63 @@ const TrialSearchPage = () => {
     };
 
     const fetchTrials = async () => {
-        setResponseTrials(null);
+        
         if (!selectedProfileId) {
             setProfileError(true);
             return;
         }
-        try {
-            setLoading(true);
-            const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&next_page=${pageTokens[pageTokenPointer]}&max_distance=${maxDistance}`;
-            const requestOptions = {
-                headers: { 'Authorization': `Bearer ${authToken}` }
-            };
-            const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch trials. Status: ${response.status}`);
+
+        if(responseTrials){
+            try {
+                setLoading(true);
+                const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&next_page=${pageToken}&max_distance=${maxDistance}`;
+                const requestOptions = {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                };
+                const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch trials. Status: ${response.status}`);
+                }
+                const data = await response.json();
+                const formattedData = JSON.parse(data);
+                var newTrials = {...responseTrials};
+                for (const key in formattedData){
+                    console.log(typeof(key));
+                    newTrials[Number(key) + currentTrialCount] = formattedData[key];
+                }
+                setResponseTrials(newTrials);
+                setCurrentTrialCount(currentTrialCount + 5);
+                console.log(responseTrials);
+            } catch (error) {
+                console.error('Error fetching trials:', error.message);
+            } finally {
+                setLoading(false);
             }
-            const data = await response.json();
-            setResponseTrials(JSON.parse(data));
-        } catch (error) {
-            console.error('Error fetching trials:', error.message);
-        } finally {
-            setLoading(false);
         }
+        else{
+            try {
+                setLoading(true);
+                const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&max_distance=${maxDistance}`;
+                const requestOptions = {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                };
+                const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch trials. Status: ${response.status}`);
+                }
+                const data = await response.json();
+                setResponseTrials(JSON.parse(data));
+                setCurrentTrialCount(5);
+            } catch (error) {
+                console.error('Error fetching trials:', error.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+
+        console.log(responseTrials ? responseTrials.length: 0);
+        
     };
 
     const getProfile = (profileId?) => {
@@ -230,17 +267,15 @@ const TrialSearchPage = () => {
 
     const nextPage = (e) => {
         e.preventDefault();
+        console.log(currentTrialCount);
+        console.log(responseTrials);
         if (responseTrials) {
-
-            if (pageTokenPointer == pageTokens.length - 1) {
-                const nextPage = responseTrials[0].nextPage;
-                setPageTokens([...pageTokens, nextPage]);
-                setPageTokenPointer(pageTokenPointer + 1);
-            }
-            else {
-                setPageTokenPointer(pageTokenPointer + 1);
-            }
-
+            const nextPage = responseTrials[currentTrialCount-1].nextPage;
+            setPageTokens([...pageTokens, nextPage]);
+            setPageTokenPointer(pageTokenPointer + 1);
+            
+            // actual
+            setPageToken(nextPage);
         }
     }
 
@@ -278,6 +313,7 @@ const TrialSearchPage = () => {
                     setModalDetails={setModalDetails}
                 />
             ))
+
 
 
         );
@@ -342,19 +378,20 @@ const TrialSearchPage = () => {
 
                 <SizedButton onClick={() => {
                     resetPageTokens();
+                    setResponseTrials(null);
                     fetchTrials();
                 }}>Search</SizedButton>
                 <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>
             </TrialSearchHeader>
 
-            {loading ? <Loading> <CircularProgress size="5rem" color="success" /> </Loading> : <div style={{ display: 'flex' }}>
+            {loading && !responseTrials ? <Loading> <CircularProgress size="5rem" color="success" /> </Loading> : <div style={{ display: 'flex' }}>
                 <TrialsListContainer>
                     {displayTrials()}
-                    {responseTrials && !loading && pageTokenPointer > 0 && <StyledButton onClick={e => { prevPage(e); }}>Previous Page</StyledButton>}
-                    {responseTrials && !loading && hasNextPage && <StyledButton style={{ float: 'right' }} onClick={e => { nextPage(e); }}>Next Page</StyledButton>}
+                    {responseTrials && !loading && hasNextPage && <StyledButton onClick={e => { nextPage(e); }}>More Trials</StyledButton>}
+                    {responseTrials && loading && <CircularProgress color="success" />}
                 </TrialsListContainer>
                 <MapContainer>
-                    {(responseTrials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]} />}
+                    {(responseTrials) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]} />}
                 </MapContainer>
             </div>}
 
