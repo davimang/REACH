@@ -54,7 +54,10 @@ const Loading = styled.div`
     z-index: 9999;    
 `;
 
-const TrialSearchPage = () => {
+const trialBatchFetchSize = 5;
+const trialBatchDisplaySize = 3;
+
+const TrialSearchPage = () => {    
     const navigate = useNavigate();
     const [responseProfiles, setResponseProfiles] = useState<PatientInfoList | null>(null);
     const [responseTrials, setResponseTrials] = useState<TrialInfoList | null>(null);
@@ -69,6 +72,7 @@ const TrialSearchPage = () => {
     const [maxDistance, setMaxDistance] = useState('');
     const [profileError, setProfileError] = useState(false);
     const [currentTrialCount, setCurrentTrialCount] = useState(0);
+    const [currentTrialPointer, setCurrentTrialPointer] = useState(trialBatchDisplaySize);
     const [pageToken, setPageToken] = useState('');
     const [open, setOpen] = useState(false);
     const [modalDetails, setModalDetails] = useState({
@@ -270,12 +274,12 @@ const TrialSearchPage = () => {
         console.log(currentTrialCount);
         console.log(responseTrials);
         if (responseTrials) {
-            const nextPage = responseTrials[currentTrialCount-1].nextPage;
-            setPageTokens([...pageTokens, nextPage]);
-            setPageTokenPointer(pageTokenPointer + 1);
-            
+            if(currentTrialCount <= currentTrialPointer){
+                const nextPage = responseTrials[currentTrialCount-1].nextPage;
+                setPageToken(nextPage);
+            }
             // actual
-            setPageToken(nextPage);
+            setCurrentTrialPointer(currentTrialPointer + trialBatchDisplaySize);
         }
     }
 
@@ -303,7 +307,7 @@ const TrialSearchPage = () => {
     const displayTrials = () => {
         return (
             responseTrials &&
-            Object.values(responseTrials).map((trial) => (
+            Object.values(responseTrials).filter((_, index) => index < currentTrialPointer).map((trial) => (
                 <TrialCard
                     trial={trial}
                     trialSaved={trialSaved}
@@ -335,7 +339,7 @@ const TrialSearchPage = () => {
 
     useDidMountEffect(() => {
         fetchTrials();
-    }, [pageTokenPointer]);
+    }, [pageToken]);
 
     const navigateToBookmarks = () => {
         navigate('/savedTrials');
