@@ -1,4 +1,4 @@
-from trial_fetcher import TrialFetcher
+from .trial_fetcher import TrialFetcher
 
 input_params = {
     "conditions" : ["asthma"],
@@ -13,7 +13,12 @@ input_params = {
         "postalCode" : "L8S 4L8"
     },
     "isSmoker" : True,
-    "packYears" : 3
+    "packYears" : 3,
+    "FEV" : 4,
+    "FEVPercent" : 1.4,
+    "DLCO" : 0.6,
+    "BMI" : 27,
+    "bloodEosinophil" : 400
 }
 
 print(TrialFetcher.search_studies(input_params))

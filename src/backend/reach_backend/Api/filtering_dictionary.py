@@ -86,7 +86,6 @@ filtering_dict_special = {
 #variables not shown here
 # packYears : float
 # phGroup : int
-# additionalSleepDisorder : str, one of [OSA, OSA/OHS, hypoventilation, central sleep apnea, insomnia, narcolepsy, idiopathic hypersomnia, RBD, NREM parasomnia, RLS]
 # apneadIndex : float
 # nadirO2Saturation : float (percentage)
 # WHOFunctionalClass : int [1,4]
