@@ -8,7 +8,7 @@ from geopy.location import Location
 from .filtering_dictionary import (
     filtering_dict_num,
     filtering_dict_boolean,
-    filtering_dict_special,
+    filtering_dict_special
 )
 
 locator = Nominatim(user_agent="my_request")
@@ -45,32 +45,75 @@ class TrialFilterer:
                 if input_params.get(k, 0):
                     search_str.append(filtering_dict_boolean.get(k, 0))
 
-        if input_params.get("asthmaSeverity", 0) == "moderate":
+        #hard coded special variables
+        if input_params.get("asthmaSeverity", "") == "moderate":
             search_str.append("moderate+asthma")
-        elif input_params.get("asthmaSeverity", 0) == "severe":
+        elif input_params.get("asthmaSeverity", "") == "severe":
             search_str.append("severe+asthma")
 
         if input_params.get("WHOFunctionalClass", 0) > 2:
             search_str.append("severe+pulmonary+hypertension")
 
-        match input_params.get("PHType", 0):
-            case 1:
-                search_str.append("pulmonary+arterial+hypertension")
-            case 2:
-                search_str.append("left+heart+disease")
-            case 3:
-                search_str.append("lung+disease")
-            case 4:
-                search_str.append("blood+clot")
-            case 5:
-                search_str.append("unknown+case")
-
-        if input_params.get("packYears", 0) > 40:
+        if input_params.get("packYears", 0) >= 40:
             search_str.append("heavy+smoker")
-        elif input_params.get("packYears", 0) > 20:
+        elif input_params.get("packYears", 0) >= 20:
             search_str.append("moderate+smoker")
-        elif input_params.get("packYears", 0) > 0:
+        elif input_params.get("packYears", 0) >= 0:
             search_str.append("light+smoker")
+
+        if input_params.get("apneadIndex", 0) >= 30:
+            search_str.append("severe+sleep+apnea")
+        elif input_params.get("apneadIndex", 0) >= 15:
+            search_str.append("moderate+sleep+apnea")
+        elif input_params.get("apneadIndex", 0) >= 5:
+            search_str.append("mild+sleep+apnea")
+
+        if input_params.get("nadirO2Saturation", 1) <= 0.9:
+            search_str.append("low+oxygen+saturation")
+
+        #FEV healthy range calculation
+        if input_params.get("FEV", -1) != -1:
+            if input_params.get("sex", "").lower() == "male":
+                if input_params.get("FEV", -1) < filtering_dict_special.get("FEV")[0][0]:
+                    search_str.append("low+FEV1")
+                elif input_params.get("FEV", -1) > filtering_dict_special.get("FEV")[0][1]:
+                    search_str.append("high+FEV1")
+            elif input_params.get("sex", "").lower() == "female":
+                if input_params.get("FEV", -1) < filtering_dict_special.get("FEV")[1][0]:
+                    search_str.append("low+FEV1")
+                elif input_params.get("FEV", -1) > filtering_dict_special.get("FEV")[1][1]:
+                    search_str.append("high+FEV1")
+
+        if input_params.get("FEVPercent", -1) != -1:
+            if input_params.get("FEVPercent", 1) < filtering_dict_special.get("FEVPercent")[0]:
+                search_str.append("low+FEV+ration+OR+low+FEV1+FVC+ratio")
+            elif input_params.get("FEVPercent", 1) > filtering_dict_special.get("FEVPercent")[1]:
+                search_str.append("high+FEV+ration+OR+high+FEV1+FVC+ratio")
+
+        if input_params.get("FVC", -1) != -1:
+            if input_params.get("sex", "").lower() == "male":
+                if input_params.get("FVC", -1) < filtering_dict_special.get("FVC")[0][0]:
+                    search_str.append("low+FVC1")
+                elif input_params.get("FVC", -1) > filtering_dict_special.get("FVC")[0][1]:
+                    search_str.append("high+FVC")
+            elif input_params.get("sex", "").lower() == "female":
+                if input_params.get("FVC", -1) < filtering_dict_special.get("FVC")[1][0]:
+                    search_str.append("low+FVC")
+                elif input_params.get("FVC", -1) > filtering_dict_special.get("FVC")[1][1]:
+                    search_str.append("high+FVC")
+
+        if input_params.get("DLCO", 1) < filtering_dict_special.get("DLCO", [0.75])[0]:
+            search_str.append("low+lung+diffusion+OR+low+DLCO")
+
+        if input_params.get("bloodEosinophil", 300) < filtering_dict_special.get("bloodEosinophil", [30,350])[0]:
+            search_str.append("low+blood+eosinophil+count")
+        elif input_params.get("bloodEosinophil", 300) > filtering_dict_special.get("bloodEosinophil", [30,350])[1]:
+            search_str.append("high+blood+eosinophil+count")
+
+        if input_params.get("BMI", 20) < filtering_dict_special.get("BMI", [18.5, 25])[0]:
+            search_str.append("underweight")
+        elif input_params.get("BMI", 20) > filtering_dict_special.get("BMI", [18.5, 25])[1]:
+            search_str.append("overweight")
 
         if len(search_str) > 0:
             return "+OR+".join(search_str)
