@@ -46,7 +46,31 @@ filtering_dict_boolean = {
     "comorbidAtrialFibrilation" : "atrial+fibrilation",
     "comorbidCongestiveHeartFailure" : "congestive+heart+failure",
     "comorbidDepressionAnxiety" : "depression+OR+anxiety",
-    "daytimeSleepiness" : "daytime+sleepiness+OR+drowsiness"
+    "daytimeSleepiness" : "daytime+sleepiness+OR+drowsiness",
+    #new variables start here
+    "PHGroup1" : "pulmonary+arterial+hypertension",
+    "PHGroup2" : "left+heart+disease",
+    "PHGroup3" : "lung+disease",
+    "PHGroup4" : "blood+clot",
+    "PHGroup5" : "unknown+cause",
+    "hasAsthma" : "asthma",
+    "hasNonAsthmaEosinophilic" : "non+asthmatic+eosinophilic+bronchitis",
+    "hasNasalDisease" : "nasal+disease",
+    "gastralReflux" : "gastro+oesophageal+reflux+disease",
+    "hasCOPD" : "COPD+OR+chronic+obstructive+pulmonary+disease",
+    "investigateCXR" : "CXR",
+    "investigateCT" : "CT+chest",
+    "investigateSpirometry" : "spirometry",
+    "investigateMethacholine" : "methacholine+challenge",
+    "hasOSA" : "OSA+OR+obstructive+sleep+apnea",
+    "hasOSAOHS" : "OSA+OR+obstructive+sleep+apnea+OR+OHS+OR+obesity+hypoventilation+syndrome",
+    "hasHypoventilation" : "hypoventilation",
+    "hasCentralSleepApnea" : "central+sleep+apnea",
+    "hasNarcolepsy" : "narcolepsy",
+    "hasIdiopathicHypersomnia" : "idiopathic+hypersomnia",
+    "hasRBD" : "REM+sleep+behavior+disorder+OR+RBD+OR+rapid+eye+movement+sleep+behavior+disorder",
+    "hasNREM" : "non+REM+OR+non+rapid+eye+movement",
+    "hasRestlessLeg" : "restless+leg+syndrome"
 }
 
 filtering_dict_special = {
@@ -55,16 +79,17 @@ filtering_dict_special = {
     "FVC" : [[4.75,5.5],[3.25,3.75]],
     "FVCPercent" : [0.8, 1.2],
     "DLCO" : [0.75, 1.4],
-    "bloodEosinophil" : [30,350]
+    "bloodEosinophil" : [30,350],
+    "BMI" : [18.5, 25]
 }
 
 #variables not shown here
 # packYears : float
 # phGroup : int
-# additionalSleepDisorder : str, one of [OSA, OSA/OHS, hypoventilation, central sleep apnea, insomnia, narcolepsy, idiopathic hypersomnia, RBD, NREM parasomnia, RLS]
-# BMI : float
 # apneadIndex : float
 # nadirO2Saturation : float (percentage)
 # WHOFunctionalClass : int [1,4]
 # pulmonaryVascularResistance : float
-# PHType : int [1,5]
+
+# New
+# underlyingCondition : list

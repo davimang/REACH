@@ -3,6 +3,22 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useAuth } from '../contexts/AuthContext';
 import { StyledButton } from './ButtonStyle';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+
+
+const ProfileIcon = styled(AccountCircleIcon)`
+    color: #039D5F;
+    background-color: #039D5F;
+    border-radius: 50%;
+    padding: 0px;
+    fill: white;
+    cursor: pointer;
+    font-size: 60px;
+    margin-left: auto;
+    margin-right: 10px;
+`;
 
 const Header = styled.div`
     padding: 25px;
@@ -12,6 +28,13 @@ const Header = styled.div`
     position: sticky;
     top: 0;
     z-index: 1;
+`;
+
+const FilledBookmarkIcon = styled(BookmarkIcon)`
+    color: #039D5F;
+    cursor: pointer;
+    font-size: 60px;
+    margin-left: 20px;
 `;
 
 const HeaderComponents = styled.div`
@@ -29,6 +52,11 @@ const HeaderButton = styled(StyledButton)`
 
 const MenuButtons = styled.div`
     display: inline-flex;
+`;
+
+const ListIcon = styled(ListAltIcon)`
+    color: #039D5F;
+    font-size: 60px;
 `;
 
 const MenuHeader: React.FC = () => {
@@ -63,17 +91,23 @@ const MenuHeader: React.FC = () => {
                 </MenuButtons>
                 {!isAuthenticated ? (
                     <Link to='/login'>
-                        <div style={{ borderRadius: 10, width: 125, paddingLeft: 20 }}><HeaderButton>Sign In</HeaderButton></div>
+                        <div style={{ borderRadius: 10, width: 125, paddingLeft: 20, marginRight: 10 }}><HeaderButton>Sign In</HeaderButton></div>
                     </Link>
                 ) : (
-                    <MenuButtons>
-                        <Link to='/listprofiles'>
-                            <div style={{ borderTopLeftRadius: 10, borderBottomLeftRadius: 10, width: 110, paddingLeft: 20 }}><HeaderButton>Profiles</HeaderButton></div>
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                        <Link to='/savedTrials'>
+                            <FilledBookmarkIcon />
                         </Link>
-                        <div style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10, backgroundColor: '#FFFFFF', width: 110, paddingLeft: 2 }}>
+                        <Link to='/listprofiles'>
+                            <ListIcon />
+                        </Link>
+                        <Link to='/accountProfile'>
+                            <ProfileIcon />
+                        </Link>
+                        <div style={{ borderRadius: 10, width: 110 }}>
                             <HeaderButton onClick={handleLogout}>Sign Out</HeaderButton>
                         </div>
-                    </MenuButtons>
+                    </div>
                 )}
             </HeaderComponents >
         </Header >

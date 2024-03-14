@@ -54,8 +54,8 @@ const Loading = styled.div`
     z-index: 9999;    
 `;
 
-const trialBatchFetchSize = 5;
-const trialBatchDisplaySize = 3;
+const trialBatchFetchSize = 30;
+const trialBatchDisplaySize = 5;
 
 const TrialSearchPage = () => {    
     const navigate = useNavigate();
