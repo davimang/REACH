@@ -44,7 +44,7 @@ const EmptyResponse = styled.div`
     z-index: 9999;
     font-size: 30px;
     color: white;
-`
+`;
 
 const SaveTrialsPage = () => {
 

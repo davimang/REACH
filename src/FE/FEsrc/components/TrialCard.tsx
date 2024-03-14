@@ -8,20 +8,24 @@ interface TrialProps {
     setCurrentLocation: (location: Object) => void;
     handleModal: () => void;
     setModalDetails: (details: Object) => void;
+    trialNumber: number;
+    isSelected: Object;
+    setIsSelected: (isSelected: Object) => void;
 }
 
-const TrialCard: React.FC<TrialProps> = ({ trial, trialSaved, handleSave, setCurrentLocation, handleModal, setModalDetails }) => {
+const TrialCard: React.FC<TrialProps> = ({ trial, trialSaved, handleSave, setCurrentLocation, handleModal, setModalDetails, trialNumber, isSelected, setIsSelected }) => {
     return (
-        <TrialContainer key={trial.NCTId}>
+        <TrialContainer key={trial.NCTId} style={{backgroundColor: isSelected[trial.NCTId] ? '#021691': '#38569A'}}>
             <TrialDescription>
                 <TrialTitle
                     onClick={(e) => {
                         e.preventDefault();
                         setCurrentLocation({ latitude: trial.LocationLatitude, longitude: trial.LocationLongitude });
+                        setIsSelected({[trial.NCTId]: true});
                     }
                     }
                 >
-                    {trial.BriefTitle}
+                    {trialNumber + '. ' + trial.BriefTitle}
                 </TrialTitle>
 
                 <p><u style={{ color: 'white' }}><a onClick={() => {
