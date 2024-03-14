@@ -2,12 +2,14 @@ import styled from '@emotion/styled';
 
 export const TrialContainer = styled.div`
     width: 570px;
-    background-color: #38569A;
     border-radius: 20px;
     padding: 15px;
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
+    &:hover {
+        background-color: #6495ED !important;
+    }
 `;
 
 export const TrialTitle = styled.b`
