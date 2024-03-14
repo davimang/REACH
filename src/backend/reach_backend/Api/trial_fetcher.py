@@ -75,7 +75,7 @@ class TrialFetcher:
 
         # keep pulling trials until you hit 5 or
         next_page = input_params.get("next_page")
-        while studies.shape[0] < 5:
+        while studies.shape[0] < 30:
             search_url = (
                 search_template + f"&pageToken={next_page}"
                 if next_page
@@ -126,8 +126,8 @@ class TrialFetcher:
                 ]
             )
         studies = studies.head(
-            5
-        )  # take the top 5 (since it can return up to 9 results)
+            30
+        )
         studies["url"] = (
             "https://clinicaltrials.gov/study/" + studies["NCTId"]
         )  # create url
