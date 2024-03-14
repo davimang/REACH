@@ -58,7 +58,6 @@ const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
                 onChange={(e) => {
                     if (fieldInfo.children && !e.target.checked) {
                         const initialAdvancedInfoVals = initializeChildFields(Object.values(fieldInfo.children), Object.keys(fieldInfo.children), [])[0];
-                        const temp = {};
                         initialAdvancedInfoVals && initialAdvancedInfoVals.map((field: any) => {
                             advancedInfo[Object.keys(field)[0]] = Object.values(field)[0];
                         })
