@@ -8,7 +8,7 @@ export const TrialContainer = styled.div`
     justify-content: space-between;
     margin-bottom: 15px;
     &:hover {
-        background-color: #6495ED !important;
+        background-color: #021691 !important;
     }
 `;
 

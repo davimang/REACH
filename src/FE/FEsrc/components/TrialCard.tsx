@@ -15,7 +15,7 @@ interface TrialProps {
 
 const TrialCard: React.FC<TrialProps> = ({ trial, trialSaved, handleSave, setCurrentLocation, handleModal, setModalDetails, trialNumber, isSelected, setIsSelected }) => {
     return (
-        <TrialContainer key={trial.NCTId} style={{backgroundColor: isSelected[trial.NCTId] ? '#6495ED': '#38569A'}}>
+        <TrialContainer key={trial.NCTId} style={{backgroundColor: isSelected[trial.NCTId] ? '#021691': '#38569A'}}>
             <TrialDescription>
                 <TrialTitle
                     onClick={(e) => {

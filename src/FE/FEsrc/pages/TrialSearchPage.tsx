@@ -274,7 +274,6 @@ const TrialSearchPage = () => {
 
     const nextPage = (e) => {
         if (responseTrials && currentTrialCount <= currentTrialPointer) {
-            console.log("next page");
             const numTrials = Object.keys(responseTrials).length;
             const nextPage = responseTrials[numTrials-1].nextPage;
             setPageToken(nextPage);
@@ -291,16 +290,8 @@ const TrialSearchPage = () => {
     const updatePageDetails = () => {
         const currNumTrials = responseTrials ? Object.keys(responseTrials).length: 0;
         setCurrentTrialCount(currNumTrials);
-
-
-        console.log(currentTrialPointer);
-        console.log(Math.min(trialBatchDisplaySize, currNumTrials-currentTrialPointer));
-
         const currTrialPointer = responseTrials ? currentTrialPointer + Math.min(trialBatchDisplaySize, currNumTrials-currentTrialPointer): 0;
         setCurrentTrialPointer(currTrialPointer);
-        console.log("curr num trials" + currNumTrials);
-        console.log(responseTrials);
-        console.log(currTrialPointer);
     }
     
     const resetPageDetails = () => {
@@ -420,8 +411,8 @@ const TrialSearchPage = () => {
             {loading && !responseTrials ? <Loading> <CircularProgress size="5rem" color="success" /> </Loading> : <div style={{ display: 'flex' }}>
                 <TrialsListContainer>
                     {displayTrials()}
-                    {responseTrials && !loading && hasNextPage && <StyledButton onClick={e => { nextPage(e); }}>More Trials</StyledButton>}
-                    {responseTrials && !loading && !hasNextPage && <StyledButton style={{backgroundColor: '#A5A5A5', cursor: 'default'}} disabled>Sorry, No More Trials!</StyledButton>}
+                    {responseTrials && !loading && (hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton onClick={e => { nextPage(e); }}>More Trials</StyledButton>}
+                    {responseTrials && !loading && !(hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton style={{backgroundColor: '#A5A5A5', cursor: 'default'}} disabled>Sorry, No More Trials!</StyledButton>}
                     {responseTrials && loading && <CircularProgress size="1rem" color="success" />}
                 </TrialsListContainer>
                 <MapContainer>
