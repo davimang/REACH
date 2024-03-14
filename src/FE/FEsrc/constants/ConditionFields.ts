@@ -35,11 +35,11 @@ const asthma = {
         i: "current or ex-smoker",
         children: {
             packYears: {
-            label: "Pack-Years",
-            initial: 0,
-            inputType: 'number',
-            clinician: false,
-            i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
+                label: "Pack-Years",
+                initial: 0,
+                inputType: 'number',
+                clinician: false,
+                i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
             },
         }
     },
@@ -111,11 +111,11 @@ const copd = {
         i: "current or ex-smoker",
         children: {
             packYears: {
-            label: "Pack-Years",
-            initial: 0,
-            inputType: 'number',
-            clinician: false,
-            i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
+                label: "Pack-Years",
+                initial: 0,
+                inputType: 'number',
+                clinician: false,
+                i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
             },
         }
     },
@@ -193,11 +193,11 @@ const ild = {
         i: "current or ex-smoker",
         children: {
             packYears: {
-            label: "Pack-Years",
-            initial: 0,
-            inputType: 'number',
-            clinician: false,
-            i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
+                label: "Pack-Years",
+                initial: 0,
+                inputType: 'number',
+                clinician: false,
+                i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
             },
         }
     },

@@ -17,6 +17,7 @@ interface AdvancedFormFieldProps {
     value: any;
     advancedInfo: {};
     setAdvancedInfo: (info: {}) => void;
+    initializeChildFields: (conditionFields: any, keys: string[], prev: {}[]) => void;
 }
 const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
     fieldInfo,
@@ -24,6 +25,7 @@ const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
     value,
     advancedInfo,
     setAdvancedInfo,
+    initializeChildFields,
 }) => {
 
     return (
@@ -54,7 +56,14 @@ const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
                 checked={value}
                 style={{width: 30, height: 30}}
                 onChange={(e) => {
-                    setAdvancedInfo({ ...advancedInfo, [fieldVariable]: e.target.checked})
+                    if (fieldInfo.children && !e.target.checked) {
+                        const initialAdvancedInfoVals = initializeChildFields(Object.values(fieldInfo.children), Object.keys(fieldInfo.children), [])[0];
+                        const temp = {};
+                        initialAdvancedInfoVals && initialAdvancedInfoVals.map((field: any) => {
+                            advancedInfo[Object.keys(field)[0]] = Object.values(field)[0];
+                        })
+                    }
+                    setAdvancedInfo({ ...advancedInfo, [fieldVariable]: e.target.checked});
                 }
                 }
             /> :

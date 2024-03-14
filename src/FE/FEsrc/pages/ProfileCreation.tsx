@@ -98,6 +98,7 @@ const ProfileCreationPage = (props) => {
                             value={advancedInfo[keys[index]]}
                             advancedInfo={advancedInfo}
                             setAdvancedInfo={setAdvancedInfo}
+                            initializeChildFields={updateAdvancedInfoOnConditionSelection}
                         />
                         {field?.children && advancedInfo[keys[index]] == true ? recursiveConditionFields(Object.values(field.children), Object.keys(field.children)) : null}
                     </>
@@ -277,13 +278,15 @@ const ProfileCreationPage = (props) => {
                         <AutocompleteInput
                             disablePortal
                             onInputChange={(event, value, reason) => {
-                                setFormValues({ ...formValues, condition: value })
+                                setAdvancedInfo({});
+                                setFormValues({ ...formValues, condition: value });
                             }}
                             defaultValue={formValues.condition}
                             freeSolo={true}
                             options={conditions}
                             renderInput={(params) => <AutocompleteTextField {...params} label={formValues.condition ? null : "-- Select Condition --"} defaultValue={formValues.condition} value={formValues.condition}
                                 onChange={(e) => {
+                                    setAdvancedInfo({});
                                     const newCondition = e.target.value;
                                     setFormValues({ ...formValues, condition: newCondition });
                                 }} />
