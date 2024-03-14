@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '..';
-import { PatientInfoList, TrialInfoList, TrialInfo } from '../components/types';
+import { PatientInfoList, TrialInfoList } from '../components/types';
 import { StyledButton } from '../components/ButtonStyle';
 import { DropDownInput } from '../components/FormStyles';
 import TrialCard from '../components/TrialCard';
@@ -54,7 +54,7 @@ const Loading = styled.div`
     z-index: 9999;    
 `;
 
-//const trialBatchFetchSize = 5;
+const trialBatchFetchSize = 5;
 const trialBatchDisplaySize = 3;
 
 const TrialSearchPage = () => {    
@@ -170,14 +170,14 @@ const TrialSearchPage = () => {
         }
     };
 
-    const fetchTrials = async () => {
+    const fetchTrials = async (onNextPage = true) => {
         
         if (!selectedProfileId) {
             setProfileError(true);
             return;
         }
 
-        if(responseTrials){
+        if(onNextPage){
             try {
                 setLoading(true);
                 const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&next_page=${pageToken}&max_distance=${maxDistance}`;
@@ -190,12 +190,18 @@ const TrialSearchPage = () => {
                 }
                 const data = await response.json();
                 const formattedData = JSON.parse(data);
-                var newTrials = {...responseTrials};
-                for (const key in formattedData){
-                    console.log(typeof(key));
-                    newTrials[Number(key) + currentTrialCount] = formattedData[key];
+                if(!formattedData) {
+                    setHasNextPage(false);
                 }
+                else{
+                    var newTrials = {...responseTrials};
+                    for (const key in formattedData){
+                        console.log(typeof(key));
+                        newTrials[Number(key) + currentTrialCount] = formattedData[key];
+                    }
                 setResponseTrials(newTrials);
+                }
+                
             } catch (error) {
                 console.error('Error fetching trials:', error.message);
             } finally {
@@ -204,6 +210,7 @@ const TrialSearchPage = () => {
         }
         else{
             try {
+                console.log("FETCHING THIS WAY")
                 setLoading(true);
                 const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&max_distance=${maxDistance}`;
                 const requestOptions = {
@@ -257,10 +264,11 @@ const TrialSearchPage = () => {
         }
     }
 
-    const updateDefaultLocation = () => {
+    const updateDefaultTrial = () => {
         if (responseTrials) {
             const defaultTrial = responseTrials[0];
             setCurrentLocation({ latitude: defaultTrial.LocationLatitude, longitude: defaultTrial.LocationLongitude });
+            setIsSelected({[defaultTrial.NCTId] : true});
         }
     }
 
@@ -288,9 +296,10 @@ const TrialSearchPage = () => {
         console.log(currentTrialPointer);
         console.log(Math.min(trialBatchDisplaySize, currNumTrials-currentTrialPointer));
 
-        const currTrialPointer = responseTrials ? currentTrialPointer + Math.min(trialBatchDisplaySize, currNumTrials-currentTrialPointer): trialBatchDisplaySize;
+        const currTrialPointer = responseTrials ? currentTrialPointer + Math.min(trialBatchDisplaySize, currNumTrials-currentTrialPointer): 0;
         setCurrentTrialPointer(currTrialPointer);
-        console.log(currNumTrials);
+        console.log("curr num trials" + currNumTrials);
+        console.log(responseTrials);
         console.log(currTrialPointer);
     }
     
@@ -347,7 +356,9 @@ const TrialSearchPage = () => {
 
     useDidMountEffect(() => {
         updatePageDetails();
-        updateDefaultLocation();
+        if(responseTrials && Object.keys(responseTrials).length <= trialBatchFetchSize){
+            updateDefaultTrial();
+        }
         updateHasNextPage();
     }, [responseTrials]);
 
@@ -398,10 +409,10 @@ const TrialSearchPage = () => {
                 </StyledDropDown>
 
                 <SizedButton onClick={() => {
-                    resetPageToken();
                     setResponseTrials(null);
+                    resetPageToken();
                     resetPageDetails();
-                    fetchTrials();
+                    fetchTrials(false);
                 }}>Search</SizedButton>
                 <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>
             </TrialSearchHeader>
@@ -410,6 +421,7 @@ const TrialSearchPage = () => {
                 <TrialsListContainer>
                     {displayTrials()}
                     {responseTrials && !loading && hasNextPage && <StyledButton onClick={e => { nextPage(e); }}>More Trials</StyledButton>}
+                    {responseTrials && !loading && !hasNextPage && <StyledButton style={{backgroundColor: '#A5A5A5', cursor: 'default'}} disabled>Sorry, No More Trials!</StyledButton>}
                     {responseTrials && loading && <CircularProgress size="1rem" color="success" />}
                 </TrialsListContainer>
                 <MapContainer>
