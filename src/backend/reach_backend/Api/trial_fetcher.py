@@ -11,7 +11,7 @@ locator = Nominatim(user_agent="my_request")
 
 API_URL2 = (
     r"https://clinicaltrials.gov/api/v2/studies?format=json&countTotal=true&filter.overallStatus=RECRUITING&"
-    r"fields=NCTId,Condition,BriefTitle,DetailedDescription,"
+    r"fields=NCTId,Condition,BriefTitle,DetailedDescription,BriefSummary,"
     r"MinimumAge,MaximumAge,LocationGeoPoint,LocationCountry,LocationState,"
     r"LocationCity,LocationZip,OverallStatus,Gender,Keyword,"
     r"PointOfContactEMail,CentralContactEMail,ResponsiblePartyInvestigatorFullName,"
@@ -181,6 +181,8 @@ def build_study_dict(response):
         conditions = study_conditions_module.get("conditions", [])
         keywords = study_conditions_module.get("keywords", [])
         description = description_module.get("detailedDescription", "")
+        if not description:
+            description = description_module.get("briefSummary", "")
         min_age = eligibility_module.get("minimumAge", "0 Years")
         max_age = eligibility_module.get("maximumAge", "100 Years")
         gender = eligibility_module.get("sex", "ALL")
