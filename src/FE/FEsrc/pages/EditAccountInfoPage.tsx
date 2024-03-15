@@ -64,6 +64,7 @@ const EditAccountInfoPage = (props) => {
             const data = await response.json();
 
             if (response.ok) {
+                localStorage.setItem('isClinician', isClinician);
                 navigate('/listprofiles');
             }
             else {
