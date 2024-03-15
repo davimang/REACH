@@ -125,9 +125,7 @@ class TrialFetcher:
                     "ResponsiblePartyInvestigatorFullName",
                 ]
             )
-        studies = studies.head(
-            30
-        )
+        studies = studies.head(30)
         studies["url"] = (
             "https://clinicaltrials.gov/study/" + studies["NCTId"]
         )  # create url
@@ -189,7 +187,7 @@ def build_study_dict(response):
         investigator = collaborator_module.get("responsibleParty", {}).get(
             "investigatorFullName", ""
         )
-        overallOfficial = contacts_locations_module.get("overallOfficials", {})
+        overall_official = contacts_locations_module.get("overallOfficials", {})
 
         central_contacts = contacts_locations_module.get(
             "centralContacts", []
@@ -248,7 +246,7 @@ def build_study_dict(response):
             "Gender": gender,
             "Keyword": "|".join(keywords),
             "OverallOfficialName": (
-                overallOfficial[0].get("name", "") if len(overallOfficial) > 0 else ""
+                overall_official[0].get("name", "") if len(overall_official) > 0 else ""
             ),
             "LocationContactName": names[0] if len(names) > 0 else "",
             "PointOfContactEMail": "",

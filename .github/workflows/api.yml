@@ -8,6 +8,11 @@ on:
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
+    env:
+      TESTING: true
+      USE_DEFAULT_DB: true
+      FRONTEND_SERVICE_URL: http://testing
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
     strategy:
       max-parallel: 1
       matrix:
@@ -29,4 +34,4 @@ jobs:
         black src/backend/reach_backend/Api
     - name: Run Tests
       run: |
-        python manage.py test Api.tests
+        python src/backend/reach_backend/manage.py test Api.tests

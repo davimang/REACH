@@ -1,8 +1,10 @@
 """Module defining test setup/teardown class."""
+
 from datetime import datetime
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
+from rest_framework_simplejwt.tokens import RefreshToken
 from ..models import UserData, PatientInfo, Trial
 
 
@@ -16,7 +18,11 @@ class TestApiSetup(APITestCase):
         self.profiles = "/patientinfo/"
         self.userdata = "/userdata/"
         self.user = User.objects.create_user(username="test-user", password="test-pass")
-        self.user2 = User.objects.create_user(username="test-user2", password="test-pass2")
+        self.auth1 = get_auth_for_user(self.user)
+        self.user2 = User.objects.create_user(
+            username="test-user2", password="test-pass2"
+        )
+        self.auth2 = get_auth_for_user(self.user2)
         self.patient_info_data = {
             "user": self.user,
             "date_of_birth": datetime(1954, 1, 1),
@@ -67,3 +73,9 @@ class TestApiSetup(APITestCase):
     def tearDown(self):
         """Teardown after tests finish."""
         return super().tearDown()
+
+
+def get_auth_for_user(user):
+    """Helper function to authorize a user for testing"""
+    refresh = RefreshToken.for_user(user)
+    return {"HTTP_AUTHORIZATION": f"Bearer {refresh.access_token}"}
