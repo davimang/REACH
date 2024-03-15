@@ -54,6 +54,8 @@ const ProfileCreationPage = (props) => {
     const dateOfBirthField = fieldValidation(checkEmpty, props.defaultDateOfBirth);
     const genderField = fieldValidation(checkEmpty, props.defaultGender);
 
+    const isClinician = localStorage.getItem('isClinician');
+
     const [error, setError] = useState(false);
 
     const errorMessage = 'Profile creation failed. Please try again.';
@@ -131,8 +133,11 @@ const ProfileCreationPage = (props) => {
         <>
             <ProfileCreationContainer>
                 <FormContainer>
-                    <FormTitle>New Patient Profile</FormTitle>
-                    <FormDisclaimerText>
+                    {!props.editing && isClinician && <FormTitle>New Patient Profile</FormTitle>}
+                    {!props.editing && !isClinician && <FormTitle>New Search Profile</FormTitle>}
+                    {props.editing && isClinician && <FormTitle>Edit Patient Profile</FormTitle>}
+                    {props.editing && !isClinician && <FormTitle>Edit Search Profile</FormTitle>}
+                    {!props.editing && isClinician && <FormDisclaimerText>
                         <FormDisclaimerTitle>
                             <img
                                 src={require('../images/Exclaim.svg')}
@@ -144,7 +149,19 @@ const ProfileCreationPage = (props) => {
                         Filling in this patient profile form allows users to save a patient's medical information in order
                         to more efficiently search for clinical trials. <b><u>Please keep privacy and confidentiality in mind
                             (i.e. use initials) when creating these patient profiles.</u></b>
-                    </FormDisclaimerText>
+                    </FormDisclaimerText>}
+                    {!props.editing && !isClinician && <FormDisclaimerText>
+                        <FormDisclaimerTitle>
+                            <img
+                                src={require('../images/Exclaim.svg')}
+                                height={24}
+                                style={{ paddingRight: 5, paddingBottom: 5 }}
+                            />
+                            <b style={{ marginTop: 'auto', marginBottom: 'auto', textShadow: '1px 1px 1px black' }}>Please Note:</b>
+                        </FormDisclaimerTitle>
+                        This is a search profile - it is what enables the platform to match you to clincial studies that you may be eligible for and it is
+                        separate from your main account details (such as email, username, etc..).
+                    </FormDisclaimerText>}
                     <Form onSubmit={handleSubmit}>
                         <FormLabel>Name</FormLabel>
                         <TextInput
