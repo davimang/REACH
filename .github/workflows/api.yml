@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TESTING: true
+      SECRET_KEY: mDoCqvZZxeRpHXshUaBfGCYFsJtnTtqTFFLbansKEoFUYVPANA
     strategy:
       max-parallel: 1
       matrix:
