@@ -8,12 +8,11 @@ on:
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
-    environment: Lint-and-Test
     env:
       TESTING: true
       USE_DEFAULT_DB: true
       FRONTEND_SERVICE_URL: http://testing
-      SECRET_KEY: ${{ secrets.SuperSecret }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
     strategy:
       max-parallel: 1
       matrix:
