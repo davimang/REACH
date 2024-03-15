@@ -468,6 +468,75 @@ const pulmonaryHypertension = {
     },
 };
 
+const primarySleepDisorderChildren = {
+    apneadIndex: {
+        label: "Apnea Hypopnea Index (events/hour)",
+        initial: 0,
+        inputType: 'number',
+        clinician: true,
+        i: null,
+    },
+    nadirO2Saturation: {
+        label: "Nadir O\u2082 Saturation (%)",
+        initial: 0,
+        inputType: 'number',
+        clinician: true,
+        i: null,
+    },
+    daytimeSleepiness: {
+        label: "Pre-Treatment Excessive Daytime Sleepiness (Epworth sleepiness scale \u2265 10/24)",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: false,
+        i: null,
+    },
+    usesCPAP: {
+        label: "Prescribed CPAP",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: false,
+        i: null,
+        children: {
+            adherentToCPAP: {
+                label: "Adherent to CPAP (\u22654 hours/night for \u226570% of the time per 30 days)",
+                initial: false,
+                inputType: 'checkbox',
+                clinician: false,
+                i: null,
+            }
+        },
+    },
+    usesBIPAP: {
+        label: "Prescribed BiPAP",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+        children: {}, // no [bipap-s, bipap-st] in filtering dict
+    },
+    onOralApplianceTherapy: {
+        label: "Using Oral Appliance Therapy for Sleep Apnea",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+    },
+    onOralPositionalTherapy: { // might want to change this to positional therapy?
+        label: "Using Positional Therapy (e.g. anti-snore vest/belt) to Prevent Sleeping on your Back",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+    },
+    sleepApneaSurgery: {
+        label: "Underwent Surgery for Obstructive Sleep Apnea",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+    },
+};
+
 const sleepDisorders = {
     obstructiveSleepApnea: {
         label: "Diagnosis of Obstructive Sleep Apnea?",
@@ -556,6 +625,116 @@ const sleepDisorders = {
         initial: false,
         inputType: 'checkbox',
         clinician: false,
+        i: null,
+    },
+    ///// clinician facing
+    hasOSA: {
+        label: "Primary Sleep Disorder: OSA",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+        children: primarySleepDisorderChildren,
+    },
+    hasOSAOHS: {
+        label: "Primary Sleep Disorder: OSA/OHS",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+        children: primarySleepDisorderChildren,
+    },
+    hasHypoventilation: {
+        label: "Primary Sleep Disorder: Hypoventilation (not OHS)",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+        children: primarySleepDisorderChildren,
+    },
+    hasCentralSleepApnea: {
+        label: "Primary Sleep Disorder: Central Sleep Apnea",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+        children: primarySleepDisorderChildren,
+    },
+    hasNarcolepsy: {
+        label: "Primary Sleep Disorder: Narcolepsy",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+    },
+    hasIdiopathicHypersomnia: {
+        label: "Primary Sleep Disorder: Idiopathic Hypersomnia",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+    },
+    hasRBD: {
+        label: "Primary Sleep Disorder: RBD",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+    },
+    hasNREM: {
+        label: "Primary Sleep Disorder: NREM Parasomnia",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+    },
+    hasRestlessLeg: {
+        label: "Primary Sleep Disorder: Restless Legs Syndrome",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+    },
+    BMI: {
+        label: "Body mass Index (kg/m\u00b2)",
+        initial: 0,
+        inputType: 'number',
+        clinician: true,
+        i: null,
+    },
+    comorbidHypertension: {
+        label: "Comorbid Hypertension",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+    },
+    comorbidOLD: {
+        label: "Comorbid Obstructive Lung Disease (e.g. Asthma, COPD)",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+    },
+    comorbidAtrialFibrilation: {
+        label: "Comorbid Atrial Fibrillation",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+    },
+    comorbidCongestiveHeartFailure: {
+        label: "Comorbid Congestive Heart Failure",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
+        i: null,
+    },
+    comorbidDepressionAnxiety: {
+        label: "Comorbid Depression/Anxiety",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: true,
         i: null,
     },
 };
