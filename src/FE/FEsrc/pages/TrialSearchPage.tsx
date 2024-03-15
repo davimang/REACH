@@ -117,8 +117,11 @@ const TrialSearchPage = () => {
                 else if (trial.CentralContactEMail) {
                     Object.assign(body, { contact_email: trial.CentralContactEMail });
                 }
-                if (trial.ResponsiblePartyInvestigatorFullName) {
-                    Object.assign(body, { principal_investigator: trial.ResponsiblePartyInvestigatorFullName });
+                if (trial.OverallOfficialName) {
+                    Object.assign(body, { principal_investigator: trial.OverallOfficialName });
+                }
+                else if(trial.LocationContactName){
+                    Object.assign(body, {principal_investigator: trial.LocationContactName});
                 }
                 const requestOptions = {
                     method: 'POST',
