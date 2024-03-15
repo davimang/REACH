@@ -7,15 +7,18 @@ interface SavedTrialProps {
     setCurrentLocation: (location: Object) => void;
     setModalDetails: (details: Object) => void;
     handleModal: () => void;
+    isSelected: Object;
+    setIsSelected: (isSelected: Object) => void;
 }
 
-const SavedTrialCard: React.FC<SavedTrialProps> = ({ trial, handleDelete, setCurrentLocation, setModalDetails, handleModal }) => {
+const SavedTrialCard: React.FC<SavedTrialProps> = ({ trial, handleDelete, setCurrentLocation, setModalDetails, handleModal, isSelected, setIsSelected }) => {
     return (
-        <TrialContainer key={trial.id}>
+        <TrialContainer key={trial.id} style={{backgroundColor: isSelected[trial.nctid] ? '#021691': '#38569A'}}>
             <TrialDescription>
                 <TrialTitle
                     onClick={() => {
                         setCurrentLocation({ latitude: trial.location["latitude"], longitude: trial.location["longitude"] });
+                        setIsSelected({[trial.nctid]: true});
                     }
                     }
                 >
