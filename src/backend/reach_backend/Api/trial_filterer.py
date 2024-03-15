@@ -8,7 +8,7 @@ from geopy.location import Location
 from .filtering_dictionary import (
     filtering_dict_num,
     filtering_dict_boolean,
-    filtering_dict_special
+    filtering_dict_special,
 )
 
 locator = Nominatim(user_agent="my_request")
@@ -44,7 +44,7 @@ class TrialFilterer:
             if k in input_params.keys() and input_params.get(k, 0):
                 search_str.append(filtering_dict_boolean.get(k, 0))
 
-        #hard coded special variables
+        # hard coded special variables
         if input_params.get("asthmaSeverity", "") == "moderate":
             search_str.append("moderate+asthma")
         elif input_params.get("asthmaSeverity", "") == "severe":
@@ -70,48 +70,90 @@ class TrialFilterer:
         if input_params.get("nadirO2Saturation", 1) <= 0.9:
             search_str.append("low+oxygen+saturation")
 
-        #FEV healthy range calculation
+        # FEV healthy range calculation
         if input_params.get("FEV", -1) != -1:
             if input_params.get("sex", "").lower() == "male":
-                if input_params.get("FEV", -1) < filtering_dict_special.get("FEV")[0][0]:
+                if (
+                    input_params.get("FEV", -1)
+                    < filtering_dict_special.get("FEV")[0][0]
+                ):
                     search_str.append("low+FEV1")
-                elif input_params.get("FEV", -1) > filtering_dict_special.get("FEV")[0][1]:
+                elif (
+                    input_params.get("FEV", -1)
+                    > filtering_dict_special.get("FEV")[0][1]
+                ):
                     search_str.append("high+FEV1")
             elif input_params.get("sex", "").lower() == "female":
-                if input_params.get("FEV", -1) < filtering_dict_special.get("FEV")[1][0]:
+                if (
+                    input_params.get("FEV", -1)
+                    < filtering_dict_special.get("FEV")[1][0]
+                ):
                     search_str.append("low+FEV1")
-                elif input_params.get("FEV", -1) > filtering_dict_special.get("FEV")[1][1]:
+                elif (
+                    input_params.get("FEV", -1)
+                    > filtering_dict_special.get("FEV")[1][1]
+                ):
                     search_str.append("high+FEV1")
 
         if input_params.get("FEVPercent", -1) != -1:
-            if input_params.get("FEVPercent", 1) < filtering_dict_special.get("FEVPercent")[0]:
+            if (
+                input_params.get("FEVPercent", 1)
+                < filtering_dict_special.get("FEVPercent")[0]
+            ):
                 search_str.append("low+FEV+ration+OR+low+FEV1+FVC+ratio")
-            elif input_params.get("FEVPercent", 1) > filtering_dict_special.get("FEVPercent")[1]:
+            elif (
+                input_params.get("FEVPercent", 1)
+                > filtering_dict_special.get("FEVPercent")[1]
+            ):
                 search_str.append("high+FEV+ration+OR+high+FEV1+FVC+ratio")
 
         if input_params.get("FVC", -1) != -1:
             if input_params.get("sex", "").lower() == "male":
-                if input_params.get("FVC", -1) < filtering_dict_special.get("FVC")[0][0]:
+                if (
+                    input_params.get("FVC", -1)
+                    < filtering_dict_special.get("FVC")[0][0]
+                ):
                     search_str.append("low+FVC1")
-                elif input_params.get("FVC", -1) > filtering_dict_special.get("FVC")[0][1]:
+                elif (
+                    input_params.get("FVC", -1)
+                    > filtering_dict_special.get("FVC")[0][1]
+                ):
                     search_str.append("high+FVC")
             elif input_params.get("sex", "").lower() == "female":
-                if input_params.get("FVC", -1) < filtering_dict_special.get("FVC")[1][0]:
+                if (
+                    input_params.get("FVC", -1)
+                    < filtering_dict_special.get("FVC")[1][0]
+                ):
                     search_str.append("low+FVC")
-                elif input_params.get("FVC", -1) > filtering_dict_special.get("FVC")[1][1]:
+                elif (
+                    input_params.get("FVC", -1)
+                    > filtering_dict_special.get("FVC")[1][1]
+                ):
                     search_str.append("high+FVC")
 
         if input_params.get("DLCO", 1) < filtering_dict_special.get("DLCO", [0.75])[0]:
             search_str.append("low+lung+diffusion+OR+low+DLCO")
 
-        if input_params.get("bloodEosinophil", 300) < filtering_dict_special.get("bloodEosinophil", [30,350])[0]:
+        if (
+            input_params.get("bloodEosinophil", 300)
+            < filtering_dict_special.get("bloodEosinophil", [30, 350])[0]
+        ):
             search_str.append("low+blood+eosinophil+count")
-        elif input_params.get("bloodEosinophil", 300) > filtering_dict_special.get("bloodEosinophil", [30,350])[1]:
+        elif (
+            input_params.get("bloodEosinophil", 300)
+            > filtering_dict_special.get("bloodEosinophil", [30, 350])[1]
+        ):
             search_str.append("high+blood+eosinophil+count")
 
-        if input_params.get("BMI", 20) < filtering_dict_special.get("BMI", [18.5, 25])[0]:
+        if (
+            input_params.get("BMI", 20)
+            < filtering_dict_special.get("BMI", [18.5, 25])[0]
+        ):
             search_str.append("underweight")
-        elif input_params.get("BMI", 20) > filtering_dict_special.get("BMI", [18.5, 25])[1]:
+        elif (
+            input_params.get("BMI", 20)
+            > filtering_dict_special.get("BMI", [18.5, 25])[1]
+        ):
             search_str.append("overweight")
 
         if len(search_str) > 0:

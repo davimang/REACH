@@ -11,7 +11,7 @@ class TestApi(TestApiSetup):
 
     def test_get_saved_trials_filter_by_user(self):
         """Test endpoint to get saved trials for a specific user.
-        
+
         Module: Trial
         Id: UNT-1
         """
@@ -21,27 +21,31 @@ class TestApi(TestApiSetup):
 
     def test_get_saved_trials_filter_by_profile_1(self):
         """Test endpoint to get saved trials for a specific profile.
-        
+
         Module: Trial
         Id: UNT-2
         """
-        response = self.client.get(self.trials, {"profile": self.patient_info.id}, **self.auth1)
+        response = self.client.get(
+            self.trials, {"profile": self.patient_info.id}, **self.auth1
+        )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 1)
 
     def test_get_saved_trials_filter_by_profile_2(self):
         """Test endpoint to get saved trials by a different profile.
-        
+
         Module: Trial
         Id: UNT-3
         """
-        response = self.client.get(self.trials, {"profile": self.patient_info2.id}, **self.auth1)
+        response = self.client.get(
+            self.trials, {"profile": self.patient_info2.id}, **self.auth1
+        )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 1)
 
     def test_create_saved_trial(self):
         """Test endpoint to create a saved trial.
-        
+
         Module: Trial
         Id: UNT-4
         """
@@ -58,7 +62,7 @@ class TestApi(TestApiSetup):
 
     def test_get_patient_profiles_by_user(self):
         """Test endpoint to get patient profiles for a specific user.
-        
+
         Module: PatientProfile
         Id: UNT-5
         """
@@ -68,7 +72,7 @@ class TestApi(TestApiSetup):
 
     def test_create_patient_profile(self):
         """Test endpoint to create a patient profile.
-        
+
         Module: PatientProfile
         Id: UNT-6
         """
@@ -85,27 +89,37 @@ class TestApi(TestApiSetup):
 
     def test_get_user_data(self):
         """Test endpoint to get user data.
-        
+
         Module: UserData
         Id: UNT-7
         """
-        response = self.client.get(self.userdata, {"user": self.user.id}, **self.auth1)    
+        response = self.client.get(self.userdata, {"user": self.user.id}, **self.auth1)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 1)
 
     def test_create_user_data_for_clincian(self):
         """Test endpoint to create user data.
-        
+
         Module: UserData
         Id: UNT-8
         """
-        data = {"first_name": "test-first", "last_name": "test-last", "is_clinician": True, "user": self.user2.id}
-        response = self.client.post(self.userdata, data=json.dumps(data), content_type="application/json", **self.auth2)
+        data = {
+            "first_name": "test-first",
+            "last_name": "test-last",
+            "is_clinician": True,
+            "user": self.user2.id,
+        }
+        response = self.client.post(
+            self.userdata,
+            data=json.dumps(data),
+            content_type="application/json",
+            **self.auth2
+        )
         self.assertEqual(response.status_code, 201)
 
     def test_valid_search_missing_next_page(self):
         """Test search when no rank is provided.
-        
+
         Module: Searching
         Id: UNT-9
         """
@@ -115,15 +129,19 @@ class TestApi(TestApiSetup):
             "Api.views.build_input_info", return_value={}
         ) as mock_build:
             response = self.client.get(
-                self.search_trials, {"info_id": self.patient_info.id, "user_id": self.user.id}, **self.auth1
+                self.search_trials,
+                {"info_id": self.patient_info.id, "user_id": self.user.id},
+                **self.auth1
             )
             self.assertEqual(response.status_code, 200)
         mock_search.assert_called_once()
-        mock_build.assert_called_once_with(info_profile=self.patient_info, next_page="", max_distance=15000)
+        mock_build.assert_called_once_with(
+            info_profile=self.patient_info, next_page="", max_distance=15000
+        )
 
     def test_valid_search_with_next_page(self):
         """Test search when rank is provided.
-        
+
         Module: Searching
         Id: UNT-10
         """
@@ -133,39 +151,53 @@ class TestApi(TestApiSetup):
             "Api.views.build_input_info", return_value={}
         ) as mock_build:
             response = self.client.get(
-                self.search_trials, {"info_id": self.patient_info.id, "next_page": "KxzY102Nb", "user_id": self.user.id}, **self.auth1
+                self.search_trials,
+                {
+                    "info_id": self.patient_info.id,
+                    "next_page": "KxzY102Nb",
+                    "user_id": self.user.id,
+                },
+                **self.auth1
             )
             self.assertEqual(response.status_code, 200)
         mock_search.assert_called_once()
-        mock_build.assert_called_once_with(info_profile=self.patient_info, next_page="KxzY102Nb", max_distance=15000)
+        mock_build.assert_called_once_with(
+            info_profile=self.patient_info, next_page="KxzY102Nb", max_distance=15000
+        )
 
     def test_invalid_search_missing_profile_id(self):
         """Test search when no profile id is provided.
-        
+
         Module: Searching
         Id: UNT-11
         """
         with patch.object(TrialFetcher, "search_studies", return_value={}) as _, patch(
             "Api.views.build_input_info", return_value={}
         ) as _:
-            response = self.client.get(self.search_trials, {"user_id": self.user.id}, **self.auth1)
+            response = self.client.get(
+                self.search_trials, {"user_id": self.user.id}, **self.auth1
+            )
             self.assertEqual(response.status_code, 400)
 
     def test_invalid_search_invalid_profile_id(self):
         """Test search when an invalid profile id is proived.
-        
+
         Module: Searching
         Id: UNT-12
         """
         with patch.object(TrialFetcher, "search_studies", return_value={}) as _, patch(
             "Api.views.build_input_info", return_value={}
         ) as _:
-            response = self.client.get(self.search_trials, {"info_id": 100, "user_id": self.user.id}, **self.auth1)
+            response = self.client.get(
+                self.search_trials,
+                {"info_id": 100, "user_id": self.user.id},
+                **self.auth1
+            )
             self.assertEqual(response.status_code, 404)
 
     def test_build_input_info(self):
         """Test helper function build input info.
-        
+
         Module: Searching
         Id: UNT-13
         """
@@ -194,7 +226,7 @@ class TestApi(TestApiSetup):
 
     def test_calculate_age(self):
         """Test helper function calculate age.
-        
+
         Module: Searching
         Id: UNT-14
         """

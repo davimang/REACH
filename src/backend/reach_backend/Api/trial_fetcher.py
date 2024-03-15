@@ -125,9 +125,7 @@ class TrialFetcher:
                     "ResponsiblePartyInvestigatorFullName",
                 ]
             )
-        studies = studies.head(
-            30
-        )
+        studies = studies.head(30)
         studies["url"] = (
             "https://clinicaltrials.gov/study/" + studies["NCTId"]
         )  # create url

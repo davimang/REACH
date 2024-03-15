@@ -4,8 +4,8 @@ from datetime import datetime
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
-from ..models import UserData, PatientInfo, Trial
 from rest_framework_simplejwt.tokens import RefreshToken
+from ..models import UserData, PatientInfo, Trial
 
 
 class TestApiSetup(APITestCase):
@@ -73,8 +73,9 @@ class TestApiSetup(APITestCase):
     def tearDown(self):
         """Teardown after tests finish."""
         return super().tearDown()
-    
+
+
 def get_auth_for_user(user):
     """Helper function to authorize a user for testing"""
     refresh = RefreshToken.for_user(user)
-    return {"HTTP_AUTHORIZATION": f'Bearer {refresh.access_token}'}
+    return {"HTTP_AUTHORIZATION": f"Bearer {refresh.access_token}"}
