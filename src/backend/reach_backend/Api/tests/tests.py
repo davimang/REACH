@@ -15,7 +15,7 @@ class TestApi(TestApiSetup):
         Module: Trial
         Id: UNT-1
         """
-        response = self.client.get(self.trials, {"user": self.user.id})
+        response = self.client.get(self.trials, {"user": self.user.id}, **self.auth1)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 2)
 
@@ -25,7 +25,7 @@ class TestApi(TestApiSetup):
         Module: Trial
         Id: UNT-2
         """
-        response = self.client.get(self.trials, {"profile": self.patient_info.id})
+        response = self.client.get(self.trials, {"profile": self.patient_info.id}, **self.auth1)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 1)
 
@@ -35,7 +35,7 @@ class TestApi(TestApiSetup):
         Module: Trial
         Id: UNT-3
         """
-        response = self.client.get(self.trials, {"profile": self.patient_info2.id})
+        response = self.client.get(self.trials, {"profile": self.patient_info2.id}, **self.auth1)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 1)
 
@@ -52,6 +52,7 @@ class TestApi(TestApiSetup):
             self.trials,
             data=json.dumps(formatted_data),
             content_type="application/json",
+            **self.auth1
         )
         self.assertEqual(response.status_code, 201)
 
@@ -61,7 +62,7 @@ class TestApi(TestApiSetup):
         Module: PatientProfile
         Id: UNT-5
         """
-        response = self.client.get(self.profiles, {"user": self.user.id})
+        response = self.client.get(self.profiles, {"user": self.user.id}, **self.auth1)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 2)
 
@@ -78,6 +79,7 @@ class TestApi(TestApiSetup):
             self.profiles,
             data=json.dumps(formatted_data),
             content_type="application/json",
+            **self.auth1
         )
         self.assertEqual(response.status_code, 201)
 
@@ -87,7 +89,7 @@ class TestApi(TestApiSetup):
         Module: UserData
         Id: UNT-7
         """
-        response = self.client.get(self.userdata, {"user": self.user.id})    
+        response = self.client.get(self.userdata, {"user": self.user.id}, **self.auth1)    
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 1)
 
@@ -97,11 +99,11 @@ class TestApi(TestApiSetup):
         Module: UserData
         Id: UNT-8
         """
-        data = {"first_name": "test-first", "last_name": "test-last", "is_clincian": True, "user": self.user2.id}
-        response = self.client.post(self.userdata, data=json.dumps(data), content_type="application/json")
+        data = {"first_name": "test-first", "last_name": "test-last", "is_clinician": True, "user": self.user2.id}
+        response = self.client.post(self.userdata, data=json.dumps(data), content_type="application/json", **self.auth2)
         self.assertEqual(response.status_code, 201)
 
-    def test_valid_search_no_rank(self):
+    def test_valid_search_missing_next_page(self):
         """Test search when no rank is provided.
         
         Module: Searching
@@ -113,13 +115,13 @@ class TestApi(TestApiSetup):
             "Api.views.build_input_info", return_value={}
         ) as mock_build:
             response = self.client.get(
-                self.search_trials, {"info_id": self.patient_info.id}
+                self.search_trials, {"info_id": self.patient_info.id, "user_id": self.user.id}, **self.auth1
             )
             self.assertEqual(response.status_code, 200)
         mock_search.assert_called_once()
-        mock_build.assert_called_once_with(info_profile=self.patient_info, rank=0)
+        mock_build.assert_called_once_with(info_profile=self.patient_info, next_page="", max_distance=15000)
 
-    def test_valid_search_with_rank(self):
+    def test_valid_search_with_next_page(self):
         """Test search when rank is provided.
         
         Module: Searching
@@ -131,11 +133,11 @@ class TestApi(TestApiSetup):
             "Api.views.build_input_info", return_value={}
         ) as mock_build:
             response = self.client.get(
-                self.search_trials, {"info_id": self.patient_info.id, "rank": 5}
+                self.search_trials, {"info_id": self.patient_info.id, "next_page": "KxzY102Nb", "user_id": self.user.id}, **self.auth1
             )
             self.assertEqual(response.status_code, 200)
         mock_search.assert_called_once()
-        mock_build.assert_called_once_with(info_profile=self.patient_info, rank=5)
+        mock_build.assert_called_once_with(info_profile=self.patient_info, next_page="KxzY102Nb", max_distance=15000)
 
     def test_invalid_search_missing_profile_id(self):
         """Test search when no profile id is provided.
@@ -146,7 +148,7 @@ class TestApi(TestApiSetup):
         with patch.object(TrialFetcher, "search_studies", return_value={}) as _, patch(
             "Api.views.build_input_info", return_value={}
         ) as _:
-            response = self.client.get(self.search_trials, {"rank": 5})
+            response = self.client.get(self.search_trials, {"user_id": self.user.id}, **self.auth1)
             self.assertEqual(response.status_code, 400)
 
     def test_invalid_search_invalid_profile_id(self):
@@ -158,7 +160,7 @@ class TestApi(TestApiSetup):
         with patch.object(TrialFetcher, "search_studies", return_value={}) as _, patch(
             "Api.views.build_input_info", return_value={}
         ) as _:
-            response = self.client.get(self.search_trials, {"info_id": 100, "rank": 5})
+            response = self.client.get(self.search_trials, {"info_id": 100, "user_id": self.user.id}, **self.auth1)
             self.assertEqual(response.status_code, 404)
 
     def test_build_input_info(self):
@@ -177,7 +179,8 @@ class TestApi(TestApiSetup):
                 "postalCode": "L8S 4L8",
             },
             "conditions": ["Asthma"],
-            "maxRank": 0,
+            "next_page": "",
+            "max_distance": 15000,
             "numExacerbations": 0,
             "numFlares": 0,
             "usesInhaler": True,
@@ -186,7 +189,7 @@ class TestApi(TestApiSetup):
             "asthmaSeverity": "Mild",
             "isEosinophilic": False,
         }
-        actual_info = build_input_info(self.patient_info, 0)
+        actual_info = build_input_info(self.patient_info, "", 15000)
         assert expected_info == actual_info
 
     def test_calculate_age(self):
