@@ -11,6 +11,7 @@ jobs:
     env:
       TESTING: true
       SECRET_KEY: mDoCqvZZxeRpHXshUaBfGCYFsJtnTtqTFFLbansKEoFUYVPANA
+      DATABASE_URL: http://sqlite
     strategy:
       max-parallel: 1
       matrix:
