@@ -12,7 +12,7 @@ jobs:
       TESTING: true
       SECRET_KEY: mDoCqvZZxeRpHXshUaBfGCYFsJtnTtqTFFLbansKEoFUYVPANA
       USE_DEFAULT_DB: true
-      FRONTEND_SERVICE_URL: ciurl
+      FRONTEND_SERVICE_URL: http://testing
     strategy:
       max-parallel: 1
       matrix:
