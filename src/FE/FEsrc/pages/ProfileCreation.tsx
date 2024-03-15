@@ -119,6 +119,14 @@ const ProfileCreationPage = (props) => {
         )
     }
 
+    function indexOfMax(arr) {
+        if (arr.length === 0) return -1;
+    
+        return arr.reduce((maxIndex, currentArray, currentIndex, array) => {
+            return currentArray.length > array[maxIndex].length ? currentIndex : maxIndex;
+        }, 0);
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -141,7 +149,9 @@ const ProfileCreationPage = (props) => {
     };
 
     useEffect(() => {
-        const initialAdvancedInfoVals = Conditions[formValues.condition] ? updateAdvancedInfoOnConditionSelection(Object.values(Conditions[formValues.condition]), Object.keys(Conditions[formValues.condition]), [])[0] : null;
+        const tempReturn = Conditions[formValues.condition] ? updateAdvancedInfoOnConditionSelection(Object.values(Conditions[formValues.condition]), Object.keys(Conditions[formValues.condition]), []) : null;
+        const maxIndex = tempReturn ? indexOfMax(tempReturn) : null;
+        const initialAdvancedInfoVals = tempReturn ? tempReturn[maxIndex] : null;
         const temp = {};
         initialAdvancedInfoVals && initialAdvancedInfoVals.map((field: any) => {
             field ? temp[Object.keys(field)[0]] = Object.values(field)[0] : null;
