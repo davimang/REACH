@@ -54,7 +54,10 @@ const Loading = styled.div`
     z-index: 9999;    
 `;
 
-const TrialSearchPage = () => {
+const trialBatchFetchSize = 30;
+const trialBatchDisplaySize = 5;
+
+const TrialSearchPage = () => {    
     const navigate = useNavigate();
     const [responseProfiles, setResponseProfiles] = useState<PatientInfoList | null>(null);
     const [responseTrials, setResponseTrials] = useState<TrialInfoList | null>(null);
@@ -64,10 +67,12 @@ const TrialSearchPage = () => {
     const [currentLocation, setCurrentLocation] = useState({});
     const [trialSaved, setTrialSaved] = useState({});
     const [savedTrialIds, setSavedTrialIds] = useState({});
-    const [pageTokens, setPageTokens] = useState([""]);
-    const [pageTokenPointer, setPageTokenPointer] = useState(0);
     const [maxDistance, setMaxDistance] = useState('');
     const [profileError, setProfileError] = useState(false);
+    const [currentTrialCount, setCurrentTrialCount] = useState(0);
+    const [currentTrialPointer, setCurrentTrialPointer] = useState(0);
+    const [pageToken, setPageToken] = useState('');
+    const [isSelected, setIsSelected] = useState({});
     const [open, setOpen] = useState(false);
     const [modalDetails, setModalDetails] = useState({
         title: "",
@@ -112,8 +117,11 @@ const TrialSearchPage = () => {
                 else if (trial.CentralContactEMail) {
                     Object.assign(body, { contact_email: trial.CentralContactEMail });
                 }
-                if (trial.ResponsiblePartyInvestigatorFullName) {
-                    Object.assign(body, { principal_investigator: trial.ResponsiblePartyInvestigatorFullName });
+                if (trial.OverallOfficialName) {
+                    Object.assign(body, { principal_investigator: trial.OverallOfficialName });
+                }
+                else if(trial.LocationContactName){
+                    Object.assign(body, {principal_investigator: trial.LocationContactName});
                 }
                 const requestOptions = {
                     method: 'POST',
@@ -165,29 +173,67 @@ const TrialSearchPage = () => {
         }
     };
 
-    const fetchTrials = async () => {
-        setResponseTrials(null);
+    const fetchTrials = async (onNextPage = true) => {
+        
         if (!selectedProfileId) {
             setProfileError(true);
             return;
         }
-        try {
-            setLoading(true);
-            const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&next_page=${pageTokens[pageTokenPointer]}&max_distance=${maxDistance}`;
-            const requestOptions = {
-                headers: { 'Authorization': `Bearer ${authToken}` }
-            };
-            const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch trials. Status: ${response.status}`);
+
+        if(onNextPage){
+            try {
+                setLoading(true);
+                const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&next_page=${pageToken}&max_distance=${maxDistance}`;
+                const requestOptions = {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                };
+                const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch trials. Status: ${response.status}`);
+                }
+                const data = await response.json();
+                const formattedData = JSON.parse(data);
+                if(!formattedData) {
+                    setHasNextPage(false);
+                }
+                else{
+                    var newTrials = {...responseTrials};
+                    for (const key in formattedData){
+                        console.log(typeof(key));
+                        newTrials[Number(key) + currentTrialCount] = formattedData[key];
+                    }
+                setResponseTrials(newTrials);
+                }
+                
+            } catch (error) {
+                console.error('Error fetching trials:', error.message);
+            } finally {
+                setLoading(false);
             }
-            const data = await response.json();
-            setResponseTrials(JSON.parse(data));
-        } catch (error) {
-            console.error('Error fetching trials:', error.message);
-        } finally {
-            setLoading(false);
         }
+        else{
+            try {
+                console.log("FETCHING THIS WAY")
+                setLoading(true);
+                const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&max_distance=${maxDistance}`;
+                const requestOptions = {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                };
+                const response = await fetch(`${API_URL}${endpoint}`, requestOptions);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch trials. Status: ${response.status}`);
+                }
+                const data = await response.json();
+                const trials = JSON.parse(data);
+                setResponseTrials(trials);
+                setCurrentTrialCount(Object.keys(trials).length);
+            } catch (error) {
+                console.error('Error fetching trials:', error.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+        
     };
 
     const getProfile = (profileId?) => {
@@ -221,42 +267,45 @@ const TrialSearchPage = () => {
         }
     }
 
-    const updateDefaultLocation = () => {
+    const updateDefaultTrial = () => {
         if (responseTrials) {
             const defaultTrial = responseTrials[0];
             setCurrentLocation({ latitude: defaultTrial.LocationLatitude, longitude: defaultTrial.LocationLongitude });
+            setIsSelected({[defaultTrial.NCTId] : true});
         }
     }
 
     const nextPage = (e) => {
-        e.preventDefault();
-        if (responseTrials) {
-
-            if (pageTokenPointer == pageTokens.length - 1) {
-                const nextPage = responseTrials[0].nextPage;
-                setPageTokens([...pageTokens, nextPage]);
-                setPageTokenPointer(pageTokenPointer + 1);
-            }
-            else {
-                setPageTokenPointer(pageTokenPointer + 1);
-            }
-
+        if (responseTrials && currentTrialCount <= currentTrialPointer) {
+            const numTrials = Object.keys(responseTrials).length;
+            const nextPage = responseTrials[numTrials-1].nextPage;
+            setPageToken(nextPage);
+        }
+        else{
+            updatePageDetails();
         }
     }
 
-    const prevPage = (e) => {
-        e.preventDefault();
-        setPageTokenPointer(pageTokenPointer - 1);
+    const resetPageToken = () => {
+        setPageToken('');
     }
 
-    const resetPageTokens = () => {
-        setPageTokenPointer(0);
-        setPageTokens([""]);
+    const updatePageDetails = () => {
+        const currNumTrials = responseTrials ? Object.keys(responseTrials).length: 0;
+        setCurrentTrialCount(currNumTrials);
+        const currTrialPointer = responseTrials ? currentTrialPointer + Math.min(trialBatchDisplaySize, currNumTrials-currentTrialPointer): 0;
+        setCurrentTrialPointer(currTrialPointer);
+    }
+    
+    const resetPageDetails = () => {
+        setCurrentTrialCount(0);
+        setCurrentTrialPointer(0);
     }
 
     const updateHasNextPage = () => {
         if (responseTrials) {
-            if (responseTrials[0].nextPage) {
+            const numTrials = Object.keys(responseTrials).length;
+            if (responseTrials[numTrials - 1].nextPage) {
                 setHasNextPage(true);
             }
             else {
@@ -268,7 +317,7 @@ const TrialSearchPage = () => {
     const displayTrials = () => {
         return (
             responseTrials &&
-            Object.values(responseTrials).map((trial) => (
+            Object.values(responseTrials).filter((_, index) => index < currentTrialPointer).map((trial, index) => (
                 <TrialCard
                     trial={trial}
                     trialSaved={trialSaved}
@@ -276,10 +325,11 @@ const TrialSearchPage = () => {
                     setCurrentLocation={setCurrentLocation}
                     handleModal={handleModal}
                     setModalDetails={setModalDetails}
+                    trialNumber={index+1}
+                    isSelected={isSelected}
+                    setIsSelected={setIsSelected}
                 />
             ))
-
-
         );
     }
 
@@ -293,13 +343,18 @@ const TrialSearchPage = () => {
     }, []);
 
     useEffect(() => {
-        updateDefaultLocation();
-        updateHasNextPage();
-    }, [responseTrials]);
+        if(pageToken){
+            fetchTrials();
+        }
+    }, [pageToken]);
 
     useDidMountEffect(() => {
-        fetchTrials();
-    }, [pageTokenPointer]);
+        updatePageDetails();
+        if(responseTrials && Object.keys(responseTrials).length <= trialBatchFetchSize){
+            updateDefaultTrial();
+        }
+        updateHasNextPage();
+    }, [responseTrials]);
 
     const navigateToBookmarks = () => {
         navigate('/savedTrials');
@@ -313,7 +368,8 @@ const TrialSearchPage = () => {
                     onChange={(e) => {
                         setSelectedProfileId(e.target.value);
                         setResponseTrials(null);
-                        resetPageTokens();
+                        resetPageToken();
+                        resetPageDetails();
                         setProfileError(false);
                     }
                     }
@@ -329,7 +385,13 @@ const TrialSearchPage = () => {
                 {profileError && <ErrorMessage>Please select a profile.</ErrorMessage>}
                 <StyledDropDown
                     value={maxDistance}
-                    onChange={(e) => setMaxDistance(e.target.value)}
+                    onChange={(e) => {
+                                setMaxDistance(e.target.value);
+                                setResponseTrials(null);
+                                resetPageToken();
+                                resetPageDetails();
+                                }
+                            }
                 >
                     <option value=''>-- Distance Limit --</option>
                     <option value={250}>250km</option>
@@ -341,20 +403,23 @@ const TrialSearchPage = () => {
                 </StyledDropDown>
 
                 <SizedButton onClick={() => {
-                    resetPageTokens();
-                    fetchTrials();
+                    setResponseTrials(null);
+                    resetPageToken();
+                    resetPageDetails();
+                    fetchTrials(false);
                 }}>Search</SizedButton>
                 <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>
             </TrialSearchHeader>
 
-            {loading ? <Loading> <CircularProgress size="5rem" color="success" /> </Loading> : <div style={{ display: 'flex' }}>
+            {loading && !responseTrials ? <Loading> <CircularProgress size="5rem" color="success" /> </Loading> : <div style={{ display: 'flex' }}>
                 <TrialsListContainer>
                     {displayTrials()}
-                    {responseTrials && !loading && pageTokenPointer > 0 && <StyledButton onClick={e => { prevPage(e); }}>Previous Page</StyledButton>}
-                    {responseTrials && !loading && hasNextPage && <StyledButton style={{ float: 'right' }} onClick={e => { nextPage(e); }}>Next Page</StyledButton>}
+                    {responseTrials && !loading && (hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton onClick={e => { nextPage(e); }}>More Trials</StyledButton>}
+                    {responseTrials && !loading && !(hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton style={{backgroundColor: '#A5A5A5', cursor: 'default'}} disabled>Sorry, No More Trials!</StyledButton>}
+                    {responseTrials && loading && <CircularProgress size="1rem" color="success" />}
                 </TrialsListContainer>
                 <MapContainer>
-                    {(responseTrials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]} />}
+                    {(responseTrials) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]} />}
                 </MapContainer>
             </div>}
 

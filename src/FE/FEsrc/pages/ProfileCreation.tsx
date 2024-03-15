@@ -86,6 +86,37 @@ const ProfileCreationPage = (props) => {
         };
     };
 
+    const recursiveConditionFields = (conditionFields: any, keys: string[]) => {
+        return (
+            conditionFields.map((field: FieldInfo, index) => {
+                return (
+                    <>
+                        <AdvancedFormField
+                            key={keys[index]}
+                            fieldInfo={field}
+                            fieldVariable={keys[index]}
+                            value={advancedInfo[keys[index]]}
+                            advancedInfo={advancedInfo}
+                            setAdvancedInfo={setAdvancedInfo}
+                            initializeChildFields={updateAdvancedInfoOnConditionSelection}
+                        />
+                        {field?.children && advancedInfo[keys[index]] == true ? recursiveConditionFields(Object.values(field.children), Object.keys(field.children)) : null}
+                    </>
+                )
+            })
+        )
+    }
+
+    const updateAdvancedInfoOnConditionSelection = (conditionFields: any, keys: string[], prev: {}[]) => {
+        return (
+            conditionFields.map((fieldVariable: FieldInfo, index) => {
+                const tempCond = { [keys[index]]: fieldVariable.initial };
+                prev.push(tempCond);
+            return fieldVariable?.children ? updateAdvancedInfoOnConditionSelection(Object.values(fieldVariable.children), Object.keys(fieldVariable.children), prev) : prev;
+            })
+        )
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -108,13 +139,13 @@ const ProfileCreationPage = (props) => {
     };
 
     useEffect(() => {
+        const initialAdvancedInfoVals = Conditions[formValues.condition] ? updateAdvancedInfoOnConditionSelection(Object.values(Conditions[formValues.condition]), Object.keys(Conditions[formValues.condition]), [])[0] : null;
         const temp = {};
-        Conditions[formValues.condition] && Object.values(Conditions[formValues.condition]).map((fieldVariable: { initial: string }, index) => {
-            const keys = Object.keys(Conditions[formValues.condition]);
-            temp[keys[index]] = fieldVariable.initial;
+        initialAdvancedInfoVals && initialAdvancedInfoVals.map((field: any) => {
+            field ? temp[Object.keys(field)[0]] = Object.values(field)[0] : null;
             return temp;
         })
-        setAdvancedInfo({ ...temp, ...advancedInfo })
+        setAdvancedInfo({ ...temp, ...advancedInfo });
     }, [formValues.condition]);
 
     useEffect(() => {
@@ -247,35 +278,23 @@ const ProfileCreationPage = (props) => {
                         <AutocompleteInput
                             disablePortal
                             onInputChange={(event, value, reason) => {
-                                setFormValues({ ...formValues, condition: value })
+                                setAdvancedInfo({});
+                                setFormValues({ ...formValues, condition: value });
                             }}
                             defaultValue={formValues.condition}
                             freeSolo={true}
                             options={conditions}
                             renderInput={(params) => <AutocompleteTextField {...params} label={formValues.condition ? null : "-- Select Condition --"} defaultValue={formValues.condition} value={formValues.condition}
                                 onChange={(e) => {
+                                    setAdvancedInfo({});
                                     const newCondition = e.target.value;
                                     setFormValues({ ...formValues, condition: newCondition });
                                 }} />
                             }
                         />
-
+                        
                         {Conditions[formValues.condition] && (
-                            <>
-                                {Object.values(Conditions[formValues.condition]).map((field: FieldInfo, index) => {
-                                    const keys = Object.keys(Conditions[formValues.condition]);
-                                    return (
-                                        <AdvancedFormField
-                                            key={index}
-                                            fieldInfo={field}
-                                            fieldVariable={keys[index]}
-                                            value={advancedInfo[keys[index]]}
-                                            advancedInfo={advancedInfo}
-                                            setAdvancedInfo={setAdvancedInfo}
-                                        />
-                                    )
-                                })}
-                            </>
+                            recursiveConditionFields(Object.values(Conditions[formValues.condition]), Object.keys(Conditions[formValues.condition]))
                         )}
 
                         {error && <ErrorMessage>{errorMessage}</ErrorMessage>}

@@ -13,6 +13,7 @@ import FAQPage from '../pages/FAQPage'
 import TrialSearchPage from '../pages/TrialSearchPage';
 import SaveTrialsPage from '../pages/SavedTrialsPage';
 import ProfileCreationPage from '../pages/ProfileCreation';
+import AccountProfile from '../pages/AccountProfile';
 import ListProfiles from '../pages/ListProfiles';
 import EditProfilePage from '../pages/EditProfilePage';
 import EditAccountInfoPage from '../pages/EditAccountInfoPage';
@@ -32,7 +33,8 @@ function App() {
                     <Route path='/faq' element={<FAQPage />} />
                     <Route path='/search' element={<TrialSearchPage />} />
                     <Route path='/savedTrials' element={<SaveTrialsPage />} />
-                    <Route path='/createProfile' element={<ProfileCreationPage />} /> 
+                    <Route path='/createProfile' element={<ProfileCreationPage />} />
+                    <Route path='/accountProfile' element={<AccountProfile />} />
                     <Route path='/listprofiles' element={<ListProfiles />} />
                     <Route path='/editProfile' element={<EditProfilePage />} />
                     <Route path='/editAccount' element={<EditAccountInfoPage/>} />  

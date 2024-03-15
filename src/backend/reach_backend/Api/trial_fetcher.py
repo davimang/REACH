@@ -10,9 +10,8 @@ from .trial_filterer import TrialFilterer
 locator = Nominatim(user_agent="my_request")
 
 API_URL2 = (
-    r"https://clinicaltrials.gov/api/v2/studies?"
-    r"format=json&countTotal=true&filter.overallStatus=RECRUITING&"
-    r"fields=NCTId,Condition,BriefTitle,DetailedDescription,"
+    r"https://clinicaltrials.gov/api/v2/studies?format=json&countTotal=true&filter.overallStatus=RECRUITING&"
+    r"fields=NCTId,Condition,BriefTitle,DetailedDescription,BriefSummary,"
     r"MinimumAge,MaximumAge,LocationGeoPoint,LocationCountry,LocationState,"
     r"LocationCity,LocationZip,OverallStatus,Gender,Keyword,"
     r"PointOfContactEMail,CentralContactEMail,ResponsiblePartyInvestigatorFullName,"
@@ -76,7 +75,7 @@ class TrialFetcher:
 
         # keep pulling trials until you hit 5 or
         next_page = input_params.get("next_page")
-        while studies.shape[0] < 5:
+        while studies.shape[0] < 30:
             search_url = (
                 search_template + f"&pageToken={next_page}"
                 if next_page
@@ -127,8 +126,8 @@ class TrialFetcher:
                 ]
             )
         studies = studies.head(
-            5
-        )  # take the top 5 (since it can return up to 9 results)
+            30
+        )
         studies["url"] = (
             "https://clinicaltrials.gov/study/" + studies["NCTId"]
         )  # create url
@@ -182,6 +181,8 @@ def build_study_dict(response):
         conditions = study_conditions_module.get("conditions", [])
         keywords = study_conditions_module.get("keywords", [])
         description = description_module.get("detailedDescription", "")
+        if not description:
+            description = description_module.get("briefSummary", "")
         min_age = eligibility_module.get("minimumAge", "0 Years")
         max_age = eligibility_module.get("maximumAge", "100 Years")
         gender = eligibility_module.get("sex", "ALL")

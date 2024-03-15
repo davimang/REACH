@@ -181,7 +181,8 @@ def search_trials(request):
         info_profile=info_profile, next_page=next_page, max_distance=max_distance
     )
     trials = trial_fetcher.search_studies(trial_input_info)
-
+    if(not isinstance(trials, dict)):
+        return Response(json.dumps(None))
     # saved trials attached to current search profile
     saved_trials = Trial.objects.values_list("nctid", flat=True).filter(user=user_id)
 
