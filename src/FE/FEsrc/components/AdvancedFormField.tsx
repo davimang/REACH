@@ -9,6 +9,7 @@ export interface FieldInfo {
     dropdownOptions: string[] | null;
     clinician: boolean;
     i: string;
+    children: {[key: string]: FieldInfo} | null;
 }
 interface AdvancedFormFieldProps {
     fieldInfo: FieldInfo;
@@ -16,6 +17,7 @@ interface AdvancedFormFieldProps {
     value: any;
     advancedInfo: {};
     setAdvancedInfo: (info: {}) => void;
+    initializeChildFields: (conditionFields: any, keys: string[], prev: {}[]) => void;
 }
 const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
     fieldInfo,
@@ -23,6 +25,7 @@ const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
     value,
     advancedInfo,
     setAdvancedInfo,
+    initializeChildFields,
 }) => {
 
     return (
@@ -42,7 +45,7 @@ const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
                 value={value}
                 onChange={(e) => setAdvancedInfo({ ...advancedInfo, [fieldVariable]: e.target.value })}
             >
-                <option value='' disabled>{`-- Select ${fieldInfo.label} --`}</option>
+                <option value="" disabled>{`-- Select ${fieldInfo.label} --`}</option>
                 {fieldInfo.dropdownOptions && fieldInfo.dropdownOptions.map((option, index) => (
                     <option key={index} value={option}>{option}</option>
                 ))}
@@ -53,7 +56,13 @@ const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
                 checked={value}
                 style={{width: 30, height: 30}}
                 onChange={(e) => {
-                    setAdvancedInfo({ ...advancedInfo, [fieldVariable]: e.target.checked})
+                    if (fieldInfo.children && !e.target.checked) {
+                        const initialAdvancedInfoVals = initializeChildFields(Object.values(fieldInfo.children), Object.keys(fieldInfo.children), [])[0];
+                        initialAdvancedInfoVals && initialAdvancedInfoVals.map((field: any) => {
+                            advancedInfo[Object.keys(field)[0]] = Object.values(field)[0];
+                        })
+                    }
+                    setAdvancedInfo({ ...advancedInfo, [fieldVariable]: e.target.checked});
                 }
                 }
             /> :

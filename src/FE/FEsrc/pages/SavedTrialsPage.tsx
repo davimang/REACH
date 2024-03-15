@@ -55,6 +55,8 @@ const SaveTrialsPage = () => {
     const [profiles, setProfiles] = useState<PatientInfo[]>([]);
     const [currentLocation, setCurrentLocation] = useState({});
     const [open, setOpen] = useState(false)
+    const [isSelected, setIsSelected] = useState({});
+    const [updateDefault, setUpdateDefault] = useState(true);
     const [modalDetails, setModalDetails] = useState({
         title: "",
         description: "",
@@ -84,6 +86,13 @@ const SaveTrialsPage = () => {
             console.error('Error deleting trial:', error.message);
         }
         if (trials) {
+            if(trial.nctid in isSelected){
+                setUpdateDefault(true);
+                console.log("HEREEEEEEEE");
+            }
+            else{
+                setUpdateDefault(false);
+            }
             const newTrials = Object.values(trials).filter((trial) => trial.id !== trialId);
             setTrials(newTrials);
         }
@@ -116,7 +125,7 @@ const SaveTrialsPage = () => {
                 setLoading(false);
             }
         }
-
+        setUpdateDefault(true);
     };
 
     const fetchProfilesList = async () => {
@@ -168,13 +177,15 @@ const SaveTrialsPage = () => {
         }
     }
 
-    const updateDefaultLocation = () => {
+    const updateDefaultTrial = () => {
         if (trials) {
             const defaultTrial = trials[0];
             if (defaultTrial) {
                 setCurrentLocation({ latitude: defaultTrial.location["latitude"], longitude: defaultTrial.location["longitude"] });
+                setIsSelected({[defaultTrial.nctid] : true});
             }
         }
+        setUpdateDefault(false);
     }
 
     useEffect(() => {
@@ -188,12 +199,13 @@ const SaveTrialsPage = () => {
     }, []);
 
     useEffect(() => {
-        updateDefaultLocation();
-    }, [trials])
+        if(updateDefault){
+            updateDefaultTrial();
+        }
+    }, [trials]);
 
     useEffect(() => {
         fetchSavedTrials();
-        updateDefaultLocation();
     }, [selectedProfileId])
 
     const displayTrials = () => {
@@ -206,6 +218,8 @@ const SaveTrialsPage = () => {
                         setCurrentLocation={setCurrentLocation}
                         setModalDetails={setModalDetails}
                         handleModal={handleModal}
+                        isSelected={isSelected}
+                        setIsSelected={setIsSelected}
                     />
                 ))
 
@@ -230,7 +244,7 @@ const SaveTrialsPage = () => {
                 </StyledDropDown>
             </TrialSearchHeader>
 
-            {(trials.length == 0) ? <EmptyResponse>No Trials Found!</EmptyResponse> : <div style={{ display: 'flex' }}>
+            {(trials.length == 0 && !loading) ? <EmptyResponse>No Trials Found!</EmptyResponse> : <div style={{ display: 'flex' }}>
                 <TrialsListContainer>
                     {displayTrials()}
                 </TrialsListContainer>
