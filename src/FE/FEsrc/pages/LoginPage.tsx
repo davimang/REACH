@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useAuth } from '../contexts/AuthContext';
-import { FormContainer, Form, TextInput, FormButton, ButtonContainer, ErrorMessage, FormButtonDisabled } from '../components/FormStyles';
+import { FormContainer, Form, TextInput, FormButton, ButtonContainer, ErrorMessage,SuccessMessage, FormButtonDisabled } from '../components/FormStyles';
 import { checkEmpty, fieldValidation } from '../hooks/Validation';
 
 const LoginPageContainer = styled.div`
@@ -26,6 +26,8 @@ const LoginPage: React.FC = () => {
   const passwordErrorMessage = 'Password cannot be empty.';
 
   const [authError, setAuthError] = useState(false);
+  // track login status
+  const [loginSuccess, setLoginSuccess] = useState(false);
   const authErrorMessage = 'Login failed. Please check your credentials.';
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -33,8 +35,10 @@ const LoginPage: React.FC = () => {
 
     try {
       await login(usernameField.value, passwordField.value);
-
-      navigate('/');
+      setLoginSuccess(true);
+      setTimeout(() => { 
+        navigate('/');
+      }, 1000)
     } catch (error) {
       setAuthError(true);
     }
@@ -74,6 +78,7 @@ const LoginPage: React.FC = () => {
             placeholder='Password'
           />
           {passwordField.showErrorMessage && <ErrorMessage>{passwordErrorMessage}</ErrorMessage>}
+          {loginSuccess && <SuccessMessage>Login successful!</SuccessMessage>}
           {authError && <ErrorMessage>{authErrorMessage}</ErrorMessage>}
           <ButtonContainer>
             {enableSubmit ?

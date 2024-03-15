@@ -130,3 +130,9 @@ export const ErrorMessage = styled.div`
   font-family: math;
   font-size: 18px;
 `;
+
+export const SuccessMessage = styled.div`
+  color: #00FF00;
+  font-family: math;
+  font-size: 18px;
+`;
