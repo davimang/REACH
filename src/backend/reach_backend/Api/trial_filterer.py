@@ -96,7 +96,6 @@ class TrialFilterer:
                 search_str.append("BiPAP-S")
             else:
                 search_str.append("BiPAP-ST")
-        
         # FEV healthy range calculation
         if input_params.get("FEV", -1) != -1:
             if input_params.get("sex", "").lower() == "male":
