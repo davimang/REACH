@@ -20,8 +20,14 @@ const Header = styled.h1`
 
 const ProfileListContainer = styled.div`
     display: grid;
+    grid-template-columns: repeat(3, 1fr); 
     justify-content: center;
-    width: 45%;
+    @media (max-width: 1536px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (max-width: 1024px) {
+        grid-template-columns: 1fr;
+    }
 `;
 
 const AddProfileButtonContainer = styled.div`

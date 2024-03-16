@@ -8,16 +8,18 @@ import Map from '../components/Map';
 import TrialModal from '../components/TrialModal';
 
 const TrialsListContainer = styled.div`
-    width: 42%;
     padding: 10px;
-    height: 450px;
+    height: calc(95vh - 235px);
+    max-width: 750px;
     overflow-y: auto;
+    @media (max-width: 1024px) {
+        height: 40vh;
+    }
 `;
 
 const MapContainer = styled.div`
     padding: 10px;
-    width: 58%;
-    height: 95%;
+    width: 750px;
 `;
 
 const TrialSearchHeader = styled.div`
@@ -34,7 +36,6 @@ const StyledDropDown = styled(DropDownInput)`
     height: 55px;
 `;
 
-
 const EmptyResponse = styled.div`
     position: fixed;
     left: 45%;
@@ -44,6 +45,22 @@ const EmptyResponse = styled.div`
     z-index: 9999;
     font-size: 30px;
     color: white;
+`;
+
+const ResultContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    height: 100%;
+    @media (max-width: 1024px) {
+        flex-direction: column-reverse;
+    }
+`;
+
+const PageContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 `;
 
 const SaveTrialsPage = () => {
@@ -86,11 +103,11 @@ const SaveTrialsPage = () => {
             console.error('Error deleting trial:', error.message);
         }
         if (trials) {
-            if(trial.nctid in isSelected){
+            if (trial.nctid in isSelected) {
                 setUpdateDefault(true);
                 console.log("HEREEEEEEEE");
             }
-            else{
+            else {
                 setUpdateDefault(false);
             }
             const newTrials = Object.values(trials).filter((trial) => trial.id !== trialId);
@@ -182,7 +199,7 @@ const SaveTrialsPage = () => {
             const defaultTrial = trials[0];
             if (defaultTrial) {
                 setCurrentLocation({ latitude: defaultTrial.location["latitude"], longitude: defaultTrial.location["longitude"] });
-                setIsSelected({[defaultTrial.nctid] : true});
+                setIsSelected({ [defaultTrial.nctid]: true });
             }
         }
         setUpdateDefault(false);
@@ -199,7 +216,7 @@ const SaveTrialsPage = () => {
     }, []);
 
     useEffect(() => {
-        if(updateDefault){
+        if (updateDefault) {
             updateDefaultTrial();
         }
     }, [trials]);
@@ -227,7 +244,7 @@ const SaveTrialsPage = () => {
     }
 
     return (
-        <>
+        <PageContainer>
             <TrialSearchHeader>
                 <StyledDropDown
                     value={selectedProfileId}
@@ -244,17 +261,17 @@ const SaveTrialsPage = () => {
                 </StyledDropDown>
             </TrialSearchHeader>
 
-            {(trials.length == 0 && !loading) ? <EmptyResponse>No Trials Found!</EmptyResponse> : <div style={{ display: 'flex' }}>
+            {(trials.length == 0 && !loading) ? <EmptyResponse>No Trials Found!</EmptyResponse> : <ResultContainer>
                 <TrialsListContainer>
                     {displayTrials()}
                 </TrialsListContainer>
                 <MapContainer>
                     {(trials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]} />}
                 </MapContainer>
-            </div>}
+            </ResultContainer>}
 
             <TrialModal open={open} handleModal={handleModal} modalDetails={modalDetails} patientDetails={getProfile(selectedProfileId)} name={name} />
-        </>
+        </PageContainer>
     );
 }
 

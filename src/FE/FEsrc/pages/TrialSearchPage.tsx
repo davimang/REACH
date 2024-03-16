@@ -27,6 +27,10 @@ const StyledDropDown = styled(DropDownInput)`
     height: 55px;
 `;
 
+const DistanceDropDown = styled(StyledDropDown)`
+    width: 200px;
+`;
+
 const SizedButton = styled(StyledButton)`
     height: 55px;
     margin: 10px;
@@ -34,16 +38,18 @@ const SizedButton = styled(StyledButton)`
 `;
 
 const TrialsListContainer = styled.div`
-    width: 42%;
     padding: 10px;
-    height: 450px;
+    height: calc(95vh - 235px);
     overflow-y: auto;
+    max-width: 750px;
+    @media (max-width: 1024px) {
+        max-height: 40vh;
+    }
 `;
 
 const MapContainer = styled.div`
     padding: 10px;
-    width: 58%;
-    height: 95%;
+    width: 750px;
 `;
 
 const Loading = styled.div`
@@ -55,10 +61,26 @@ const Loading = styled.div`
     z-index: 9999;    
 `;
 
+const ResultContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    height: 100%;
+    @media (max-width: 1024px) {
+        flex-direction: column-reverse;
+    }
+`;
+
+const PageContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+`;
+
 const trialBatchFetchSize = 30;
 const trialBatchDisplaySize = 5;
 
-const TrialSearchPage = () => {    
+const TrialSearchPage = () => {
     const navigate = useNavigate();
     const [responseProfiles, setResponseProfiles] = useState<PatientInfoList | null>(null);
     const [responseTrials, setResponseTrials] = useState<TrialInfoList | null>(null);
@@ -121,8 +143,8 @@ const TrialSearchPage = () => {
                 if (trial.OverallOfficialName) {
                     Object.assign(body, { principal_investigator: trial.OverallOfficialName });
                 }
-                else if(trial.LocationContactName){
-                    Object.assign(body, {principal_investigator: trial.LocationContactName});
+                else if (trial.LocationContactName) {
+                    Object.assign(body, { principal_investigator: trial.LocationContactName });
                 }
                 const requestOptions = {
                     method: 'POST',
@@ -175,13 +197,13 @@ const TrialSearchPage = () => {
     };
 
     const fetchTrials = async (onNextPage = true) => {
-        
+
         if (!selectedProfileId) {
             setProfileError(true);
             return;
         }
 
-        if(onNextPage){
+        if (onNextPage) {
             try {
                 setLoading(true);
                 const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&next_page=${pageToken}&max_distance=${maxDistance}`;
@@ -194,25 +216,25 @@ const TrialSearchPage = () => {
                 }
                 const data = await response.json();
                 const formattedData = JSON.parse(data);
-                if(!formattedData) {
+                if (!formattedData) {
                     setHasNextPage(false);
                 }
-                else{
-                    var newTrials = {...responseTrials};
-                    for (const key in formattedData){
-                        console.log(typeof(key));
+                else {
+                    var newTrials = { ...responseTrials };
+                    for (const key in formattedData) {
+                        console.log(typeof (key));
                         newTrials[Number(key) + currentTrialCount] = formattedData[key];
                     }
-                setResponseTrials(newTrials);
+                    setResponseTrials(newTrials);
                 }
-                
+
             } catch (error) {
                 console.error('Error fetching trials:', error.message);
             } finally {
                 setLoading(false);
             }
         }
-        else{
+        else {
             try {
                 console.log("FETCHING THIS WAY")
                 setLoading(true);
@@ -234,7 +256,7 @@ const TrialSearchPage = () => {
                 setLoading(false);
             }
         }
-        
+
     };
 
     const getProfile = (profileId?) => {
@@ -272,17 +294,17 @@ const TrialSearchPage = () => {
         if (responseTrials) {
             const defaultTrial = responseTrials[0];
             setCurrentLocation({ latitude: defaultTrial.LocationLatitude, longitude: defaultTrial.LocationLongitude });
-            setIsSelected({[defaultTrial.NCTId] : true});
+            setIsSelected({ [defaultTrial.NCTId]: true });
         }
     }
 
     const nextPage = (e) => {
         if (responseTrials && currentTrialCount <= currentTrialPointer) {
             const numTrials = Object.keys(responseTrials).length;
-            const nextPage = responseTrials[numTrials-1].nextPage;
+            const nextPage = responseTrials[numTrials - 1].nextPage;
             setPageToken(nextPage);
         }
-        else{
+        else {
             updatePageDetails();
         }
     }
@@ -292,12 +314,12 @@ const TrialSearchPage = () => {
     }
 
     const updatePageDetails = () => {
-        const currNumTrials = responseTrials ? Object.keys(responseTrials).length: 0;
+        const currNumTrials = responseTrials ? Object.keys(responseTrials).length : 0;
         setCurrentTrialCount(currNumTrials);
-        const currTrialPointer = responseTrials ? currentTrialPointer + Math.min(trialBatchDisplaySize, currNumTrials-currentTrialPointer): 0;
+        const currTrialPointer = responseTrials ? currentTrialPointer + Math.min(trialBatchDisplaySize, currNumTrials - currentTrialPointer) : 0;
         setCurrentTrialPointer(currTrialPointer);
     }
-    
+
     const resetPageDetails = () => {
         setCurrentTrialCount(0);
         setCurrentTrialPointer(0);
@@ -326,7 +348,7 @@ const TrialSearchPage = () => {
                     setCurrentLocation={setCurrentLocation}
                     handleModal={handleModal}
                     setModalDetails={setModalDetails}
-                    trialNumber={index+1}
+                    trialNumber={index + 1}
                     isSelected={isSelected}
                     setIsSelected={setIsSelected}
                 />
@@ -344,14 +366,14 @@ const TrialSearchPage = () => {
     }, []);
 
     useEffect(() => {
-        if(pageToken){
+        if (pageToken) {
             fetchTrials();
         }
     }, [pageToken]);
 
     useDidMountEffect(() => {
         updatePageDetails();
-        if(responseTrials && Object.keys(responseTrials).length <= trialBatchFetchSize){
+        if (responseTrials && Object.keys(responseTrials).length <= trialBatchFetchSize) {
             updateDefaultTrial();
         }
         updateHasNextPage();
@@ -362,7 +384,7 @@ const TrialSearchPage = () => {
     };
 
     return (
-        <>
+        <PageContainer>
             <TrialSearchHeader>
                 <StyledDropDown
                     value={selectedProfileId}
@@ -384,15 +406,15 @@ const TrialSearchPage = () => {
                     }
                 </StyledDropDown>
                 {profileError && <ErrorMessage>Please select a profile.</ErrorMessage>}
-                <StyledDropDown
+                <DistanceDropDown
                     value={maxDistance}
                     onChange={(e) => {
-                                setMaxDistance(e.target.value);
-                                setResponseTrials(null);
-                                resetPageToken();
-                                resetPageDetails();
-                                }
-                            }
+                        setMaxDistance(e.target.value);
+                        setResponseTrials(null);
+                        resetPageToken();
+                        resetPageDetails();
+                    }
+                    }
                 >
                     <option value=''>-- Distance Limit --</option>
                     <option value={250}>250Km</option>
@@ -401,7 +423,7 @@ const TrialSearchPage = () => {
                     <option value={2500}>2500Km</option>
                     <option value={5000}>5000Km</option>
                     <option value={10000}>10000Km</option>
-                </StyledDropDown>
+                </DistanceDropDown>
 
                 <SizedButton onClick={() => {
                     setResponseTrials(null);
@@ -412,21 +434,21 @@ const TrialSearchPage = () => {
                 <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>
             </TrialSearchHeader>
 
-            {loading && !responseTrials ? <Loading> <CircularProgress size="5rem" color="success" /> </Loading> : <div style={{ display: 'flex' }}>
+            {loading && !responseTrials ? <Loading> <CircularProgress size="5rem" color="success" /> </Loading> : <ResultContainer>
                 <TrialsListContainer>
                     {displayTrials()}
                     {responseTrials && !loading && (hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton onClick={e => { nextPage(e); }}>More Trials</StyledButton>}
-                    {responseTrials && !loading && !(hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton style={{backgroundColor: '#A5A5A5', cursor: 'default'}} disabled>Sorry, No More Trials!</StyledButton>}
+                    {responseTrials && !loading && !(hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton style={{ backgroundColor: '#A5A5A5', cursor: 'default' }} disabled>Sorry, No More Trials!</StyledButton>}
                     {responseTrials && loading && <CircularProgress size="1rem" color="success" />}
                 </TrialsListContainer>
                 <MapContainer>
                     {(responseTrials) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]} />}
                 </MapContainer>
-            </div>}
+            </ResultContainer>}
 
             <TrialModal open={open} handleModal={handleModal} modalDetails={modalDetails} patientDetails={getProfile(selectedProfileId)} name={name} />
 
-        </>
+        </PageContainer>
     );
 }
 
