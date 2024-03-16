@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '..';
+import { SuccessMessage } from '../components/FormStyles';
 import { PatientInfoList, TrialInfoList } from '../components/types';
 import { StyledButton } from '../components/ButtonStyle';
 import { DropDownInput } from '../components/FormStyles';
@@ -66,6 +67,7 @@ const TrialSearchPage = () => {
     const [hasNextPage, setHasNextPage] = useState(true);
     const [currentLocation, setCurrentLocation] = useState({});
     const [trialSaved, setTrialSaved] = useState({});
+    const [savedSuccess, setSavedSuccess] = useState(false);
     const [savedTrialIds, setSavedTrialIds] = useState({});
     const [maxDistance, setMaxDistance] = useState('');
     const [profileError, setProfileError] = useState(false);
@@ -135,6 +137,7 @@ const TrialSearchPage = () => {
                 const data = await response.json();
                 const trialId = data["id"];
                 setSavedTrialIds({ ...savedTrialIds, [trial.NCTId]: trialId });
+                setSavedSuccess(true);
             } catch (error) {
                 console.error('Error saving trial:', error.message);
             }
@@ -409,6 +412,7 @@ const TrialSearchPage = () => {
                     fetchTrials(false);
                 }}>Search</SizedButton>
                 <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>
+                {savedSuccess && <SuccessMessage>Trial Saved!</SuccessMessage>}
             </TrialSearchHeader>
 
             {loading && !responseTrials ? <Loading> <CircularProgress size="5rem" color="success" /> </Loading> : <div style={{ display: 'flex' }}>
