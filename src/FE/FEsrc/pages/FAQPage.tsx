@@ -11,10 +11,15 @@ const FAQPageContainer = styled.div`
 const FAQPageText = styled.div`
     padding: 25px;
     line-height: 1.8;
-    width: 90vw;
+    width: 50vw;
     color: #FFFFFF;
     font-size: 25px;
     font-family: math;
+    
+    @media (max-width: 1536px) {
+        font-size: 20px;
+        width: 90vw;
+    }
 `;
 
 const FAQPage = () => {
