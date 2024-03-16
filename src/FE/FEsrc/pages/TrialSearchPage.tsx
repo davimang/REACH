@@ -38,7 +38,7 @@ const SizedButton = styled(StyledButton)`
 
 const TrialsListContainer = styled.div`
     padding: 10px;
-    max-height: 80vh;
+    height: calc(95vh - 235px);
     overflow-y: auto;
     max-width: 750px;
     @media (max-width: 1024px) {

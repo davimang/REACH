@@ -9,7 +9,7 @@ import TrialModal from '../components/TrialModal';
 
 const TrialsListContainer = styled.div`
     padding: 10px;
-    height: 80vh;
+    height: calc(95vh - 235px);
     max-width: 750px;
     overflow-y: auto;
     @media (max-width: 1024px) {
