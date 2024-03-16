@@ -46,14 +46,14 @@ const TrialModal: React.FC<TrialModalProps> = ({ open, handleModal, modalDetails
 
     const emailTemplate = !isClinician ? `Dear ${contact},
 
-My name is ${usersName}. I found your study on ${modalDetails["url"]} for patients with ${condition} through REACH, an app which helps match patients 
+My name is ${usersName}. I found your study on ${modalDetails["url"]} for patients with ${condition} through REACH, an app that helps match patients 
 to research studies, and I am interested in participating.
 Please let me know how I could participate in your study.
 
 Thank you,`: `Dear ${contact},
 
-My name is Dr. ${usersName}. I am looking for clincial studies on behalf of one of my patients, and through REACH, an app which helps match patients to research
-studies, I found your study on ${modalDetails["url"]} for patients with ${condition} and I am interested in having them participate.
+My name is Dr. ${usersName}. I am looking for clincial studies on behalf of one of my patients through REACH, an app that helps match patients to research
+studies. I found your study on ${modalDetails["url"]} for patients with ${condition} and I am interested in having my patient participate.
 Please let me know how I could set them up to participate in your study.
 
 Thank you,`;
