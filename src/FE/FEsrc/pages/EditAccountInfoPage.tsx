@@ -66,7 +66,11 @@ const EditAccountInfoPage = (props) => {
             const data = await response.json();
 
             if (response.ok) {
-                navigate('/listprofiles');
+                setSuccess(true);
+                setTimeout(() => {
+                    navigate('/listprofiles');
+                }, 1000);
+                
             }
             else {
                 setError(true);
@@ -127,6 +131,7 @@ const EditAccountInfoPage = (props) => {
                         />
 
                         {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                        {!error && success && <SuccessMessage>Account information updated successfully!</SuccessMessage>}
 
                         <ButtonContainer>
                             {enableSubmit || initialLoad ?
