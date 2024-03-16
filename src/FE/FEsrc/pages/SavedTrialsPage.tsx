@@ -12,7 +12,7 @@ const TrialsListContainer = styled.div`
     height: 80vh;
     max-width: 750px;
     overflow-y: auto;
-    @media (max-width: 1536px) {
+    @media (max-width: 1024px) {
         height: 40vh;
     }
 `;
@@ -52,7 +52,7 @@ const ResultContainer = styled.div`
     flex-direction: row;
     padding: 0;
     height: 100%;
-    @media (max-width: 1536px) {
+    @media (max-width: 1024px) {
         flex-direction: column-reverse;
     }
 `;

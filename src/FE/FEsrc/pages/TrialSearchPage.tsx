@@ -41,7 +41,7 @@ const TrialsListContainer = styled.div`
     max-height: 80vh;
     overflow-y: auto;
     max-width: 750px;
-    @media (max-width: 1536px) {
+    @media (max-width: 1024px) {
         max-height: 40vh;
     }
 `;
@@ -65,7 +65,7 @@ const ResultContainer = styled.div`
     flex-direction: row;
     padding: 0;
     height: 100%;
-    @media (max-width: 1536px) {
+    @media (max-width: 1024px) {
         flex-direction: column-reverse;
     }
 `;
