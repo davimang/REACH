@@ -2,7 +2,7 @@ import { memo } from 'react';
 import styled from '@emotion/styled';
 
 const StyledMap = styled.iframe`
-    width: calc(95vw - 600px);
+    width: calc(100vw - 657px);
     min-width: 600px;
     height: calc(95vh - 235px);
     border: 0;

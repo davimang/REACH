@@ -19,7 +19,6 @@ const TrialsListContainer = styled.div`
 
 const MapContainer = styled.div`
     padding: 10px;
-    width: 750px;
 `;
 
 const TrialSearchHeader = styled.div`
@@ -52,6 +51,7 @@ const ResultContainer = styled.div`
     flex-direction: row;
     padding: 0;
     height: 100%;
+    overflow-x: hidden;
     @media (max-width: 1024px) {
         flex-direction: column-reverse;
     }
