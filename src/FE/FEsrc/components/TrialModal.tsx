@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { SuccessMessage } from './FormStyles';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -50,13 +51,14 @@ Please let me know how I could participate in your study.
 Thank you,`;
 
     const [showTemplate, setShowTemplate] = useState(false);
-
+    const [copied, setCopied] = useState(false);
     const handleTemplate = () => {
         setShowTemplate(!showTemplate);
     }
 
     const copyTemplate = async () => {
         await navigator.clipboard.writeText(emailTemplate);
+        setCopied(true);
     }
 
     return (
@@ -119,6 +121,7 @@ Thank you,`;
                     </Box>
                 </DialogContent>
                 <DialogActions>
+                    {copied && <SuccessMessage>Copied to clipboard!</SuccessMessage>}
                     <StyledButton onClick={copyTemplate}>Copy Template</StyledButton>
                     <StyledButton onClick={handleTemplate}>Close</StyledButton>
                 </DialogActions>
