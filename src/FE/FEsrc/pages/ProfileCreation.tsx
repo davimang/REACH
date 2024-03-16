@@ -99,9 +99,10 @@ const ProfileCreationPage = (props) => {
     const recursiveConditionFields = (conditionFields: any, keys: string[], margin: number) => {
         return (
             conditionFields.map((field: FieldInfo, index) => {
+                const displayCondition = !(!isClinician && field.clinician);
                 const recursionCondition = advancedInfo[keys[index]] == true || keys[index]?.includes("SUBHEADER");
-                return (
-                    <>
+                return displayCondition && (
+                    <React.Fragment key={keys[index]}>
                         <AdvancedFormField
                             key={keys[index]}
                             fieldInfo={field}
@@ -114,7 +115,7 @@ const ProfileCreationPage = (props) => {
                             margin={margin}
                         />
                         {field?.children && recursionCondition ? recursiveConditionFields(Object.values(field.children), Object.keys(field.children), margin+25) : null}
-                    </>
+                    </React.Fragment>
                 )
             })
         )
@@ -123,8 +124,10 @@ const ProfileCreationPage = (props) => {
     const updateAdvancedInfoOnConditionSelection = (conditionFields: any, keys: string[], prev: {}[]) => {
         return (
             conditionFields.map((fieldVariable: FieldInfo, index) => {
-                const tempCond = { [keys[index]]: fieldVariable.initial };
-                prev.push(tempCond);
+                if (!(!isClinician && fieldVariable.clinician)) {
+                    const tempCond = { [keys[index]]: fieldVariable.initial };
+                    prev.push(tempCond);
+                }
                 
                 return fieldVariable?.children ? updateAdvancedInfoOnConditionSelection(Object.values(fieldVariable.children), Object.keys(fieldVariable.children), prev) : prev;
             })
