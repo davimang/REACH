@@ -57,7 +57,7 @@ const TrialCard: React.FC<TrialProps> = ({ trial, trialSaved, handleSave, setCur
                 <TrialLocation>
                     <LocationImage src={require('../images/Location.svg')} />
                     <LocationText>
-                        <b style={{ color: 'white' }}>{trial.Distance} km</b>
+                        <b style={{ color: 'white' }}>{trial.Distance} Km</b>
                         <div style={{ fontSize: 14, color: '#BDBDBD' }}>from you</div>
                     </LocationText>
                 </TrialLocation>
