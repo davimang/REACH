@@ -31,7 +31,6 @@ const EditAccountInfoPage = (props) => {
     const [isClinician, setIsClinician] = useState(props.isClinician);
 
     const [error, setError] = useState(false);
-    const [success, setSuccess] = useState(false);
 
     const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
@@ -65,12 +64,9 @@ const EditAccountInfoPage = (props) => {
             const response = await fetch(endpoint, requestOptions);
             const data = await response.json();
 
-            if (response.ok) {
-                setSuccess(true);                
+            if (response.ok) {              
                 localStorage.setItem('isClinician', isClinician);
-                setTimeout(() => {
-                    navigate('/listprofiles');
-                }, 1000);
+                navigate('/listprofiles');
             }
             else {
                 setError(true);
@@ -131,7 +127,6 @@ const EditAccountInfoPage = (props) => {
                         />
 
                         {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                        {!error && success && <SuccessMessage>Account information updated successfully!</SuccessMessage>}
 
                         <ButtonContainer>
                             {enableSubmit || initialLoad ?

@@ -1,8 +1,11 @@
 """Module defining the serializers."""
 
-from django.contrib.auth.models import User, Group
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from rest_framework import serializers
 from .models import UserData, PatientInfo, Trial
+
+User = get_user_model()
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -58,22 +61,22 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
-        userInfo = validated_data.pop("userData")
+        user_info = validated_data.pop("userData")
         user = User.objects.create_user(**validated_data)
-        UserData.objects.create(user=user, **userInfo)
+        UserData.objects.create(user=user, **user_info)
         return user
 
-    def is_valid(self, raise_exception=False):
+    def is_valid(self, **kwargs):
         """Check if the serializer is valid."""
         password = self.initial_data.get("password")
         password_valid = len(password) >= 8
 
-        if password_valid == False:
+        if not password_valid:
             raise serializers.ValidationError(
                 "Password must be at least 8 characters long."
             )
 
-        return password_valid and super().is_valid(raise_exception=raise_exception)
+        return password_valid and super().is_valid(**kwargs)
 
 
 class PatientInfoSerializer(serializers.ModelSerializer):
