@@ -120,7 +120,7 @@ const MenuHeader: React.FC = () => {
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownListRef.current && dropdownListRef.current.contains(event.target as Node)) {
-                setTimeout(() => { setIsOpen(false); }, 100);
+                setTimeout(() => { setIsOpen(false); }, 250);
             } else if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setIsOpen(false);
             }

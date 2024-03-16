@@ -12,6 +12,7 @@ import Map from '../components/Map';
 import TrialModal from '../components/TrialModal';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ErrorMessage } from '../components/FormStyles';
+import { useAuth } from '../contexts/AuthContext';
 
 const TrialSearchHeader = styled.div`
     background-color: #213E80;
@@ -106,7 +107,7 @@ const TrialSearchPage = () => {
         url: ""
     })
     const [name, setName] = useState('');
-    const userId = localStorage.getItem('userId');
+    const { isAuthenticated, userId, login, logout, register } = useAuth();
     const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
     const handleModal = () => {
@@ -358,6 +359,9 @@ const TrialSearchPage = () => {
 
     useEffect(() => {
         setAuthToken(localStorage.getItem('accessToken'));
+        if (!isAuthenticated) {
+            navigate('/login');
+        }
     }, [localStorage.getItem('accessToken')]);
 
     useEffect(() => {
