@@ -8,12 +8,18 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import LogoutIcon from '@mui/icons-material/Logout';
+import MenuIcon from '@mui/icons-material/Menu';
 import { Tooltip } from '@mui/material';
 
 
 const ProfileIcon = styled(AccountCircleIcon)`
     color: #039D5F;
     fill: white;
+    font-size: 60px;
+`;
+
+const StyledMenuIcon = styled(MenuIcon)`
+    color: white;
     font-size: 60px;
 `;
 
@@ -45,7 +51,6 @@ const HeaderComponents = styled.div`
     display: inline-flex;
     width: 100%;
     align-items: center;
-    justify-content: space-between;
 `;
 
 const HeaderButton = styled(StyledButton)`
@@ -54,8 +59,26 @@ const HeaderButton = styled(StyledButton)`
     border-radius: inherit;
 `;
 
+const MenuButton = styled(HeaderButton)`
+    width: 200px;
+    border-radius: 10px;
+`;
+
 const MenuButtons = styled.div`
     display: inline-flex;
+    @media (min-width: 1400px) {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 45px;
+    }
+`;
+
+const MenuContainer = styled.div`
+    position: fixed;
+    top: 45px;
+    left: 50%;
+    transform: translateX(-50%);
 `;
 
 const ListIcon = styled(ListAltIcon)`
@@ -73,7 +96,6 @@ const DropDownInput = styled.div`
     flex-direction: row;
     align-items: center;
     background-color: #039D5F;
-    outline: 1px solid white;
 `;
 
 const DropdownText = styled.p`
@@ -90,14 +112,38 @@ const AccountDropdown = styled.ul<AccountDropdownProps>`
     top: 80px;
     right: 40px;
     display: none;
-    background-color: #fff;
+    background-color: #039D5F;
     box-shadow: 0px 5px 10px rgba(0,0,0,0.2); 
     cursor: pointer;
+    padding: 10px;
     border-radius: 10px;
+    border: 1px solid white;
 
   ${({ isopen }) => isopen && `
     display: grid;
   `}
+`;
+
+const MenuDropdown = styled.ul<AccountDropdownProps>`
+    position: absolute;
+    padding: 0;
+    display: none;
+    background-color: #039D5F;
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.2); 
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid white;
+
+  ${({ isopen }) => isopen && `
+    display: grid;
+  `}
+`;
+
+const AccountCircle = styled.div`
+    position: fixed;
+    right: 10px;
+    top: 45px;
 `;
 
 const DropdownLink = styled(Link)`
@@ -110,12 +156,47 @@ interface AccountDropdownProps {
 
 const MenuHeader: React.FC = () => {
     const navigate = useNavigate();
+    const dropdownRefAcc = useRef<HTMLDivElement>(null);
+    const dropdownListRefAcc = useRef<HTMLUListElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const dropdownListRef = useRef<HTMLUListElement>(null);
+    const [isOpenAcc, setIsOpenAcc] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const { isAuthenticated, userId, login, logout, register } = useAuth();
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
 
+    const checkScreenSize = () => {
+        if (window.innerWidth <= 1024) {
+            setIsSmallScreen(true);
+        } else {
+            setIsSmallScreen(false);
+        }
+    };
 
+    useEffect(() => {
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+
+        return () => {
+            window.removeEventListener('resize', checkScreenSize);
+        };
+    }, []);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownListRefAcc.current && dropdownListRefAcc.current.contains(event.target as Node)) {
+                setTimeout(() => { setIsOpenAcc(false); }, 250);
+            } else if (dropdownRefAcc.current && !dropdownRefAcc.current.contains(event.target as Node)) {
+                setIsOpenAcc(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [dropdownRefAcc, isOpenAcc]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -139,6 +220,12 @@ const MenuHeader: React.FC = () => {
         setIsOpen(!isOpen);
     };
 
+    const handleDropdownToggleAcc = (event: React.MouseEvent) => {
+        event.stopPropagation();
+
+        setIsOpenAcc(!isOpenAcc);
+    };
+
     const handleLogout = () => {
         logout();
         navigate('/login');
@@ -148,36 +235,87 @@ const MenuHeader: React.FC = () => {
         <Header>
             <HeaderComponents>
                 <Link to='/'>
-                    <img
-                        src={require('../images/Logo.svg')}
-                        height={100}
-                        style={{ paddingRight: 20, cursor: 'pointer' }}
-                    />
+                    {isSmallScreen ? (
+                        <img
+                            src={require('../images/MiniLogo.svg')}
+                            height={100}
+                            style={{ paddingRight: 20, cursor: 'pointer' }}
+                        />
+                    ) : (
+                        <img
+                            src={require('../images/Logo.svg')}
+                            height={100}
+                            style={{ paddingRight: 20, cursor: 'pointer' }}
+                        />
+                    )}
                 </Link>
-                <MenuButtons>
-                    <Link to='/faq'>
-                        <div style={{ borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}><HeaderButton>FAQs</HeaderButton></div>
-                    </Link>
-                    <Link to={isAuthenticated ? '/search' : '/login'}>
-                        <div style={{ paddingLeft: 2, paddingRight: 2, backgroundColor: '#FFFFFF' }}><HeaderButton>Search</HeaderButton></div>
-                    </Link>
-                    <Link to='/contact'>
-                        <div style={{ paddingRight: 2, backgroundColor: '#FFFFFF' }}><HeaderButton>Contact Us</HeaderButton></div>
-                    </Link>
-                    <Link to='/about'>
-                        <div style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10 }}><HeaderButton>About Us</HeaderButton></div>
-                    </Link>
-                </MenuButtons>
+
+                <div>
+                    {isSmallScreen ? (
+                        <MenuContainer onClick={handleDropdownToggle} ref={dropdownRef} >
+                            <MenuButton>
+                                <StyledMenuIcon />
+                            </MenuButton>
+                            <MenuDropdown isopen={isOpen} ref={dropdownListRef}>
+                                <DropdownLink to='/faq'>
+                                    <Tooltip title='FAQs'>
+                                        <DropDownInput>
+                                            <HeaderButton>FAQs</HeaderButton>
+                                        </DropDownInput>
+                                    </Tooltip>
+                                </DropdownLink>
+                                <DropdownLink to={isAuthenticated ? '/search' : '/login'}>
+                                    <Tooltip title='Search'>
+                                        <DropDownInput>
+                                            <HeaderButton>Search</HeaderButton>
+                                        </DropDownInput>
+                                    </Tooltip>
+                                </DropdownLink>
+                                <DropdownLink to='/contact'>
+                                    <Tooltip title='Contact Us'>
+                                        <DropDownInput>
+                                            <HeaderButton>Contact Us</HeaderButton>
+                                        </DropDownInput>
+                                    </Tooltip>
+                                </DropdownLink>
+                                <DropdownLink to='/about'>
+                                    <Tooltip title='About Us'>
+                                        <DropDownInput>
+                                            <HeaderButton>About Us</HeaderButton>
+                                        </DropDownInput>
+                                    </Tooltip>
+                                </DropdownLink>
+                            </MenuDropdown >
+                        </MenuContainer>
+
+                    ) : (
+                        <MenuButtons>
+                            <Link to='/faq'>
+                                <div style={{ borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}><HeaderButton>FAQs</HeaderButton></div>
+                            </Link>
+                            <Link to={isAuthenticated ? '/search' : '/login'}>
+                                <div style={{ paddingLeft: 2, paddingRight: 2, backgroundColor: '#FFFFFF' }}><HeaderButton>Search</HeaderButton></div>
+                            </Link>
+                            <Link to='/contact'>
+                                <div style={{ paddingRight: 2, backgroundColor: '#FFFFFF' }}><HeaderButton>Contact Us</HeaderButton></div>
+                            </Link>
+                            <Link to='/about'>
+                                <div style={{ borderTopRightRadius: 10, borderBottomRightRadius: 10 }}><HeaderButton>About Us</HeaderButton></div>
+                            </Link>
+                        </MenuButtons>
+                    )
+                    }
+                </div >
                 {!isAuthenticated ? (
                     <Link to='/login'>
                         <div style={{ borderRadius: 10, width: 125, paddingLeft: 20, marginRight: 10 }}><HeaderButton>Sign In</HeaderButton></div>
                     </Link>
                 ) : (
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
-                        <div onClick={handleDropdownToggle} ref={dropdownRef}>
+                        <AccountCircle onClick={handleDropdownToggleAcc} ref={dropdownRefAcc}>
                             <AccountIcon />
-                        </div>
-                        <AccountDropdown isopen={isOpen} ref={dropdownListRef}>
+                        </AccountCircle>
+                        <AccountDropdown isopen={isOpenAcc} ref={dropdownListRefAcc}>
                             <DropdownLink to='/savedTrials'>
                                 <Tooltip title='Saved Trials'>
                                     <DropDownInput>
