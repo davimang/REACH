@@ -34,10 +34,9 @@ function App() {
                     <Route path='/search' element={<TrialSearchPage />} />
                     <Route path='/savedTrials' element={<SaveTrialsPage />} />
                     <Route path='/createProfile' element={<ProfileCreationPage />} />
-                    <Route path='/accountProfile' element={<AccountProfile />} />
+                    <Route path='/accountProfile' element={<EditAccountInfoPage />} />
                     <Route path='/listprofiles' element={<ListProfiles />} />
                     <Route path='/editProfile' element={<EditProfilePage />} />
-                    <Route path='/editAccount' element={<EditAccountInfoPage/>} />  
                 </Routes>
             </BrowserRouter>
         </AuthProvider>

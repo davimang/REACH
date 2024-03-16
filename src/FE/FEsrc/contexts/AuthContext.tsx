@@ -59,6 +59,8 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('userId');
         localStorage.removeItem('isClinician');
+        localStorage.removeItem('firstName');
+        localStorage.removeItem('lastName');
 
         setUserId(null);
         setAuthenticated(false);
@@ -70,7 +72,7 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
             const requestOptions = {
               headers: { 'Authorization': `Bearer ${authToken}` }
             };
-            fetch(`${API_URL}${endpoint}`, requestOptions).then(response => response.json()).then(response => { console.log(response); localStorage.setItem('isClinician', response["is_clinician"]); });
+            fetch(`${API_URL}${endpoint}`, requestOptions).then(response => response.json()).then(response => { localStorage.setItem('isClinician', response["is_clinician"]); localStorage.setItem('firstName', response["first_name"]); localStorage.setItem('lastName', response["last_name"]);});
           } catch (error) {
             console.error('Error fetching account info:', error.message);
           }
