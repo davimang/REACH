@@ -110,7 +110,8 @@ interface AccountDropdownProps {
 
 const MenuHeader: React.FC = () => {
     const navigate = useNavigate();
-    const dropdownRef = useRef<HTMLUListElement>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const dropdownListRef = useRef<HTMLUListElement>(null);
     const [isOpen, setIsOpen] = useState(false);
     const { isAuthenticated, userId, login, logout, register } = useAuth();
 
@@ -118,8 +119,9 @@ const MenuHeader: React.FC = () => {
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            console.log(isOpen);
-            if (isOpen && dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+            if (dropdownListRef.current && dropdownListRef.current.contains(event.target as Node)) {
+                setTimeout(() => { setIsOpen(false); }, 100);
+            } else if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setIsOpen(false);
             }
         };
@@ -172,10 +174,10 @@ const MenuHeader: React.FC = () => {
                     </Link>
                 ) : (
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
-                        <div onClick={handleDropdownToggle}>
+                        <div onClick={handleDropdownToggle} ref={dropdownRef}>
                             <AccountIcon />
                         </div>
-                        <AccountDropdown isopen={isOpen} ref={dropdownRef}>
+                        <AccountDropdown isopen={isOpen} ref={dropdownListRef}>
                             <DropdownLink to='/savedTrials'>
                                 <Tooltip title='Saved Trials'>
                                     <DropDownInput>
