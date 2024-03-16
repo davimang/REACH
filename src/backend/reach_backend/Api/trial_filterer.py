@@ -57,7 +57,7 @@ class TrialFilterer:
             search_str.append("heavy+smoker")
         elif input_params.get("packYears", 0) >= 20:
             search_str.append("moderate+smoker")
-        elif input_params.get("packYears", 0) >= 0:
+        elif input_params.get("packYears", 0) > 0:
             search_str.append("light+smoker")
 
         if input_params.get("apneadIndex", 0) >= 30:
