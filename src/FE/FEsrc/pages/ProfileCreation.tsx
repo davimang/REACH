@@ -155,7 +155,7 @@ const ProfileCreationPage = (props) => {
         const initialAdvancedInfoVals = tempReturn ? tempReturn[maxIndex] : null;
         const temp = {};
         initialAdvancedInfoVals && initialAdvancedInfoVals.map((field: any) => {
-            field ? temp[Object.keys(field)[0]] = Object.values(field)[0] : null;
+            field && !Object.keys(field)[0].includes("SUBHEADER") ? temp[Object.keys(field)[0]] = Object.values(field)[0] : null;
             return temp;
         })
         setAdvancedInfo({ ...temp, ...advancedInfo });
