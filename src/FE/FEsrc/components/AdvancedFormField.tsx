@@ -5,10 +5,10 @@ import { Tooltip } from '@mui/material';
 export interface FieldInfo {
     label: string;
     initial: any;
-    inputType: string;
-    dropdownOptions: string[] | null;
+    inputType: string | null;
+    dropdownOptions: string[] | number[] | null;
     clinician: boolean;
-    i: string;
+    i: string | null;
     children: {[key: string]: FieldInfo} | null;
 }
 interface AdvancedFormFieldProps {
@@ -16,20 +16,24 @@ interface AdvancedFormFieldProps {
     fieldVariable: string;
     value: any;
     advancedInfo: {};
+    margin: number;
     setAdvancedInfo: (info: {}) => void;
-    initializeChildFields: (conditionFields: any, keys: string[], prev: {}[]) => void;
+    initializeChildFields: (conditionFields: any, keys: string[], prev: {}[]) => any;
+    indexOfMax: (arr: []) => number;
 }
 const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
     fieldInfo,
     fieldVariable,
     value,
     advancedInfo,
+    margin,
     setAdvancedInfo,
     initializeChildFields,
+    indexOfMax,
 }) => {
 
     return (
-        <>
+        <div style={{marginLeft: margin}}>
             <FormLabel>
                 {fieldInfo.label}
                 {fieldInfo.i && <Tooltip title={fieldInfo.i} placement='right' arrow>
@@ -40,7 +44,7 @@ const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
                     />
                 </Tooltip>}
             </FormLabel>
-            {fieldInfo.inputType == "dropdown" ?
+            {fieldInfo.inputType && (fieldInfo.inputType == "dropdown" ?
             <DropDownInput
                 value={value}
                 onChange={(e) => setAdvancedInfo({ ...advancedInfo, [fieldVariable]: e.target.value })}
@@ -57,7 +61,9 @@ const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
                 style={{width: 30, height: 30}}
                 onChange={(e) => {
                     if (fieldInfo.children && !e.target.checked) {
-                        const initialAdvancedInfoVals = initializeChildFields(Object.values(fieldInfo.children), Object.keys(fieldInfo.children), [])[0];
+                        const tempReturn = initializeChildFields(Object.values(fieldInfo.children), Object.keys(fieldInfo.children), []);
+                        const maxIndex = indexOfMax(tempReturn);
+                        const initialAdvancedInfoVals = tempReturn ? tempReturn[maxIndex] : null;
                         initialAdvancedInfoVals && initialAdvancedInfoVals.map((field: any) => {
                             advancedInfo[Object.keys(field)[0]] = Object.values(field)[0];
                         })
@@ -73,9 +79,8 @@ const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
                     setAdvancedInfo({ ...advancedInfo, [fieldVariable]: e.target.valueAsNumber})
                 }
                 }
-            />
-            }
-        </>
+            />)}
+        </div>
     );
 };
 

@@ -88,11 +88,21 @@ const ProfileCreationPage = (props) => {
         };
     };
 
-    const recursiveConditionFields = (conditionFields: any, keys: string[]) => {
+    function indexOfMax(arr) {
+        if (arr.length === 0) return -1;
+    
+        return arr.reduce((maxIndex, currentArray, currentIndex, array) => {
+            return currentArray.length > array[maxIndex].length ? currentIndex : maxIndex;
+        }, 0);
+    }
+
+    const recursiveConditionFields = (conditionFields: any, keys: string[], margin: number) => {
         return (
             conditionFields.map((field: FieldInfo, index) => {
-                return (
-                    <>
+                const displayCondition = !(isClinician == "false" && field.clinician);
+                const recursionCondition = advancedInfo[keys[index]] == true || keys[index]?.includes("SUBHEADER");
+                return displayCondition && (
+                    <React.Fragment key={keys[index]}>
                         <AdvancedFormField
                             key={keys[index]}
                             fieldInfo={field}
@@ -101,9 +111,11 @@ const ProfileCreationPage = (props) => {
                             advancedInfo={advancedInfo}
                             setAdvancedInfo={setAdvancedInfo}
                             initializeChildFields={updateAdvancedInfoOnConditionSelection}
+                            indexOfMax={indexOfMax}
+                            margin={margin}
                         />
-                        {field?.children && advancedInfo[keys[index]] == true ? recursiveConditionFields(Object.values(field.children), Object.keys(field.children)) : null}
-                    </>
+                        {field?.children && recursionCondition ? recursiveConditionFields(Object.values(field.children), Object.keys(field.children), margin+25) : null}
+                    </React.Fragment>
                 )
             })
         )
@@ -112,9 +124,12 @@ const ProfileCreationPage = (props) => {
     const updateAdvancedInfoOnConditionSelection = (conditionFields: any, keys: string[], prev: {}[]) => {
         return (
             conditionFields.map((fieldVariable: FieldInfo, index) => {
-                const tempCond = { [keys[index]]: fieldVariable.initial };
-                prev.push(tempCond);
-            return fieldVariable?.children ? updateAdvancedInfoOnConditionSelection(Object.values(fieldVariable.children), Object.keys(fieldVariable.children), prev) : prev;
+                if (!(isClinician == "false" && fieldVariable.clinician)) {
+                    const tempCond = { [keys[index]]: fieldVariable.initial };
+                    prev.push(tempCond);
+                }
+                
+                return fieldVariable?.children ? updateAdvancedInfoOnConditionSelection(Object.values(fieldVariable.children), Object.keys(fieldVariable.children), prev) : prev;
             })
         )
     }
@@ -141,12 +156,16 @@ const ProfileCreationPage = (props) => {
     };
 
     useEffect(() => {
-        const initialAdvancedInfoVals = Conditions[formValues.condition] ? updateAdvancedInfoOnConditionSelection(Object.values(Conditions[formValues.condition]), Object.keys(Conditions[formValues.condition]), [])[0] : null;
+        const tempReturn = Conditions[formValues.condition] ? updateAdvancedInfoOnConditionSelection(Object.values(Conditions[formValues.condition]), Object.keys(Conditions[formValues.condition]), []) : null;
+        const maxIndex = tempReturn ? indexOfMax(tempReturn) : null;
+        const initialAdvancedInfoVals = tempReturn ? tempReturn[maxIndex] : null;
         const temp = {};
+
         initialAdvancedInfoVals && initialAdvancedInfoVals.map((field: any) => {
-            field ? temp[Object.keys(field)[0]] = Object.values(field)[0] : null;
+            field && !Object.keys(field)[0]?.includes("SUBHEADER") ? temp[Object.keys(field)[0]] = Object.values(field)[0] : null;
             return temp;
         })
+
         setAdvancedInfo({ ...temp, ...advancedInfo });
     }, [formValues.condition]);
 
@@ -164,11 +183,11 @@ const ProfileCreationPage = (props) => {
         <>
             <ProfileCreationContainer>
                 <FormContainer>
-                    {!props.editing && isClinician && <FormTitle>New Patient Profile</FormTitle>}
-                    {!props.editing && !isClinician && <FormTitle>New Search Profile</FormTitle>}
-                    {props.editing && isClinician && <FormTitle>Edit Patient Profile</FormTitle>}
-                    {props.editing && !isClinician && <FormTitle>Edit Search Profile</FormTitle>}
-                    {!props.editing && isClinician && <FormDisclaimerText>
+                    {!props.editing && isClinician == "true" && <FormTitle>New Patient Profile</FormTitle>}
+                    {!props.editing && isClinician == "false" && <FormTitle>New Search Profile</FormTitle>}
+                    {props.editing && isClinician == "true" && <FormTitle>Edit Patient Profile</FormTitle>}
+                    {props.editing && isClinician == "false" && <FormTitle>Edit Search Profile</FormTitle>}
+                    {!props.editing && isClinician == "true" && <FormDisclaimerText>
                         <FormDisclaimerTitle>
                             <img
                                 src={require('../images/Exclaim.svg')}
@@ -181,7 +200,7 @@ const ProfileCreationPage = (props) => {
                         to more efficiently search for clinical trials. <b><u>Please keep privacy and confidentiality in mind
                             (i.e. use initials) when creating these patient profiles.</u></b>
                     </FormDisclaimerText>}
-                    {!props.editing && !isClinician && <FormDisclaimerText>
+                    {!props.editing && isClinician == "false" && <FormDisclaimerText>
                         <FormDisclaimerTitle>
                             <img
                                 src={require('../images/Exclaim.svg')}
@@ -311,7 +330,7 @@ const ProfileCreationPage = (props) => {
                         />
                         
                         {Conditions[formValues.condition] && (
-                            recursiveConditionFields(Object.values(Conditions[formValues.condition]), Object.keys(Conditions[formValues.condition]))
+                            recursiveConditionFields(Object.values(Conditions[formValues.condition]), Object.keys(Conditions[formValues.condition]), 0)
                         )}
 
                         {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
