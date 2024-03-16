@@ -395,7 +395,7 @@ const TrialSearchPage = () => {
                             }
                 >
                     <option value=''>-- Distance Limit --</option>
-                    <option value={250}>250km</option>
+                    <option value={250}>250Km</option>
                     <option value={500}>500Km</option>
                     <option value={1000}>1000Km</option>
                     <option value={2500}>2500Km</option>
