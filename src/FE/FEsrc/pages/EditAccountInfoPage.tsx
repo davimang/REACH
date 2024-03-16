@@ -66,11 +66,11 @@ const EditAccountInfoPage = (props) => {
             const data = await response.json();
 
             if (response.ok) {
-                setSuccess(true);
+                setSuccess(true);                
+                localStorage.setItem('isClinician', isClinician);
                 setTimeout(() => {
                     navigate('/listprofiles');
                 }, 1000);
-                
             }
             else {
                 setError(true);

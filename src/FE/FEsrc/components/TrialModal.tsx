@@ -8,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import styled from '@emotion/styled';
 import { StyledButton } from './ButtonStyle';
 import { PatientInfo } from './types';
+import CustomizedSnackbars from './SnackBar';
 
 const Box = styled.div`
     border: 1px solid;
@@ -43,26 +44,40 @@ const TrialModal: React.FC<TrialModalProps> = ({ open, handleModal, modalDetails
 
     const condition = patientDetails ? patientDetails["condition"] : "DISEASE";
 
-    const emailTemplate = `Dear ${contact},
+    const isClinician = localStorage.getItem('isClinician');
 
-My name is ${usersName}. I found your study on ${modalDetails["url"]} for patients with ${condition} and am interested in participating.
+    const emailTemplate = !isClinician ? `Dear ${contact},
+
+My name is ${usersName}. I found your study on ${modalDetails["url"]} for patients with ${condition} through REACH, an app which helps match patients 
+to research studies, and I am interested in participating.
 Please let me know how I could participate in your study.
+
+Thank you,`: `Dear ${contact},
+
+My name is Dr. ${usersName}. I am looking for clincial studies on behalf of one of my patients, and through REACH, an app which helps match patients to research
+studies, I found your study on ${modalDetails["url"]} for patients with ${condition} and I am interested in having them participate.
+Please let me know how I could set them up to participate in your study.
 
 Thank you,`;
 
     const [showTemplate, setShowTemplate] = useState(false);
-    const [copied, setCopied] = useState(false);
+    const [isCopySnackOpen, setIsCopySnackOpen] = useState(false);
     const handleTemplate = () => {
         setShowTemplate(!showTemplate);
     }
 
     const copyTemplate = async () => {
         await navigator.clipboard.writeText(emailTemplate);
-        setCopied(true);
+        setIsCopySnackOpen(true);
     }
 
     return (
         <div>
+            <CustomizedSnackbars
+                isOpen={isCopySnackOpen}
+                setIsOpen={setIsCopySnackOpen}
+                snackText={"Email Template Copied!"}
+            />
             <Dialog
                 open={open}
                 onClose={handleModal}
@@ -121,7 +136,6 @@ Thank you,`;
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    {copied && <SuccessMessage>Copied to clipboard!</SuccessMessage>}
                     <StyledButton onClick={copyTemplate}>Copy Template</StyledButton>
                     <StyledButton onClick={handleTemplate}>Close</StyledButton>
                 </DialogActions>

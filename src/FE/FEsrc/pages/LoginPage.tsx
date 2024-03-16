@@ -26,8 +26,6 @@ const LoginPage: React.FC = () => {
   const passwordErrorMessage = 'Password cannot be empty.';
 
   const [authError, setAuthError] = useState(false);
-  // track login status
-  const [loginSuccess, setLoginSuccess] = useState(false);
   const authErrorMessage = 'Login failed. Please check your credentials.';
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -35,10 +33,8 @@ const LoginPage: React.FC = () => {
 
     try {
       await login(usernameField.value, passwordField.value);
-      setLoginSuccess(true);
-      setTimeout(() => { 
-        navigate('/');
-      }, 1000)
+      localStorage.setItem('openLoginSnack', "true");
+      navigate('/');
     } catch (error) {
       setAuthError(true);
     }
@@ -78,7 +74,6 @@ const LoginPage: React.FC = () => {
             placeholder='Password'
           />
           {passwordField.showErrorMessage && <ErrorMessage>{passwordErrorMessage}</ErrorMessage>}
-          {loginSuccess && <SuccessMessage>Login successful!</SuccessMessage>}
           {authError && <ErrorMessage>{authErrorMessage}</ErrorMessage>}
           <ButtonContainer>
             {enableSubmit ?

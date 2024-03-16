@@ -47,6 +47,7 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
             setUserId(userId);
             setAuthenticated(true);
 
+            storeClincianDetails(user_id, access);
         } catch (error) {
             console.error('Login failed:', error);
             throw error;
@@ -57,10 +58,23 @@ export const AuthProvider: React.FC<AuthContextProps> = ({ children }) => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('userId');
+        localStorage.removeItem('isClinician');
 
         setUserId(null);
         setAuthenticated(false);
     };
+
+    const storeClincianDetails = (userId, authToken) => {
+        try {
+            const endpoint = `/userdata/${userId}/`;
+            const requestOptions = {
+              headers: { 'Authorization': `Bearer ${authToken}` }
+            };
+            fetch(`${API_URL}${endpoint}`, requestOptions).then(response => response.json()).then(response => { console.log(response); localStorage.setItem('isClinician', response["is_clinician"]); });
+          } catch (error) {
+            console.error('Error fetching account info:', error.message);
+          }
+    }
 
     const register = async (username: string, password: string, email: string, first_name: string, last_name: string, is_clinician: boolean) => {
         try {

@@ -8,6 +8,7 @@ import { FormContainer, Form, FormLabel, TextInput, AutocompleteInput, ButtonCon
 import { checkEmpty, fieldValidation } from '../hooks/Validation';
 import { Conditions } from '../constants/ConditionFields';
 import AdvancedFormField, { FieldInfo } from '../components/AdvancedFormField';
+import CustomizedSnackbars from '../components/SnackBar';
 
 const ProfileCreationContainer = styled.div`
     min-width: fit-content;
@@ -31,6 +32,8 @@ const defaultProps = {
 const ProfileCreationPage = (props) => {
 
     props = { ...defaultProps, ...props };
+    
+    const [isRegistrationSnackOpen, setIsRegistrationSnackOpen] = useState(false);
 
     const userId = localStorage.getItem('userId');
 
@@ -55,8 +58,9 @@ const ProfileCreationPage = (props) => {
     const dateOfBirthField = fieldValidation(checkEmpty, props.defaultDateOfBirth);
     const genderField = fieldValidation(checkEmpty, props.defaultGender);
 
+    const isClinician = localStorage.getItem('isClinician');
+
     const [error, setError] = useState(false);
-    const [success, setSuccess] = useState(false);
 
     const errorMessage = 'Profile creation failed. Please try again.';
 
@@ -109,6 +113,14 @@ const ProfileCreationPage = (props) => {
         )
     }
 
+    const checkJustRegistered = () => {
+        if(localStorage.getItem('justRegistered')) {
+            setIsRegistrationSnackOpen(true);
+            localStorage.removeItem('justRegistered');
+            localStorage.setItem('firstProfileCreated', "true");
+        }
+    }
+
     const updateAdvancedInfoOnConditionSelection = (conditionFields: any, keys: string[], prev: {}[]) => {
         return (
             conditionFields.map((fieldVariable: FieldInfo, index) => {
@@ -130,10 +142,8 @@ const ProfileCreationPage = (props) => {
             const data = await response.json();
 
             if (response.ok) {
-                setSuccess(true);
-                setTimeout(() => {
-                    navigate(!props.editing ? '/' : '/listprofiles'); 
-                }, 1000);
+                localStorage.setItem('openProfileSnack', "true");
+                navigate(!props.editing ? '/' : '/listprofiles'); 
             }
             else {
                 setError(true);
@@ -163,12 +173,25 @@ const ProfileCreationPage = (props) => {
         setAuthToken(localStorage.getItem('accessToken'));
     }, [localStorage.getItem('accessToken')]);
 
+
+    useEffect(() => {
+        checkJustRegistered();
+    }, [])
+
     return (
         <>
             <ProfileCreationContainer>
+            <CustomizedSnackbars
+                isOpen={isRegistrationSnackOpen}
+                setIsOpen={setIsRegistrationSnackOpen}
+                snackText={"Account Registered Successfully!"}
+            />
                 <FormContainer>
-                    <FormTitle>New Patient Profile</FormTitle>
-                    <FormDisclaimerText>
+                    {!props.editing && isClinician && <FormTitle>New Patient Profile</FormTitle>}
+                    {!props.editing && !isClinician && <FormTitle>New Search Profile</FormTitle>}
+                    {props.editing && isClinician && <FormTitle>Edit Patient Profile</FormTitle>}
+                    {props.editing && !isClinician && <FormTitle>Edit Search Profile</FormTitle>}
+                    {!props.editing && isClinician && <FormDisclaimerText>
                         <FormDisclaimerTitle>
                             <img
                                 src={require('../images/Exclaim.svg')}
@@ -180,7 +203,19 @@ const ProfileCreationPage = (props) => {
                         Filling in this patient profile form allows users to save a patient's medical information in order
                         to more efficiently search for clinical trials. <b><u>Please keep privacy and confidentiality in mind
                             (i.e. use initials) when creating these patient profiles.</u></b>
-                    </FormDisclaimerText>
+                    </FormDisclaimerText>}
+                    {!props.editing && !isClinician && <FormDisclaimerText>
+                        <FormDisclaimerTitle>
+                            <img
+                                src={require('../images/Exclaim.svg')}
+                                height={24}
+                                style={{ paddingRight: 5, paddingBottom: 5 }}
+                            />
+                            <b style={{ marginTop: 'auto', marginBottom: 'auto', textShadow: '1px 1px 1px black' }}>Please Note:</b>
+                        </FormDisclaimerTitle>
+                        This is a search profile - it is what enables the platform to match you to clincial studies that you may be eligible for and it is
+                        separate from your main account details (such as email, username, etc..).
+                    </FormDisclaimerText>}
                     <Form onSubmit={handleSubmit}>
                         <FormLabel>Name</FormLabel>
                         <TextInput
@@ -303,7 +338,6 @@ const ProfileCreationPage = (props) => {
                         )}
 
                         {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
-                        {!error && success && <SuccessMessage>Profile created successfully!</SuccessMessage>}
 
                         <ButtonContainer>
                             {enableSubmit ?

@@ -6,6 +6,7 @@ import { StyledButton } from './ButtonStyle';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import { Tooltip } from '@mui/material';
 
 
 const ProfileIcon = styled(AccountCircleIcon)`
@@ -96,10 +97,14 @@ const MenuHeader: React.FC = () => {
                 ) : (
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                         <Link to='/savedTrials'>
+                        <Tooltip title="Saved Trials">
                             <FilledBookmarkIcon />
+                        </Tooltip>
                         </Link>
                         <Link to='/listprofiles'>
+                        <Tooltip title="Profiles">
                             <ListIcon />
+                        </Tooltip>
                         </Link>
                         <Link to='/accountProfile'>
                             <ProfileIcon />

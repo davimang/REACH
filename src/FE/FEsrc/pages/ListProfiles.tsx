@@ -5,6 +5,7 @@ import UserProfileCard from '../components/UserProfileCard';
 import styled from '@emotion/styled';
 import { StyledButton } from '../components/ButtonStyle';
 import { PatientInfo } from '../components/types';
+import CustomizedSnackbars from '../components/SnackBar';
 
 const AccountProfilePageContainer = styled.div`
     display: flex;
@@ -37,6 +38,18 @@ const ListProfiles: React.FC = () => {
   const userId = localStorage.getItem('userId');
   const [profiles, setProfiles] = useState<PatientInfo[]>([]);
   const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
+  const [isProfileSnackBarOpen, setIsProfileSnackBarOpen] = useState(false);
+
+  const checkProfileSuccess = () => {
+    if(localStorage.getItem('openProfileSnack')) {
+        setIsProfileSnackBarOpen(true);
+        localStorage.removeItem('openProfileSnack');
+    }
+}
+
+useEffect(() => {
+  checkProfileSuccess();
+}, []);
 
   const fetchProfilesList = async () => {
     try {
@@ -62,6 +75,11 @@ const ListProfiles: React.FC = () => {
   return (
 
     <AccountProfilePageContainer>
+      <CustomizedSnackbars
+          isOpen={isProfileSnackBarOpen}
+          setIsOpen={setIsProfileSnackBarOpen}
+          snackText={"Profile Edited Successfully!"}
+      />
       <Header>Profiles</Header>
       <ProfileListContainer>
         {profiles.map((profile, index) => (
