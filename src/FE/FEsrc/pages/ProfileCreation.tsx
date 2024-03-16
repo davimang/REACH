@@ -131,7 +131,9 @@ const ProfileCreationPage = (props) => {
 
             if (response.ok) {
                 setSuccess(true);
-                navigate(!props.editing ? '/' : '/listprofiles');
+                setTimeout(() => {
+                    navigate(!props.editing ? '/' : '/listprofiles'); 
+                }, 1000);
             }
             else {
                 setError(true);
