@@ -88,9 +88,18 @@ const ProfileCreationPage = (props) => {
         };
     };
 
+    function indexOfMax(arr) {
+        if (arr.length === 0) return -1;
+    
+        return arr.reduce((maxIndex, currentArray, currentIndex, array) => {
+            return currentArray.length > array[maxIndex].length ? currentIndex : maxIndex;
+        }, 0);
+    }
+
     const recursiveConditionFields = (conditionFields: any, keys: string[], margin: number) => {
         return (
             conditionFields.map((field: FieldInfo, index) => {
+                const recursionCondition = advancedInfo[keys[index]] == true || keys[index]?.includes("SUBHEADER");
                 return (
                     <>
                         <AdvancedFormField
@@ -101,9 +110,10 @@ const ProfileCreationPage = (props) => {
                             advancedInfo={advancedInfo}
                             setAdvancedInfo={setAdvancedInfo}
                             initializeChildFields={updateAdvancedInfoOnConditionSelection}
+                            indexOfMax={indexOfMax}
                             margin={margin}
                         />
-                        {field?.children && advancedInfo[keys[index]] == true ? recursiveConditionFields(Object.values(field.children), Object.keys(field.children), margin+25) : null}
+                        {field?.children && recursionCondition ? recursiveConditionFields(Object.values(field.children), Object.keys(field.children), margin+25) : null}
                     </>
                 )
             })
@@ -115,17 +125,10 @@ const ProfileCreationPage = (props) => {
             conditionFields.map((fieldVariable: FieldInfo, index) => {
                 const tempCond = { [keys[index]]: fieldVariable.initial };
                 prev.push(tempCond);
+                
                 return fieldVariable?.children ? updateAdvancedInfoOnConditionSelection(Object.values(fieldVariable.children), Object.keys(fieldVariable.children), prev) : prev;
             })
         )
-    }
-
-    function indexOfMax(arr) {
-        if (arr.length === 0) return -1;
-    
-        return arr.reduce((maxIndex, currentArray, currentIndex, array) => {
-            return currentArray.length > array[maxIndex].length ? currentIndex : maxIndex;
-        }, 0);
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -154,10 +157,12 @@ const ProfileCreationPage = (props) => {
         const maxIndex = tempReturn ? indexOfMax(tempReturn) : null;
         const initialAdvancedInfoVals = tempReturn ? tempReturn[maxIndex] : null;
         const temp = {};
+
         initialAdvancedInfoVals && initialAdvancedInfoVals.map((field: any) => {
-            field && !Object.keys(field)[0].includes("SUBHEADER") ? temp[Object.keys(field)[0]] = Object.values(field)[0] : null;
+            field && !Object.keys(field)[0]?.includes("SUBHEADER") ? temp[Object.keys(field)[0]] = Object.values(field)[0] : null;
             return temp;
         })
+
         setAdvancedInfo({ ...temp, ...advancedInfo });
     }, [formValues.condition]);
 

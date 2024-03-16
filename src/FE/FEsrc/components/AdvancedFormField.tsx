@@ -16,18 +16,20 @@ interface AdvancedFormFieldProps {
     fieldVariable: string;
     value: any;
     advancedInfo: {};
-    setAdvancedInfo: (info: {}) => void;
-    initializeChildFields: (conditionFields: any, keys: string[], prev: {}[]) => void;
     margin: number;
+    setAdvancedInfo: (info: {}) => void;
+    initializeChildFields: (conditionFields: any, keys: string[], prev: {}[]) => any;
+    indexOfMax: (arr: []) => number;
 }
 const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
     fieldInfo,
     fieldVariable,
     value,
     advancedInfo,
+    margin,
     setAdvancedInfo,
     initializeChildFields,
-    margin,
+    indexOfMax,
 }) => {
 
     return (
@@ -59,7 +61,9 @@ const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
                 style={{width: 30, height: 30}}
                 onChange={(e) => {
                     if (fieldInfo.children && !e.target.checked) {
-                        const initialAdvancedInfoVals = initializeChildFields(Object.values(fieldInfo.children), Object.keys(fieldInfo.children), [])[0];
+                        const tempReturn = initializeChildFields(Object.values(fieldInfo.children), Object.keys(fieldInfo.children), []);
+                        const maxIndex = indexOfMax(tempReturn);
+                        const initialAdvancedInfoVals = tempReturn ? tempReturn[maxIndex] : null;
                         initialAdvancedInfoVals && initialAdvancedInfoVals.map((field: any) => {
                             advancedInfo[Object.keys(field)[0]] = Object.values(field)[0];
                         })
