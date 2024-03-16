@@ -185,7 +185,6 @@ class TrialFilterer:
         if input_params.get("coughSeverity", 0) > 4:
             search_str.append("severe+cough+OR+VAS+40mm")
 
-
         if len(search_str) > 0:
             return "+OR+".join(search_str)
         return ""
