@@ -5,10 +5,10 @@ import { Tooltip } from '@mui/material';
 export interface FieldInfo {
     label: string;
     initial: any;
-    inputType: string;
+    inputType: string | null;
     dropdownOptions: string[] | number[] | null;
     clinician: boolean;
-    i: string;
+    i: string | null;
     children: {[key: string]: FieldInfo} | null;
 }
 interface AdvancedFormFieldProps {
@@ -18,6 +18,7 @@ interface AdvancedFormFieldProps {
     advancedInfo: {};
     setAdvancedInfo: (info: {}) => void;
     initializeChildFields: (conditionFields: any, keys: string[], prev: {}[]) => void;
+    margin: number;
 }
 const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
     fieldInfo,
@@ -26,10 +27,11 @@ const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
     advancedInfo,
     setAdvancedInfo,
     initializeChildFields,
+    margin,
 }) => {
 
     return (
-        <>
+        <div style={{marginLeft: margin}}>
             <FormLabel>
                 {fieldInfo.label}
                 {fieldInfo.i && <Tooltip title={fieldInfo.i} placement='right' arrow>
@@ -40,7 +42,7 @@ const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
                     />
                 </Tooltip>}
             </FormLabel>
-            {fieldInfo.inputType == "dropdown" ?
+            {fieldInfo.inputType && (fieldInfo.inputType == "dropdown" ?
             <DropDownInput
                 value={value}
                 onChange={(e) => setAdvancedInfo({ ...advancedInfo, [fieldVariable]: e.target.value })}
@@ -73,9 +75,8 @@ const AdvancedFormField: React.FC<AdvancedFormFieldProps> = ({
                     setAdvancedInfo({ ...advancedInfo, [fieldVariable]: e.target.valueAsNumber})
                 }
                 }
-            />
-            }
-        </>
+            />)}
+        </div>
     );
 };
 

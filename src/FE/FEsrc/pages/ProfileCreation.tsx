@@ -88,7 +88,7 @@ const ProfileCreationPage = (props) => {
         };
     };
 
-    const recursiveConditionFields = (conditionFields: any, keys: string[]) => {
+    const recursiveConditionFields = (conditionFields: any, keys: string[], margin: number) => {
         return (
             conditionFields.map((field: FieldInfo, index) => {
                 return (
@@ -101,8 +101,9 @@ const ProfileCreationPage = (props) => {
                             advancedInfo={advancedInfo}
                             setAdvancedInfo={setAdvancedInfo}
                             initializeChildFields={updateAdvancedInfoOnConditionSelection}
+                            margin={margin}
                         />
-                        {field?.children && advancedInfo[keys[index]] == true ? recursiveConditionFields(Object.values(field.children), Object.keys(field.children)) : null}
+                        {field?.children && advancedInfo[keys[index]] == true ? recursiveConditionFields(Object.values(field.children), Object.keys(field.children), margin+25) : null}
                     </>
                 )
             })
@@ -114,7 +115,7 @@ const ProfileCreationPage = (props) => {
             conditionFields.map((fieldVariable: FieldInfo, index) => {
                 const tempCond = { [keys[index]]: fieldVariable.initial };
                 prev.push(tempCond);
-            return fieldVariable?.children ? updateAdvancedInfoOnConditionSelection(Object.values(fieldVariable.children), Object.keys(fieldVariable.children), prev) : prev;
+                return fieldVariable?.children ? updateAdvancedInfoOnConditionSelection(Object.values(fieldVariable.children), Object.keys(fieldVariable.children), prev) : prev;
             })
         )
     }
@@ -321,7 +322,7 @@ const ProfileCreationPage = (props) => {
                         />
                         
                         {Conditions[formValues.condition] && (
-                            recursiveConditionFields(Object.values(Conditions[formValues.condition]), Object.keys(Conditions[formValues.condition]))
+                            recursiveConditionFields(Object.values(Conditions[formValues.condition]), Object.keys(Conditions[formValues.condition]), 0)
                         )}
 
                         {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
