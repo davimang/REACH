@@ -107,6 +107,7 @@ const TrialSearchPage = () => {
         url: ""
     })
     const [name, setName] = useState('');
+    const userID = localStorage.getItem('userId');
     const { isAuthenticated, userId, login, logout, register } = useAuth();
     const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
@@ -132,7 +133,7 @@ const TrialSearchPage = () => {
                     status: "Recruiting",
                     distance: trial.Distance,
                     nctid: trial.NCTId,
-                    user: userId,
+                    user: userID,
                     profile: selectedProfileId
                 }
                 if (trial.PointOfContactEMail) {
@@ -182,7 +183,7 @@ const TrialSearchPage = () => {
 
     const fetchProfilesList = async () => {
         try {
-            const endpoint = `/patientinfo/?user=${userId}`;
+            const endpoint = `/patientinfo/?user=${userID}`;
             const requestOptions = {
                 headers: { 'Authorization': `Bearer ${authToken}` }
             };
@@ -207,7 +208,7 @@ const TrialSearchPage = () => {
         if (onNextPage) {
             try {
                 setLoading(true);
-                const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&next_page=${pageToken}&max_distance=${maxDistance}`;
+                const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userID}&next_page=${pageToken}&max_distance=${maxDistance}`;
                 const requestOptions = {
                     headers: { 'Authorization': `Bearer ${authToken}` }
                 };
@@ -239,7 +240,7 @@ const TrialSearchPage = () => {
             try {
                 console.log("FETCHING THIS WAY")
                 setLoading(true);
-                const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userId}&max_distance=${maxDistance}`;
+                const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userID}&max_distance=${maxDistance}`;
                 const requestOptions = {
                     headers: { 'Authorization': `Bearer ${authToken}` }
                 };
@@ -273,7 +274,7 @@ const TrialSearchPage = () => {
 
     const getName = async () => {
         try {
-            const endpoint = `/userdata/${userId}/`;
+            const endpoint = `/userdata/${userID}/`;
             const requestOptions = {
                 headers: { 'Authorization': `Bearer ${authToken}` }
             };
