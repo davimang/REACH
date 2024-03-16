@@ -6,7 +6,7 @@ const ContactUsContainer = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr); 
     justify-content: center;
-    @media (max-width: 2048px) {
+    @media (max-width: 1536px) {
         grid-template-columns: repeat(2, 1fr);
     }
     @media (max-width: 1024px) {
