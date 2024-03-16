@@ -99,7 +99,7 @@ const ProfileCreationPage = (props) => {
     const recursiveConditionFields = (conditionFields: any, keys: string[], margin: number) => {
         return (
             conditionFields.map((field: FieldInfo, index) => {
-                const displayCondition = !(!isClinician && field.clinician);
+                const displayCondition = !(isClinician == "false" && field.clinician);
                 const recursionCondition = advancedInfo[keys[index]] == true || keys[index]?.includes("SUBHEADER");
                 return displayCondition && (
                     <React.Fragment key={keys[index]}>
@@ -124,7 +124,7 @@ const ProfileCreationPage = (props) => {
     const updateAdvancedInfoOnConditionSelection = (conditionFields: any, keys: string[], prev: {}[]) => {
         return (
             conditionFields.map((fieldVariable: FieldInfo, index) => {
-                if (!(!isClinician && fieldVariable.clinician)) {
+                if (!(isClinician == "false" && fieldVariable.clinician)) {
                     const tempCond = { [keys[index]]: fieldVariable.initial };
                     prev.push(tempCond);
                 }
@@ -183,11 +183,11 @@ const ProfileCreationPage = (props) => {
         <>
             <ProfileCreationContainer>
                 <FormContainer>
-                    {!props.editing && isClinician && <FormTitle>New Patient Profile</FormTitle>}
-                    {!props.editing && !isClinician && <FormTitle>New Search Profile</FormTitle>}
-                    {props.editing && isClinician && <FormTitle>Edit Patient Profile</FormTitle>}
-                    {props.editing && !isClinician && <FormTitle>Edit Search Profile</FormTitle>}
-                    {!props.editing && isClinician && <FormDisclaimerText>
+                    {!props.editing && isClinician == "true" && <FormTitle>New Patient Profile</FormTitle>}
+                    {!props.editing && isClinician == "false" && <FormTitle>New Search Profile</FormTitle>}
+                    {props.editing && isClinician == "true" && <FormTitle>Edit Patient Profile</FormTitle>}
+                    {props.editing && isClinician == "false" && <FormTitle>Edit Search Profile</FormTitle>}
+                    {!props.editing && isClinician == "true" && <FormDisclaimerText>
                         <FormDisclaimerTitle>
                             <img
                                 src={require('../images/Exclaim.svg')}
@@ -200,7 +200,7 @@ const ProfileCreationPage = (props) => {
                         to more efficiently search for clinical trials. <b><u>Please keep privacy and confidentiality in mind
                             (i.e. use initials) when creating these patient profiles.</u></b>
                     </FormDisclaimerText>}
-                    {!props.editing && !isClinician && <FormDisclaimerText>
+                    {!props.editing && isClinician == "false" && <FormDisclaimerText>
                         <FormDisclaimerTitle>
                             <img
                                 src={require('../images/Exclaim.svg')}
