@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { API_URL } from '..';
+import { SuccessMessage } from '../components/FormStyles';
 import { conditions } from '../components/Constants';
 import { FormContainer, Form, FormLabel, TextInput, AutocompleteInput, ButtonContainer, FormButton, DropDownInput, AutocompleteTextField, FormButtonDisabled, ErrorMessage, FormTitle, FormDisclaimerText, FormDisclaimerTitle } from '../components/FormStyles';
 import { checkEmpty, fieldValidation } from '../hooks/Validation';
 import { Conditions } from '../constants/ConditionFields';
 import AdvancedFormField, { FieldInfo } from '../components/AdvancedFormField';
+import CustomizedSnackbars from '../components/SnackBar';
 
 const ProfileCreationContainer = styled.div`
     min-width: fit-content;
@@ -30,6 +32,8 @@ const defaultProps = {
 const ProfileCreationPage = (props) => {
 
     props = { ...defaultProps, ...props };
+    
+    const [isRegistrationSnackOpen, setIsRegistrationSnackOpen] = useState(false);
 
     const userId = localStorage.getItem('userId');
 
@@ -121,6 +125,14 @@ const ProfileCreationPage = (props) => {
         )
     }
 
+    const checkJustRegistered = () => {
+        if(localStorage.getItem('justRegistered')) {
+            setIsRegistrationSnackOpen(true);
+            localStorage.removeItem('justRegistered');
+            localStorage.setItem('firstProfileCreated', "true");
+        }
+    }
+
     const updateAdvancedInfoOnConditionSelection = (conditionFields: any, keys: string[], prev: {}[]) => {
         return (
             conditionFields.map((fieldVariable: FieldInfo, index) => {
@@ -145,7 +157,8 @@ const ProfileCreationPage = (props) => {
             const data = await response.json();
 
             if (response.ok) {
-                navigate(!props.editing ? '/' : '/listprofiles');
+                localStorage.setItem('openProfileSnack', "true");
+                navigate(!props.editing ? '/' : '/listprofiles'); 
             }
             else {
                 setError(true);
@@ -179,9 +192,19 @@ const ProfileCreationPage = (props) => {
         setAuthToken(localStorage.getItem('accessToken'));
     }, [localStorage.getItem('accessToken')]);
 
+
+    useEffect(() => {
+        checkJustRegistered();
+    }, [])
+
     return (
         <>
             <ProfileCreationContainer>
+            <CustomizedSnackbars
+                isOpen={isRegistrationSnackOpen}
+                setIsOpen={setIsRegistrationSnackOpen}
+                snackText={"Account Registered Successfully!"}
+            />
                 <FormContainer>
                     {!props.editing && isClinician == "true" && <FormTitle>New Patient Profile</FormTitle>}
                     {!props.editing && isClinician == "false" && <FormTitle>New Search Profile</FormTitle>}

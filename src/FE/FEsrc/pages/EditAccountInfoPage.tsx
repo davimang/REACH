@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { SuccessMessage } from '../components/FormStyles';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router';
 import styled from '@emotion/styled';
@@ -6,6 +7,7 @@ import { API_URL } from '..';
 import { FormContainer, Form, FormLabel, TextInput, ButtonContainer, FormButton, FormButtonDisabled, ErrorMessage, FormTitle } from '../components/FormStyles';
 import { checkEmpty, fieldValidation } from '../hooks/Validation';
 import useDidMountEffect from '../components/useDidMountEffect';
+import CustomizedSnackbars from '../components/SnackBar';
 
 
 const ProfileCreationContainer = styled.div`
@@ -14,32 +16,28 @@ const ProfileCreationContainer = styled.div`
 `;
 
 const EditAccountInfoPage = (props) => {
-
-    const [initialLoad, setInitialLoad] = useState(true);
-
-    const data = useLocation();
-
-    props = { ...data.state };
-
-    const userId = localStorage.getItem('userId');
-
     const navigate = useNavigate();
 
-    const firstNameField = fieldValidation(checkEmpty, props.defaultFirstName);
-    const lastNameField = fieldValidation(checkEmpty, props.defaultLastName);
-    const [isClinician, setIsClinician] = useState(props.isClinician);
+    const userId = localStorage.getItem('userId');
+    const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
+    const [initialLoad, setInitialLoad] = useState(true);
+    const [isAccountInfoSnackBarOpen, setIsAccountInfoSnackBarOpen] = useState(false);
+
+    const defaultFirstName = localStorage.getItem("firstName");
+    const defaultLastName = localStorage.getItem("lastName");
+    const defaultIsClinician = localStorage.getItem("isClinician");
+
+    const firstNameField = fieldValidation(checkEmpty, defaultFirstName ? defaultFirstName: "");
+    const lastNameField = fieldValidation(checkEmpty, defaultLastName ? defaultLastName: "");
+    const [isClinician, setIsClinician] = useState(defaultIsClinician == "true");
 
     const [error, setError] = useState(false);
-
-    const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
     const errorMessage = 'Failed to update account information. Please try again.';
 
     const genericErrorMessage = 'This field cannot be empty';
 
     const enableSubmit = firstNameField.valid && lastNameField.valid;
-
-    console.log(enableSubmit);
 
     const createRequestOptions = () => {
 
@@ -63,9 +61,11 @@ const EditAccountInfoPage = (props) => {
             const response = await fetch(endpoint, requestOptions);
             const data = await response.json();
 
-            if (response.ok) {
-                localStorage.setItem('isClinician', isClinician);
-                navigate('/listprofiles');
+            if (response.ok) {              
+                localStorage.setItem('isClinician', isClinician ? "true": "false");
+                localStorage.setItem('firstName', firstNameField.value);
+                localStorage.setItem('lastName', lastNameField.value);
+                setIsAccountInfoSnackBarOpen(true);
             }
             else {
                 setError(true);
@@ -89,8 +89,13 @@ const EditAccountInfoPage = (props) => {
     return (
         <>
             <ProfileCreationContainer>
+            <CustomizedSnackbars
+                isOpen={isAccountInfoSnackBarOpen}
+                setIsOpen={setIsAccountInfoSnackBarOpen}
+                snackText={"Account Information Saved!"}
+            />
                 <FormContainer>
-                    <FormTitle>Edit Account Information</FormTitle>
+                    <FormTitle>Account Information</FormTitle>
                     <Form onSubmit={handleSubmit}>
                         <FormLabel>First Name</FormLabel>
                         <TextInput
@@ -116,7 +121,6 @@ const EditAccountInfoPage = (props) => {
                         <FormLabel>Is Clinician</FormLabel>
                         <TextInput
                             type='checkbox'
-                            value={isClinician}
                             checked={isClinician}
                             style={{ width: 30, height: 30 }}
                             onChange={(e) => {
@@ -124,7 +128,6 @@ const EditAccountInfoPage = (props) => {
                             }
                             }
                         />
-
 
                         {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
 

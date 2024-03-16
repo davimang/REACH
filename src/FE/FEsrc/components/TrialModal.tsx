@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { SuccessMessage } from './FormStyles';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -7,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import styled from '@emotion/styled';
 import { StyledButton } from './ButtonStyle';
 import { PatientInfo } from './types';
+import CustomizedSnackbars from './SnackBar';
 
 const Box = styled.div`
     border: 1px solid;
@@ -59,17 +61,23 @@ Please let me know how I could set them up to participate in your study.
 Thank you,`;
 
     const [showTemplate, setShowTemplate] = useState(false);
-
+    const [isCopySnackOpen, setIsCopySnackOpen] = useState(false);
     const handleTemplate = () => {
         setShowTemplate(!showTemplate);
     }
 
     const copyTemplate = async () => {
         await navigator.clipboard.writeText(emailTemplate);
+        setIsCopySnackOpen(true);
     }
 
     return (
         <div>
+            <CustomizedSnackbars
+                isOpen={isCopySnackOpen}
+                setIsOpen={setIsCopySnackOpen}
+                snackText={"Email Template Copied!"}
+            />
             <Dialog
                 open={open}
                 onClose={handleModal}

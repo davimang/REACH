@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { useAuth } from '../contexts/AuthContext';
-import { FormContainer, Form, TextInput, FormButton, ButtonContainer, ErrorMessage, FormButtonDisabled } from '../components/FormStyles';
+import { FormContainer, Form, TextInput, FormButton, ButtonContainer, ErrorMessage,SuccessMessage, FormButtonDisabled } from '../components/FormStyles';
 import { checkEmpty, fieldValidation } from '../hooks/Validation';
 
 const LoginPageContainer = styled.div`
@@ -33,7 +33,7 @@ const LoginPage: React.FC = () => {
 
     try {
       await login(usernameField.value, passwordField.value);
-
+      localStorage.setItem('openLoginSnack', "true");
       navigate('/');
     } catch (error) {
       setAuthError(true);
