@@ -50,7 +50,7 @@ class TrialFilterer:
         elif input_params.get("asthmaSeverity", "") == "severe":
             search_str.append("severe+asthma")
 
-        if input_params.get("WHOFunctionalClass", 0) > 2:
+        if input_params.get("WHOFunctionalClass", "0") in ["3", "4"]:
             search_str.append("severe+pulmonary+hypertension")
 
         if input_params.get("packYears", 0) >= 40:
@@ -70,6 +70,33 @@ class TrialFilterer:
         if input_params.get("nadirO2Saturation", 1) <= 0.9:
             search_str.append("low+oxygen+saturation")
 
+        if input_params.get("backgroundTherapy", "") in [
+            "dual therapy", "triple therapy", "mono therapy"]:
+            match input_params.get("backgroundTherapy", ""):
+                case "mono therapy":
+                    search_str.append("mono+therapy")
+                case "dual therapy":
+                    search_str.append("dual+therapy")
+                case "triple therapy":
+                    search_str.append("triple+therapy")
+
+        if input_params.get("maskType", "") in [
+            "nasal", "oronasal", "full face"]:
+            match input_params.get("backgroundTherapy", ""):
+                case "nasal":
+                    search_str.append("nasal+mask")
+                case "oronasal":
+                    search_str.append("oronasal+mask")
+                case "full face":
+                    search_str.append("full+face+mask")
+
+        if input_params.get("maskType", "") in [
+            "BiPAP-S", "BiPAP-ST"]:
+            if input_params.get("maskType", "") == "BiPAP-S":
+                search_str.append("BiPAP-S")
+            else:
+                search_str.append("BiPAP-ST")
+            
         # FEV healthy range calculation
         if input_params.get("FEV", -1) != -1:
             if input_params.get("sex", "").lower() == "male":
@@ -155,6 +182,10 @@ class TrialFilterer:
             > filtering_dict_special.get("BMI", [18.5, 25])[1]
         ):
             search_str.append("overweight")
+
+        if (input_params.get("coughSeverity", 0) > 0):
+            search_str.append("severe+cough+OR+VAS+40mm")
+
 
         if len(search_str) > 0:
             return "+OR+".join(search_str)

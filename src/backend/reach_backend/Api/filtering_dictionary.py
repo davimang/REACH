@@ -34,7 +34,7 @@ filtering_dict_boolean = {
     "usesCPAP": "CPAP",
     "usesBIPAP": "BIPAP",
     "onOralApplianceTherapy": "oral+appliance+therapy",
-    "onOralPositionalTherapy": "positional+therapy",
+    "onPositionalTherapy": "positional+therapy",
     "sleepApneaSurgery": "sleep+apnea+surgery",
     "OHSDiagnosis": "obesity+hypoventilation+syndrome+OR+OHS",
     "otherConditionDiagnosis": "sleep+condition",
@@ -47,7 +47,6 @@ filtering_dict_boolean = {
     "comorbidCongestiveHeartFailure": "congestive+heart+failure",
     "comorbidDepressionAnxiety": "depression+OR+anxiety",
     "daytimeSleepiness": "daytime+sleepiness+OR+drowsiness",
-    # new variables start here
     "PHGroup1": "pulmonary+arterial+hypertension",
     "PHGroup2": "left+heart+disease",
     "PHGroup3": "lung+disease",
@@ -71,6 +70,10 @@ filtering_dict_boolean = {
     "hasRBD": "REM+sleep+behavior+disorder+OR+RBD+OR+rapid+eye+movement+sleep+behavior+disorder",
     "hasNREM": "non+REM+OR+non+rapid+eye+movement",
     "hasRestlessLeg": "restless+leg+syndrome",
+    # new variables start here
+    "onAsthmaBiologic" : "biologic",
+    "dailyCough" : "daily+cough",
+    "triedInhalersEtc" : "tried+inhalers+OR+tried+nasal+sprays+OR+tried+anti+acid"
 }
 
 filtering_dict_special = {
@@ -88,8 +91,12 @@ filtering_dict_special = {
 # phGroup : int
 # apneadIndex : float
 # nadirO2Saturation : float (percentage)
-# WHOFunctionalClass : int [1,4]
+# WHOFunctionalClass : str "1", "2", "3", "4"
 # pulmonaryVascularResistance : float
-
-# New
 # underlyingCondition : list
+
+#new
+# coughSeverity : int
+# backgroundTherapy : "dual therapy", "triple therapy", "mono therapy"
+# maskType : "nasal", "oronasal", "full face"
+# perscribedBIPAP : "BiPAP-S", "BiPAP-ST"
