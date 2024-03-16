@@ -158,7 +158,7 @@ const MenuHeader: React.FC = () => {
                     <Link to='/faq'>
                         <div style={{ borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }}><HeaderButton>FAQs</HeaderButton></div>
                     </Link>
-                    <Link to='/search'>
+                    <Link to={isAuthenticated ? '/search' : '/login'}>
                         <div style={{ paddingLeft: 2, paddingRight: 2, backgroundColor: '#FFFFFF' }}><HeaderButton>Search</HeaderButton></div>
                     </Link>
                     <Link to='/contact'>

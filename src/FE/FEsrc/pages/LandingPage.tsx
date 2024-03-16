@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { StyledButton } from '../components/ButtonStyle';
 import CustomizedSnackbars from '../components/SnackBar';
+import { useAuth } from '../contexts/AuthContext';
 
 const LandingPageContainer = styled.div`
     display: inline-flex;
@@ -36,6 +37,7 @@ const LandingPage = () => {
     const [isLoginSnackBarOpen, setIsLoginSnackBarOpen] = useState(false);
     const [isProfileSnackBarOpen, setIsProfileSnackBarOpen] = useState(false);
     const [isFirstProfileSnackBarOpen, setIsFirstProfileSnackBarOpen] = useState(false);
+    const { isAuthenticated } = useAuth();
 
     const checkLoginSuccess = () => {
         if(localStorage.getItem('openLoginSnack')) {
@@ -61,7 +63,7 @@ const LandingPage = () => {
     const navigate = useNavigate();
 
     const navigateToSearch = () => {
-        navigate('/search');
+        isAuthenticated ? navigate('/search') : navigate('/login');
     };
 
     useEffect(() => {
