@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { API_URL } from '..';
+import { SuccessMessage } from '../components/FormStyles';
 import { conditions } from '../components/Constants';
 import { FormContainer, Form, FormLabel, TextInput, AutocompleteInput, ButtonContainer, FormButton, DropDownInput, AutocompleteTextField, FormButtonDisabled, ErrorMessage, FormTitle, FormDisclaimerText, FormDisclaimerTitle } from '../components/FormStyles';
 import { checkEmpty, fieldValidation } from '../hooks/Validation';
@@ -55,6 +56,7 @@ const ProfileCreationPage = (props) => {
     const genderField = fieldValidation(checkEmpty, props.defaultGender);
 
     const [error, setError] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     const errorMessage = 'Profile creation failed. Please try again.';
 
@@ -128,6 +130,7 @@ const ProfileCreationPage = (props) => {
             const data = await response.json();
 
             if (response.ok) {
+                setSuccess(true);
                 navigate(!props.editing ? '/' : '/listprofiles');
             }
             else {
@@ -298,6 +301,7 @@ const ProfileCreationPage = (props) => {
                         )}
 
                         {error && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                        {!error && success && <SuccessMessage>Profile created successfully!</SuccessMessage>}
 
                         <ButtonContainer>
                             {enableSubmit ?
