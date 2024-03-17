@@ -259,7 +259,7 @@ const MenuHeader: React.FC = () => {
                     {isSmallScreen ? (
                         <img
                             src={require('../images/MiniLogo.svg')}
-                            height={100}
+                            height={90}
                             style={{ paddingRight: 20, cursor: 'pointer' }}
                         />
                     ) : (
