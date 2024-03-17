@@ -79,6 +79,10 @@ const MenuContainer = styled.div`
     top: 45px;
     left: 50%;
     transform: translateX(-50%);
+    @media (max-width: 550px) {
+        position: inherit;
+        transform: translateX(0);
+    }
 `;
 
 const ListIcon = styled(ListAltIcon)`
@@ -144,10 +148,27 @@ const AccountCircle = styled.div`
     position: fixed;
     right: 10px;
     top: 45px;
+    @media (max-width: 480px) {
+        margin-left: 10px;
+        position: inherit;
+    }
 `;
 
 const DropdownLink = styled(Link)`
     text-decoration: none;
+`;
+
+const SignInContainer = styled.div`
+    position: fixed;
+    right: 10px;
+    top: 45px;
+    border-radius: 10px;
+    width: 125px;
+    padding-left: 20px;
+    margin-right: 10px;
+    @media (max-width: 550px) {
+        position: inherit;
+    }
 `;
 
 interface AccountDropdownProps {
@@ -166,7 +187,7 @@ const MenuHeader: React.FC = () => {
     const [isSmallScreen, setIsSmallScreen] = useState(false);
 
     const checkScreenSize = () => {
-        if (window.innerWidth <= 1024) {
+        if (window.innerWidth <= 1100) {
             setIsSmallScreen(true);
         } else {
             setIsSmallScreen(false);
@@ -308,7 +329,7 @@ const MenuHeader: React.FC = () => {
                 </div >
                 {!isAuthenticated ? (
                     <Link to='/login'>
-                        <div style={{ borderRadius: 10, width: 125, paddingLeft: 20, marginRight: 10 }}><HeaderButton>Sign In</HeaderButton></div>
+                        <SignInContainer><HeaderButton>Sign In</HeaderButton></SignInContainer>
                     </Link>
                 ) : (
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
