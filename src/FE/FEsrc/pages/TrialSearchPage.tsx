@@ -43,6 +43,7 @@ const TrialsListContainer = styled.div`
     height: calc(95vh - 235px);
     overflow-y: auto;
     max-width: 750px;
+    overflow-x: hidden;
     @media (max-width: 1024px) {
         max-height: 40vh;
     }
@@ -50,7 +51,6 @@ const TrialsListContainer = styled.div`
 
 const MapContainer = styled.div`
     padding: 10px;
-    width: 750px;
 `;
 
 const Loading = styled.div`
@@ -360,7 +360,7 @@ const TrialSearchPage = () => {
 
     useEffect(() => {
         setAuthToken(localStorage.getItem('accessToken'));
-        if (!isAuthenticated) {
+        if (localStorage.getItem('accessToken') == null) {
             navigate('/login');
         }
     }, [localStorage.getItem('accessToken')]);
