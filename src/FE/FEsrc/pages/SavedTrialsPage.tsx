@@ -228,7 +228,7 @@ const SaveTrialsPage = () => {
     const displayTrials = () => {
         return (
             loading ? <div>Loading... </div> : trials &&
-                Object.values(trials).map((trial) => (
+                Object.values(trials).map((trial, index)  => (
                     <SavedTrialCard
                         trial={trial}
                         handleDelete={handleDelete}
@@ -237,6 +237,7 @@ const SaveTrialsPage = () => {
                         handleModal={handleModal}
                         isSelected={isSelected}
                         setIsSelected={setIsSelected}
+                        trialNumber={index+1}
                     />
                 ))
 

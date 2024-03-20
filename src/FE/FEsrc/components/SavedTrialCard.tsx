@@ -9,9 +9,10 @@ interface SavedTrialProps {
     handleModal: () => void;
     isSelected: Object;
     setIsSelected: (isSelected: Object) => void;
+    trialNumber: number;
 }
 
-const SavedTrialCard: React.FC<SavedTrialProps> = ({ trial, handleDelete, setCurrentLocation, setModalDetails, handleModal, isSelected, setIsSelected }) => {
+const SavedTrialCard: React.FC<SavedTrialProps> = ({ trial, handleDelete, setCurrentLocation, setModalDetails, handleModal, isSelected, setIsSelected, trialNumber }) => {
     return (
         <TrialContainer key={trial.id} style={{backgroundColor: isSelected[trial.nctid] ? '#021691': '#38569A'}}>
             <TrialDescription>
@@ -22,7 +23,7 @@ const SavedTrialCard: React.FC<SavedTrialProps> = ({ trial, handleDelete, setCur
                     }
                     }
                 >
-                    {trial.title}
+                    {trialNumber + '. ' + trial.title}
                 </TrialTitle>
                 <p><u style={{ color: 'white' }}><a onClick={() => {
                     handleModal();
