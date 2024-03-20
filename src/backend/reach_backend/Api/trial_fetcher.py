@@ -5,7 +5,7 @@ import json
 import requests
 import pandas as pd
 from geopy.geocoders import Nominatim
-from .trial_filterer import TrialFilterer
+from trial_filterer import TrialFilterer
 
 locator = Nominatim(user_agent="my_request")
 
@@ -91,20 +91,22 @@ class TrialFetcher:
                 buffer = io.StringIO(content)
                 temp = pd.read_json(buffer)
             except ValueError:  # if data can't be read
-                break
-
-            if not next_page:
+                print("Value Error")
                 break
 
             # remove any invalid trials
             # temp = TrialFilterer.filter_trials(temp, input_params)
-
             temp = TrialFilterer.post_filter(temp, input_params, home_geo)
 
             if temp.shape[0] > 0:  # if not empty, add to accepted trials
                 studies = pd.concat([studies, temp], ignore_index=True)
 
             studies.drop_duplicates(subset=["NCTId"], inplace=True)
+
+            if not next_page:
+                break
+
+            
 
         if studies.shape[0] == 0:
             return pd.DataFrame(

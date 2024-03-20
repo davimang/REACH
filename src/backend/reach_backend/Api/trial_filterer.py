@@ -5,7 +5,7 @@ import regex as re
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 from geopy.location import Location
-from .filtering_dictionary import (
+from filtering_dictionary import (
     filtering_dict_num,
     filtering_dict_boolean,
     filtering_dict_special,
@@ -182,7 +182,7 @@ class TrialFilterer:
         ):
             search_str.append("overweight")
 
-        if input_params.get("coughSeverity", 0) > 4:
+        if input_params.get("coughSeverity") is not None and input_params.get("coughSeverity", 0) > 4:
             search_str.append("severe+cough+OR+VAS+40mm")
 
 
