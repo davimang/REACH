@@ -16,4 +16,4 @@ input_params = {
     },
 }
 
-#print(TrialFetcher.search_studies(input_params))
+print(TrialFetcher.search_studies(input_params))

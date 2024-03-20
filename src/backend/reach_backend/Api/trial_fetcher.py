@@ -34,6 +34,11 @@ class TrialFetcher:
         conditions = input_params["conditions"]
         conditions = [c.replace(" ", "+") for c in conditions]
 
+        #remove any None type entries
+        remove_none = {k: v for k, v in input_params.items() if v is not None}
+        input_params.clear()
+        input_params.update(remove_none)
+
         # concatenate conditions
         condition_search = conditions[0]
         if len(conditions) > 1:
