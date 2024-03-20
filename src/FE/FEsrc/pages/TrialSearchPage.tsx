@@ -236,7 +236,6 @@ const TrialSearchPage = () => {
                 else {
                     var newTrials = { ...responseTrials };
                     for (const key in formattedData) {
-                        console.log(typeof (key));
                         newTrials[Number(key) + currentTrialCount] = formattedData[key];
                     }
                     setResponseTrials(newTrials);
@@ -250,7 +249,6 @@ const TrialSearchPage = () => {
         }
         else {
             try {
-                console.log("FETCHING THIS WAY")
                 setLoading(true);
                 const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userID}&max_distance=${maxDistance}`;
                 const requestOptions = {
