@@ -17,10 +17,11 @@ const StyledMap = styled.iframe`
 interface MapProps {
     latitude: number;
     longitude: number;
+    address: string;
 }
 
 const Map = memo((props: MapProps) => {
-    const currLocation = `https://www.google.com/maps/embed/v1/place?q=${props.latitude},${props.longitude}&key=AIzaSyDSRIniLCNxD-WprGLaZjQuCLgOnj2K3D4`
+    const currLocation = `https://www.google.com/maps/embed/v1/place?q=${props.address}&key=AIzaSyDSRIniLCNxD-WprGLaZjQuCLgOnj2K3D4`
     return (
         <StyledMap
             src={currLocation}

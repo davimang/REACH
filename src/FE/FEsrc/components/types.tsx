@@ -56,7 +56,10 @@ export interface TrialInfo {
     PointOfContactEMail: string;
     CentralContactEMail: string;
     ResponsiblePartyInvestigatorFullName: string;
-    FullAddress: string;
+    LocationFacility: string;
+    LocationZip: string;
+    LocationCity: string;
+    LocationState: string;
     nextPage: string;
     saved: boolean;
     savedId: number;
