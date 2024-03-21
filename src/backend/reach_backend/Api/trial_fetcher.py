@@ -10,8 +10,9 @@ from .trial_filterer import TrialFilterer
 locator = Nominatim(user_agent="my_request")
 
 API_URL2 = (
-    r"https://clinicaltrials.gov/api/v2/studies?format=json&countTotal=true&filter.overallStatus=RECRUITING&"
-    r"fields=NCTId,Condition,BriefTitle,DetailedDescription,BriefSummary,"
+    r"https://clinicaltrials.gov/api/v2/studies?format=json&countTotal=true"
+    r"&filter.overallStatus=RECRUITING&fields=NCTId,Condition,"
+    r"BriefTitle,DetailedDescription,BriefSummary,"
     r"MinimumAge,MaximumAge,LocationGeoPoint,LocationCountry,LocationState,"
     r"LocationCity,LocationZip,LocationFacility,OverallStatus,Gender,Keyword,"
     r"PointOfContactEMail,CentralContactEMail,ResponsiblePartyInvestigatorFullName,"
@@ -77,9 +78,12 @@ class TrialFetcher:
         # start one rank up from the last rank returned by a previous call
         studies = pd.DataFrame()
 
+        print(search_template)
+
         # keep pulling trials until you hit 5 or
         next_page = input_params.get("next_page")
         while studies.shape[0] < 30:
+            temp = pd.DataFrame()
             search_url = (
                 search_template + f"&pageToken={next_page}"
                 if next_page
@@ -110,7 +114,6 @@ class TrialFetcher:
 
             if not next_page:
                 break
-     
 
         if studies.shape[0] == 0:
             return pd.DataFrame(
@@ -252,11 +255,11 @@ def build_study_dict(response):
             "DetailedDescription": description,
             "MinimumAge": min_age,
             "MaximumAge": max_age,
-            "LocationCountry": countries[0] if len(countries) > 0 else None,
-            "LocationState": states[0] if len(states) > 0 else None,
-            "LocationCity": cities[0] if len(cities) > 0 else None,
-            "LocationZip": zips[0] if len(zips) > 0 else None,
-            "LocationFacility": facilities[0] if len(facilities) > 0 else None,
+            "LocationCountry": countries[0] if len(countries) > 0 else "",
+            "LocationState": states[0] if len(states) > 0 else "",
+            "LocationCity": cities[0] if len(cities) > 0 else "",
+            "LocationZip": zips[0] if len(zips) > 0 else "",
+            "LocationFacility": facilities[0] if len(facilities) > 0 else "",
             "LocationLatitude": float(lats[0]) if len(lats) > 0 else -1,
             "LocationLongitude": float(longs[0]) if len(longs) > 0 else -1,
             "OverallStatus": "Recruiting",

@@ -225,27 +225,32 @@ class TrialFilterer:
         for i in studies.index:
             studies.at[i, "FullAddress"] = (
                 studies.at[i, "LocationFacility"] + ", "
-                if not pd.isnull(studies.at[i, "LocationFacility"])
+                if (not pd.isnull(studies.at[i, "LocationFacility"]) and
+                    studies.at[i, "LocationFacility"] != "")
                 else studies.at[i, "FullAddress"]
             )
             studies.at[i, "FullAddress"] = (
                 studies.at[i, "FullAddress"] + studies.at[i, "LocationCity"]
-                if not pd.isnull(studies.at[i, "LocationCity"])
+                if (not pd.isnull(studies.at[i, "LocationCity"]) and
+                    studies.at[i, "LocationCity"] != "")
                 else studies.at[i, "FullAddress"]
             )
             studies.at[i, "FullAddress"] = (
                 studies.at[i, "FullAddress"] + ", " + studies.at[i, "LocationState"]
-                if not pd.isnull(studies.at[i, "LocationState"])
+                if (not pd.isnull(studies.at[i, "LocationState"]) and
+                    studies.at[i, "LocationState"] != "")
                 else studies.at[i, "FullAddress"]
             )
             studies.at[i, "FullAddress"] = (
                 studies.at[i, "FullAddress"] + " " + str(studies.at[i, "LocationZip"])
-                if not pd.isnull(studies.at[i, "LocationZip"])
+                if (not pd.isnull(studies.at[i, "LocationZip"]) and
+                    studies.at[i, "LocationZip"] != "")
                 else studies.at[i, "FullAddress"]
             )
             studies.at[i, "FullAddress"] = (
                 studies.at[i, "FullAddress"] + ", " + studies.at[i, "LocationCountry"]
-                if not pd.isnull(studies.at[i, "LocationCountry"])
+                if (not pd.isnull(studies.at[i, "LocationCountry"]) and
+                    studies.at[i, "LocationCountry"] != "")
                 else studies.at[i, "FullAddress"]
             )
             studies.at[i, "FullAddress"] = studies.at[i, "FullAddress"].replace(" & ", " and ")
