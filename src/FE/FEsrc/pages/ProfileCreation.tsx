@@ -103,7 +103,7 @@ const ProfileCreationPage = (props) => {
     const recursiveConditionFields = (conditionFields: any, keys: string[], margin: number) => {
         return (
             conditionFields.map((field: FieldInfo, index) => {
-                const displayCondition = ((isClinician == "true") == field.clinician);
+                const displayCondition = field.clinician == "both" || ((isClinician == "true") == field.clinician);
                 const recursionCondition = advancedInfo[keys[index]] == true || keys[index]?.includes("SUBHEADER");
                 return displayCondition && (
                     <React.Fragment key={keys[index]}>
@@ -136,7 +136,7 @@ const ProfileCreationPage = (props) => {
     const updateAdvancedInfoOnConditionSelection = (conditionFields: any, keys: string[], prev: {}[]) => {
         return (
             conditionFields.map((fieldVariable: FieldInfo, index) => {
-                if (!(isClinician == "false" && fieldVariable.clinician)) {
+                if (fieldVariable.clinician == "both" || ((isClinician == "true") == fieldVariable.clinician)) {
                     const tempCond = { [keys[index]]: fieldVariable.initial };
                     prev.push(tempCond);
                 }

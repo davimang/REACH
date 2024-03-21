@@ -7,7 +7,7 @@ export interface FieldInfo {
     initial: any;
     inputType: string | null;
     dropdownOptions: string[] | number[] | null;
-    clinician: boolean;
+    clinician: boolean | string;
     i: string | null;
     children: {[key: string]: FieldInfo} | null;
 }

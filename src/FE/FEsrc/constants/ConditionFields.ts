@@ -30,13 +30,13 @@ const asthma = {
         label: "Current or Ex-Smoker",
         initial: false,
         inputType: 'checkbox',
-        clinician: false,
+        clinician: "both",
         children: {
             packYears: {
                 label: "Pack-Years",
                 initial: 0,
                 inputType: 'number',
-                clinician: false,
+                clinician: "both",
                 i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
             },
         }
@@ -126,13 +126,13 @@ const copd = {
         label: "Current or Ex-Smoker",
         initial: false,
         inputType: 'checkbox',
-        clinician: false,
+        clinician: "both",
         children: {
             packYears: {
                 label: "Pack-Years",
                 initial: 0,
                 inputType: 'number',
-                clinician: false,
+                clinician: "both",
                 i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
             },
         }
@@ -197,38 +197,38 @@ const ild = {
         label: "Diagnosis of Idiopathic Pulmonary Fibrosis",
         initial: false,
         inputType: 'checkbox',
-        clinician: false,
+        clinician: "both",
     },
     autoimmuneDiagnosis: {
         label: "Diagnosis of Autoimmune Disease",
         initial: false,
         inputType: 'checkbox',
-        clinician: false,
+        clinician: "both",
         i: "e.g. rheumatoid arthritis, scleroderma, inflammatory myositis",
     },
     onAntifibroticTherapy: {
         label: "On Antifibrotic Therapy (Nintedanib or Pirfenidone)",
         initial: false,
         inputType: 'checkbox',
-        clinician: false,
+        clinician: "both",
     },
     onOxygen: {
         label: "On Oxygen",
         initial: false,
         inputType: 'checkbox',
-        clinician: false,
+        clinician: "both",
     },
     isSmoker: {
         label: "Current or Ex-Smoker",
         initial: false,
         inputType: 'checkbox',
-        clinician: false,
+        clinician: "both",
         children: {
             packYears: {
                 label: "Pack-Years",
                 initial: 0,
                 inputType: 'number',
-                clinician: false,
+                clinician: "both",
                 i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
             },
         }
@@ -335,13 +335,13 @@ const chronicCough = {
         label: "Current or Ex-Smoker",
         initial: false,
         inputType: 'checkbox',
-        clinician: false,
+        clinician: true,
         children: {
             packYears: {
                 label: "Pack-Years",
                 initial: 0,
                 inputType: 'number',
-                clinician: false,
+                clinician: true,
                 i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
             },
         }
@@ -478,19 +478,19 @@ const primarySleepDisorderChildren = {
         label: "Pre-Treatment Excessive Daytime Sleepiness (Epworth sleepiness scale \u2265 10/24)",
         initial: false,
         inputType: 'checkbox',
-        clinician: false,
+        clinician: true,
     },
     usesCPAP: {
         label: "Prescribed CPAP",
         initial: false,
         inputType: 'checkbox',
-        clinician: false,
+        clinician: true,
         children: {
             adherentToCPAP: {
                 label: "Adherent to CPAP (\u22654 hours/night for \u226570% of the time per 30 days)",
                 initial: false,
                 inputType: 'checkbox',
-                clinician: false,
+                clinician: true,
             }
         },
     },
@@ -505,7 +505,7 @@ const primarySleepDisorderChildren = {
                 initial: "",
                 inputType: 'dropdown',
                 dropdownOptions: ["BiPAP-S", "BiPAP-ST"],
-                clinician: false,
+                clinician: true,
             }
         },
     },
