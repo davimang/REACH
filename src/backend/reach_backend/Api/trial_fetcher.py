@@ -99,7 +99,7 @@ class TrialFetcher:
                 break
 
             # remove any invalid trials
-            if len(temp) > 0:
+            if temp.shape[0] > 0:
                 temp = TrialFilterer.filter_trials(temp, input_params)
                 temp = TrialFilterer.post_filter(temp, input_params, home_geo)
 
@@ -154,7 +154,6 @@ class TrialFetcher:
                 "Distance",
                 "LocationCity",
                 "LocationState",
-                "LocationZip",
                 "LocationFacility",
                 "OverallOfficialName",
                 "LocationContactName",
