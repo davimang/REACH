@@ -111,7 +111,7 @@ const DropdownText = styled.p`
 `;
 
 const AccountDropdown = styled.ul<AccountDropdownProps>`
-    position: absolute;
+    position: fixed;
     padding: 0;
     top: 80px;
     right: 40px;
