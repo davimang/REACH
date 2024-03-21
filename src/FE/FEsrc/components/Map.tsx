@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 const StyledMap = styled.iframe`
     width: calc(100vw - 657px);
     min-width: 600px;
-    height: calc(95vh - 235px);
+    height: calc(95vh - 295px);
     border: 0;
     allowfullscreen;
     loading: lazy;

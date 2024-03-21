@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { API_URL } from '..';
 import { PatientInfo, SavedTrial } from '../components/types';
@@ -7,6 +8,7 @@ import { DropDownInput } from '../components/FormStyles';
 import Map from '../components/Map';
 import TrialModal from '../components/TrialModal';
 import useDidMountEffect from '../components/useDidMountEffect';
+import { StyledButton } from '../components/ButtonStyle';
 
 const TrialsListContainer = styled.div`
     padding: 10px;
@@ -32,8 +34,14 @@ const TrialSearchHeader = styled.div`
 
 const StyledDropDown = styled(DropDownInput)`
     margin: 10px;
-    width: 400px;
+    width: 300px;
     height: 55px;
+`;
+
+const SizedButton = styled(StyledButton)`
+    height: 55px;
+    margin: 10px;
+    padding: 5px 15px;
 `;
 
 const EmptyResponse = styled.div`
@@ -66,6 +74,7 @@ const PageContainer = styled.div`
 
 const SaveTrialsPage = () => {
 
+    const navigate = useNavigate();
     const userId = localStorage.getItem('userId');
     const [trials, setTrials] = useState<SavedTrial[]>([]);
     const [loading, setLoading] = useState(false);
@@ -208,6 +217,10 @@ const SaveTrialsPage = () => {
         setUpdateDefault(false);
     }
 
+    const navigateToProfiles = () => {
+        navigate('/listprofiles');
+    };
+
     useEffect(() => {
         setAuthToken(localStorage.getItem('accessToken'));
     }, [localStorage.getItem('accessToken')]);
@@ -225,10 +238,10 @@ const SaveTrialsPage = () => {
     }, [trials]);
 
     useDidMountEffect(() => {
-        if(trials.length == 0) {
+        if (trials.length == 0) {
             setNoTrialsFound(true);
         }
-        else{
+        else {
             setNoTrialsFound(false);
         }
     }, [trials]);
@@ -240,7 +253,7 @@ const SaveTrialsPage = () => {
     const displayTrials = () => {
         return (
             loading ? <div>Loading... </div> : trials &&
-                Object.values(trials).map((trial, index)  => (
+                Object.values(trials).map((trial, index) => (
                     <SavedTrialCard
                         trial={trial}
                         handleDelete={handleDelete}
@@ -249,7 +262,7 @@ const SaveTrialsPage = () => {
                         handleModal={handleModal}
                         isSelected={isSelected}
                         setIsSelected={setIsSelected}
-                        trialNumber={index+1}
+                        trialNumber={index + 1}
                     />
                 ))
 
@@ -272,14 +285,15 @@ const SaveTrialsPage = () => {
                         ))
                     }
                 </StyledDropDown>
+                <SizedButton type='button' onClick={navigateToProfiles}>Profiles</SizedButton>
             </TrialSearchHeader>
 
-            {noTrialsFound ? <EmptyResponse>No Trials Found!</EmptyResponse> : <ResultContainer>
+            {noTrialsFound ? <EmptyResponse>No Studies Found!</EmptyResponse> : <ResultContainer>
                 <TrialsListContainer>
                     {displayTrials()}
                 </TrialsListContainer>
                 <MapContainer>
-                    {(trials.length>0 && !loading) && <Map address={currentLocation["address"]}/>}
+                    {(trials.length > 0 && !loading) && <Map address={currentLocation["address"]} />}
                 </MapContainer>
             </ResultContainer>}
 
