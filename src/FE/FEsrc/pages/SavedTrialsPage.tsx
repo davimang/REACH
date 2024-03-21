@@ -6,6 +6,7 @@ import SavedTrialCard from '../components/SavedTrialCard';
 import { DropDownInput } from '../components/FormStyles';
 import Map from '../components/Map';
 import TrialModal from '../components/TrialModal';
+import useDidMountEffect from '../components/useDidMountEffect';
 
 const TrialsListContainer = styled.div`
     padding: 10px;
@@ -74,6 +75,7 @@ const SaveTrialsPage = () => {
     const [open, setOpen] = useState(false)
     const [isSelected, setIsSelected] = useState({});
     const [updateDefault, setUpdateDefault] = useState(true);
+    const [noTrialsFound, setNoTrialsFound] = useState(false);
     const [modalDetails, setModalDetails] = useState({
         title: "",
         description: "",
@@ -116,6 +118,7 @@ const SaveTrialsPage = () => {
     }
 
     const fetchSavedTrials = () => {
+        setLoading(true);
         if (!selectedProfileId || selectedProfileId == "all") {
             try {
                 const endpoint = `/trials/?user=${userId}`;
@@ -221,6 +224,15 @@ const SaveTrialsPage = () => {
         }
     }, [trials]);
 
+    useDidMountEffect(() => {
+        if(trials.length == 0) {
+            setNoTrialsFound(true);
+        }
+        else{
+            setNoTrialsFound(false);
+        }
+    }, [trials]);
+
     useEffect(() => {
         fetchSavedTrials();
     }, [selectedProfileId])
@@ -262,12 +274,12 @@ const SaveTrialsPage = () => {
                 </StyledDropDown>
             </TrialSearchHeader>
 
-            {(trials.length == 0 && !loading) ? <EmptyResponse>No Trials Found!</EmptyResponse> : <ResultContainer>
+            {noTrialsFound ? <EmptyResponse>No Trials Found!</EmptyResponse> : <ResultContainer>
                 <TrialsListContainer>
                     {displayTrials()}
                 </TrialsListContainer>
                 <MapContainer>
-                    {(trials && !loading) && <Map address={currentLocation["address"]}/>}
+                    {(trials.length>0 && !loading) && <Map address={currentLocation["address"]}/>}
                 </MapContainer>
             </ResultContainer>}
 
