@@ -121,6 +121,7 @@ const copd = {
         initial: false,
         inputType: 'checkbox',
         clinician: false,
+        i: "e.g. Azithromycin, N-acetylcysteine [NAC], Roflumilast"
     },
     isSmoker: {
         label: "Current or Ex-Smoker",
