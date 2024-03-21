@@ -40,22 +40,22 @@ const LandingPage = () => {
     const { isAuthenticated } = useAuth();
 
     const checkLoginSuccess = () => {
-        if(localStorage.getItem('openLoginSnack')) {
+        if (localStorage.getItem('openLoginSnack')) {
             setIsLoginSnackBarOpen(true);
             localStorage.removeItem('openLoginSnack');
         }
     }
 
     const checkProfileSuccess = () => {
-        if(localStorage.getItem('openProfileSnack')) {
-            if(localStorage.getItem('firstProfileCreated')){
+        if (localStorage.getItem('openProfileSnack')) {
+            if (localStorage.getItem('firstProfileCreated')) {
                 setIsFirstProfileSnackBarOpen(true);
                 localStorage.removeItem('firstProfileCreated');
             }
-            else{
+            else {
                 setIsProfileSnackBarOpen(true);
             }
-        
+
             localStorage.removeItem('openProfileSnack');
         }
     }
@@ -89,16 +89,13 @@ const LandingPage = () => {
                 snackText={"Profile Created Successfully! You can now visit the reach portal and begin searching for trials."}
             />
             <LandingPageText>
-                <p>Looking for opportunities to participate in a clinical trial or research study? REACH can match
-                    you to relevant clinical trials based on some basic information about you.</p>
+                <p>Looking for opportunities to participate in a clinical trial or research study? REACH can find
+                    you relevant studies based on some basic information about you.</p>
                 <p>REACH can be used by both patients and clinicians.</p>
-                <p>Note: Currently many values are placeholders. As this is a low-fidelity prototype we are mainly
-                    mocking the UI as well as the primary functionality of the application.</p>
-                <p>If you are new to REACH, click on one of the buttons to get started.</p>
+                <p>If you are new to REACH, click on the REACH Portal button.</p>
             </LandingPageText>
             <PortalButtonsContainer>
                 <PortalButtons type='button' onClick={navigateToSearch}>REACH Portal</PortalButtons>
-                <PortalButtons style={{ visibility: 'hidden' }}>Clinician Portal</PortalButtons>
             </PortalButtonsContainer>
         </LandingPageContainer >
     );
