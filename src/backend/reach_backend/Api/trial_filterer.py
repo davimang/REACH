@@ -97,7 +97,7 @@ class TrialFilterer:
             else:
                 search_str.append("BiPAP-ST")
         # FEV healthy range calculation
-        if input_params.get("FEV", -1) != -1:
+        if input_params.get("FEV", -1) > 0:
             if input_params.get("sex", "").lower() == "male":
                 if (
                     input_params.get("FEV", -1)
@@ -121,7 +121,7 @@ class TrialFilterer:
                 ):
                     search_str.append("high+FEV1")
 
-        if input_params.get("FEVPercent", -1) != -1:
+        if input_params.get("FEVPercent", -1) > 0:
             if (
                 input_params.get("FEVPercent", 1)
                 < filtering_dict_special.get("FEVPercent")[0]
@@ -133,7 +133,7 @@ class TrialFilterer:
             ):
                 search_str.append("high+FEV+ration+OR+high+FEV1+FVC+ratio")
 
-        if input_params.get("FVC", -1) != -1:
+        if input_params.get("FVC", -1) > 0:
             if input_params.get("sex", "").lower() == "male":
                 if (
                     input_params.get("FVC", -1)
@@ -163,6 +163,7 @@ class TrialFilterer:
         if (
             input_params.get("bloodEosinophil", 300)
             < filtering_dict_special.get("bloodEosinophil", [30, 350])[0]
+            and input_params.get("bloodEosinophil", 300) > 0
         ):
             search_str.append("low+blood+eosinophil+count")
         elif (
@@ -173,7 +174,8 @@ class TrialFilterer:
 
         if (
             input_params.get("BMI", 20)
-            < filtering_dict_special.get("BMI", [18.5, 25])[0]
+            < filtering_dict_special.get("BMI", [18.5, 25])[0] and
+            input_params.get("BMI", 20) > 0
         ):
             search_str.append("underweight")
         elif (

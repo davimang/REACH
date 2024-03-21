@@ -3,9 +3,8 @@
 from .trial_fetcher import TrialFetcher
 
 input_params = {
-    "conditions": ["chronic cough"],
-    "maxRank": 0,
-    "age": 40,
+    "conditions": ["asthma"],
+    "age": 64,
     "sex": "Male",
     "max_distance": 250,
     "address": {
@@ -14,6 +13,20 @@ input_params = {
         "province": "Ontario",
         "postalCode": "L8S 4L8",
     },
+    "numFlares": 0,
+    "numHospitalVisits": 0,
+    "usesDailyInhaler": False,
+    "usesInjection": False,
+    "isSmoker": False,
+    "packYears": 0,
+    "FEV": 0,
+    "FEVPercent": 0,
+    "asthmaSeverity": "Mild",
+    "onAsthmaBiologic": False,
+    "isEosinophilic": False,
+    "bloodEosinophil": 0,
+    "numExacerbations": 0,
+    "numSevereExacerbations": 0
 }
 
-print(TrialFetcher.search_studies(input_params))
+print(len(TrialFetcher.search_studies(input_params)))

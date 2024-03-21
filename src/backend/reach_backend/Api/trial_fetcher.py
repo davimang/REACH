@@ -18,7 +18,7 @@ API_URL2 = (
     r"OverallOfficialName,LocationContactName&"
 )
 
-TIMEOUT_SEC = 5
+TIMEOUT_SEC = 10
 
 
 class TrialFetcher:
@@ -75,7 +75,6 @@ class TrialFetcher:
             search_template = search_template + "&query.term=" + keywords
 
         # start one rank up from the last rank returned by a previous call
-
         studies = pd.DataFrame()
 
         # keep pulling trials until you hit 5 or
@@ -90,7 +89,7 @@ class TrialFetcher:
             response = requests.get(search_url, timeout=TIMEOUT_SEC)
 
             json_response = response.json()
-            next_page = json_response.get("nextPageToken", "")
+            next_page = json_response.get("nextPageToken")
             content = build_study_dict(json_response)
             try:  # break if the timeout is reached (or the api returns unreadable data)
                 buffer = io.StringIO(content)
@@ -100,8 +99,9 @@ class TrialFetcher:
                 break
 
             # remove any invalid trials
-            temp = TrialFilterer.filter_trials(temp, input_params)
-            temp = TrialFilterer.post_filter(temp, input_params, home_geo)
+            if temp.shape[0] > 0:
+                temp = TrialFilterer.filter_trials(temp, input_params)
+                temp = TrialFilterer.post_filter(temp, input_params, home_geo)
 
             if temp.shape[0] > 0:  # if not empty, add to accepted trials
                 studies = pd.concat([studies, temp], ignore_index=True)
