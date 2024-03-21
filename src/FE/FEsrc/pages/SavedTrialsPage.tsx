@@ -7,6 +7,7 @@ import SavedTrialCard from '../components/SavedTrialCard';
 import { DropDownInput } from '../components/FormStyles';
 import Map from '../components/Map';
 import TrialModal from '../components/TrialModal';
+import useDidMountEffect from '../components/useDidMountEffect';
 import { StyledButton } from '../components/ButtonStyle';
 
 const TrialsListContainer = styled.div`
@@ -83,6 +84,7 @@ const SaveTrialsPage = () => {
     const [open, setOpen] = useState(false)
     const [isSelected, setIsSelected] = useState({});
     const [updateDefault, setUpdateDefault] = useState(true);
+    const [noTrialsFound, setNoTrialsFound] = useState(false);
     const [modalDetails, setModalDetails] = useState({
         title: "",
         description: "",
@@ -125,6 +127,7 @@ const SaveTrialsPage = () => {
     }
 
     const fetchSavedTrials = () => {
+        setLoading(true);
         if (!selectedProfileId || selectedProfileId == "all") {
             try {
                 const endpoint = `/trials/?user=${userId}`;
@@ -207,7 +210,7 @@ const SaveTrialsPage = () => {
         if (trials) {
             const defaultTrial = trials[0];
             if (defaultTrial) {
-                setCurrentLocation({ latitude: defaultTrial.location["latitude"], longitude: defaultTrial.location["longitude"] });
+                setCurrentLocation({ address: defaultTrial.location["address"] });
                 setIsSelected({ [defaultTrial.nctid]: true });
             }
         }
@@ -234,6 +237,15 @@ const SaveTrialsPage = () => {
         }
     }, [trials]);
 
+    useDidMountEffect(() => {
+        if (trials.length == 0) {
+            setNoTrialsFound(true);
+        }
+        else {
+            setNoTrialsFound(false);
+        }
+    }, [trials]);
+
     useEffect(() => {
         fetchSavedTrials();
     }, [selectedProfileId])
@@ -241,7 +253,7 @@ const SaveTrialsPage = () => {
     const displayTrials = () => {
         return (
             loading ? <div>Loading... </div> : trials &&
-                Object.values(trials).map((trial) => (
+                Object.values(trials).map((trial, index) => (
                     <SavedTrialCard
                         trial={trial}
                         handleDelete={handleDelete}
@@ -250,6 +262,7 @@ const SaveTrialsPage = () => {
                         handleModal={handleModal}
                         isSelected={isSelected}
                         setIsSelected={setIsSelected}
+                        trialNumber={index + 1}
                     />
                 ))
 
@@ -275,12 +288,12 @@ const SaveTrialsPage = () => {
                 <SizedButton type='button' onClick={navigateToProfiles}>Profiles</SizedButton>
             </TrialSearchHeader>
 
-            {(trials.length == 0 && !loading) ? <EmptyResponse>No Studies Found!</EmptyResponse> : <ResultContainer>
+            {noTrialsFound ? <EmptyResponse>No Studies Found!</EmptyResponse> : <ResultContainer>
                 <TrialsListContainer>
                     {displayTrials()}
                 </TrialsListContainer>
                 <MapContainer>
-                    {(trials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]} />}
+                    {(trials.length > 0 && !loading) && <Map address={currentLocation["address"]} />}
                 </MapContainer>
             </ResultContainer>}
 

@@ -14,6 +14,17 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { ErrorMessage } from '../components/FormStyles';
 import { useAuth } from '../contexts/AuthContext';
 
+const EmptyResponse = styled.div`
+    position: fixed;
+    left: 45%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    font-size: 30px;
+    color: white;
+`;
+
 const TrialSearchHeader = styled.div`
     background-color: #213E80;
     min-width: 100%;
@@ -105,6 +116,7 @@ const TrialSearchPage = () => {
     const [currentTrialPointer, setCurrentTrialPointer] = useState(0);
     const [pageToken, setPageToken] = useState('');
     const [isSelected, setIsSelected] = useState({});
+    const [noTrialsFound, setNoTrialsFound] = useState(false);
     const [open, setOpen] = useState(false);
     const [modalDetails, setModalDetails] = useState({
         title: "",
@@ -135,8 +147,7 @@ const TrialSearchPage = () => {
                     description: trial.DetailedDescription ? trial.DetailedDescription : "N/A",
                     url: trial.url,
                     location: {
-                        latitude: trial.LocationLatitude,
-                        longitude: trial.LocationLongitude
+                        address: trial.FullAddress
                     },
                     status: "Recruiting",
                     distance: trial.Distance,
@@ -232,7 +243,6 @@ const TrialSearchPage = () => {
                 else {
                     var newTrials = { ...responseTrials };
                     for (const key in formattedData) {
-                        console.log(typeof (key));
                         newTrials[Number(key) + currentTrialCount] = formattedData[key];
                     }
                     setResponseTrials(newTrials);
@@ -246,7 +256,6 @@ const TrialSearchPage = () => {
         }
         else {
             try {
-                console.log("FETCHING THIS WAY")
                 setLoading(true);
                 const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userID}&max_distance=${maxDistance}`;
                 const requestOptions = {
@@ -264,6 +273,9 @@ const TrialSearchPage = () => {
                 console.error('Error fetching trials:', error.message);
             } finally {
                 setLoading(false);
+                if (!responseTrials) {
+                    setNoTrialsFound(true);
+                }
             }
         }
 
@@ -303,7 +315,7 @@ const TrialSearchPage = () => {
     const updateDefaultTrial = () => {
         if (responseTrials) {
             const defaultTrial = responseTrials[0];
-            setCurrentLocation({ latitude: defaultTrial.LocationLatitude, longitude: defaultTrial.LocationLongitude });
+            setCurrentLocation({ address: defaultTrial.FullAddress });
             setIsSelected({ [defaultTrial.NCTId]: true });
         }
     }
@@ -415,6 +427,7 @@ const TrialSearchPage = () => {
                         resetPageToken();
                         resetPageDetails();
                         setProfileError(false);
+                        setNoTrialsFound(false);
                     }
                     }
                 >
@@ -434,6 +447,7 @@ const TrialSearchPage = () => {
                         setResponseTrials(null);
                         resetPageToken();
                         resetPageDetails();
+                        setNoTrialsFound(false);
                     }
                     }
                 >
@@ -451,6 +465,7 @@ const TrialSearchPage = () => {
                     resetPageToken();
                     resetPageDetails();
                     fetchTrials(false);
+                    setNoTrialsFound(false);
                 }}>Search</SizedButton>
             </TrialSearchHeader>
 
@@ -461,9 +476,10 @@ const TrialSearchPage = () => {
                         {responseTrials && !loading && (hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton onClick={e => { nextPage(e); }}>More Studies</StyledButton>}
                         {responseTrials && !loading && !(hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton style={{ backgroundColor: '#A5A5A5', cursor: 'default' }} disabled>Sorry, No More Studies!</StyledButton>}
                         {responseTrials && loading && <CircularProgress size="1rem" color="success" />}
+                        {!responseTrials && !loading && noTrialsFound && <EmptyResponse>No Studies Found!</EmptyResponse>}
                     </TrialsListContainer>
                     <MapContainer>
-                        {(responseTrials) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]} />}
+                        {(responseTrials) && <Map address={currentLocation["address"]} />}
                     </MapContainer>
                 </ResultContainer>
             }
