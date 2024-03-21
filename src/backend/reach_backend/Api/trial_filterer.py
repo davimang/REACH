@@ -182,7 +182,8 @@ class TrialFilterer:
         ):
             search_str.append("overweight")
 
-        if input_params.get("coughSeverity") is not None and input_params.get("coughSeverity", 0) > 4:
+        if (input_params.get("coughSeverity") is not None 
+            and input_params.get("coughSeverity", 0) > 4):
             search_str.append("severe+cough+OR+VAS+40mm")
 
 
@@ -221,7 +222,12 @@ class TrialFilterer:
         studies["FullAddress"] = ""
         for i in studies.index:
             studies.at[i, "FullAddress"] = (
-                studies.at[i, "LocationCity"]
+                studies.at[i, "LocationFacility"] + ", "
+                if not pd.isnull(studies.at[i, "LocationFacility"])
+                else studies.at[i, "FullAddress"]
+            )
+            studies.at[i, "FullAddress"] = (
+                studies.at[i, "FullAddress"] + studies.at[i, "LocationCity"]
                 if not pd.isnull(studies.at[i, "LocationCity"])
                 else studies.at[i, "FullAddress"]
             )

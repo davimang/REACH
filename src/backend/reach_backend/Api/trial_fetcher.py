@@ -13,7 +13,7 @@ API_URL2 = (
     r"https://clinicaltrials.gov/api/v2/studies?format=json&countTotal=true&filter.overallStatus=RECRUITING&"
     r"fields=NCTId,Condition,BriefTitle,DetailedDescription,BriefSummary,"
     r"MinimumAge,MaximumAge,LocationGeoPoint,LocationCountry,LocationState,"
-    r"LocationCity,LocationZip,OverallStatus,Gender,Keyword,"
+    r"LocationCity,LocationZip,LocationFacility,OverallStatus,Gender,Keyword,"
     r"PointOfContactEMail,CentralContactEMail,ResponsiblePartyInvestigatorFullName,"
     r"OverallOfficialName,LocationContactName&"
 )
@@ -110,8 +110,7 @@ class TrialFetcher:
 
             if not next_page:
                 break
-
-            
+     
 
         if studies.shape[0] == 0:
             return pd.DataFrame(
@@ -138,6 +137,8 @@ class TrialFetcher:
         )  # create url
         studies["nextPage"] = next_page
 
+        studies = TrialFilterer.generate_address(studies)
+
         # take only necessary fields
 
         studies = studies[
@@ -151,6 +152,10 @@ class TrialFetcher:
                 "LocationLatitude",
                 "LocationLongitude",
                 "Distance",
+                "LocationCity",
+                "LocationState",
+                "LocationZip",
+                "LocationFacility",
                 "OverallOfficialName",
                 "LocationContactName",
                 "PointOfContactEMail",
@@ -161,6 +166,8 @@ class TrialFetcher:
         ]
         studies.sort_values(by="Distance", ascending=True, inplace=True)
         studies.reset_index(inplace=True, drop=True)
+
+        print(studies[['LocationLatitude', 'LocationLongitude', 'LocationFacility']])
         results_json = studies.to_dict(orient="index")  # convert to json
         return results_json  # return
 
@@ -210,8 +217,10 @@ def build_study_dict(response):
         lats = []
         longs = []
         names = []
+        facilities = []
 
         for location in locations:
+            print(location)
             if city := location.get("city"):
                 cities.append(city)
 
@@ -223,6 +232,9 @@ def build_study_dict(response):
 
             if state := location.get("state"):
                 states.append(state)
+
+            if facility := location.get("facility"):
+                facilities.append(facility)
 
             if lat := location.get("geoPoint", {}).get("lat"):
                 lats.append(lat)
@@ -243,10 +255,11 @@ def build_study_dict(response):
             "DetailedDescription": description,
             "MinimumAge": min_age,
             "MaximumAge": max_age,
-            "LocationCountry": countries[0] if len(countries) > 0 else "",
-            "LocationState": states[0] if len(states) > 0 else "",
-            "LocationCity": cities[0] if len(cities) > 0 else "",
-            "LocationZip": zips[0] if len(zips) > 0 else "",
+            "LocationCountry": countries[0] if len(countries) > 0 else None,
+            "LocationState": states[0] if len(states) > 0 else None,
+            "LocationCity": cities[0] if len(cities) > 0 else None,
+            "LocationZip": zips[0] if len(zips) > 0 else None,
+            "LocationFacility": facilities[0] if len(facilities) > 0 else None,
             "LocationLatitude": float(lats[0]) if len(lats) > 0 else -1,
             "LocationLongitude": float(longs[0]) if len(longs) > 0 else -1,
             "OverallStatus": "Recruiting",
