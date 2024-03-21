@@ -46,38 +46,23 @@ const TrialModal: React.FC<TrialModalProps> = ({ open, handleModal, modalDetails
 
     const isClinician = localStorage.getItem('isClinician') == 'true';
 
-    const patientTemplate = `Dear ${contact},
+    const patientTemplate = `Dear ${contact},%0D%0A%0D%0A
 
-My name is ${usersName}. I found your study on ${modalDetails["url"]} for patients with ${condition} through REACH, an app that helps match patients to research studies, and I am interested in participating. Please let me know how I could participate in your study.
+My name is ${usersName}. I found your study on ${modalDetails["url"]} for patients with ${condition} through REACH, an app that helps match patients to research studies, and I am interested in participating. Please let me know how I could participate in your study.%0D%0A%0D%0A
     
 Thank you,`;
 
-    const clinicianTemplate = `Dear ${contact},
+    const clinicianTemplate = `Dear ${contact},%0D%0A%0D%0A
 
-My name is Dr. ${usersName}. I am looking for clincial studies on behalf of one of my patients through REACH, an app that helps match patients to research studies. I found your study on ${modalDetails["url"]} for patients with ${condition} and I am interested in having my patient participate. Please let me know how I could set them up to participate in your study.
+My name is Dr. ${usersName}. I am looking for clincial studies on behalf of one of my patients through REACH, an app that helps match patients to research studies. I found your study on ${modalDetails["url"]} for patients with ${condition} and I am interested in having my patient participate. Please let me know how I could set them up to participate in your study.%0D%0A%0D%0A
     
 Thank you,`;
 
     const emailTemplate = isClinician ? clinicianTemplate : patientTemplate;
 
-    const [showTemplate, setShowTemplate] = useState(false);
-    const [isCopySnackOpen, setIsCopySnackOpen] = useState(false);
-    const handleTemplate = () => {
-        setShowTemplate(!showTemplate);
-    }
-
-    const copyTemplate = async () => {
-        await navigator.clipboard.writeText(emailTemplate);
-        setIsCopySnackOpen(true);
-    }
-
     return (
         <div>
-            <CustomizedSnackbars
-                isOpen={isCopySnackOpen}
-                setIsOpen={setIsCopySnackOpen}
-                snackText={"Email Template Copied!"}
-            />
+            
             <Dialog
                 open={open}
                 onClose={handleModal}
@@ -109,36 +94,11 @@ Thank you,`;
                     <a href={modalDetails["url"]} target="_blank">
                         <StyledButton>View Study</StyledButton>
                     </a>
-                    <StyledButton onClick={handleTemplate}>Email Template</StyledButton>
+                    <a href={`mailto:${modalDetails["contactEmail"]}?subject=Expressing Interest in Research Study - ${modalDetails["title"]}&body=${emailTemplate}`}>
+                    <StyledButton >Email Researcher</StyledButton>
+                    </a>
                 </DialogActions>
 
-            </Dialog>
-            <Dialog open={showTemplate} onClose={(handleTemplate)}>
-                <DialogTitle>Email Template</DialogTitle>
-                <DialogContent>
-                    <Box>
-                        <div>
-                            <b>To:</b> {modalDetails["contactEmail"]}
-                        </div>
-                    </Box>
-                    <Box>
-                        <div>
-                            <b>Subject:</b> Expressing Interest in Research Trial - {modalDetails["title"]}
-                        </div>
-                    </Box>
-                    <Box>
-                        <DialogContentText
-                            id="scroll-dialog-description"
-                            tabIndex={-1}
-                        >
-                            <EmailTemplatePre>{emailTemplate}</EmailTemplatePre>
-                        </DialogContentText >
-                    </Box>
-                </DialogContent>
-                <DialogActions>
-                    <StyledButton onClick={copyTemplate}>Copy Template</StyledButton>
-                    <StyledButton onClick={handleTemplate}>Close</StyledButton>
-                </DialogActions>
             </Dialog>
         </div >
     )
