@@ -66,6 +66,10 @@ const LandingPage = () => {
         isAuthenticated ? navigate('/search') : navigate('/login');
     };
 
+    const navigateToProfiles = () => {
+        isAuthenticated ? navigate('/listprofiles') : navigate('/login');
+    };
+
     useEffect(() => {
         checkLoginSuccess();
         checkProfileSuccess();
@@ -96,6 +100,7 @@ const LandingPage = () => {
             </LandingPageText>
             <PortalButtonsContainer>
                 <PortalButtons type='button' onClick={navigateToSearch}>REACH Portal</PortalButtons>
+                <PortalButtons type='button' onClick={navigateToProfiles}>Profiles</PortalButtons>
             </PortalButtonsContainer>
         </LandingPageContainer >
     );
