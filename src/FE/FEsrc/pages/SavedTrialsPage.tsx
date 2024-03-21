@@ -275,7 +275,7 @@ const SaveTrialsPage = () => {
                 <SizedButton type='button' onClick={navigateToProfiles}>Profiles</SizedButton>
             </TrialSearchHeader>
 
-            {(trials.length == 0 && !loading) ? <EmptyResponse>No Trials Found!</EmptyResponse> : <ResultContainer>
+            {(trials.length == 0 && !loading) ? <EmptyResponse>No Studies Found!</EmptyResponse> : <ResultContainer>
                 <TrialsListContainer>
                     {displayTrials()}
                 </TrialsListContainer>

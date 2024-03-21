@@ -337,11 +337,11 @@ const MenuHeader: React.FC = () => {
                             <AccountIcon />
                         </AccountCircle>
                         <AccountDropdown isopen={isOpenAcc} ref={dropdownListRefAcc}>
-                            <DropdownLink to='/savedTrials'>
+                            <DropdownLink to='/savedStudies'>
                                 <Tooltip title='Saved Trials'>
                                     <DropDownInput>
                                         <FilledBookmarkIcon />
-                                        <DropdownText>Saved Trials</DropdownText>
+                                        <DropdownText>Saved Studies</DropdownText>
                                     </DropDownInput>
                                 </Tooltip>
                             </DropdownLink>

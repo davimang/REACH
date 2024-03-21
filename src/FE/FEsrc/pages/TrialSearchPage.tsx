@@ -22,6 +22,14 @@ const TrialSearchHeader = styled.div`
     align-items: center;
 `;
 
+const AccountHeader = styled.div`
+    background-color: #173A76;
+    min-width: 100%;
+    height: 65px;
+    display: inline-flex;
+    align-items: center;
+`;
+
 const StyledDropDown = styled(DropDownInput)`
     margin: 10px;
     width: 300px;
@@ -40,7 +48,7 @@ const SizedButton = styled(StyledButton)`
 
 const TrialsListContainer = styled.div`
     padding: 10px;
-    height: calc(95vh - 235px);
+    height: calc(95vh - 295px);
     overflow-y: auto;
     max-width: 750px;
     overflow-x: hidden;
@@ -385,7 +393,7 @@ const TrialSearchPage = () => {
     }, [responseTrials]);
 
     const navigateToBookmarks = () => {
-        navigate('/savedTrials');
+        navigate('/savedStudies');
     };
 
     const navigateToProfiles = () => {
@@ -394,6 +402,10 @@ const TrialSearchPage = () => {
 
     return (
         <PageContainer>
+            <AccountHeader>
+                <SizedButton type='button' onClick={navigateToBookmarks}>Saved Studies</SizedButton>
+                <SizedButton type='button' onClick={navigateToProfiles}>Profiles</SizedButton>
+            </AccountHeader>
             <TrialSearchHeader>
                 <StyledDropDown
                     value={selectedProfileId}
@@ -440,16 +452,14 @@ const TrialSearchPage = () => {
                     resetPageDetails();
                     fetchTrials(false);
                 }}>Search</SizedButton>
-                <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>
-                <SizedButton type='button' onClick={navigateToProfiles}>Profiles</SizedButton>
             </TrialSearchHeader>
 
             {
                 loading && !responseTrials ? <Loading> <CircularProgress size="5rem" color="success" /> </Loading> : <ResultContainer>
                     <TrialsListContainer>
                         {displayTrials()}
-                        {responseTrials && !loading && (hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton onClick={e => { nextPage(e); }}>More Trials</StyledButton>}
-                        {responseTrials && !loading && !(hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton style={{ backgroundColor: '#A5A5A5', cursor: 'default' }} disabled>Sorry, No More Trials!</StyledButton>}
+                        {responseTrials && !loading && (hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton onClick={e => { nextPage(e); }}>More Studies</StyledButton>}
+                        {responseTrials && !loading && !(hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton style={{ backgroundColor: '#A5A5A5', cursor: 'default' }} disabled>Sorry, No More Studies!</StyledButton>}
                         {responseTrials && loading && <CircularProgress size="1rem" color="success" />}
                     </TrialsListContainer>
                     <MapContainer>
