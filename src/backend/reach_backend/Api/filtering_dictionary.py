@@ -70,7 +70,6 @@ filtering_dict_boolean = {
     "hasRBD": "REM+sleep+behavior+disorder+OR+RBD+OR+rapid+eye+movement+sleep+behavior+disorder",
     "hasNREM": "non+REM+OR+non+rapid+eye+movement",
     "hasRestlessLeg": "restless+leg+syndrome",
-    # new variables start here
     "onAsthmaBiologic" : "biologic",
     "dailyCough" : "daily+cough",
     "triedInhalersEtc" : "tried+inhalers+OR+tried+nasal+sprays+OR+tried+anti+acid"
@@ -94,8 +93,6 @@ filtering_dict_special = {
 # WHOFunctionalClass : str "1", "2", "3", "4"
 # pulmonaryVascularResistance : float
 # underlyingCondition : list
-
-#new
 # coughSeverity : int
 # backgroundTherapy : "dual therapy", "triple therapy", "mono therapy"
 # maskType : "nasal", "oronasal", "full face"
