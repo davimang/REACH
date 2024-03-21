@@ -167,7 +167,6 @@ class TrialFetcher:
         studies.sort_values(by="Distance", ascending=True, inplace=True)
         studies.reset_index(inplace=True, drop=True)
 
-        print(studies[['LocationLatitude', 'LocationLongitude', 'LocationFacility']])
         results_json = studies.to_dict(orient="index")  # convert to json
         return results_json  # return
 
@@ -220,7 +219,6 @@ def build_study_dict(response):
         facilities = []
 
         for location in locations:
-            print(location)
             if city := location.get("city"):
                 cities.append(city)
 
