@@ -267,7 +267,7 @@ const SaveTrialsPage = () => {
                     {displayTrials()}
                 </TrialsListContainer>
                 <MapContainer>
-                    {(trials && !loading) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]} address={"address"}/>}
+                    {(trials && !loading) && <Map address={currentLocation["address"]}/>}
                 </MapContainer>
             </ResultContainer>}
 

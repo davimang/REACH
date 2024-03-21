@@ -307,7 +307,7 @@ const TrialSearchPage = () => {
     const updateDefaultTrial = () => {
         if (responseTrials) {
             const defaultTrial = responseTrials[0];
-            setCurrentLocation({ latitude: defaultTrial.LocationLatitude, longitude: defaultTrial.LocationLongitude, address: defaultTrial.FUllAddress });
+            setCurrentLocation({ address: defaultTrial.FullAddress });
             setIsSelected({ [defaultTrial.NCTId]: true });
         }
     }
@@ -463,7 +463,7 @@ const TrialSearchPage = () => {
                     {!responseTrials && !loading && noTrialsFound && <EmptyResponse>No Studies Found!</EmptyResponse>}
                 </TrialsListContainer>
                 <MapContainer>
-                    {(responseTrials) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]} address={currentLocation["address"]}/>}
+                    {(responseTrials) && <Map address={currentLocation["address"]}/>}
                 </MapContainer>
             </ResultContainer>}
 
