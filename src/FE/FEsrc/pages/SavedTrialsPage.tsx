@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { API_URL } from '..';
 import { PatientInfo, SavedTrial } from '../components/types';
@@ -6,6 +7,7 @@ import SavedTrialCard from '../components/SavedTrialCard';
 import { DropDownInput } from '../components/FormStyles';
 import Map from '../components/Map';
 import TrialModal from '../components/TrialModal';
+import { StyledButton } from '../components/ButtonStyle';
 
 const TrialsListContainer = styled.div`
     padding: 10px;
@@ -31,8 +33,14 @@ const TrialSearchHeader = styled.div`
 
 const StyledDropDown = styled(DropDownInput)`
     margin: 10px;
-    width: 400px;
+    width: 300px;
     height: 55px;
+`;
+
+const SizedButton = styled(StyledButton)`
+    height: 55px;
+    margin: 10px;
+    padding: 5px 15px;
 `;
 
 const EmptyResponse = styled.div`
@@ -65,6 +73,7 @@ const PageContainer = styled.div`
 
 const SaveTrialsPage = () => {
 
+    const navigate = useNavigate();
     const userId = localStorage.getItem('userId');
     const [trials, setTrials] = useState<SavedTrial[]>([]);
     const [loading, setLoading] = useState(false);
@@ -205,6 +214,10 @@ const SaveTrialsPage = () => {
         setUpdateDefault(false);
     }
 
+    const navigateToProfiles = () => {
+        navigate('/listprofiles');
+    };
+
     useEffect(() => {
         setAuthToken(localStorage.getItem('accessToken'));
     }, [localStorage.getItem('accessToken')]);
@@ -259,6 +272,7 @@ const SaveTrialsPage = () => {
                         ))
                     }
                 </StyledDropDown>
+                <SizedButton type='button' onClick={navigateToProfiles}>Profiles</SizedButton>
             </TrialSearchHeader>
 
             {(trials.length == 0 && !loading) ? <EmptyResponse>No Trials Found!</EmptyResponse> : <ResultContainer>

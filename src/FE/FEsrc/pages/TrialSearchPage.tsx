@@ -24,7 +24,7 @@ const TrialSearchHeader = styled.div`
 
 const StyledDropDown = styled(DropDownInput)`
     margin: 10px;
-    width: 400px;
+    width: 300px;
     height: 55px;
 `;
 
@@ -388,6 +388,10 @@ const TrialSearchPage = () => {
         navigate('/savedTrials');
     };
 
+    const navigateToProfiles = () => {
+        navigate('/listprofiles');
+    };
+
     return (
         <PageContainer>
             <TrialSearchHeader>
@@ -437,23 +441,26 @@ const TrialSearchPage = () => {
                     fetchTrials(false);
                 }}>Search</SizedButton>
                 <SizedButton type='button' onClick={navigateToBookmarks}>View Bookmarks</SizedButton>
+                <SizedButton type='button' onClick={navigateToProfiles}>Profiles</SizedButton>
             </TrialSearchHeader>
 
-            {loading && !responseTrials ? <Loading> <CircularProgress size="5rem" color="success" /> </Loading> : <ResultContainer>
-                <TrialsListContainer>
-                    {displayTrials()}
-                    {responseTrials && !loading && (hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton onClick={e => { nextPage(e); }}>More Trials</StyledButton>}
-                    {responseTrials && !loading && !(hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton style={{ backgroundColor: '#A5A5A5', cursor: 'default' }} disabled>Sorry, No More Trials!</StyledButton>}
-                    {responseTrials && loading && <CircularProgress size="1rem" color="success" />}
-                </TrialsListContainer>
-                <MapContainer>
-                    {(responseTrials) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]} />}
-                </MapContainer>
-            </ResultContainer>}
+            {
+                loading && !responseTrials ? <Loading> <CircularProgress size="5rem" color="success" /> </Loading> : <ResultContainer>
+                    <TrialsListContainer>
+                        {displayTrials()}
+                        {responseTrials && !loading && (hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton onClick={e => { nextPage(e); }}>More Trials</StyledButton>}
+                        {responseTrials && !loading && !(hasNextPage || currentTrialPointer < currentTrialCount) && <StyledButton style={{ backgroundColor: '#A5A5A5', cursor: 'default' }} disabled>Sorry, No More Trials!</StyledButton>}
+                        {responseTrials && loading && <CircularProgress size="1rem" color="success" />}
+                    </TrialsListContainer>
+                    <MapContainer>
+                        {(responseTrials) && <Map latitude={currentLocation["latitude"]} longitude={currentLocation["longitude"]} />}
+                    </MapContainer>
+                </ResultContainer>
+            }
 
             <TrialModal open={open} handleModal={handleModal} modalDetails={modalDetails} patientDetails={getProfile(selectedProfileId)} name={name} />
 
-        </PageContainer>
+        </PageContainer >
     );
 }
 
