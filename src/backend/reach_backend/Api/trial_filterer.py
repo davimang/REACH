@@ -246,6 +246,8 @@ class TrialFilterer:
                 if not pd.isnull(studies.at[i, "LocationCountry"])
                 else studies.at[i, "FullAddress"]
             )
+            studies.at[i, "FullAddress"] = studies.at[i, "FullAddress"].replace(" & ", " and ")
+            studies.at[i, "FullAddress"] = studies.at[i, "FullAddress"].replace("&", " and ")
         return studies
 
     @staticmethod
