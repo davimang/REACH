@@ -139,9 +139,7 @@ const TrialSearchPage = () => {
                     description: trial.DetailedDescription ? trial.DetailedDescription : "N/A",
                     url: trial.url,
                     location: {
-                        latitude: trial.LocationLatitude,
-                        longitude: trial.LocationLongitude,
-                        address: trial.LocationFacility
+                        address: trial.FullAddress
                     },
                     status: "Recruiting",
                     distance: trial.Distance,
@@ -309,7 +307,7 @@ const TrialSearchPage = () => {
     const updateDefaultTrial = () => {
         if (responseTrials) {
             const defaultTrial = responseTrials[0];
-            setCurrentLocation({ latitude: defaultTrial.LocationLatitude, longitude: defaultTrial.LocationLongitude, address: defaultTrial.LocationZip });
+            setCurrentLocation({ latitude: defaultTrial.LocationLatitude, longitude: defaultTrial.LocationLongitude, address: defaultTrial.FUllAddress });
             setIsSelected({ [defaultTrial.NCTId]: true });
         }
     }

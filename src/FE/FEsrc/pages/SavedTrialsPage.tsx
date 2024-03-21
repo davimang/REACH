@@ -198,7 +198,7 @@ const SaveTrialsPage = () => {
         if (trials) {
             const defaultTrial = trials[0];
             if (defaultTrial) {
-                setCurrentLocation({ latitude: defaultTrial.location["latitude"], longitude: defaultTrial.location["longitude"] });
+                setCurrentLocation({ address: defaultTrial.location["address"] });
                 setIsSelected({ [defaultTrial.nctid]: true });
             }
         }

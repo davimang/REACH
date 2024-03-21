@@ -20,7 +20,7 @@ const TrialCard: React.FC<TrialProps> = ({ trial, trialSaved, handleSave, setCur
                 <TrialTitle
                     onClick={(e) => {
                         e.preventDefault();
-                        setCurrentLocation({ latitude: trial.LocationLatitude, longitude: trial.LocationLongitude, address: trial.LocationFacility + ' ' + trial.LocationCity + ' ' + (trial.LocationState ? trial.LocationState : "") + ' ' + trial.LocationZip});
+                        setCurrentLocation({ latitude: trial.LocationLatitude, longitude: trial.LocationLongitude, address: trial.FullAddress});
                         setIsSelected({[trial.NCTId]: true});
                     }
                     }

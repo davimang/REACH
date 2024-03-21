@@ -18,7 +18,7 @@ const SavedTrialCard: React.FC<SavedTrialProps> = ({ trial, handleDelete, setCur
             <TrialDescription>
                 <TrialTitle
                     onClick={() => {
-                        setCurrentLocation({ latitude: trial.location["latitude"], longitude: trial.location["longitude"] });
+                        setCurrentLocation({ address: trial.location["address"] });
                         setIsSelected({[trial.nctid]: true});
                     }
                     }

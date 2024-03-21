@@ -15,8 +15,6 @@ const StyledMap = styled.iframe`
 `;
 
 interface MapProps {
-    latitude: number;
-    longitude: number;
     address: string;
 }
 

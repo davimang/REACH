@@ -60,6 +60,7 @@ export interface TrialInfo {
     LocationZip: string;
     LocationCity: string;
     LocationState: string;
+    FullAddress: string;
     nextPage: string;
     saved: boolean;
     savedId: number;
