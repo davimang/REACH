@@ -32,7 +32,7 @@ const defaultProps = {
 const ProfileCreationPage = (props) => {
 
     props = { ...defaultProps, ...props };
-    
+
     const [isRegistrationSnackOpen, setIsRegistrationSnackOpen] = useState(false);
 
     const userId = localStorage.getItem('userId');
@@ -94,7 +94,7 @@ const ProfileCreationPage = (props) => {
 
     function indexOfMax(arr) {
         if (arr.length === 0) return -1;
-    
+
         return arr.reduce((maxIndex, currentArray, currentIndex, array) => {
             return currentArray.length > array[maxIndex].length ? currentIndex : maxIndex;
         }, 0);
@@ -118,7 +118,7 @@ const ProfileCreationPage = (props) => {
                             indexOfMax={indexOfMax}
                             margin={margin}
                         />
-                        {field?.children && recursionCondition ? recursiveConditionFields(Object.values(field.children), Object.keys(field.children), margin+25) : null}
+                        {field?.children && recursionCondition ? recursiveConditionFields(Object.values(field.children), Object.keys(field.children), margin + 25) : null}
                     </React.Fragment>
                 )
             })
@@ -126,7 +126,7 @@ const ProfileCreationPage = (props) => {
     }
 
     const checkJustRegistered = () => {
-        if(localStorage.getItem('justRegistered')) {
+        if (localStorage.getItem('justRegistered')) {
             setIsRegistrationSnackOpen(true);
             localStorage.removeItem('justRegistered');
             localStorage.setItem('firstProfileCreated', "true");
@@ -140,7 +140,7 @@ const ProfileCreationPage = (props) => {
                     const tempCond = { [keys[index]]: fieldVariable.initial };
                     prev.push(tempCond);
                 }
-                
+
                 return fieldVariable?.children ? updateAdvancedInfoOnConditionSelection(Object.values(fieldVariable.children), Object.keys(fieldVariable.children), prev) : prev;
             })
         )
@@ -158,7 +158,7 @@ const ProfileCreationPage = (props) => {
 
             if (response.ok) {
                 localStorage.setItem('openProfileSnack', "true");
-                navigate(!props.editing ? '/' : '/listprofiles'); 
+                navigate(!props.editing ? '/' : '/listprofiles');
             }
             else {
                 setError(true);
@@ -200,11 +200,11 @@ const ProfileCreationPage = (props) => {
     return (
         <>
             <ProfileCreationContainer>
-            <CustomizedSnackbars
-                isOpen={isRegistrationSnackOpen}
-                setIsOpen={setIsRegistrationSnackOpen}
-                snackText={"Account Registered Successfully!"}
-            />
+                <CustomizedSnackbars
+                    isOpen={isRegistrationSnackOpen}
+                    setIsOpen={setIsRegistrationSnackOpen}
+                    snackText={"Account Registered Successfully!"}
+                />
                 <FormContainer>
                     {!props.editing && isClinician == "true" && <FormTitle>New Patient Profile</FormTitle>}
                     {!props.editing && isClinician == "false" && <FormTitle>New Search Profile</FormTitle>}
@@ -314,6 +314,7 @@ const ProfileCreationPage = (props) => {
                         <FormLabel>Date of Birth</FormLabel>
                         <TextInput
                             type='date'
+                            max='9999-12-31'
                             id='date of birth'
                             value={dateOfBirthField.value}
                             onChange={dateOfBirthField.handleChange}
@@ -351,7 +352,7 @@ const ProfileCreationPage = (props) => {
                                 }} />
                             }
                         />
-                        
+
                         {Conditions[formValues.condition] && (
                             recursiveConditionFields(Object.values(Conditions[formValues.condition]), Object.keys(Conditions[formValues.condition]), 0)
                         )}
