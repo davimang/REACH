@@ -5,7 +5,7 @@ import json
 import requests
 import pandas as pd
 from geopy.geocoders import Nominatim
-from .trial_filterer import TrialFilterer
+from trial_filterer import TrialFilterer
 
 locator = Nominatim(user_agent="my_request")
 
@@ -75,7 +75,7 @@ class TrialFetcher:
             search_template = search_template + "&query.term=" + keywords
 
         # start one rank up from the last rank returned by a previous call
-
+        print(search_template)
         studies = pd.DataFrame()
 
         # keep pulling trials until you hit 5 or
@@ -100,7 +100,7 @@ class TrialFetcher:
                 break
 
             # remove any invalid trials
-            # temp = TrialFilterer.filter_trials(temp, input_params)
+            temp = TrialFilterer.filter_trials(temp, input_params)
             temp = TrialFilterer.post_filter(temp, input_params, home_geo)
 
             if temp.shape[0] > 0:  # if not empty, add to accepted trials

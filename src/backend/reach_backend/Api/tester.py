@@ -1,11 +1,10 @@
 """Test file for the TrialFetcher class."""
 
-from .trial_fetcher import TrialFetcher
+from trial_fetcher import TrialFetcher
 
 input_params = {
-    "conditions": ["chronic cough"],
-    "maxRank": 0,
-    "age": 40,
+    "conditions": ["asthma"],
+    "age": 64,
     "sex": "Male",
     "max_distance": 250,
     "address": {
@@ -14,6 +13,7 @@ input_params = {
         "province": "Ontario",
         "postalCode": "L8S 4L8",
     },
+    
 }
 
-print(TrialFetcher.search_studies(input_params))
+print(len(TrialFetcher.search_studies(input_params)))
