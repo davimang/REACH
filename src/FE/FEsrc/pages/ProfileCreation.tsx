@@ -103,7 +103,7 @@ const ProfileCreationPage = (props) => {
     const recursiveConditionFields = (conditionFields: any, keys: string[], margin: number) => {
         return (
             conditionFields.map((field: FieldInfo, index) => {
-                const displayCondition = !(isClinician == "false" && field.clinician);
+                const displayCondition = ((isClinician == "true") == field.clinician);
                 const recursionCondition = advancedInfo[keys[index]] == true || keys[index]?.includes("SUBHEADER");
                 return displayCondition && (
                     <React.Fragment key={keys[index]}>
