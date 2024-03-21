@@ -182,7 +182,7 @@ class TrialFilterer:
         ):
             search_str.append("overweight")
 
-        if (input_params.get("coughSeverity") is not None 
+        if (input_params.get("coughSeverity") is not None
             and input_params.get("coughSeverity", 0) > 4):
             search_str.append("severe+cough+OR+VAS+40mm")
 
