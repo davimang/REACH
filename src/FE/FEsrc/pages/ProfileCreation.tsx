@@ -63,9 +63,7 @@ const ProfileCreationPage = (props) => {
 
     const genericErrorMessage = 'This field cannot be empty';
 
-    const addressValid = postalCodeField.valid;
-
-    const enableSubmit = nameField.valid && dateOfBirthField.valid && genderField.valid && addressValid;
+    const enableSubmit = nameField.valid && dateOfBirthField.valid && genderField.valid && postalCodeField.valid;
 
     const createRequestOptions = () => {
 
