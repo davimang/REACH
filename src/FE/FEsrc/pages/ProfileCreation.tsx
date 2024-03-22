@@ -58,7 +58,7 @@ const ProfileCreationPage = (props) => {
     const dateOfBirthField = fieldValidation(checkEmpty, props.defaultDateOfBirth);
     const genderField = fieldValidation(checkEmpty, props.defaultGender);
 
-    const isClinician = localStorage.getItem('isClinician');
+    const isClinician = localStorage.getItem('isClinician') == "true";
 
     const [error, setError] = useState(false);
 
@@ -66,14 +66,16 @@ const ProfileCreationPage = (props) => {
 
     const genericErrorMessage = 'This field cannot be empty';
 
-    const enableSubmit = nameField.valid && streetField.valid && cityField.valid && provinceField.valid && postalCodeField.valid && dateOfBirthField.valid && genderField.valid;
+    const addressValid = !isClinician ? (streetField.valid && cityField.valid && provinceField.valid && postalCodeField.valid) : (postalCodeField.valid);
+
+    const enableSubmit = nameField.valid && dateOfBirthField.valid && genderField.valid && addressValid;
 
     const createRequestOptions = () => {
 
         const formattedAddress = {
-            street: streetField.value,
-            city: cityField.value,
-            province: provinceField.value,
+            street: isClinician ? "" : streetField.value,
+            city: isClinician ? "" : cityField.value,
+            province: isClinician ? "" : provinceField.value,
             postalCode: postalCodeField.value
         }
         const mappedGender = genderMapping[genderField.value];
@@ -103,7 +105,7 @@ const ProfileCreationPage = (props) => {
     const recursiveConditionFields = (conditionFields: any, keys: string[], margin: number) => {
         return (
             conditionFields.map((field: FieldInfo, index) => {
-                const displayCondition = field.clinician == "both" || ((isClinician == "true") == field.clinician);
+                const displayCondition = field.clinician == "both" || (isClinician == field.clinician);
                 const recursionCondition = advancedInfo[keys[index]] == true || keys[index]?.includes("SUBHEADER");
                 return displayCondition && (
                     <React.Fragment key={keys[index]}>
@@ -136,7 +138,7 @@ const ProfileCreationPage = (props) => {
     const updateAdvancedInfoOnConditionSelection = (conditionFields: any, keys: string[], prev: {}[]) => {
         return (
             conditionFields.map((fieldVariable: FieldInfo, index) => {
-                if (fieldVariable.clinician == "both" || ((isClinician == "true") == fieldVariable.clinician)) {
+                if (fieldVariable.clinician == "both" || (isClinician == fieldVariable.clinician)) {
                     const tempCond = { [keys[index]]: fieldVariable.initial };
                     prev.push(tempCond);
                 }
@@ -206,11 +208,11 @@ const ProfileCreationPage = (props) => {
                     snackText={"Account Registered Successfully!"}
                 />
                 <FormContainer>
-                    {!props.editing && isClinician == "true" && <FormTitle>New Patient Profile</FormTitle>}
-                    {!props.editing && isClinician == "false" && <FormTitle>New Search Profile</FormTitle>}
-                    {props.editing && isClinician == "true" && <FormTitle>Edit Patient Profile</FormTitle>}
-                    {props.editing && isClinician == "false" && <FormTitle>Edit Search Profile</FormTitle>}
-                    {!props.editing && isClinician == "true" && <FormDisclaimerText>
+                    {!props.editing && isClinician && <FormTitle>New Patient Profile</FormTitle>}
+                    {!props.editing && !isClinician && <FormTitle>New Search Profile</FormTitle>}
+                    {props.editing && isClinician && <FormTitle>Edit Patient Profile</FormTitle>}
+                    {props.editing && !isClinician && <FormTitle>Edit Search Profile</FormTitle>}
+                    {!props.editing && isClinician && <FormDisclaimerText>
                         <FormDisclaimerTitle>
                             <img
                                 src={require('../images/Exclaim.svg')}
@@ -223,7 +225,7 @@ const ProfileCreationPage = (props) => {
                         to more efficiently search for clinical trials. <b><u>Please keep privacy and confidentiality in mind
                             (i.e. use initials) when creating these patient profiles.</u></b>
                     </FormDisclaimerText>}
-                    {!props.editing && isClinician == "false" && <FormDisclaimerText>
+                    {!props.editing && !isClinician && <FormDisclaimerText>
                         <FormDisclaimerTitle>
                             <img
                                 src={require('../images/Exclaim.svg')}
@@ -247,7 +249,7 @@ const ProfileCreationPage = (props) => {
                         {nameField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
 
                         <div>
-                            <div style={{ display: 'flex' }}>
+                            {!isClinician && <div style={{ display: 'flex' }}>
                                 <div>
                                     <FormLabel>Street</FormLabel>
                                     <TextInput
@@ -271,9 +273,9 @@ const ProfileCreationPage = (props) => {
                                     />
                                     {cityField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
                                 </div>
-                            </div>
+                            </div>}
                             <div style={{ display: 'flex' }}>
-                                <div>
+                                {!isClinician && <div>
                                     <FormLabel>Province</FormLabel>
                                     <DropDownInput
                                         value={provinceField.value}
@@ -295,8 +297,8 @@ const ProfileCreationPage = (props) => {
                                         <option value="Yukon">Yukon</option>
                                     </DropDownInput>
                                     {provinceField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
-                                </div>
-                                <div style={{ minWidth: 10 }} />
+                                </div>}
+                                {!isClinician && <div style={{ minWidth: 10 }} />}
                                 <div>
                                     <FormLabel>Postal Code</FormLabel>
                                     <TextInput
