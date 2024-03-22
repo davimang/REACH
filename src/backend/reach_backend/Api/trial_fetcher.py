@@ -5,7 +5,7 @@ import json
 import requests
 import pandas as pd
 from geopy.geocoders import Nominatim
-from .trial_filterer import TrialFilterer
+from trial_filterer import TrialFilterer
 
 locator = Nominatim(user_agent="my_request")
 
@@ -168,6 +168,8 @@ class TrialFetcher:
         ]
         studies.sort_values(by="Distance", ascending=True, inplace=True)
         studies.reset_index(inplace=True, drop=True)
+
+        print(studies['NCTId'].tolist())
 
         results_json = studies.to_dict(orient="index")  # convert to json
         return results_json  # return
