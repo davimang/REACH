@@ -44,7 +44,7 @@ class TrialFetcher:
         condition_search = conditions[0]
         if len(conditions) > 1:
             for cond in conditions[1:]:
-                condition_search += "+" + cond
+                condition_search += "+OR+" + cond
 
         home_address = ""
         address_part = input_params.get("address")
@@ -142,6 +142,8 @@ class TrialFetcher:
         studies["nextPage"] = next_page
 
         studies = TrialFilterer.generate_address(studies)
+
+        print(studies["NCTId"].tolist())
 
         # take only necessary fields
 
