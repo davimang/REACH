@@ -90,6 +90,8 @@ filtering_dict_special = {
 }
 
 # variables not shown here
+# yearsSmoked : float
+# dailySmokes : float
 # packYears : float
 # phGroup : int
 # apneadIndex : float

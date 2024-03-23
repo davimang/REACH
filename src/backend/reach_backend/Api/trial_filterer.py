@@ -53,11 +53,18 @@ class TrialFilterer:
         if input_params.get("WHOFunctionalClass", "0") in ["3", "4"]:
             search_str.append("severe+pulmonary+hypertension+OR+severe+PH")
 
-        if input_params.get("packYears", 0) >= 40:
+        packYears = (
+            input_params.get("packYears", 0)
+            or input_params.get("dailySmokes", 0)
+            * input_params.get("yearsSmoked", 0)
+            / 20
+        )
+
+        if packYears >= 40:
             search_str.append("heavy+smoker+OR+heavy+smoking")
-        elif input_params.get("packYears", 0) >= 20:
+        elif packYears >= 20:
             search_str.append("moderate+smoker+OR+moderate+smoking")
-        elif input_params.get("packYears", 0) > 0:
+        elif packYears > 0:
             search_str.append("light+smoker+OR+light+smoking")
 
         if input_params.get("apneadIndex", 0) >= 30:
@@ -85,7 +92,6 @@ class TrialFilterer:
                     search_str.append("triple+therapy")
 
         if input_params.get("maskType", "") in ["nasal", "oronasal", "full face"]:
-            search_str.append("face+mask")
             match input_params.get("backgroundTherapy", ""):
                 case "nasal":
                     search_str.append("nasal+mask")
