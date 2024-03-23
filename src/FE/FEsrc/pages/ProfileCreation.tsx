@@ -160,15 +160,7 @@ const ProfileCreationPage = (props) => {
 
             if (response.ok) {
                 localStorage.setItem('openProfileSnack', "true");
-                if(!props.editing && localStorage.getItem("firstProfileCreated") == "true"){
-                    navigate('/');
-                }
-                else if(!props.editing){
-                    navigate('/search');
-                }
-                else{
-                    navigate('/listprofiles');
-                }
+                navigate(!props.editing ? '/search' : '/listprofiles');
             }
             else {
                 setError(true);
@@ -216,11 +208,11 @@ const ProfileCreationPage = (props) => {
                     snackText={"Account Registered Successfully!"}
                 />
                 <FormContainer>
-                    {!props.editing && isClinician && <FormTitle>New Patient Profile</FormTitle>}
-                    {!props.editing && !isClinician && <FormTitle>New Search Profile</FormTitle>}
-                    {props.editing && isClinician && <FormTitle>Edit Patient Profile</FormTitle>}
-                    {props.editing && !isClinician && <FormTitle>Edit Search Profile</FormTitle>}
-                    {!props.editing && isClinician && <FormDisclaimerText>
+                    {!props.editing && (localStorage.getItem('isClinician') == "true") && <FormTitle>New Patient Profile</FormTitle>}
+                    {!props.editing && !(localStorage.getItem('isClinician') == "true") && <FormTitle>New Search Profile</FormTitle>}
+                    {props.editing && (localStorage.getItem('isClinician') == "true") && <FormTitle>Edit Patient Profile</FormTitle>}
+                    {props.editing && !(localStorage.getItem('isClinician') == "true") && <FormTitle>Edit Search Profile</FormTitle>}
+                    {!props.editing && (localStorage.getItem('isClinician') == "true") && <FormDisclaimerText>
                         <FormDisclaimerTitle>
                             <img
                                 src={require('../images/Exclaim.svg')}

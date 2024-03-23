@@ -74,6 +74,7 @@ const RegisterPage: React.FC = () => {
                 lastNameField.value,
                 formData.is_clinician
             );
+            localStorage.setItem('isClinician', `${formData.is_clinician}`);
             localStorage.setItem('justRegistered', "true");
             navigate('/createProfile');
         } catch (error) {
