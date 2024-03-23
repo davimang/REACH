@@ -15,6 +15,7 @@ const TrialsListContainer = styled.div`
     height: calc(95vh - 235px);
     max-width: 750px;
     overflow-y: auto;
+    overflow-x: hidden;
     @media (max-width: 1024px) {
         height: 40vh;
     }
