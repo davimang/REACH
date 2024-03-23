@@ -35,28 +35,14 @@ const PortalButtons = styled(StyledButton)`
 const LandingPage = () => {
 
     const [isLoginSnackBarOpen, setIsLoginSnackBarOpen] = useState(false);
-    const [isProfileSnackBarOpen, setIsProfileSnackBarOpen] = useState(false);
-    const [isFirstProfileSnackBarOpen, setIsFirstProfileSnackBarOpen] = useState(false);
+    
     const { isAuthenticated } = useAuth();
+    const isClinician = localStorage.getItem('isClinician') == "true";
 
     const checkLoginSuccess = () => {
         if (localStorage.getItem('openLoginSnack')) {
             setIsLoginSnackBarOpen(true);
             localStorage.removeItem('openLoginSnack');
-        }
-    }
-
-    const checkProfileSuccess = () => {
-        if (localStorage.getItem('openProfileSnack')) {
-            if (localStorage.getItem('firstProfileCreated')) {
-                setIsFirstProfileSnackBarOpen(true);
-                localStorage.removeItem('firstProfileCreated');
-            }
-            else {
-                setIsProfileSnackBarOpen(true);
-            }
-
-            localStorage.removeItem('openProfileSnack');
         }
     }
 
@@ -72,7 +58,6 @@ const LandingPage = () => {
 
     useEffect(() => {
         checkLoginSuccess();
-        checkProfileSuccess();
     }, []);
 
     return (
@@ -82,16 +67,6 @@ const LandingPage = () => {
                 setIsOpen={setIsLoginSnackBarOpen}
                 snackText={"Login Successful!"}
             />
-            <CustomizedSnackbars
-                isOpen={isProfileSnackBarOpen}
-                setIsOpen={setIsProfileSnackBarOpen}
-                snackText={"Profile Created Successfully!"}
-            />
-            <CustomizedSnackbars
-                isOpen={isFirstProfileSnackBarOpen}
-                setIsOpen={setIsFirstProfileSnackBarOpen}
-                snackText={"Profile Created Successfully! You can now visit the reach portal and begin searching for trials."}
-            />
             <LandingPageText>
                 <p>Looking for opportunities to participate in a clinical trial or research study? REACH can find
                     you relevant studies based on some basic information about you.</p>
@@ -100,7 +75,7 @@ const LandingPage = () => {
             </LandingPageText>
             <PortalButtonsContainer>
                 <PortalButtons type='button' onClick={navigateToSearch}>REACH Portal</PortalButtons>
-                <PortalButtons type='button' onClick={navigateToProfiles}>Profiles</PortalButtons>
+                <PortalButtons type='button' onClick={navigateToProfiles}>{isClinician ? "Patient Profiles" : "Search Profiles"}</PortalButtons>
             </PortalButtonsContainer>
         </LandingPageContainer >
     );

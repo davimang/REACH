@@ -54,7 +54,7 @@ Thank you,`;
 
     const clinicianTemplate = `Dear ${contact},%0D%0A%0D%0A
 
-My name is Dr. ${usersName}. I am looking for clincial studies on behalf of one of my patients through REACH, an app that helps match patients to research studies. I found your study on ${modalDetails["url"]} for patients with ${condition} and I am interested in having my patient participate. Please let me know how I could set them up to participate in your study.%0D%0A%0D%0A
+My name is Dr. ${usersName}. I am looking for clinical studies on behalf of one of my patients through REACH, an app that helps match patients to research studies. I found your study on ${modalDetails["url"]} for patients with ${condition} and I am interested in having my patient participate. Please let me know how I could set them up to participate in your study.%0D%0A%0D%0A
     
 Thank you,`;
 

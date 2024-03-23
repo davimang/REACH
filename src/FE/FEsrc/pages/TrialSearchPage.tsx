@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '..';
-import { SuccessMessage } from '../components/FormStyles';
 import { PatientInfoList, TrialInfoList } from '../components/types';
 import { StyledButton } from '../components/ButtonStyle';
 import { DropDownInput } from '../components/FormStyles';
@@ -13,6 +12,7 @@ import TrialModal from '../components/TrialModal';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ErrorMessage } from '../components/FormStyles';
 import { useAuth } from '../contexts/AuthContext';
+import CustomizedSnackbars from '../components/SnackBar';
 
 const EmptyResponse = styled.div`
     position: fixed;
@@ -107,6 +107,8 @@ const TrialSearchPage = () => {
     const [selectedProfileId, setSelectedProfileId] = useState('');
     const [loading, setLoading] = useState(false);
     const [hasNextPage, setHasNextPage] = useState(true);
+    const [isProfileSnackBarOpen, setIsProfileSnackBarOpen] = useState(false);
+    const [isFirstProfileSnackBarOpen, setIsFirstProfileSnackBarOpen] = useState(false);
     const [currentLocation, setCurrentLocation] = useState({});
     const [trialSaved, setTrialSaved] = useState({});
     const [savedTrialIds, setSavedTrialIds] = useState({});
@@ -292,6 +294,20 @@ const TrialSearchPage = () => {
         }
     }
 
+    const checkProfileSuccess = () => {
+        if (localStorage.getItem('openProfileSnack')) {
+            if (localStorage.getItem('firstProfileCreated')) {
+                setIsFirstProfileSnackBarOpen(true);
+                localStorage.removeItem('firstProfileCreated');
+            }
+            else {
+                setIsProfileSnackBarOpen(true);
+            }
+
+            localStorage.removeItem('openProfileSnack');
+        }
+    }
+
     const getName = async () => {
         try {
             const endpoint = `/userdata/${userID}/`;
@@ -388,6 +404,7 @@ const TrialSearchPage = () => {
     useEffect(() => {
         fetchProfilesList();
         getName();
+        checkProfileSuccess();
     }, []);
 
     useEffect(() => {
@@ -414,6 +431,16 @@ const TrialSearchPage = () => {
 
     return (
         <PageContainer>
+            <CustomizedSnackbars
+                isOpen={isProfileSnackBarOpen}
+                setIsOpen={setIsProfileSnackBarOpen}
+                snackText={"Profile Created Successfully!"}
+            />
+            <CustomizedSnackbars
+                isOpen={isFirstProfileSnackBarOpen}
+                setIsOpen={setIsFirstProfileSnackBarOpen}
+                snackText={"Your first profile has been created! You can now begin searching for studies using this profile."}
+            />
             <AccountHeader>
                 <SizedButton type='button' onClick={navigateToBookmarks}>Saved Studies</SizedButton>
                 <SizedButton type='button' onClick={navigateToProfiles}>Profiles</SizedButton>

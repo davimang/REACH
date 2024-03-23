@@ -51,10 +51,7 @@ const ProfileCreationPage = (props) => {
     const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
     const nameField = fieldValidation(checkEmpty, props.defaultProfileName);
-    const streetField = fieldValidation(checkEmpty, props.defaultStreet);
     const cityField = fieldValidation(checkEmpty, props.defaultCity);
-    const provinceField = fieldValidation(checkEmpty, props.defaultProvince);
-    const postalCodeField = fieldValidation(checkEmpty, props.defaultPostalCode);
     const dateOfBirthField = fieldValidation(checkEmpty, props.defaultDateOfBirth);
     const genderField = fieldValidation(checkEmpty, props.defaultGender);
 
@@ -66,17 +63,15 @@ const ProfileCreationPage = (props) => {
 
     const genericErrorMessage = 'This field cannot be empty';
 
-    const addressValid = !isClinician ? (streetField.valid && cityField.valid && provinceField.valid && postalCodeField.valid) : (postalCodeField.valid);
-
-    const enableSubmit = nameField.valid && dateOfBirthField.valid && genderField.valid && addressValid;
+    const enableSubmit = nameField.valid && dateOfBirthField.valid && genderField.valid && cityField.valid;
 
     const createRequestOptions = () => {
 
         const formattedAddress = {
-            street: isClinician ? "" : streetField.value,
-            city: isClinician ? "" : cityField.value,
-            province: isClinician ? "" : provinceField.value,
-            postalCode: postalCodeField.value
+            street: "",
+            city: cityField.value,
+            province: "",
+            postalCode: ""
         }
         const mappedGender = genderMapping[genderField.value];
         return {
@@ -160,7 +155,7 @@ const ProfileCreationPage = (props) => {
 
             if (response.ok) {
                 localStorage.setItem('openProfileSnack', "true");
-                navigate(!props.editing ? '/' : '/listprofiles');
+                navigate(!props.editing ? '/search' : '/listprofiles');
             }
             else {
                 setError(true);
@@ -188,7 +183,7 @@ const ProfileCreationPage = (props) => {
         if (error) {
             setError(false);
         }
-    }, [nameField.value, streetField.value, cityField.value, provinceField.value, postalCodeField.value, dateOfBirthField.value, genderField.value, formValues, advancedInfo]);
+    }, [nameField.value, cityField.value, dateOfBirthField.value, genderField.value, formValues, advancedInfo]);
 
     useEffect(() => {
         setAuthToken(localStorage.getItem('accessToken'));
@@ -208,11 +203,11 @@ const ProfileCreationPage = (props) => {
                     snackText={"Account Registered Successfully!"}
                 />
                 <FormContainer>
-                    {!props.editing && isClinician && <FormTitle>New Patient Profile</FormTitle>}
-                    {!props.editing && !isClinician && <FormTitle>New Search Profile</FormTitle>}
-                    {props.editing && isClinician && <FormTitle>Edit Patient Profile</FormTitle>}
-                    {props.editing && !isClinician && <FormTitle>Edit Search Profile</FormTitle>}
-                    {!props.editing && isClinician && <FormDisclaimerText>
+                    {!props.editing && (localStorage.getItem('isClinician') == "true") && <FormTitle>New Patient Profile</FormTitle>}
+                    {!props.editing && !(localStorage.getItem('isClinician') == "true") && <FormTitle>New Search Profile</FormTitle>}
+                    {props.editing && (localStorage.getItem('isClinician') == "true") && <FormTitle>Edit Patient Profile</FormTitle>}
+                    {props.editing && !(localStorage.getItem('isClinician') == "true") && <FormTitle>Edit Search Profile</FormTitle>}
+                    {!props.editing && (localStorage.getItem('isClinician') == "true") && <FormDisclaimerText>
                         <FormDisclaimerTitle>
                             <img
                                 src={require('../images/Exclaim.svg')}
@@ -249,67 +244,16 @@ const ProfileCreationPage = (props) => {
                         {nameField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
 
                         <div>
-                            {!isClinician && <div style={{ display: 'flex' }}>
-                                <div>
-                                    <FormLabel>Street</FormLabel>
-                                    <TextInput
-                                        type='text'
-                                        id='street'
-                                        value={streetField.value}
-                                        onChange={streetField.handleChange}
-                                        onBlur={streetField.handleBlur}
-                                    />
-                                    {streetField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
-                                </div>
-                                <div style={{ minWidth: 10 }} />
-                                <div style={{ width: 125 }}>
-                                    <FormLabel>City</FormLabel>
-                                    <TextInput
-                                        type='text'
-                                        id='city'
-                                        value={cityField.value}
-                                        onChange={cityField.handleChange}
-                                        onBlur={cityField.handleBlur}
-                                    />
-                                    {cityField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
-                                </div>
-                            </div>}
-                            <div style={{ display: 'flex' }}>
-                                {!isClinician && <div>
-                                    <FormLabel>Province</FormLabel>
-                                    <DropDownInput
-                                        value={provinceField.value}
-                                        onChange={provinceField.handleChange}
-                                    >
-                                        <option value='' disabled>-- Select Province --</option>
-                                        <option value="Alberta">Alberta</option>
-                                        <option value="British Columbia">British Columbia</option>
-                                        <option value="Manitoba">Manitoba</option>
-                                        <option value="New Brunswick">New Brunswick</option>
-                                        <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
-                                        <option value="Nova Scotia">Nova Scotia</option>
-                                        <option value="Northwest Territories">Northwest Territories</option>
-                                        <option value="Nunavut">Nunavut</option>
-                                        <option value="Ontario">Ontario</option>
-                                        <option value="Prince Edward Island">Prince Edward Island</option>
-                                        <option value="Quebec">Quebec</option>
-                                        <option value="Saskatchewan">Saskatchewan</option>
-                                        <option value="Yukon">Yukon</option>
-                                    </DropDownInput>
-                                    {provinceField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
-                                </div>}
-                                {!isClinician && <div style={{ minWidth: 10 }} />}
-                                <div>
-                                    <FormLabel>Postal Code</FormLabel>
-                                    <TextInput
-                                        type='text'
-                                        id='postalCode'
-                                        value={postalCodeField.value}
-                                        onChange={postalCodeField.handleChange}
-                                        onBlur={postalCodeField.handleBlur}
-                                    />
-                                    {postalCodeField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
-                                </div>
+                            <div>
+                                <FormLabel>City</FormLabel>
+                                <TextInput
+                                    type='text'
+                                    id='city'
+                                    value={cityField.value}
+                                    onChange={cityField.handleChange}
+                                    onBlur={cityField.handleBlur}
+                                />
+                                {cityField.showErrorMessage && <ErrorMessage>{genericErrorMessage}</ErrorMessage>}
                             </div>
                         </div>
 

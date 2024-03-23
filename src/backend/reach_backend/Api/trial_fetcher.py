@@ -35,7 +35,7 @@ class TrialFetcher:
         conditions = input_params["conditions"]
         conditions = [c.replace(" ", "+") for c in conditions]
 
-        #remove any None type entries
+        # remove any None type entries
         remove_none = {k: v for k, v in input_params.items() if v is not None}
         input_params.clear()
         input_params.update(remove_none)
@@ -44,17 +44,20 @@ class TrialFetcher:
         condition_search = conditions[0]
         if len(conditions) > 1:
             for cond in conditions[1:]:
-                condition_search += "+" + cond
+                condition_search += "+OR+" + cond
 
-        home_address = (
-            input_params["address"]["street"]
-            + ", "
-            + input_params["address"]["city"]
-            + ", "
-            + input_params["address"]["province"]
-            + " "
-            + input_params["address"]["postalCode"]
-        )
+        home_address = ""
+        address_part = input_params.get("address")
+
+        # build address
+        if address_part.get("street", "") != "":
+            home_address += address_part.get("street", "") + ", "
+        if address_part.get("city", "") != "":
+            home_address += address_part.get("city", "") + ", "
+        if address_part.get("province", "") != "":
+            home_address += address_part.get("province", "") + " "
+        if address_part.get("postalCode", "") != "":
+            home_address += address_part.get("postalCode", "") + " "
 
         home_geo = locator.geocode(home_address, timeout=10)
 
@@ -77,8 +80,6 @@ class TrialFetcher:
 
         # start one rank up from the last rank returned by a previous call
         studies = pd.DataFrame()
-
-        print(search_template)
 
         # keep pulling trials until you hit 5 or
         next_page = input_params.get("next_page")
@@ -141,6 +142,8 @@ class TrialFetcher:
         studies["nextPage"] = next_page
 
         studies = TrialFilterer.generate_address(studies)
+
+        print(studies["NCTId"].tolist())
 
         # take only necessary fields
 

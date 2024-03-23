@@ -51,7 +51,7 @@ class TrialFilterer:
             search_str.append("severe+asthma")
 
         if input_params.get("WHOFunctionalClass", "0") in ["3", "4"]:
-            search_str.append("severe+pulmonary+hypertension")
+            search_str.append("severe+pulmonary+hypertension+OR+severe+PH")
 
         packYears = (
             input_params.get("packYears", 0)
@@ -61,11 +61,11 @@ class TrialFilterer:
         )
 
         if packYears >= 40:
-            search_str.append("heavy+smoker")
+            search_str.append("heavy+smoker+OR+heavy+smoking")
         elif packYears >= 20:
-            search_str.append("moderate+smoker")
+            search_str.append("moderate+smoker+OR+moderate+smoking")
         elif packYears > 0:
-            search_str.append("light+smoker")
+            search_str.append("light+smoker+OR+light+smoking")
 
         if input_params.get("apneadIndex", 0) >= 30:
             search_str.append("severe+sleep+apnea")
@@ -82,6 +82,7 @@ class TrialFilterer:
             "triple therapy",
             "mono therapy",
         ]:
+            search_str.append("therapy")
             match input_params.get("backgroundTherapy", ""):
                 case "mono therapy":
                     search_str.append("mono+therapy")
@@ -100,6 +101,7 @@ class TrialFilterer:
                     search_str.append("full+face+mask")
 
         if input_params.get("maskType", "") in ["BiPAP-S", "BiPAP-ST"]:
+            search_str.append("face+mask")
             if input_params.get("maskType", "") == "BiPAP-S":
                 search_str.append("BiPAP-S")
             else:
@@ -111,35 +113,35 @@ class TrialFilterer:
                     input_params.get("FEV", -1)
                     < filtering_dict_special.get("FEV")[0][0]
                 ):
-                    search_str.append("low+FEV1")
+                    search_str.append("low+FEV1+OR+low+FEV")
                 elif (
                     input_params.get("FEV", -1)
                     > filtering_dict_special.get("FEV")[0][1]
                 ):
-                    search_str.append("high+FEV1")
+                    search_str.append("high+FEV1+OR+high+FEV")
             elif input_params.get("sex", "").lower() == "female":
                 if (
                     input_params.get("FEV", -1)
                     < filtering_dict_special.get("FEV")[1][0]
                 ):
-                    search_str.append("low+FEV1")
+                    search_str.append("low+FEV1+OR+low+FEV")
                 elif (
                     input_params.get("FEV", -1)
                     > filtering_dict_special.get("FEV")[1][1]
                 ):
-                    search_str.append("high+FEV1")
+                    search_str.append("high+FEV1+OR+high+FEV")
 
         if input_params.get("FEVPercent", -1) > 0:
             if (
                 input_params.get("FEVPercent", 1)
                 < filtering_dict_special.get("FEVPercent")[0]
             ):
-                search_str.append("low+FEV+ration+OR+low+FEV1+FVC+ratio")
+                search_str.append("low+FEV+ratio+OR+low+FEV1+FVC+ratio")
             elif (
                 input_params.get("FEVPercent", 1)
                 > filtering_dict_special.get("FEVPercent")[1]
             ):
-                search_str.append("high+FEV+ration+OR+high+FEV1+FVC+ratio")
+                search_str.append("high+FEV+ratio+OR+high+FEV1+FVC+ratio")
 
         if input_params.get("FVC", -1) > 0:
             if input_params.get("sex", "").lower() == "male":
@@ -147,23 +149,23 @@ class TrialFilterer:
                     input_params.get("FVC", -1)
                     < filtering_dict_special.get("FVC")[0][0]
                 ):
-                    search_str.append("low+FVC1")
+                    search_str.append("low+FVC1+OR+low+FVC")
                 elif (
                     input_params.get("FVC", -1)
                     > filtering_dict_special.get("FVC")[0][1]
                 ):
-                    search_str.append("high+FVC")
+                    search_str.append("high+FVC+OR+high+FVC")
             elif input_params.get("sex", "").lower() == "female":
                 if (
                     input_params.get("FVC", -1)
                     < filtering_dict_special.get("FVC")[1][0]
                 ):
-                    search_str.append("low+FVC")
+                    search_str.append("low+FVC+OR+low+FVC")
                 elif (
                     input_params.get("FVC", -1)
                     > filtering_dict_special.get("FVC")[1][1]
                 ):
-                    search_str.append("high+FVC")
+                    search_str.append("high+FVC+OR+high+FVC")
 
         if input_params.get("DLCO", 1) < filtering_dict_special.get("DLCO", [0.75])[0]:
             search_str.append("low+lung+diffusion+OR+low+DLCO")
@@ -173,30 +175,30 @@ class TrialFilterer:
             < filtering_dict_special.get("bloodEosinophil", [30, 350])[0]
             and input_params.get("bloodEosinophil", 300) > 0
         ):
-            search_str.append("low+blood+eosinophil+count")
+            search_str.append("low+blood+eosinophil+count+OR+low+eosinophil")
         elif (
             input_params.get("bloodEosinophil", 300)
             > filtering_dict_special.get("bloodEosinophil", [30, 350])[1]
         ):
-            search_str.append("high+blood+eosinophil+count")
+            search_str.append("high+blood+eosinophil+count+OR+high+eosinophil")
 
         if (
             input_params.get("BMI", 20)
             < filtering_dict_special.get("BMI", [18.5, 25])[0]
             and input_params.get("BMI", 20) > 0
         ):
-            search_str.append("underweight")
+            search_str.append("underweight+OR+under+weight+OR+low+BMI")
         elif (
             input_params.get("BMI", 20)
             > filtering_dict_special.get("BMI", [18.5, 25])[1]
         ):
-            search_str.append("overweight")
+            search_str.append("overweight+OR+over+weight+OR+high+BMI")
 
         if (
             input_params.get("coughSeverity") is not None
             and input_params.get("coughSeverity", 0) > 4
         ):
-            search_str.append("severe+cough+OR+VAS+40mm")
+            search_str.append("severe+cough+OR+heavy+cough+OR+VAS+40mm")
 
         if len(search_str) > 0:
             return "+OR+".join(search_str)
@@ -223,7 +225,7 @@ class TrialFilterer:
                 2,
             )
 
-        max_distance = input_params.get("max_distance", 500)  # default 500 km
+        max_distance = input_params.get("max_distance", 999999999)  # default 500 km
         studies = studies[studies["Distance"] <= max_distance]
         return studies
 
