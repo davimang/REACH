@@ -20,7 +20,7 @@ const asthma = {
         i: "i.e. not \"only as-needed\" inhaler",
     },
     usesInjection: {
-        label: "Uses Injectable Medication",
+        label: "Uses Injectable Medication for Asthma",
         initial: false,
         inputType: 'checkbox',
         clinician: false,
@@ -32,12 +32,24 @@ const asthma = {
         inputType: 'checkbox',
         clinician: "both",
         children: {
+            yearsSmoked: {
+                label: "How many Years have you Smoked?",
+                initial: 0,
+                inputType: 'number',
+                clinician: false,
+            },
+            dailySmokes: {
+                label: "How many Cigarettes did you Smoke per day while Smoking?",
+                initial: 0,
+                inputType: 'number',
+                clinician: false,
+            },
             packYears: {
                 label: "Pack-Years",
                 initial: 0,
                 inputType: 'number',
-                clinician: "both",
-                i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
+                clinician: true,
+                i: "number of years you smoked for multiplied by number of packs of cigarettes smoked per day",
             },
         }
     },
@@ -129,12 +141,24 @@ const copd = {
         inputType: 'checkbox',
         clinician: "both",
         children: {
+            yearsSmoked: {
+                label: "How many Years have you Smoked?",
+                initial: 0,
+                inputType: 'number',
+                clinician: false,
+            },
+            dailySmokes: {
+                label: "How many Cigarettes did you Smoke per day while Smoking?",
+                initial: 0,
+                inputType: 'number',
+                clinician: false,
+            },
             packYears: {
                 label: "Pack-Years",
                 initial: 0,
                 inputType: 'number',
-                clinician: "both",
-                i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
+                clinician: true,
+                i: "number of years you smoked for multiplied by number of packs of cigarettes smoked per day",
             },
         }
     },
@@ -225,12 +249,24 @@ const ild = {
         inputType: 'checkbox',
         clinician: "both",
         children: {
+            yearsSmoked: {
+                label: "How many Years have you Smoked?",
+                initial: 0,
+                inputType: 'number',
+                clinician: false,
+            },
+            dailySmokes: {
+                label: "How many Cigarettes did you Smoke per day while Smoking?",
+                initial: 0,
+                inputType: 'number',
+                clinician: false,
+            },
             packYears: {
                 label: "Pack-Years",
                 initial: 0,
                 inputType: 'number',
-                clinician: "both",
-                i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
+                clinician: true,
+                i: "number of years you smoked for multiplied by number of packs of cigarettes smoked per day",
             },
         }
     },
@@ -343,7 +379,7 @@ const chronicCough = {
                 initial: 0,
                 inputType: 'number',
                 clinician: true,
-                i: "number of years you smoked for multiplied by number of cigarettes smoked per day",
+                i: "number of years you smoked for multiplied by number of packs of cigarettes smoked per day",
             },
         }
     },
@@ -626,7 +662,7 @@ const sleepDisorders = {
         label: "Primary Sleep Disorder:", // TODO: (select all that apply) OR (select at most 1 of the following)?
         clinician: true,
         initial: true,
-        children : {
+        children: {
             hasOSA: {
                 label: "OSA",
                 initial: false,

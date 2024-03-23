@@ -70,9 +70,9 @@ filtering_dict_boolean = {
     "hasRBD": "REM+sleep+behavior+disorder+OR+RBD+OR+rapid+eye+movement+sleep+behavior+disorder",
     "hasNREM": "non+REM+OR+non+rapid+eye+movement",
     "hasRestlessLeg": "restless+leg+syndrome",
-    "onAsthmaBiologic" : "biologic",
-    "dailyCough" : "daily+cough",
-    "triedInhalersEtc" : "tried+inhalers+OR+tried+nasal+sprays+OR+tried+anti+acid"
+    "onAsthmaBiologic": "biologic",
+    "dailyCough": "daily+cough",
+    "triedInhalersEtc": "tried+inhalers+OR+tried+nasal+sprays+OR+tried+anti+acid",
 }
 
 filtering_dict_special = {
@@ -86,6 +86,8 @@ filtering_dict_special = {
 }
 
 # variables not shown here
+# yearsSmoked : float
+# dailySmokes : float
 # packYears : float
 # phGroup : int
 # apneadIndex : float
