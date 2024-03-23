@@ -3,29 +3,26 @@
 from .trial_fetcher import TrialFetcher
 
 input_params = {
-    "conditions": ["asthma"],
-    "age": 63,
+    "conditions": ["Chronic Obstructive Pulmonary Disease (COPD)", "COPD"],
+    "age": 64,
     "sex": "Male",
     "max_distance": 250,
     "address": {
-        "street": "1280 Main St W",
-        "city": "Hamilton",
-        "province": "Ontario",
+        # "street": "1280 Main St W",
+        # "city": "Hamilton",
+        # "province": "Ontario",
         "postalCode": "L8S 4L8",
     },
-    "isSmoker": False,
-    "packYears": 0,
+    "isSmoker": True,
+    "packYears": 10,
     "FEV": 0,
     "FEVPercent": 0,
-    "asthmaSeverity":
-    "Mild",
-    "onAsthmaBiologic": False,
-    "isEosinophilic": True,
+    "onDualTherapy": False,
+    "onTripleTherapy": False,
+    "isEosinophilic": False,
     "bloodEosinophil": 0,
-    "numExacerbations": 0,
+    "numExacerbations": 5,
     "numSevereExacerbations": 0,
-    #"usesDailyInhaler": True,
-    #"usesInjection": True
 }
 
 print(len(TrialFetcher.search_studies(input_params)))
