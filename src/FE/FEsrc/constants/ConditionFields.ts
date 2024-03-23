@@ -329,7 +329,6 @@ const chronicCough = {
         initial: 0,
         inputType: 'number',
         clinician: false,
-        i: ">4 required as for many studies you need a cough severity VAS of more than 40mm"
     },
     underlyingConditionsSUBHEADER: {
         label: "Underlying Conditions Currently or Previously Treated For (select all that apply):",
