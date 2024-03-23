@@ -160,7 +160,15 @@ const ProfileCreationPage = (props) => {
 
             if (response.ok) {
                 localStorage.setItem('openProfileSnack', "true");
-                navigate(!props.editing ? '/' : '/listprofiles');
+                if(!props.editing && localStorage.getItem("firstProfileCreated") == "true"){
+                    navigate('/');
+                }
+                else if(!props.editing){
+                    navigate('/search');
+                }
+                else{
+                    navigate('/listprofiles');
+                }
             }
             else {
                 setError(true);

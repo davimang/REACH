@@ -38,6 +38,7 @@ const LandingPage = () => {
     const [isProfileSnackBarOpen, setIsProfileSnackBarOpen] = useState(false);
     const [isFirstProfileSnackBarOpen, setIsFirstProfileSnackBarOpen] = useState(false);
     const { isAuthenticated } = useAuth();
+    const isClinician = localStorage.getItem('isClinician') == "true";
 
     const checkLoginSuccess = () => {
         if (localStorage.getItem('openLoginSnack')) {
@@ -100,7 +101,7 @@ const LandingPage = () => {
             </LandingPageText>
             <PortalButtonsContainer>
                 <PortalButtons type='button' onClick={navigateToSearch}>REACH Portal</PortalButtons>
-                <PortalButtons type='button' onClick={navigateToProfiles}>Profiles</PortalButtons>
+                <PortalButtons type='button' onClick={navigateToProfiles}>{isClinician ? "Patient Profiles" : "Search Profiles"}</PortalButtons>
             </PortalButtonsContainer>
         </LandingPageContainer >
     );
