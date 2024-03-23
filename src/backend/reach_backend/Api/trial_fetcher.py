@@ -5,7 +5,7 @@ import json
 import requests
 import pandas as pd
 from geopy.geocoders import Nominatim
-from trial_filterer import TrialFilterer
+from .trial_filterer import TrialFilterer
 
 locator = Nominatim(user_agent="my_request")
 
@@ -46,15 +46,18 @@ class TrialFetcher:
             for cond in conditions[1:]:
                 condition_search += "+" + cond
 
-        home_address = (
-            input_params["address"]["street"]
-            + ", "
-            + input_params["address"]["city"]
-            + ", "
-            + input_params["address"]["province"]
-            + " "
-            + input_params["address"]["postalCode"]
-        )
+        home_address = ""
+        address_part = input_params.get("address")
+
+        #build address
+        if address_part.get("street", "") != "":
+            home_address += address_part.get("street", "") + ", "
+        if address_part.get("city", "") != "":
+            home_address += address_part.get("city", "") + ", "
+        if address_part.get("province", "") != "":
+            home_address += address_part.get("province", "") + " "
+        if address_part.get("postalCode", "") != "":
+            home_address += address_part.get("postalCode", "") + " "
 
         home_geo = locator.geocode(home_address, timeout=10)
 
@@ -77,8 +80,6 @@ class TrialFetcher:
 
         # start one rank up from the last rank returned by a previous call
         studies = pd.DataFrame()
-
-        print(search_template)
 
         # keep pulling trials until you hit 5 or
         next_page = input_params.get("next_page")
@@ -168,8 +169,6 @@ class TrialFetcher:
         ]
         studies.sort_values(by="Distance", ascending=True, inplace=True)
         studies.reset_index(inplace=True, drop=True)
-
-        print(studies['NCTId'].tolist())
 
         results_json = studies.to_dict(orient="index")  # convert to json
         return results_json  # return
