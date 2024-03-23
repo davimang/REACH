@@ -35,7 +35,7 @@ class TrialFetcher:
         conditions = input_params["conditions"]
         conditions = [c.replace(" ", "+") for c in conditions]
 
-        #remove any None type entries
+        # remove any None type entries
         remove_none = {k: v for k, v in input_params.items() if v is not None}
         input_params.clear()
         input_params.update(remove_none)
@@ -49,7 +49,7 @@ class TrialFetcher:
         home_address = ""
         address_part = input_params.get("address")
 
-        #build address
+        # build address
         if address_part.get("street", "") != "":
             home_address += address_part.get("street", "") + ", "
         if address_part.get("city", "") != "":

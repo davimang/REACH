@@ -27,8 +27,14 @@ User = get_user_model()
 trial_fetcher = TrialFetcher()
 
 gender_mapping = {"M": "Male", "F": "Female", "O": "Other"}
-condition_mapping = {"Chronic Obstructive Pulmonary Disease (COPD)": ["COPD", "Chronic Obstructive Pulmonary Disease (COPD)"],
-                     "Interstitial Lung Disease (ILD)": ["Interstitial Lung Disease (ILD)", "ILD"]}
+condition_mapping = {
+    "Chronic Obstructive Pulmonary Disease (COPD)": [
+        "COPD",
+        "Chronic Obstructive Pulmonary Disease (COPD)",
+    ],
+    "Interstitial Lung Disease (ILD)": ["Interstitial Lung Disease (ILD)", "ILD"],
+}
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """API endpoint that allows users to be viewed or edited."""

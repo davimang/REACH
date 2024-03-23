@@ -3,7 +3,7 @@ persistent=yes
 ignore=tests.py, urls.py, trial_fetcher.py, migrations, TrialFilterer.py
 
 [MESSAGES CONTROL]
-disable=I0011,W0212,W0613,W0702,C0103,R0901,E5142, C0326, C0330, R0902, W0246, C0301, R0912, R0915
+disable=I0011,W0212,W0613,W0702,C0103,R0901,E5142, C0326, C0330, R0902, W0246, C0301, R0912, R0915, R1715
 
 [REPORTS]
 msg-template={path}:{line}: [{msg_id}({symbol}), {obj}] {msg}

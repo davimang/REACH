@@ -71,7 +71,10 @@ class TrialFilterer:
             search_str.append("low+oxygen+saturation")
 
         if input_params.get("backgroundTherapy", "") in [
-            "dual therapy", "triple therapy", "mono therapy"]:
+            "dual therapy",
+            "triple therapy",
+            "mono therapy",
+        ]:
             search_str.append("therapy")
             match input_params.get("backgroundTherapy", ""):
                 case "mono therapy":
@@ -81,8 +84,7 @@ class TrialFilterer:
                 case "triple therapy":
                     search_str.append("triple+therapy")
 
-        if input_params.get("maskType", "") in [
-            "nasal", "oronasal", "full face"]:
+        if input_params.get("maskType", "") in ["nasal", "oronasal", "full face"]:
             search_str.append("face+mask")
             match input_params.get("backgroundTherapy", ""):
                 case "nasal":
@@ -92,8 +94,7 @@ class TrialFilterer:
                 case "full face":
                     search_str.append("full+face+mask")
 
-        if input_params.get("maskType", "") in [
-            "BiPAP-S", "BiPAP-ST"]:
+        if input_params.get("maskType", "") in ["BiPAP-S", "BiPAP-ST"]:
             search_str.append("face+mask")
             if input_params.get("maskType", "") == "BiPAP-S":
                 search_str.append("BiPAP-S")
@@ -177,8 +178,8 @@ class TrialFilterer:
 
         if (
             input_params.get("BMI", 20)
-            < filtering_dict_special.get("BMI", [18.5, 25])[0] and
-            input_params.get("BMI", 20) > 0
+            < filtering_dict_special.get("BMI", [18.5, 25])[0]
+            and input_params.get("BMI", 20) > 0
         ):
             search_str.append("underweight+OR+under+weight+OR+low+BMI")
         elif (
@@ -187,10 +188,11 @@ class TrialFilterer:
         ):
             search_str.append("overweight+OR+over+weight+OR+high+BMI")
 
-        if (input_params.get("coughSeverity") is not None
-            and input_params.get("coughSeverity", 0) > 4):
+        if (
+            input_params.get("coughSeverity") is not None
+            and input_params.get("coughSeverity", 0) > 4
+        ):
             search_str.append("severe+cough+OR+heavy+cough+OR+VAS+40mm")
-
 
         if len(search_str) > 0:
             return "+OR+".join(search_str)
@@ -228,36 +230,50 @@ class TrialFilterer:
         for i in studies.index:
             studies.at[i, "FullAddress"] = (
                 studies.at[i, "LocationFacility"] + ", "
-                if (not pd.isnull(studies.at[i, "LocationFacility"]) and
-                    studies.at[i, "LocationFacility"] != "")
+                if (
+                    not pd.isnull(studies.at[i, "LocationFacility"])
+                    and studies.at[i, "LocationFacility"] != ""
+                )
                 else studies.at[i, "FullAddress"]
             )
             studies.at[i, "FullAddress"] = (
                 studies.at[i, "FullAddress"] + studies.at[i, "LocationCity"]
-                if (not pd.isnull(studies.at[i, "LocationCity"]) and
-                    studies.at[i, "LocationCity"] != "")
+                if (
+                    not pd.isnull(studies.at[i, "LocationCity"])
+                    and studies.at[i, "LocationCity"] != ""
+                )
                 else studies.at[i, "FullAddress"]
             )
             studies.at[i, "FullAddress"] = (
                 studies.at[i, "FullAddress"] + ", " + studies.at[i, "LocationState"]
-                if (not pd.isnull(studies.at[i, "LocationState"]) and
-                    studies.at[i, "LocationState"] != "")
+                if (
+                    not pd.isnull(studies.at[i, "LocationState"])
+                    and studies.at[i, "LocationState"] != ""
+                )
                 else studies.at[i, "FullAddress"]
             )
             studies.at[i, "FullAddress"] = (
                 studies.at[i, "FullAddress"] + " " + str(studies.at[i, "LocationZip"])
-                if (not pd.isnull(studies.at[i, "LocationZip"]) and
-                    studies.at[i, "LocationZip"] != "")
+                if (
+                    not pd.isnull(studies.at[i, "LocationZip"])
+                    and studies.at[i, "LocationZip"] != ""
+                )
                 else studies.at[i, "FullAddress"]
             )
             studies.at[i, "FullAddress"] = (
                 studies.at[i, "FullAddress"] + ", " + studies.at[i, "LocationCountry"]
-                if (not pd.isnull(studies.at[i, "LocationCountry"]) and
-                    studies.at[i, "LocationCountry"] != "")
+                if (
+                    not pd.isnull(studies.at[i, "LocationCountry"])
+                    and studies.at[i, "LocationCountry"] != ""
+                )
                 else studies.at[i, "FullAddress"]
             )
-            studies.at[i, "FullAddress"] = studies.at[i, "FullAddress"].replace(" & ", " and ")
-            studies.at[i, "FullAddress"] = studies.at[i, "FullAddress"].replace("&", " and ")
+            studies.at[i, "FullAddress"] = studies.at[i, "FullAddress"].replace(
+                " & ", " and "
+            )
+            studies.at[i, "FullAddress"] = studies.at[i, "FullAddress"].replace(
+                "&", " and "
+            )
         return studies
 
     @staticmethod

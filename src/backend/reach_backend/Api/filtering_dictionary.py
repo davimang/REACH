@@ -74,9 +74,9 @@ filtering_dict_boolean = {
     "hasRBD": "REM+sleep+behavior+disorder+OR+RBD+OR+rapid+eye+movement+sleep+behavior+disorder",
     "hasNREM": "non+REM+OR+non+rapid+eye+movement",
     "hasRestlessLeg": "restless+leg",
-    "onAsthmaBiologic" : "biologic",
-    "dailyCough" : "daily+cough+OR+frequent+cough",
-    "triedInhalersEtc" : "inhaler+OR+nasal+spray+OR+anti+acid"
+    "onAsthmaBiologic": "biologic",
+    "dailyCough": "daily+cough+OR+frequent+cough",
+    "triedInhalersEtc": "inhaler+OR+nasal+spray+OR+anti+acid",
 }
 
 filtering_dict_special = {
