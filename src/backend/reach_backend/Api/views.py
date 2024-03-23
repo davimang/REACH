@@ -27,7 +27,8 @@ User = get_user_model()
 trial_fetcher = TrialFetcher()
 
 gender_mapping = {"M": "Male", "F": "Female", "O": "Other"}
-
+condition_mapping = {"Chronic Obstructive Pulmonary Disease (COPD)": ["COPD", "Chronic Obstructive Pulmonary Disease (COPD)"],
+                     "Interstitial Lung Disease (ILD)": ["Interstitial Lung Disease (ILD)", "ILD"]}
 
 class UserViewSet(viewsets.ModelViewSet):
     """API endpoint that allows users to be viewed or edited."""
@@ -181,6 +182,7 @@ def search_trials(request):
         info_profile=info_profile, next_page=next_page, max_distance=max_distance
     )
     trials = trial_fetcher.search_studies(trial_input_info)
+    print(len(trials))
     if not isinstance(trials, dict):
         return Response(json.dumps(None))
     # saved trials attached to current search profile
@@ -201,12 +203,16 @@ def build_input_info(info_profile, next_page, max_distance):
     sex = gender_mapping[info_profile.gender]
     address = info_profile.address
     condition = info_profile.condition
+    if condition in condition_mapping:
+        condition = condition_mapping[condition]
+    else:
+        condition = [condition]
     advanced_info = info_profile.advanced_info
     info = {
         "age": age,
         "sex": sex,
         "address": address,
-        "conditions": [condition],
+        "conditions": condition,
         "next_page": next_page,
         "max_distance": max_distance,
         **advanced_info,
