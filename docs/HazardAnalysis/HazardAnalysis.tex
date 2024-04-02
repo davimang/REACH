@@ -131,7 +131,7 @@ able to authorize themselves using an account that is not their own would be a f
   Login Authentication  & User is unable to login & User is unable to access their profile and autofill search parameters. & User forgets password, password authentication is down, database is unavailable & User is given the option to change password if password is incorrect, otherwise the user can still use guest access. & FR-4, FR-5 & HT-6 \\\cline{2-7}
   & Unauthorized user logs into a user's account. & Unauthorized user gains access to their medical data and can search on their behalf. & Insufficient password strength, login authentication bug. & Require strong passwords, inform users of login attempts from new locations. & NFR-15, SR-8 & HT-7 \\
     \hline
-  Email Generation & Email is sent from a different email then the one the user would like to use. & Inconvenience to the user. Potentially disrupting communication between the user and the researcher. & User is signed in with an email that they do not want to use when contacting researchers. & User will have the ability to select what email they would like to use before sending the email. They should also be given the ability to modify the template. &  & HT-8 \\\cline{2-7}
+  Email Generation & Email is sent from a different email then the one the user would like to use. & Inconvenience to the user. Potentially disrupting communication between the user and the researcher. & User is signed in with an email that they do not want to use when contacting researchers. & User will have the ability to select what email they would like to use before sending the email. They should also be given the ability to modify the template. & FR-10 & HT-8 \\\cline{2-7}
     \hline
   General  & User loses internet connection & User is unable to search for trials. User is unable to update personal data. & User's device lost connection to internet, or ISP outage.& Data is stored locally untill it is uploaded to the database. Application Displays a warning that it is unable to contact the internet. &  SR-9, SR-10 & HT-9 \\\cline{2-7}
   & Application Crashes & User may lose unsaved data. & Programming error, hardware failure, user device malfunction. & User is informed that unsaved data may have been lost when the application is launched again. &  SR-11 & HT-10 \\
@@ -172,7 +172,7 @@ Some users may not realize the importance of entering sufficient and accurate in
 \noindent{\textbf{SR-6:}}
 The system shall restrict users to guest access in the event of a database failure.\\
 \textbf{Rationale:}
-Without database access, users will be unable to login or retrieve data for searches. Constraining users to guest access ensures they can still use the system without issue.\\~\\
+If the database is down, users will be unable to login or retrieve data for searches. Constraining users to guest access ensures they can still use the system without issue.\\~\\
 
 \noindent{\textbf{SR-7:}}
 In the event of an unauthorized user accessing the database, the database should be taken offline and access should be restricted.\\
