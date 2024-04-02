@@ -103,7 +103,10 @@ they are included because, as the environment, they are the means of accessing t
 
 
 \section{Critical Assumptions}
-N/A. There are no critical assumptions being made about the software or system.
+
+One critical assumption that is being made is that the external API will not go down very often, and will not be down for a significant amount 
+of time. The mitigation provided below for the external API crashing is only a temporary one, and would only work under this assumption. Another critical 
+assumption that we are making is that the Google Maps API will not fail to a point that it will impact the user.
 
 \section{Failure Mode and Effect Analysis}
     
