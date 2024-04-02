@@ -149,19 +149,22 @@ It is assumed that users of the application will vary in age, ability, and how m
 
 \begin{enumerate}
 
-\item \textit{Patient/Clinician Account Creation}. A patient or clinician creates an account on the app. The user first selects to create an account. They provide a username and password, along with their email. Upon entering valid inputs, the user is informed that their account is created, and they are logged in.
+\item \textit{Patient/Clinician Account Creation}. A patient or clinician creates an account on the app. The user first selects to create an account. They provide a username and password, along with their email. Upon entering valid inputs, the user is informed that their account is created, and they are logged in. Otherwise, the user should be notified of the invalid credentials.
 
 \item \textit{Patient/Clinician Login}. A patient or clinician logs into their account. When the user attempts to login to their account, they are required to input their credentials - once the system verifies that their details are valid it will log them in to the system. If invalid credentials are entered, the user is informed of the incorrect credentials and is prompted to try again.
 
-\item \textit{Input Search Parameters}. The user inputs search parameters into the search fields to filter available studies. This use case is optional as a logged in user will automatically search by their saved parameters.
+\item \textit{Profile Creation}. The user can input a set of information related to themselves and their medical condition(s), and save it for later use when searching for clinical studies or trials.
 
-\item \textit{Advanced Input Search Parameters}. A clinician inputs search parameters into the advanced search fields to filter available studies.
+\item \textit{Select Profile}. The user can select a profile that they have previously created, which will become the basis for a study search.
 
-\item \textit{Search for Studies}. Using input parameters, studies are retrieved from the repository, filtered, and displayed to the user. 
+\item \textit{Search for Studies}. Using a previously created profile that is chosen by the user, studies are retrieved from the repository, filtered, and displayed to the user. 
 
 \item \textit{Send Email to Organizer}. Once a user selects a study, they can use the provided template and contact information to send an email to the organizer of the study.
 
-\item \textit{Patient Profile Modification}. A patient modifies their profile to change certain attributes (weight, height, birthday, medical conditions, address). Upon saving the changes, the server updates their information in the database, and the change is reflected in the frontend. 
+\item \textit{Profile Modification}. A patient modifies their profile to change certain attributes (weight, height, birthday, medical conditions, address). Upon saving the changes, the server updates their information in the database, and the change is reflected in the frontend.
+
+\item \textit{Bookmark Studies}. Upon searching for clinical studies/trials, a user can bookmark (i.e., save) the study/trial, and should be able to view all the studies/trials they have saved previously.
+
 
 \begin{figure}[H]
 \centering
