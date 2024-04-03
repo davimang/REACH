@@ -14,6 +14,8 @@ import { ErrorMessage } from '../components/FormStyles';
 import { useAuth } from '../contexts/AuthContext';
 import CustomizedSnackbars from '../components/SnackBar';
 
+//styling
+
 const EmptyResponse = styled.div`
     position: fixed;
     left: 45%;
@@ -97,11 +99,16 @@ const PageContainer = styled.div`
     height: 100%;
 `;
 
+
+//batch size - i.e., how many trials are fetched from the backend
 const trialBatchFetchSize = 30;
+//display size - i.e., how many trials displayed at once
 const trialBatchDisplaySize = 5;
 
+//search component
 const TrialSearchPage = () => {
     const navigate = useNavigate();
+    
     const [responseProfiles, setResponseProfiles] = useState<PatientInfoList | null>(null);
     const [responseTrials, setResponseTrials] = useState<TrialInfoList | null>(null);
     const [selectedProfileId, setSelectedProfileId] = useState('');
@@ -137,13 +144,16 @@ const TrialSearchPage = () => {
         setOpen(!open);
     };
 
+    // called when a trial is either saved or unsaved
     const handleSave = async (trial) => {
         const isSaved = trial.saved
         trial.saved = !trial.saved;
         setTrialSaved({ ...trialSaved, [trial.NCTId]: trial.saved });
         const endpoint = `/trials/`;
         if (!isSaved) {
+            // if not already saved, hit the save endpoint
             try {
+                // format trial content
                 const body = {
                     title: trial.BriefTitle,
                     description: trial.DetailedDescription ? trial.DetailedDescription : "N/A",
@@ -186,6 +196,7 @@ const TrialSearchPage = () => {
             }
         }
         else {
+            // already saved, so hit the delete endpoint - i.e., remove it from being saved
             try {
                 const requestOptions = {
                     method: 'DELETE',
@@ -202,6 +213,7 @@ const TrialSearchPage = () => {
         }
     };
 
+    // fetch the list of profiles attached to the current user
     const fetchProfilesList = async () => {
         try {
             const endpoint = `/patientinfo/?user=${userID}`;
@@ -221,12 +233,14 @@ const TrialSearchPage = () => {
 
     const fetchTrials = async (onNextPage = true) => {
 
+        // if no profile is selected, display an error
         if (!selectedProfileId) {
             setProfileError(true);
             return;
         }
 
         if (onNextPage) {
+            // if not fetching the first batch of trials, it will use the page token
             try {
                 setLoading(true);
                 const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userID}&next_page=${pageToken}&max_distance=${maxDistance}`;
@@ -243,6 +257,9 @@ const TrialSearchPage = () => {
                     setHasNextPage(false);
                 }
                 else {
+                    // maintain map between each trial and their position in the list of trials
+                    // used when displaying a subset of the batch of trials that has been returned
+                    // by the backend
                     var newTrials = { ...responseTrials };
                     for (const key in formattedData) {
                         newTrials[Number(key) + currentTrialCount] = formattedData[key];
@@ -257,6 +274,7 @@ const TrialSearchPage = () => {
             }
         }
         else {
+            // fetching first batch of trials - no need for page token
             try {
                 setLoading(true);
                 const endpoint = `/search_trials/?info_id=${selectedProfileId}&user_id=${userID}&max_distance=${maxDistance}`;
@@ -294,6 +312,7 @@ const TrialSearchPage = () => {
         }
     }
 
+    // used to open a cue upon creation of a user's first profile
     const checkProfileSuccess = () => {
         if (localStorage.getItem('openProfileSnack')) {
             if (localStorage.getItem('firstProfileCreated')) {
@@ -328,6 +347,7 @@ const TrialSearchPage = () => {
         }
     }
 
+    // upon load of screen, a trial should be selected so that the map is not empty
     const updateDefaultTrial = () => {
         if (responseTrials) {
             const defaultTrial = responseTrials[0];
@@ -336,6 +356,7 @@ const TrialSearchPage = () => {
         }
     }
 
+    // fetch next page of trials
     const nextPage = (e) => {
         if (responseTrials && currentTrialCount <= currentTrialPointer) {
             const numTrials = Object.keys(responseTrials).length;
@@ -394,6 +415,8 @@ const TrialSearchPage = () => {
         );
     }
 
+
+    // auth use effect
     useEffect(() => {
         setAuthToken(localStorage.getItem('accessToken'));
         if (localStorage.getItem('accessToken') == null) {
@@ -401,18 +424,22 @@ const TrialSearchPage = () => {
         }
     }, [localStorage.getItem('accessToken')]);
 
+    // functions to run as soon as page loads
     useEffect(() => {
         fetchProfilesList();
         getName();
         checkProfileSuccess();
     }, []);
 
+    // when page token changes, need to fetch that new page
     useEffect(() => {
         if (pageToken) {
             fetchTrials();
         }
     }, [pageToken]);
 
+    // run when response trials changes - but, not on the initial load of the page,
+    // only after everything has mounted
     useDidMountEffect(() => {
         updatePageDetails();
         if (responseTrials && Object.keys(responseTrials).length <= trialBatchFetchSize) {
