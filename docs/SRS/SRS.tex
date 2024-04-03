@@ -39,13 +39,13 @@
 \listoffigures
 
 \begin{table}[bp]
-\caption{\bf Revision History}
-\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
-\midrule
-2023-10-06 & 1.0 & Initial revision of SRS\\
-\bottomrule
-\end{tabularx}
+    \caption{\bf Revision History}
+    \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+        \toprule {\bf Date} & {\bf Version} & {\bf Notes}             \\
+        \midrule
+        2023-10-06          & 1.0           & Initial revision of SRS \\
+        \bottomrule
+    \end{tabularx}
 \end{table}
 
 \newpage
@@ -67,7 +67,7 @@ The purpose of this project is to create a web application, REACH, which will he
 
 \subsubsection{The Clients}
 
-The clients for this project are our project supervisors: Dr. Terrence Ho, and Dr. Cieran Scallan. 
+The clients for this project are our project supervisors: Dr. Terrence Ho, and Dr. Cieran Scallan.
 
 \subsubsection{The Customers}
 
@@ -103,7 +103,7 @@ The project must not use more than \$750.
 
 \subsection{Relevant Facts and Assumptions}
 
-It is assumed that users of the application will vary in age, ability, and how much experience they have in using web applications. 
+It is assumed that users of the application will vary in age, ability, and how much experience they have in using web applications.
 
 \section{Functional Requirements}
 
@@ -111,73 +111,73 @@ It is assumed that users of the application will vary in age, ability, and how m
 
 \subsubsection{The Context of the Work}
 \begin{figure}[H]
-\centering
-\includegraphics[scale=0.7]{Context.png}
-\caption{Work Context Diagram}
+    \centering
+    \includegraphics[scale=0.7]{Context.png}
+    \caption{Work Context Diagram}
 \end{figure}
 
 \subsubsection{Work Partitioning}
 \begin{table}[H]
-\begin{tabular}{|c|p{3cm}|p{4cm}|p{3cm}|}
-\hline
-\textbf{Event Number} & \textbf{Event Name}         & \textbf{Input}              & \textbf{Output}                  \\ \hline
-1            & Search             & Keyboard and mouse & Trial list              \\ \hline
-2            & Login              & Keyboard and mouse & Logged-in view          \\ \hline
-3            & Create account     & Keyboard mouse & User account            \\ \hline
-4            & Opening FAQ        & Mouse              & FAQ page                \\ \hline
-5            & Updating user data & Keyboard and mouse & Updated user data entry \\ \hline
-6            & Sending email      & Keyboard and mouse & Sent email              \\ \hline
-\end{tabular}
-\caption{Work Partitioning Events}
+    \begin{tabular}{|c|p{3cm}|p{4cm}|p{3cm}|}
+        \hline
+        \textbf{Event Number} & \textbf{Event Name} & \textbf{Input}     & \textbf{Output}         \\ \hline
+        1                     & Search              & Keyboard and mouse & Trial list              \\ \hline
+        2                     & Login               & Keyboard and mouse & Logged-in view          \\ \hline
+        3                     & Create account      & Keyboard mouse     & User account            \\ \hline
+        4                     & Opening FAQ         & Mouse              & FAQ page                \\ \hline
+        5                     & Updating user data  & Keyboard and mouse & Updated user data entry \\ \hline
+        6                     & Sending email       & Keyboard and mouse & Sent email              \\ \hline
+    \end{tabular}
+    \caption{Work Partitioning Events}
 \end{table}
 
 \begin{table}[H]
-\begin{tabular}{|c|p {11cm}|}
-\hline
-\textbf{Event Number} & \textbf{Summary}                                                                                                            \\ \hline
-1            & The user can use their mouse to navigate to the search fields, use their keyboard to enter data, and click submit. \\ \hline
-2            & The user, through mouse and keyboard input, can enter their login details in the login screen.                     \\ \hline
-3            & The user can enter their new login details through mouse and keyboard in the account creation dialogue.            \\ \hline
-4            & The user can click on the FAQ option to arrive at the FAQ page.                                                    \\ \hline
-5            & The user can use their mouse and keyboard to navigate to their profile and update their user data.                 \\ \hline
-6            & The user can use their mouse and keyboard to send an email to the trial coordinator.                               \\ \hline
-\end{tabular}
-\caption{Work Partitioning Summaries}
+    \begin{tabular}{|c|p {11cm}|}
+        \hline
+        \textbf{Event Number} & \textbf{Summary}                                                                                                   \\ \hline
+        1                     & The user can use their mouse to navigate to the search fields, use their keyboard to enter data, and click submit. \\ \hline
+        2                     & The user, through mouse and keyboard input, can enter their login details in the login screen.                     \\ \hline
+        3                     & The user can enter their new login details through mouse and keyboard in the account creation dialogue.            \\ \hline
+        4                     & The user can click on the FAQ option to arrive at the FAQ page.                                                    \\ \hline
+        5                     & The user can use their mouse and keyboard to navigate to their profile and update their user data.                 \\ \hline
+        6                     & The user can use their mouse and keyboard to send an email to the trial coordinator.                               \\ \hline
+    \end{tabular}
+    \caption{Work Partitioning Summaries}
 \end{table}
 
 \subsubsection{Individual Product Use Cases}
 
 \begin{enumerate}
 
-\item \textit{Patient/Clinician Account Creation}. A patient or clinician creates an account on the app. The user first selects to create an account. They provide a username and password, along with their email. Upon entering valid inputs, the user is informed that their account is created, and they are logged in. Otherwise, the user should be notified of the invalid credentials.
+    \item \textit{Patient/Clinician Account Creation}. A patient or clinician creates an account on the app. The user first selects to create an account. They provide a username and password, along with their email. Upon entering valid inputs, the user is informed that their account is created, and they are logged in. Otherwise, the user should be notified of the invalid credentials.
 
-\item \textit{Patient/Clinician Login}. A patient or clinician logs into their account. When the user attempts to login to their account, they are required to input their credentials - once the system verifies that their details are valid it will log them in to the system. If invalid credentials are entered, the user is informed of the incorrect credentials and is prompted to try again.
+    \item \textit{Patient/Clinician Login}. A patient or clinician logs into their account. When the user attempts to login to their account, they are required to input their credentials - once the system verifies that their details are valid it will log them in to the system. If invalid credentials are entered, the user is informed of the incorrect credentials and is prompted to try again.
 
-\item \textit{Profile Creation}. The user can input a set of information related to themselves and their medical condition(s), and save it for later use when searching for clinical studies or trials.
+    \item \textit{Profile Creation}. The user can input a set of information related to themselves and their medical condition(s), and save it for later use when searching for clinical studies or trials.
 
-\item \textit{Select Profile}. The user can select a profile that they have previously created, which will become the basis for a study search.
+    \item \textit{Select Profile}. The user can select a profile that they have previously created, which will become the basis for a study search.
 
-\item \textit{Search for Studies}. Using a previously created profile that is chosen by the user, studies are retrieved from the repository, filtered, and displayed to the user. 
+    \item \textit{Search for Studies}. Using a previously created profile that is chosen by the user, studies are retrieved from the repository, filtered, and displayed to the user.
 
-\item \textit{Send Email to Organizer}. Once a user selects a study, they can use the provided template and contact information to send an email to the organizer of the study.
+    \item \textit{Send Email to Organizer}. Once a user selects a study, they can use the provided template and contact information to send an email to the organizer of the study.
 
-\item \textit{Profile Modification}. A patient modifies their profile to change certain attributes (weight, height, birthday, medical conditions, address). Upon saving the changes, the server updates their information in the database, and the change is reflected in the frontend.
+    \item \textit{Profile Modification}. A patient modifies their profile to change certain attributes (weight, height, birthday, medical conditions, address). Upon saving the changes, the server updates their information in the database, and the change is reflected in the frontend.
 
-\item \textit{Bookmark Studies}. Upon searching for clinical studies/trials, a user can bookmark (i.e., save) the study/trial, and should be able to view all the studies/trials they have saved previously.
+    \item \textit{Bookmark Studies}. Upon searching for clinical studies/trials, a user can bookmark (i.e., save) the study/trial, and should be able to view all the studies/trials they have saved previously.
 
 
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.5]{PatientUseCase.png}
-\caption{Patient Use Case Diagram}
-\end{figure}
+          \begin{figure}[H]
+              \centering
+              \includegraphics[scale=0.5]{PatientUseCase.png}
+              \caption{Patient Use Case Diagram}
+          \end{figure}
 
 \end{enumerate}
 
 \subsection{Functional Requirements}
 
 \textbf{FR-\the\value{FR_Counter}:}
-The system shall enable the user to create an account before signing in to the application. Account credentials must include 
+The system shall enable the user to create an account before signing in to the application. Account credentials must include
 an email and a password satisfying the NIST password guidelines.\\
 \textbf{Rationale:}
 Many application features will be reliant on a user account/email. Additionally, to ensure the safety/security of sensitive information,
@@ -219,7 +219,7 @@ The system shall enable a user to reset their password before signing in to the 
 \textbf{Rationale:}
 It is likely some users will forget their password, and will need to reset it to be able to log back into their account.\\
 \textbf{Fit criterion:}
-The system shall send the user an email (to the email tied to the account they are trying to log into), allowing them to 
+The system shall send the user an email (to the email tied to the account they are trying to log into), allowing them to
 create a new password. The user should be logged into their account upon entering a new, valid password.\\~\\
 \addtocounter{FR_Counter}{1}
 
@@ -238,25 +238,25 @@ The system shall return the user to the main landing page upon signing out of th
     \item Precondition - User is on the initial page of the app
     \item Postcondition - User is logged in to application
     \item Intermediary States:
-    \begin{itemize}
-        \item User is in the process of signing in
-        \item User is in the process of creating an account
-        \item User is in the process of resetting their password
-    \end{itemize} 
+          \begin{itemize}
+              \item User is in the process of signing in
+              \item User is in the process of creating an account
+              \item User is in the process of resetting their password
+          \end{itemize}
 \end{itemize}
 
 \begin{figure}[H]
-\includegraphics[width=\textwidth]{Signup_state_machine}
+    \includegraphics[width=\textwidth]{Signup_state_machine}
 \end{figure}
 
 
 \noindent{\textbf{FR-\the\value{FR_Counter}:}}
-The system shall prompt a user to enter information about themselves and their medical history 
+The system shall prompt a user to enter information about themselves and their medical history
 upon creation of an account (i.e., first time signing on), or when a user signs on as a guest.\\
 \textbf{Rationale:}
 The system must know information about the user to match them to potential clinical trials.\\
 \textbf{Fit criterion:}
-After a user signs on for the first time, they should be asked to enter their date of birth, height, weight, gender, and 
+After a user signs on for the first time, they should be asked to enter their date of birth, height, weight, gender, and
 current address. Additionally, they should be asked to enter any medications they take, and any medical conditions that they have.\\~\\
 \addtocounter{FR_Counter}{1}
 
@@ -328,7 +328,7 @@ The system shall automatically populate search fields for a logged-in user with 
 \noindent{\textbf{FR-\the\value{FR_Counter}:}}
 The system shall allow a signed-in user to save (or, bookmark) trials. \\
 \textbf{Rationale:}
-This will allow users to save trials that they are interested in for later use (for example, if the trial is not recruiting yet, or 
+This will allow users to save trials that they are interested in for later use (for example, if the trial is not recruiting yet, or
 if the user still needs to decide whether or not they want to partake in the study).\\
 \textbf{Fit criterion:}
 Users should be able to know which trials are saved and which trials are not saved after saving a trial.\\~\\
@@ -337,7 +337,7 @@ Users should be able to know which trials are saved and which trials are not sav
 \noindent{\textbf{FR-\the\value{FR_Counter}:}}
 The system shall allow a signed-in user to delete trials that they have previously saved. \\
 \textbf{Rationale:}
-A user may be finished with a trial, may no longer be interested in the trial, or could have saved the trial by accident - all valid reasons 
+A user may be finished with a trial, may no longer be interested in the trial, or could have saved the trial by accident - all valid reasons
 for a user to want to delete the trial.\\
 \textbf{Fit criterion:}
 Users should be able to know which trials are saved and which trials are not saved after deleting a trial.\\~\\
@@ -346,20 +346,20 @@ Users should be able to know which trials are saved and which trials are not sav
 \noindent{\textbf{FR-\the\value{FR_Counter}:}}
 The system shall allow a signed-in user to access the trials that they have previously saved. \\
 \textbf{Rationale:}
-A user will likely be saving trials for future use - so the user must have an easy way to access these saved trials when they return 
+A user will likely be saving trials for future use - so the user must have an easy way to access these saved trials when they return
 to the application at a later date.\\
 \textbf{Fit criterion:}
-Users can obtain a list of all the trials that they have previously saved, and can perform any action on these trials that they 
+Users can obtain a list of all the trials that they have previously saved, and can perform any action on these trials that they
 would from the searching page (for example, deleting the trial).\\~\\
 \addtocounter{FR_Counter}{1}
 
 \noindent{\textbf{FR-\the\value{FR_Counter}:}}
 The system shall allow a signed-in user to filter the list of saved trials based on the different sets of search criteria that they have created on their account. \\
 \textbf{Rationale:}
-If a user has many differemt sets of information that they use to conduct searches, it will be much easier to view the saved trials on a 
+If a user has many differemt sets of information that they use to conduct searches, it will be much easier to view the saved trials on a
 "set by set" basis, as opposed to viewing all the trials at once.\\
 \textbf{Fit criterion:}
-A user can select which set of criteria they would like to use to filter the list of saved trials by. Upon selecting the criteria, only 
+A user can select which set of criteria they would like to use to filter the list of saved trials by. Upon selecting the criteria, only
 the trials that were saved under that "profile" shall be displayed to the user.\\~\\
 \addtocounter{FR_Counter}{1}
 
@@ -375,7 +375,7 @@ Upon selecting a trial, the map should update with the new location, correspondi
 \noindent{\textbf{FR-\the\value{FR_Counter}:}}
 The system shall enable a user to switch between multiple pre-saved sets of information which will act as the 'autofill' for a trial search.\\
 \textbf{Rationale:}
-It is possible that a user may have multiple sets of information that they want to conduct a search for (i.e., on behalf of family members, or perhaps 
+It is possible that a user may have multiple sets of information that they want to conduct a search for (i.e., on behalf of family members, or perhaps
 for multiple medical conditions), so they must be able to select which set of information will be used for the search.\\
 \textbf{Fit criterion:}
 Upon selecting a set of information, any search must be done with the information tied to that set, until a new set is selected.\\~\\
@@ -454,10 +454,10 @@ R-13, R-14, R-15 \\~\\
 \noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
 The system shall remain performant during times of heavy traffic.\\
 \textbf{Rationale:}
-The system will experience varying amounts of traffic, and it should be prepared to handle all cases (heavy traffic being the 
+The system will experience varying amounts of traffic, and it should be prepared to handle all cases (heavy traffic being the
 one to likely cause issues).\\
 \textbf{Fit criterion:}
-Any system API call shall take less than 1 second to respond for up to 1000 concurrent users, and less than 2 seconds to respond for anything 
+Any system API call shall take less than 1 second to respond for up to 1000 concurrent users, and less than 2 seconds to respond for anything
 greater (assuming the system will not see $>10000$ users).\\
 \textbf{Traceability:}
 Traces to pretty much all FRs that are mentioned in the other performance requirements \\~\\
@@ -479,7 +479,7 @@ The system shall efficiently store/retrieve user data from the database.\\
 \textbf{Rationale:}
 For the system to remain performant, it must handle data efficiently, especially as the total number of users increase.\\
 \textbf{Fit criterion:}
-The system shall take no longer than 500ms when querying the database for user info (includes query execution time + any overhead of executing 
+The system shall take no longer than 500ms when querying the database for user info (includes query execution time + any overhead of executing
 the query).\\
 \textbf{Traceability:}
 FR-1, FR-2, FR-3, FR-4, FR-5, FR-8, FR-9, FR-15 \\~\\
@@ -488,7 +488,7 @@ FR-1, FR-2, FR-3, FR-4, FR-5, FR-8, FR-9, FR-15 \\~\\
 \noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
 The system shall be available to users 99\% of the time.\\
 \textbf{Rationale:}
-Since users will likely make infrequent visits to the platform, it is necessary that the platform will be available at those 
+Since users will likely make infrequent visits to the platform, it is necessary that the platform will be available at those
 times (i.e., if the system is frequently unavailable, it increases the chances that users will never use the platform).\\
 \textbf{Fit criterion:}
 The system shall experience no more than 15 hours of downtime throughout the year.\\
@@ -524,7 +524,7 @@ N/A \\~\\
 \noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
 The system shall be easy to fix in the event it experiences unexpected downtime.\\
 \textbf{Rationale:}
-While it may not happen often, an unexpected system failure is definitely possible. As the time it takes 
+While it may not happen often, an unexpected system failure is definitely possible. As the time it takes
 to fix the issue increases, so does the number of users negatively affected.\\
 \textbf{Fit criterion:}
 On average, it should take less than 1 hour to restore the system in the event of a failure.\\
@@ -536,7 +536,7 @@ N/A \\~\\
 \noindent{\textbf{NFR-\the\value{NFR_Counter}:}}
 The system shall be adaptable to new requirements.\\
 \textbf{Rationale:}
-It is likely new requirements will be discovered once users begin to use the platform, and there will be a need/desire to 
+It is likely new requirements will be discovered once users begin to use the platform, and there will be a need/desire to
 implement these quickly and effectively.\\
 \textbf{Fit criterion:}
 The system must satisfy all of its existing requirements after the implementation of a new requirement/feature.\\
@@ -550,11 +550,11 @@ N/A
 The interface shall ensure that the (account holding) users creates a strong password
 according to the NIST guidelines for strong password creation.  \\
 \textbf{Rationale:}
-The NIST is a reputable organization creating strong standards for all manners of security compliance. 
+The NIST is a reputable organization creating strong standards for all manners of security compliance.
 Following their standards for password creation will ensure that the users' accounts are secure. \\
 \textbf{Fit criterion:}
 The interface shall not allow the user to create an account with a password that does not meet the NIST guidelines.
-All passwords will be 12 characters long with at least one uppercase letter, one lowercase letter, one number, and one special character. 
+All passwords will be 12 characters long with at least one uppercase letter, one lowercase letter, one number, and one special character.
 Additionally, the interface will recommend against using common passwords, or known words. \\
 \textbf{Traceability:}
 FR-1, FR-5\\~\\
@@ -563,11 +563,11 @@ FR-1, FR-5\\~\\
 \noindent\textbf{NFR-\the\value{NFR_Counter}:}
 The system shall ensure database access is controlled by a password and cannot be accessed by anyone except for the database manager.  \\
 \textbf{Rationale:}
-Although the development team should initially have access to the database for testing purposes. 
-Only a database manager should be able to access individual account information. 
+Although the development team should initially have access to the database for testing purposes.
+Only a database manager should be able to access individual account information.
 Role-based Access Control (RBAC) can increase security and ensure information is not dispersed unnecessarily to team members.    \\
 \textbf{Fit criterion:}
-The system will have admin roles for database access and shall ensure that there is authentication with strong credentials. 
+The system will have admin roles for database access and shall ensure that there is authentication with strong credentials.
 The system will also restrict database access to known IPs to ensure personnel authorization. \\
 \textbf{Traceability:}
 FR-8, FR-9\\~\\
@@ -607,8 +607,8 @@ N/A
 
 \subsection{Off-the-Shelf Solutions}
 
-There are currently some websites with a repository of active research studies and clinical trials that users can search through, such as 
-\href{https://clinicaltrials.gov/}{clinicaltrials.gov}. These current solutions display the studies and allow the users to filter them based 
+There are currently some websites with a repository of active research studies and clinical trials that users can search through, such as
+\href{https://clinicaltrials.gov/}{clinicaltrials.gov}. These current solutions display the studies and allow the users to filter them based
 on some general information such as condition, treatment, age, etc.
 
 \subsection{New Problems}
@@ -632,43 +632,47 @@ The major risks associated with this project are as follows:
     \caption{Risk Table}
     \begin{tabular}{|p{10cm}|c|c|}
         \hline
-        \textbf{Risk} & \textbf{Probability} & \textbf{Impact} \\
+        \textbf{Risk}                                                                         & \textbf{Probability} & \textbf{Impact} \\
         \hline
-        Not being able to have the app deployed on the cloud. &  Moderate & High \\
+        Not being able to have the app deployed on the cloud.                                 & Moderate             & High            \\
         \hline
         Not being able to allow for account creation and subsequent saving of information.
-        & Moderate & Moderate \\
+                                                                                              & Moderate             & Moderate        \\
         \hline
-        Python or Typescript functions being used in the backend and frontend get deprecated. & Moderate & High \\
+        Python or Typescript functions being used in the backend and frontend get deprecated. & Moderate             & High            \\
         \hline
         Inaccurate parsing of information through API calls.
-        & Low & High \\
+                                                                                              & Low                  & High            \\
         \hline
-        Database is not properly secured and information is available to the public. & Low & High \\
+        Database is not properly secured and information is available to the public.          & Low                  & High            \\
         \hline
     \end{tabular}
 \end{table}
 \subsection{Costs}
-No large-scale monetary costs should be involved in the development of this project. 
-The only costs that may be incurred are the costs of hosting the application on a cloud platform, 
+No large-scale monetary costs should be involved in the development of this project.
+The only costs that may be incurred are the costs of hosting the application on a cloud platform,
 and the time cost for developers.
 \subsection{User Documentation and Training}
 A set of documentation pages with examples will be created in Confluence as part of project completion.
-This will be tailored (in part) towards the end user, and will be used to help 
-them understand how to use the application. 
+This will be tailored (in part) towards the end user, and will be used to help
+them understand how to use the application.
 Additional sections will be created for developers in order to facilitate merge requests and validate results.
 Training will also be provided to Dr. Ho and his team to ensure they are able to use the application.
 \subsection{Waiting Room}
 
-N/A
+\textbf{FR-4, FR-5:}
+\noindent These requirements are not critical to the core functionality of the application, and will be implemented after the core functionality is complete.
+
+\noindent \textbf{FR-11:}
+\noindent This requirement is a low priority, and will be implemented after higher priority requirements are completed.
 
 \subsection{Ideas for Solutions}
 N/A - There is no additional commentary to add here that has not been included in the requirements.
 \subsection{Anticipated Changes}
 
-Below are some changes that could potentially be made to future 
+Below are some changes that could potentially be made to future
 revisions of the SRS for this application, depending on several factors,
-such as unexpected costs/issues arising during development (or even the lack 
+such as unexpected costs/issues arising during development (or even the lack
 of expected costs/issues during development).
 
 \begin{itemize}
@@ -691,51 +695,51 @@ of expected costs/issues during development).
 \noindent{Below are some skills that all the team members will need to acquire, two ways the team can learn the skill, and how the team actually plans on developing/learning the skill.:}\\
 \begin{itemize}
     \item How to deploy apps to the cloud
-    \begin{itemize}
-        \item Free videos/tutorial's on YouTube (or other similar platforms)
-        \item Documentation surrounding the cloud platform (or platform's) of interest
-    \end{itemize} 
+          \begin{itemize}
+              \item Free videos/tutorial's on YouTube (or other similar platforms)
+              \item Documentation surrounding the cloud platform (or platform's) of interest
+          \end{itemize}
     \item How to use existing NLPs to parse/process data
-    \begin{itemize}
-        \item Online classes related to Machine learning and natural language processing
-        \item Free videos/tutorial's on YouTube (or other similar platforms)\\
-    \end{itemize} 
+          \begin{itemize}
+              \item Online classes related to Machine learning and natural language processing
+              \item Free videos/tutorial's on YouTube (or other similar platforms)\\
+          \end{itemize}
 \end{itemize}
 
-\noindent{For both of the skills mentioned above, the team has collectively decided to use YouTube (and other free resources) to develop 
-the skills, since there is an abundance of information available, which would likely be more than enough for what is needed
-for the application being developed.}\\
+\noindent{For both of the skills mentioned above, the team has collectively decided to use YouTube (and other free resources) to develop
+    the skills, since there is an abundance of information available, which would likely be more than enough for what is needed
+    for the application being developed.}\\
 
 Additionally, below is a skill that each individual will need to develop, two ways they can learn that skill:\\
 \begin{itemize}
     \item David - Typescript
-    \begin{itemize}
-        \item Free videos/tutorials on YouTube (or other similar platforms)
-        \item Websites such as "codeacademy" or "freecodecamp"
-        \item Typescript documentation
-    \end{itemize}
+          \begin{itemize}
+              \item Free videos/tutorials on YouTube (or other similar platforms)
+              \item Websites such as "codeacademy" or "freecodecamp"
+              \item Typescript documentation
+          \end{itemize}
     \item Deep - React
-    \begin{itemize}
-        \item Free videos/tutorials on YouTube (or other similar platforms)
-        \item Online classes on platforms like "Courseera"
-    \end{itemize}
+          \begin{itemize}
+              \item Free videos/tutorials on YouTube (or other similar platforms)
+              \item Online classes on platforms like "Courseera"
+          \end{itemize}
     \item Alan - Django
-    \begin{itemize}
-        \item Free videos/tutorials on YouTube (or other similar platforms)
-        \item Online classes on platforms like "Courseera"
-    \end{itemize}
+          \begin{itemize}
+              \item Free videos/tutorials on YouTube (or other similar platforms)
+              \item Online classes on platforms like "Courseera"
+          \end{itemize}
     \item Aamina - Backend development in python
-    \begin{itemize}
-        \item Free videos/tutorials on YouTube (or other similar platforms)
-        \item Online classes on platforms like "Courseera"
-        \item Textbooks
-    \end{itemize}
+          \begin{itemize}
+              \item Free videos/tutorials on YouTube (or other similar platforms)
+              \item Online classes on platforms like "Courseera"
+              \item Textbooks
+          \end{itemize}
     \item Anika - Backend development in Python
-    \begin{itemize}
-        \item Free videos/tutorials on YouTube (or other similar platforms)
-        \item Code Academy, Pluralsight, Udemy
-        \item Textbooks
-    \end{itemize}
+          \begin{itemize}
+              \item Free videos/tutorials on YouTube (or other similar platforms)
+              \item Code Academy, Pluralsight, Udemy
+              \item Textbooks
+          \end{itemize}
 \end{itemize}
 
 How each member is actually planning on learning the skill:\\
