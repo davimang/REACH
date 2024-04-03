@@ -41,6 +41,38 @@ can point to the specific commit that made the changes.}
 
 \subsection{SRS and Hazard Analysis}
 
+There were several changes made to the SRS and hazard analysis as a result of feedback from Dr. Smith, our TAs, peers, and supervisors.\\
+
+SRS:
+
+\begin{itemize}
+    \item Peer feedback
+    \begin{itemize}
+        \item Update the individual product use cases to be fully black-box use cases. We did this by only focusing on what the use case is, and not describing how it could be done. This ensures the design is not constrained in the SRS (see \href{https://github.com/davimang/REACH/issues/12}{Issue 12} and \href{https://github.com/davimang/REACH/commit/7b80cb5d97721e50163f8874ba8e1d98c0bc45f9}{this commit} for more details). 
+        \item Improve NFR-1 to make it less ambiguous (see \href{https://github.com/davimang/REACH/issues/14}{Issue 14} and \href{https://github.com/davimang/REACH/commit/6e514cf91ae0eae4c481530bf3403c99eb11770b}{this commit} for more details).
+        \item Improve NFR-12 to make it less ambiguous (see \href{https://github.com/davimang/REACH/issues/15}{Issue 15} and \href{https://github.com/davimang/REACH/commit/6e514cf91ae0eae4c481530bf3403c99eb11770b}{this commit} for more details).
+    \end{itemize}
+    \item Dr. Smith and supervisors - After the revision 0 demo, both parties had very useful feedback, which we implemented in many places throughout the app and documentation.
+    \begin{itemize}
+        \item Add a map to be able to see exactly where the trial/study is being held (see \href{https://github.com/davimang/REACH/issues/138}{Issue 138} and \href{https://github.com/davimang/REACH/commit/8b6dd42a8c4585f0ac4a0efce1ea32024c65f6c0}{this commit} for more details). This was recommended by our supervisors.
+        \item Add a disclaimer/title to the profile creation page to make the purpose of the page more clear (see \href{https://github.com/davimang/REACH/issues/155}{Issue 155} for more details). This was recommended by both Dr. Smith and our supervisors.
+        \item Add the ability to filter the studies/trials by distance (see \href{https://github.com/davimang/REACH/issues/178}{Issue 178} and \href{https://github.com/davimang/REACH/commit/8b6dd42a8c4585f0ac4a0efce1ea32024c65f6c0}{this commit} for more details). This was recommended by both Dr. Smith and our supervisors.
+    \end{itemize}
+\end{itemize}
+
+Hazard Analysis:
+
+\begin{itemize}
+    \item Peer feedback/TA feedback
+    \begin{itemize}
+        \item Added some critical assumptions. This addresses feedback provided to us by our peers, and also feedback from the TA via the graded rubric (see \href{https://github.com/davimang/REACH/issues/35}{Issue 35} and \href{https://github.com/davimang/REACH/commit/643f128b7c4bd9c3072f56c813d5551e18c0af4e}{this commit} for more details).
+        \item Added a definition of failure. This also addresses feedback provided to us by our peers and the TA (see \href{https://github.com/davimang/REACH/issues/36}{Issue 36} and \href{https://github.com/davimang/REACH/commit/3909aa4b28693cec5cc4ef3a9d7b84c41a6ffb24}{this commit} for more details).
+        \item Add failure mode for email generation. This also addressed feedback provided to us by our peers and the TA (see \href{https://github.com/davimang/REACH/issues/36}{Issue 37} and \href{https://github.com/davimang/REACH/commit/e39f11a5c2fe7af0b6e261a353f818e2780ac43d}{this commit} for more details).
+        \item Make SR-6 less ambiguous by improving the wording of the requirement. This addresses feedback provided to use by our peers (see \href{https://github.com/davimang/REACH/issues/39}{Issue 39} and \href{https://github.com/davimang/REACH/commit/bb0701657d9f217275ee0027e30f728f8924e277}{this commit} for more details).
+    \end{itemize}
+\end{itemize}
+
+
 \subsection{Design and Design Documentation}
 
 \subsection{VnV Plan and Report}
