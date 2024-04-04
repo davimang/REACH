@@ -181,8 +181,8 @@ For each sprint, tickets will be visible on a issue-tracking (Kanban) board with
 	\item \textbf{\underline{To Do:}} Tickets that have not yet been started in any capacity but are assigned to a sprint.
 	\item \textbf{\underline{In Analysis:}} Tickets for which the assignee/assigned developer has begun brainstorming an implementation. 
 	\item \textbf{\underline{In Progress:}} Tickets that the assignee/assigned developer has begun working on.
-	\item \textbf{\underline{In Test:}} Tickets that the assignee/assigned developer is testing in order to ascertain readiness for merge.
-	\item \textbf{\underline{In Review:}} Tickets that the assignee/assigned developer has completed and is ready to be merged into the master branch.
+	\item \textbf{\underline{In Test/Review:}} Tickets that the assignee/assigned developer is testing in order to ascertain readiness for merge. 
+	Tickets that the assignee/assigned developer has completed and is ready to be merged into the master branch.
 	These tickets are in review because they are expected to be reviewed by other team members prior to merging into the main branch. 
 	At this point the developer should have a pull request in place and should be ready to merge.
 	\item \textbf{\underline{Done:}} Tickets that have been merged into the master branch. 
@@ -200,15 +200,14 @@ The following steps describe the process for a developer wanting to work on a ti
 
 When the ticket is complete and the developer wishes to merge into the master branch, the following steps should be taken:
 \begin{enumerate}
-	\item The will move the ticket into the ``In Test" column of sprint board.
+	\item The will move the ticket into the ``In Test/Review" column of sprint board.
 	\item The developer will run the automated testing and linting pipeline in the CI environment.
 	This should also spin up docker containers from the images in order to do any environment testing before merging to main.
 	\item Provided tests are passed, linting is successful, and the spun up environment does not error out, the developer will create a pull request.
-	\item The developer will move the ticket into the ``In Review" column of the sprint board.
 	\item The team will review the pull request, provide feedback, and request changes if necessary. 
 	\item Once the pull request is approved by the rest of the dev team, the developer will merge into the master branch.
 	\item The developer will make sure to delete the branch they were working on after merge.
-	\item The assigned developer/scrum master will move the ticket into the ``Done" column of the sprint board.
+	\item The scrum master will move the ticket into the ``Done" column of the sprint board.
 \end{enumerate}
 
 In the case of merge conflicts prior to merge, developers are expected to rebase, and pull in changes from the master branch.
@@ -221,23 +220,18 @@ The rev tag will increment by one for each revision of the project documentation
 
 \section{Proof of Concept Demonstration Plan}
 
-The success of our project hinges on addressing two main risks.
-Firstly, none of the members of the team have succesfully deployed a web app in a cloud environment prior to this project. 
-Secondly, we will have to depend on the clinicaltrials.gov or a similar repository's API to retrieve trials. 
-
-This risk would not be possible to eliminate wholly as a large portion of our goals depends on cloud deployment and the overall application interface. 
-Where mitigation is concerned, we will likely need to devise a more in-depth plan on working with cloud services and deployment.
-This will likely involve a lot of research and trial and error, but we will have to ensure that we are able to deploy our application to the cloud.
-
+The main risks for the success of this project are; 
+none of the members of the team have deployed a web app from scratch before, 
+and that the we will have to depend on the clinicaltrials.gov or a similar repositories api to retrieve trials. 
+Since none of the team members have deployed a web app from scratch this may be a risk as we are 
+not certain of all the steps which must be taken to publish a web app.
+This risk would not be possible to eliminate as it would not match our goals to run the website app only.
 All of our trials being retrieved from clinicaltrials.gov or a similar repository is also a risk since we will have to 
-research and work with that api to know what is possible using it. Relying on external APIs
-is always a risk because we are not in control of the data source, data format, or data availability. 
-This would also be a hard requirement to mitigate
-because it would not be feasible for us to collect clinical trials individually, so we must use a preexisting repository of trials 
-and its corresponding API. 
+research and work with that api to know what is possible using it. This would also be a hard requirement to mitigate
+because it would not be feasible for us to collect clinical trials individually so we must us a preexisting repository of trials. 
 
-Therefore, to demonstrate that we can overcome these risks, our proof of concept demonstration will have to; 
-be deployed to the cloud, be able to be accessed from a device that is not running the source code, 
+Therefore to demonstrate that we can overcome these risks our proof of concept demonstration will have to; 
+be deployed to the cloud, able to be accessed from a device that is not running the source code, 
 and the application must be able to retrieve and display clinical trails from a data source given some information on the participant.
 
 \section{Technology}
