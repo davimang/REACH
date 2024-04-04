@@ -652,9 +652,9 @@ Control: Manual
 					
 Initial State: The user is signed in, and has conducted a search for trials.
 					
-Input: Bookmark a trial.
+Input: The users clicks the option to bookmark a trial.
 					
-Output: The trial indicates that it has been saved.
+Output: The user interface gives feedback indicating that it has been saved.
 
 Test Case Derivation: From FR-16, FR-18, a user must be able to save a trial, and access the trials that they have saved.
 
@@ -874,7 +874,7 @@ Type: Dynamic, Manual
 					
 Initial State: User has entered their information for their and is about to search for eligible trials.
 					
-Input/Condition: All possible information filled in.
+Input/Condition: The user has populated any number of the search fields with valid values.
 					
 Output/Result: The system should load the trials and display them to the user in less than 5 seconds.
 					
@@ -933,7 +933,7 @@ and ask them to rate the performance of the application compared to a desktop pc
 
 Type: Static, Manual
 					
-How test will be performed: Manually run linters on code before merging a PR.
+How test will be performed: Manually run linters on code before merging a PR. The test is considered to pass if the linter does not return any errors, and is considered to have failed if it does.
 
 Rationale: This will ensure code is following the proper standards, which will help increase the maintainability of the system.
 Also, this will be performed manually for the reason of conserving resources (i.e., could setup some workflow to automatically lint 
@@ -992,15 +992,15 @@ code every time some code is pushed to the GitHub Repo, however this could be co
 
 Control: Dynamic, Manual
 					
-Initial State: The user is at the search screen.
+Initial State: The user is logged in, and is at the search screen.
 
-Input: User search criteria.
+Input: User search criteria - the set of health parameters a given user wants to search with.
 
-Output: Option prompting user for consent.
+Output: Display providing the user info regarding data collection and consent.
 
 Test Case Derivation: From NFR-18, regarding the collection of user consent before using or storing user data.
 
-How test will be performed: Users are asked to input their search criteria, and should see a message prompting them to provide consent for the collection of data when they try to search.
+How test will be performed: Users are asked to input their search criteria, and should see a message prompting them to provide consent for the collection of data when they try to search. If the user sees the message, the test passes.
 
 \end{enumerate}
 
