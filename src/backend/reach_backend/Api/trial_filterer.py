@@ -13,7 +13,6 @@ from .filtering_dictionary import (
 
 locator = Nominatim(user_agent="my_request")
 
-
 class TrialFilterer:
     """Trial filtering class"""
 
