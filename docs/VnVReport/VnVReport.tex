@@ -214,6 +214,15 @@ The following tests were conducted as part of the usability test:
   \item MT-1 \textcolor{red}{Failed} - Modified code in the pull request has been routinely and automatically linted by a Github CI component upon creation of pull requests. Some pull requests have been rejected by the linter, so the test fails.
 \end{enumerate}
 
+\noindent The following image shows one of the relevant linting failures that constitutes a failure of the test:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1\linewidth]{images/LintFailure.png}
+  \caption{A Linting Fail Upon a Pull Request}
+  \label{fig:figure2}
+\end{figure}
+
 \subsection{Security}
 \begin{enumerate}
   \item OT-1 \textcolor{gray}{Not run} - Application was updated to display a fixed amount (5) of results at a time. As the application no longer needs to display all available trials, this test is no longer necessary.
