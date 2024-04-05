@@ -1,5 +1,9 @@
 """File containing filtering dictionaries"""
+# this file acts as a repository for the mapping of variable fields
+# and keyword strings. They are formatted to work with the ClinicalTrials.gov
+# API v2 search URL.
 
+# right will be appended if the variable on the left is greater than 0
 filtering_dict_num = {
     "numExacerbations": "exacerbation",
     "numFlares": "flares+OR+flare+up",
@@ -9,6 +13,7 @@ filtering_dict_num = {
     "chronicCoughYears": "chronic+OR+cough",
 }
 
+# right will be appended if the variable on the left is set to True
 filtering_dict_boolean = {
     "usesInhaler": "inhaler",
     "usesDailyInhaler": "daily+inhaler",
@@ -79,6 +84,10 @@ filtering_dict_boolean = {
     "triedInhalersEtc": "inhaler+OR+nasal+spray+OR+anti+acid",
 }
 
+# calculations are hard-coded in trial_filterer.py. FEV, FEVPercent, FVC,
+# and FVCPercent follows the structure:
+# [[male lower bound, male upper bound], [female lower bound, female upper bound]]
+# DLCO, bloodEosinophil, and BMI follows the structure [lower bound, upper bound]
 filtering_dict_special = {
     "FEV": [[3.5, 4.5], [2.5, 3.25]],
     "FEVPercent": [0.8, 1.2],
@@ -89,7 +98,7 @@ filtering_dict_special = {
     "BMI": [18.5, 25],
 }
 
-# variables not shown here
+# The following variables and data types used but not shown here are:
 # yearsSmoked : float
 # dailySmokes : float
 # packYears : float
