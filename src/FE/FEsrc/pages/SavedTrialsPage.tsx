@@ -10,6 +10,9 @@ import TrialModal from '../components/TrialModal';
 import useDidMountEffect from '../components/useDidMountEffect';
 import { StyledButton } from '../components/ButtonStyle';
 
+
+// styling
+
 const TrialsListContainer = styled.div`
     padding: 10px;
     height: calc(95vh - 235px);
@@ -102,6 +105,7 @@ const SaveTrialsPage = () => {
         setOpen(!open);
     }
 
+    // called when a trial is unsaved
     const handleDelete = (trial) => {
         const trialId = trial.id;
         try {
@@ -117,7 +121,6 @@ const SaveTrialsPage = () => {
         if (trials) {
             if (trial.nctid in isSelected) {
                 setUpdateDefault(true);
-                console.log("HEREEEEEEEE");
             }
             else {
                 setUpdateDefault(false);
@@ -130,6 +133,7 @@ const SaveTrialsPage = () => {
     const fetchSavedTrials = () => {
         setLoading(true);
         if (!selectedProfileId || selectedProfileId == "all") {
+            // return trials for all profiles
             try {
                 const endpoint = `/trials/?user=${userId}`;
                 const requestOptions = {
@@ -143,6 +147,7 @@ const SaveTrialsPage = () => {
             }
         }
         else {
+            // return trials only for the currently selected profile
             try {
                 const endpoint = `/trials/?profile=${selectedProfileId}`;
                 const requestOptions = {
@@ -158,6 +163,7 @@ const SaveTrialsPage = () => {
         setUpdateDefault(true);
     };
 
+    // fetch the list of profiles for the current user
     const fetchProfilesList = async () => {
         try {
             const endpoint = `/patientinfo/?user=${userId}`;
@@ -207,6 +213,8 @@ const SaveTrialsPage = () => {
         }
     }
 
+    // upon loading of a set of trials, a default must be selected,
+    // to ensure map is not empty
     const updateDefaultTrial = () => {
         if (trials) {
             const defaultTrial = trials[0];

@@ -51,6 +51,7 @@
 01/16/24 & 1.1 & Add module descriptions for hardware hiding modules\\
 01/17/24 & 1.2 & Add module descriptions for behaviour hiding/decision hiding modules, and uses diagram\\
 01/17/24 & 1.3 & Finalize/cleanup module guide\\
+04/04/2024 & 1.4 & Update module guide to match current state of the project\\
 \bottomrule
 \end{tabularx}
 
@@ -401,8 +402,8 @@ requirements and between the modules and the anticipated changes.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-FR1,2 & M8, M11\\
-FR3,4,5 & M9, M11\\
+FR1, FR2 & M8, M11\\
+FR3, FR4, FR5 & M9, M11\\
 FR6 & M12, M14\\
 FR7 & M10, M14\\
 FR8 & M1, M2\\
@@ -410,13 +411,53 @@ FR9 & M1, M2, M10\\
 FR10 & M7\\
 FR11 & M6\\
 FR12 & M14\\
-FR13, 14 & M4, M5, M13, M14\\
+FR13, FR14 & M4, M5, M13, M14\\
 FR15 & M1, M2, M10\\
+FR16 & M1, M2, M12, M13, M14\\
+FR17 & M12, M14\\
+FR18 & M12, M14\\
+FR19 & M5, M12, M14\\
+FR20 & M13, M14\\
+FR21 & M1, M2, M5, M10\\
 \bottomrule
 \end{tabular}
-\caption{Trace Between Requirements and Modules}
+\caption{Trace Between Functional Requirements and Modules}
 \label{TblRT}
 \end{table}
+
+
+A few of the NFRs associated with this project are not directly related to the modules. 
+As such, while they are included in the traceability matrix, they are listed as impacted by all modules.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{p{0.2\textwidth} p{0.6\textwidth}}
+  \toprule
+  \textbf{Req.} & \textbf{Modules}\\
+  \midrule
+  NFR1 & M13, M14, M17\\
+  NFR2 & M7, M14, M17\\
+  NFR3 & M8, M12, M14\\
+  NFR4 & M12, M14\\
+  NFR5 & M14, M17\\
+  NFR6 & M4, M13, M16\\
+  NFR7 & M14, M15, M16\\
+  NFR8 & M10, M12, M14\\
+  NFR9 & M1, M3, M15\\
+  NFR10 & M1 - M17\\
+  NFR11 & M4, M5, M13\\
+  NFR12 & M11, M14\\
+  NFR13 & M14, M15, M16\\
+  NFR14 & M1 - M17\\
+  NFR15 & M1, M8, M9\\
+  NFR16 & M1 - M17\\
+  NFR17 & M14\\
+  NFR18 & M1, M3, M15\\
+  \bottomrule
+  \end{tabular}
+  \caption{Trace Between Non-Functional Requirements and Modules}
+  \label{TblRT}
+  \end{table}
 
 \begin{table}[H]
 \centering

@@ -1,3 +1,4 @@
+
 \documentclass{article}
 
 \usepackage{tabularx}
@@ -16,68 +17,370 @@
 
 \maketitle
 
-\plt{Reflection is an important component of getting the full benefits from a
-learning experience.  Besides the intrinsic benefits of reflection, this
-document will be used to help the TAs grade how well your team responded to
-feedback.  In addition, several CEAB (Canadian Engineering Accreditation Board)
-Learning Outcomes (LOs) will be assessed based on your reflections.}
+% \plt{Reflection is an important component of getting the full benefits from a
+%     learning experience.  Besides the intrinsic benefits of reflection, this
+%     document will be used to help the TAs grade how well your team responded to
+%     feedback.  In addition, several CEAB (Canadian Engineering Accreditation Board)
+%     Learning Outcomes (LOs) will be assessed based on your reflections.}
 
 \section{Changes in Response to Feedback}
 
-\plt{Summarize the changes made over the course of the project in response to
-feedback from TAs, the instructor, teammates, other teams, the project
-supervisor (if present), and from user testers.}
+% \plt{Summarize the changes made over the course of the project in response to
+%     feedback from TAs, the instructor, teammates, other teams, the project
+%     supervisor (if present), and from user testers.}
 
-\plt{For those teams with an external supervisor, please highlight how the feedback 
-from the supervisor shaped your project.  In particular, you should highlight the 
-supervisor's response to your Rev 0 demonstration to them.}
+% \plt{For those teams with an external supervisor, please highlight how the feedback
+%     from the supervisor shaped your project.  In particular, you should highlight the
+%     supervisor's response to your Rev 0 demonstration to them.}
+
+% \plt{Version control can make the summary relatively easy, if you used issues
+%     and meaningful commits.  If you feedback is in an issue, and you responded in
+%     the issue tracker, you can point to the issue as part of explaining your
+%     changes.  If addressing the issue required changes to code or documentation, you
+%     can point to the specific commit that made the changes.}
 
 \subsection{SRS and Hazard Analysis}
 
+There were several changes made to the SRS and hazard analysis as a result of feedback from Dr. Smith, our TAs, peers, and supervisors.\\
+
+SRS:
+
+\begin{itemize}
+    \item Peer feedback
+          \begin{itemize}
+              \item Update the individual product use cases to be fully black-box use cases. We did this by only focusing on what the use case is, and not describing how it could be done. This ensures the design is not constrained in the SRS (see \href{https://github.com/davimang/REACH/issues/12}{Issue 12}, \href{https://github.com/davimang/REACH/commit/7b80cb5d97721e50163f8874ba8e1d98c0bc45f9}{this commit} and \href{https://github.com/davimang/REACH/commit/916252afc158618ca8039c603c2f46ad836c0947}{this commit} for more details).
+              \item Improve NFR-1 to make it less ambiguous (see \href{https://github.com/davimang/REACH/issues/14}{Issue 14} and \href{https://github.com/davimang/REACH/commit/6e514cf91ae0eae4c481530bf3403c99eb11770b}{this commit} for more details).
+              \item Improve NFR-12 to make it less ambiguous (see \href{https://github.com/davimang/REACH/issues/15}{Issue 15} and \href{https://github.com/davimang/REACH/commit/6e514cf91ae0eae4c481530bf3403c99eb11770b}{this commit} for more details).
+              \item Added user characteristics to make the target users more clear (see \href{https://github.com/davimang/REACH/issues/13}{Issue 13} and \href{https://github.com/davimang/REACH/commit/80c3ac1591a79c1b5f9850462cc52d9fbc6672e5}{this commit} for more details).
+          \end{itemize}
+    \item Dr. Smith and supervisors - After the revision 0 demo, both parties had very useful feedback, which we implemented in many places throughout the app and documentation.
+          \begin{itemize}
+              \item Add a map to be able to see exactly where the trial/study is being held (see \href{https://github.com/davimang/REACH/issues/138}{Issue 138} and \href{https://github.com/davimang/REACH/commit/8b6dd42a8c4585f0ac4a0efce1ea32024c65f6c0}{this commit} for more details). This was recommended by our supervisors.
+              \item Add a disclaimer/title to the profile creation page to make the purpose of the page more clear (see \href{https://github.com/davimang/REACH/issues/155}{Issue 155} for more details). This was recommended by both Dr. Smith and our supervisors.
+              \item Add the ability to filter the studies/trials by distance (see \href{https://github.com/davimang/REACH/issues/178}{Issue 178} and \href{https://github.com/davimang/REACH/commit/8b6dd42a8c4585f0ac4a0efce1ea32024c65f6c0}{this commit} for more details). This was recommended by both Dr. Smith and our supervisors.
+          \end{itemize}
+    \item Other
+          \begin{itemize}
+              \item Add FR-4, FR-5, FR-11 to the waiting room as they were not implemented.
+          \end{itemize}
+\end{itemize}
+
+Some other useful issues to give more insight into the changes we have made to the SRS documentation are provided below:
+
+\begin{itemize}
+    \item \href{https://github.com/davimang/REACH/issues/251}{Issue 251}\\
+\end{itemize}
+
+Hazard Analysis:
+
+\begin{itemize}
+    \item Peer feedback/TA feedback
+          \begin{itemize}
+              \item Added some critical assumptions. This addresses feedback provided to us by our peers, and also feedback from the TA via the graded rubric (see \href{https://github.com/davimang/REACH/issues/35}{Issue 35} and \href{https://github.com/davimang/REACH/commit/643f128b7c4bd9c3072f56c813d5551e18c0af4e}{this commit} for more details).
+              \item Added a definition of failure. This also addresses feedback provided to us by our peers and the TA (see \href{https://github.com/davimang/REACH/issues/36}{Issue 36} and \href{https://github.com/davimang/REACH/commit/3909aa4b28693cec5cc4ef3a9d7b84c41a6ffb24}{this commit} for more details).
+              \item Add failure mode for email generation. This also addressed feedback provided to us by our peers and the TA (see \href{https://github.com/davimang/REACH/issues/36}{Issue 37} and \href{https://github.com/davimang/REACH/commit/e39f11a5c2fe7af0b6e261a353f818e2780ac43d}{this commit} for more details).
+              \item Make SR-6 less ambiguous by improving the wording of the requirement. This addresses feedback provided to use by our peers (see \href{https://github.com/davimang/REACH/issues/39}{Issue 39} and \href{https://github.com/davimang/REACH/commit/bb0701657d9f217275ee0027e30f728f8924e277}{this commit} for more details).
+              \item Removed the notification subsystem as it is currently out of scope. This addresses feedback provided to us by our peers (see \href{https://github.com/davimang/REACH/issues/38}{Issue 38} and \href{https://github.com/davimang/REACH/commit/605e299034c55c6f3bf19bac1514fdb3b63c489e}{this commit} for more details).
+              \item Added traceability to FRs in the FMEA table (see \href{https://github.com/davimang/REACH/issues/40}{Issue 40} and \href{https://github.com/davimang/REACH/commit/7969438165b2ca71af4ee2ec926f6ef81b3a9c1b}{this commit} for more details).
+          \end{itemize}
+\end{itemize}
+
+Some other useful issues to give more insight into the changes we have made to the Hazard Analysis documentation are provided below:
+
+\begin{itemize}
+    \item \href{https://github.com/davimang/REACH/issues/250}{Issue 250}
+\end{itemize}
+
+
 \subsection{Design and Design Documentation}
+There was very little feedback given for this particular section of the project, 
+we generally performed well in this area. However, the changes made will be denoted below: \newline
+
+\noindent MG: 
+\begin{itemize}
+	\item Peer/TA Feedback.
+	\begin{itemize}
+        \item Added all Functional and Non-Functional requirements to the traceability matrix in response to TA feedback. See \href{https://github.com/davimang/REACH/commit/162c385506c06841df3f04ff52d7041024068870}{this commit} for more details.
+        \item Corrected some minor sentence structure issues in the document in response to TA feedback. 
+    \end{itemize}
+\end{itemize}
+
+
+MIS:
+\begin{itemize}
+    \item There was no feedback given for this deliverable, grammar was checked and minor flow changes were made. \newline
+\end{itemize}
+
+
+System Design:
+\begin{itemize}
+    \item There was no feedback given for this deliverable, grammar was checked and minor changes were made. \newline
+\end{itemize}
+
 
 \subsection{VnV Plan and Report}
 
+VnV Plan:
+\begin{itemize}
+	\item Peer/TA Feedback.
+	\begin{itemize}
+		\item Added missing abbreviations to the symbols section in response to peer review (see \href{https://github.com/davimang/REACH/issues/45}{Issue 45} and \href{https://github.com/davimang/REACH/commit/ed1e1b779a09e4f9307eda85c31f5c630c82901a}{this commit} for more details).
+		\item Added addition characteristics for the typical user tester in response to peer review (see \href{https://github.com/davimang/REACH/issues/46}{Issue 46} and \href{https://github.com/davimang/REACH/commit/fddfee5364754dc5f378b798aa95c6b2c8936416}{this commit} for more details).
+		\item Added reference to the grading rubric in response to peer review (see \href{https://github.com/davimang/REACH/issues/47}{Issue 47} and \href{https://github.com/davimang/REACH/commit/88505588e5dba20dca6da5269ea3a9d1a4790b0b}{this commit} for more details).
+		\item Added clarification on what a greater than 7 score would mean in terms of testing in response to peer review (see \href{https://github.com/davimang/REACH/issues/48}{Issue 48} and \href{https://github.com/davimang/REACH/commit/b0e38a2fd6e89f05ef0aa6bf5e46b53227dce24f}{this commit} for more details).
+		\item Added an open ended additional concerns question to the usability survey in response to peer feedback (see \href{https://github.com/davimang/REACH/issues/49}{Issue 49} and \href{https://github.com/davimang/REACH/commit/10b7cbf6ab0c7e78344dd1dff75ae76adf6cd4c2}{this commit} for more details).
+		\item Fixed some formatting issues including removing some whitespace from the document in response to TA feedback through the marking rubric (see \href{https://github.com/davimang/REACH/issues/255}{Issue 255} and \href{https://github.com/davimang/REACH/commit/ad4b67e9f87e89c4d2c1a409db14da7401b8f39c}{this commit} for more details).
+		\item Improved clarity of NFR and FR tests in response to TA feedback through the marking rubric (see \href{https://github.com/davimang/REACH/issues/256}{Issue 256} and \href{https://github.com/davimang/REACH/commit/ce52fb62cb65dd884ee3c7afac4c7a684d84b771}{this commit} for more details).
+		\item Adding missing reference to hazard analysis in the relevant documents section in response to TA feedback through the marking rubric (see \href{https://github.com/davimang/REACH/issues/257}{Issue 257} and \href{https://github.com/davimang/REACH/commit/396e5df0a6208758a45054c8e35b35d37d1cc25f}{this commit} for more details).
+		\item Added more specific plan for nondynamic testing in response to TA feedback through marking rubric (see \href{https://github.com/davimang/REACH/issues/258}{Issue 258} and \href{https://github.com/davimang/REACH/commit/3a46bc35ff31855f752df09efb5f4dd5fa4211c7}{this commit} for more details).
+	\end{itemize}
+\end{itemize}
+
+VnV Report:
+\begin{itemize}
+	\item TA Feedback (No peer review was received for this deliverable).
+	\begin{itemize}
+		\item Expanded on the changes made due to testing, in response to received feedback on the marking rubric (see \href{https://github.com/davimang/REACH/issues/254}{Issue 254} and \href{https://github.com/davimang/REACH/commit/06620ec4af39e47e90e0647ae05cda2a58971ab7}{this commit} for more details).3
+		\item Added a screenshot of the failed linting in the maintainability section to provide convincing evidence of the test failing, in response to received feedback on the marking rubric (see \href{https://github.com/davimang/REACH/issues/253}{Issue 253} and \href{https://github.com/davimang/REACH/commit/06620ec4af39e47e90e0647ae05cda2a58971ab7}{this commit} for more details).
+	\end{itemize}
+\end{itemize}
+
+
 \section{Design Iteration (LO11)}
 
-\plt{Explain how you arrived at your final design and implementation.  How did
-the design evolve from the first version to the final version?} 
+% \plt{Explain how you arrived at your final design and implementation.  How did
+%     the design evolve from the first version to the final version?}
+
+We approached the design, development, and implementation of this project using an iterative approach. 
+We started off by coming up with the project requirements, and then splitting them into two groups: 
+requirements that we must have and requirements that we would like to have time-permitting. Taking a 
+look at the must-have requirements, we realized that our entire project relied on whether or not we 
+could actually use the clinicaltrials.gov API. Since this was a huge priority, we decided for the proof 
+of concept demo we would prove we could successfully utilize the external API.\\
+
+Once we were able to verify the API worked, we officially started the development phase of the project. 
+We worked on implementing the must-have requirements to the best of our abilities. We did this by creating 
+tasks (using issues in GitHub) that we needed to get done in order to fully implement each requirement. 
+For each individual task, we made the necessary code changes, did some minor testing locally, made further 
+based on the results of the tests, merged the changes, and closed the issue for the task. In this case, we 
+were iteratively developing on a smaller scale (on a task-by-task basis).\\
+
+Once we completed implementing all these smaller tasks in order to fully implement the must-have 
+requirements, we deployed the app and conducted some more thorough and integrated testing. This testing 
+also included conducting a usability test with multiple users; one of the users was our supervisor. 
+Throughout testing, we made note of things that did not work, needed improvement, or was redundant. 
+Taking these notes, along with user feedback we received from the usability survey and our supervisors, 
+we came up with some more tasks that we needed to complete in order to reflect our notes and feedback. 
+This was a large-scale development iteration (of the overall integrated application).\\
+
+We then repeated the process once more by making necessary changes for each task, deploying the app, 
+and once again fully testing the overall application. Gathering our last round of feedback, we made 
+the necessary changes and deployed the app once more before our final demo. This was where we stopped 
+for now, but in order to keep improving our app and dealing with any bugs that we may discover or 
+suggestions from our supervisors, we would continuously repeat this iterative process.
 
 \section{Design Decisions (LO12)}
 
-\plt{Reflect and justify your design decisions.  How did limitations,
- assumptions, and constraints influence your decisions?}
+% \plt{Reflect and justify your design decisions.  How did limitations,
+%     assumptions, and constraints influence your decisions?}
+
+Due to time limit, we ended up deciding to not complete/implement some of the less important 
+tasks/requirements. Thankfully, we had accounted for this time constraint at the beginning of the 
+project when we were creating the development plan. We had already split the requirements into two 
+groups: must-have requirements and nice-to-have requirements. This allowed us to prioritize the 
+must-have requirements due to the time constraint, and put the nice-to-have requirements in the 
+waiting room.\\
+
+We were also greatly constrained by the fact that we were using the clinicaltrails.gov API. Fetching 
+and filtering trials were forced to be done based on the restrictions imposed by the API. In fact, 
+midway through the project, the external API was updated. Since our project was extremely reliant on 
+this API, we were forced to refactor a lot of our back-end code.\\
+
+We also had some constraints when testing the application. Since we were not able to have some actual 
+target users (users with certain conditions searching for studies) test the application, we had to 
+rely on feedback provided by our supervisors and we were forced to make assumptions of what might be 
+best for them or what they might want included in the application.
 
 \section{Economic Considerations (LO23)}
 
-\plt{Is there a market for your product? What would be involved in marketing your 
-product? What is your estimate of the cost to produce a version that you could 
-sell?  What would you charge for your product?  How many units would you have to 
-sell to make money? If your product isn't something that would be sold, like an 
-open source project, how would you go about attracting users?  How many potential 
-users currently exist?}
+% \plt{Is there a market for your product? What would be involved in marketing your
+%     product? What is your estimate of the cost to produce a version that you could
+%     sell?  What would you charge for your product?  How many units would you have to
+%     sell to make money? If your product isn't something that would be sold, like an
+%     open source project, how would you go about attracting users?  How many potential
+%     users currently exist?}
+
+There is definitely a market for our product. Our project REACH is based on clinical trials and 
+research studies. This means we are targeting users such as the many people that want access to 
+alternate forms of treatment because they do not benefit from conventional or readily available 
+treatment options. REACH is also targeted towards researchers who are unable to find people to take 
+part in their studies. REACH bridges the gap to form the connection between researchers, patients, 
+and healthcare providers in a way that existing alternatives can't.\\
+
+The existing option in this case would be a website like clinicaltrails.gov; however, as stated, 
+clinicaltrails.gov does not have some of the key functionality that REACH offers which would greatly 
+improve the user experience. REACH is designed to be more user friendly, so that users with all types 
+of abilities are easily able to interact with and understand the application. REACH even uses different 
+phrases or workflow depending on if the user is a clinician or not, so that it is customized to best 
+suit the abilities of the user. We worked to improve the usability and discoverability of the app 
+through rigorous testing and conducting multiple usability tests. As a result, REACH is easier to 
+navigate for a wide range of users, while existing implementations are targeted more towards 
+researchers and less towards clinicians/patients. The main value-added feature of REACH are the 
+advanced condition fields, which allow users to be more accurately matched with studies based on how 
+they fill out the advanced fields. This way users do not have to look through so many unrelated studies. 
+REACH also allows users to create an account so that they can save the information they filled out in 
+the advanced condition fields as a profile. This makes it easier for them to conduct searches as they 
+do not have to fill out all the fields/filters every time they use the site, which is the case for 
+existing implementations. Instead, they can just login to REACH, and their information used for 
+filtering will be saved so they can conduct searches swiftly. Logging in also allows users to bookmark 
+studies to come back to later.\\
+
+Since REACH is not a traditional product, we aren't able to sell it in units to make money. It is an 
+open source project. We could go about attracting users by marketing our product online through 
+different social media platforms. We could also market our product at relevant locations. In our case, 
+the most relevant locations would be hospitals, clinics, research centres, laboratories, and other 
+medical centres. As stated above, there are countless potential users that currently exists. The 
+potential users are any and all people that want to take part in a clinical trial or research study 
+(for health reasons, volunteering, etc.), as well as all clinicians that want to look for studies on 
+behalf of their patients.
 
 \section{Reflection on Project Management (LO24)}
 
-\plt{This question focuses on processes and tools used for project management.}
+% \plt{This question focuses on processes and tools used for project management.}
 
 \subsection{How Does Your Project Management Compare to Your Development Plan}
 
-\plt{Did you follow your Development plan, with respect to the team meeting plan, 
-team communication plan, team member roles and workflow plan.  Did you use the 
-technology you planned on using?}
+% \plt{Did you follow your Development plan, with respect to the team meeting plan,
+%     team communication plan, team member roles and workflow plan.  Did you use the
+%     technology you planned on using?}
+
+\subsubsection{Team Meeting Plan}
+With respect to the team meeting plan, we consistently met at least once a week, like stated in our 
+development plan, to discuss our status, any issues, and what tasks we need to complete by the next 
+meeting. We also met regularly with our supervisors to share our progress on the project and receive 
+their input. However, we did not meet them on a biweekly basis as stated in the development plan; 
+instead, we met with them whenever they were available, which was about every three weeks.
+
+\subsubsection{Team Communication Plan}
+The team communication plan outlined in the development was followed exactly as stated. We used Git 
+issues to keep track of any formal tasks needed to be completed. Teams was used to host virtual 
+meetings, as well as update the team about minor issues or concerns. We also used Google Calendar to 
+keep track of deliverable deadlines and team/supervisor meeting times.
+
+\subsubsection{Team Member Roles}
+We did not have clearly designated member roles like we stated in the development plan. However, most 
+of the roles were still loosely followed to some degree. Since every team member was flexible and we 
+all had multiple skills, we weren't limited to just the roles that were designated to us in the 
+development plan. We all took on different roles based on the current time constraint and what tasks 
+were available for us to work on.
+
+\subsubsection{Workflow Plan}
+We followed our workflow plan exactly as it was outlined in the development plan. First, we discussed 
+relevant tasks that needed to be completed in the following week and created issues for them on GitHub. 
+Next, we assigned tickets to the team based on each member's skills and availability. We used the 
+GitHub project board to keep track of the status of the issue (whether the issue is currently being 
+worked on, in testing, completed, or not yet started). We used separate feature branches to work on 
+changes related to each issue. After testing, we created a pull request and merged once all automated 
+tests have passed.
+
+\subsubsection{Technology}
+We used all the technology we planned on using in the development plan. The only exception is we ended 
+up not using Jest as a front-end unit testing framework. Due to the time constraint, as well as constant 
+changes to the overall design of the UI and the new inputs/requests from our supervisors, we decided 
+implementing unit tests for the front-end would hinder development with very little payoff. Instead, 
+we tested the front-end manually.
 
 \subsection{What Went Well?}
 
-\plt{What went well for your project management in terms of processes and 
-technology?}
+% \plt{What went well for your project management in terms of processes and
+%     technology?}
+
+In terms of processes and technology, what went well was our consistency with meetings and communication. 
+We discussed tasks thoroughly, did not hesitate to bring up concerns/blockers, and dealt with any issues 
+as soon as possible. We were all flexible and did not hesitate to take on tasks as soon as we were 
+available to. No one on the team refused to do work just because they might have already done "their 
+share". This allowed us to get work done quickly and more efficiently, so even if there was a short 
+deadline, we were able to get our work done. This also allowed us to easily deal with any suggestions 
+or concerns our supervisors had since our consistent and organized workflow made it so that we had 
+time to spare.\\
+
+In terms of technology, we all had experience using Git and GitHub in the past. We utilized our 
+knowledge of branching, GitHub issues, GitHub project board, pull requests, and more for this project. 
+This allowed us to keep things organized, keep track of the work we are doing, and minimize conflicts, 
+making the workflow smoother.\\
+
+Each member of our team had experience using different technologies, which meant we were able to 
+assist and teach each other. Combining our skills allowed us to be a well-rounded team and successfully 
+carry out this project.
 
 \subsection{What Went Wrong?}
 
-\plt{What went wrong in terms of processes and technology?}
+% \plt{What went wrong in terms of processes and technology?}
+
+In some cases, our team members had differing opinions or ideas about what the expected outcome of a 
+task was supposed to be. This is particularly true for some of the front end UI work. This is because 
+we did not create and finalize designs for every part of the user interface (using rough sketches or 
+Figma). For the parts of the UI where we did not finalize a design, we all visualized what it would 
+look like differently. This would lead to some confusion about what was the expected outcome from the 
+completion of that task. This consequently hindered development since we had to take some extra time 
+to ask questions and clear up confusions. In the worst case, we would even waste time implementing 
+something that was not agreed upon, and would need to refactor it after discussing and coming to an 
+agreement.
+
 
 \subsection{What Would you Do Differently Next Time?}
 
-\plt{What will you do differently for your next project?}
+% \plt{What will you do differently for your next project?}
+
+For a future project, we would ensure that our GitHub issues were more detailed. As explained in 
+section 5.3, sometimes there was some confusion around what we needed to do or complete for certain 
+tasks. Writing more detailed issues which outline the expected outcome necessary in order to close the 
+issue and complete the task would essentially solve that problem. This would ensure that we are all on 
+the page, leading to less confusion and less wasted time.
+
+\section{Reflection on Capstone}
+
+% \plt{This question focuses on what you learned during the course of the capstone project.}
+
+\subsection{Which Courses Were Relevant}
+
+The following course provided beneficial experience towards the undertaking of our capstone project:
+\begin{itemize}
+	\item SFWRENG 3XA3 Software Project Management - Provided experience in coding development, but more importantly in managing the planning and documentation of a project from start to finish.
+	\item SFWRENG 3S03 Software Testing - Provided knowledge of software testing strategies, such as static testing, unit testing, and code reviews.
+	\item SFWRENG 3A04 Software Design III - Provided project development experience, specifically in module design and documentation.
+	\item SFWRENG 3DB3 Databases - Provided knowledge on the operation and interaction with databases.
+	\item SFWRENG 2XB3 Software Engineering Practice and Principles - Provided experience in software design, as well as providing knowledge in measuring system metrics.
+	\item SFWRENG 2AA4 Intro to Software Development - Provided our first experience towards software system development, including data structures, design principles, and coding practices.
+\end{itemize}
+
+\subsection{Knowledge/Skills Outside of Courses}
+
+% \plt{What skills/knowledge did you need to acquire for your capstone project
+%     that was outside of the courses you took?}
+
+    David - I learned several things during this capstone that I had not learned through previous courses (or even during my coops). First, 
+    I had little to no experience with React, and during the development of REACH, I gained a significant amount of experience with it. Additionally,
+    I had never previously used typescript, and so this project allowed me to learn a new programming language. Finally, none of my previous 
+    courses touched upon the cloud, and how one can deploy applications to the cloud - and this project enabled me to learn and gain experience in this 
+    field, by deploying and managing the app in google cloud.\\
+
+    Deep - Both of the web frameworks that we used in developing REACH were new to me. I had never learned React or Django, and so this project
+    was a great learning experience, not only because of learning the web frameworks themselves, but also by improving my skills in 
+    backend and frontend web development in general, which was not touched upon in previous courses. I also had never used typescript before, so this project helped me learn a new programming language.\\
+
+    Alan - The capstone course allowed me to learn many new things, including a new backend web framework, a useful and commonly used data analysis/manipulation python library, and api development/interaction. While 
+    I had some experience with the backend web framework Flask, I had never used Django. Furthermore, in the work that I did on the trial fetching and filtering modules, I was able to learn, and develop 
+    my skills in Pandas, a very powerful python library for data manipulation. Finally, I improved my skills and understanding of API's and API development in general, by both working on our internal 
+    API's, and by interacting with the external clinicaltrials.gov API.\\
+
+    Aamina - The main thing that was new to me was the backend web framework that we used, Django. Additionally, while I did have some experience with
+    Python through previous courses, I had never used it in a real-world setting, on a project of this scale. This was important since Python is one of the most 
+    commonly used languages, and I learned a lot of subtle complexities that I did not previously know about. \\
+
+    Anika - There were two main things that this capstone course allowed me to learn which I did not previously learn in any of my past courses or coops. First, 
+    I had never learned/used typescript or React and considering this was one of the most integral parts of our app, I had to learn it fairly well to be successful in 
+    developing the frontend. Second, although I did have some experience working with the cloud (from previous coops), I had never used google cloud platform, and there was a surprising amount 
+    of differences between GCP and the platforms I have previously used, so I am glad I was able to learn about it.
 
 \end{document}

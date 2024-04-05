@@ -33,8 +33,9 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+3 Nov 2023 & 1.0 & Initial VnV plan completed. \\
+4 March 2024 & 1.1 & VnV plan updated to match additional testing in VnV report. \\
+4 April 2024 & 1.2 & VnV plan updated in response to TA and peer feedback. \\
 \bottomrule
 \end{tabularx}
 
@@ -51,17 +52,18 @@ Date 2 & 1.1 & Notes\\
 \section{Symbols, Abbreviations, and Acronyms}
 
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{l l} 
+\begin{tabular}[H]{l l}
   \toprule		
-  \textbf{symbol} & \textbf{description}\\
+  \textbf{Symbol} & \textbf{Description}\\
   \midrule 
   VnV & Verification and Validation\\
   V\&V & Verification and Validation\\
   SRS & Software Requirements Specification\\
+  MIS & Module Interface Specification \\
+  FR & Functional Requirement \\
+  NFR & Non-Functional Requirement \\
   \bottomrule
 \end{tabular}\\
-
-\newpage
 
 \pagenumbering{arabic}
 
@@ -101,7 +103,7 @@ There are a few documents that are worth noting before jumping in to the verific
 First, the SRS is the most important and relevant document that accompanies the plan  (\citet{SRS}). The majority of the test plan 
 is built on top of the requirements specified in the SRS, since as stated previously, one of the main goals of this document is to 
 build confidence in the implementation of the software requirements. Second, the development plan is relevant as it discusses various tools 
-and technologies that can/will be used to test the software system being built {\citet{DevPlan}}. Finally, the MIS document which details the modular design 
+and technologies that can/will be used to test the software system being built {\citet{DevPlan}}. Additionally, the documentation detailing the potential faults and their impacts can be found in the hazard analysis {\citet{HazardAnalysis}}. Finally, the MIS document which details the modular design 
 of the system is especially relevant to the unit test portion of the document.
 
 \section{Plan}
@@ -191,7 +193,7 @@ of users with different capabilities use REACH in order for us to verify how usa
 
 Our design will be reviewed by Dr. Ho and Dr. Scallan, as they are supervisors, stakeholders, and 
 potential users of REACH. They will select a few other users (around three) with different 
-skill sets and characteristics to also review the design. The reviewers will use the checklist 
+skill sets and characteristics to also review the design. These users are expected to have at least a passable level of computer literacy insofar as they are understand how to navigate a website. They are not specifically expected to have knowledge relating to medicine. The reviewers will use the checklist 
 below and keep the checklist items in mind during their review of REACH.\\
 
 \noindent Usability Checklist:
@@ -249,7 +251,9 @@ code. This code inspection will occur regularly throughout the development of RE
 of the team will review and verify whether the design is maintainable. Some members will be 
 focusing on modularity. They will ensure the code is decomposed into modules which contain 
 related information. The rest of the members will focus on reusability. They will confirm that 
-we are creating and using generic components whenever possible.
+we are creating and using generic components whenever possible.\\
+
+Testing for maintainability will be conducted by at least one other member of the team. Once a member opens a pull request, another member of the team will independently review the code. In addition to the normal functional testing, they will conduct a code review to check for the maintainability of the code, specifically checking the code structuring and flow to ensure it meets a high standard of maintainability.
 
 \subsection{Verification and Validation Plan Verification Plan}
 
@@ -268,7 +272,7 @@ have listed in the SRS document is covered by at least one test.\\
 
 TAs and our peers will also assist with an overview level inspection of this document. The TA 
 assigned to our team will view our VnV Plan with a specific rubric in mind, then provide us feedback 
-based on the standards of this class. Our peers will review our VnV Plan when they are conducting 
+based on the standards of this class. This rubric is available on the course's Avenue to Learn page under Assignments $>$ VnV Plan - Main. Our peers will review our VnV Plan when they are conducting 
 their regular peer review and will open git issues with any concerns they have.\\
 
 \noindent Division of Work:
@@ -436,7 +440,7 @@ Control: Manual
 					
 Initial State: User is signed in to the application and is about to sign out of the application.
 					
-Input: N/A
+Input: The user selects the sign-out button.
 					
 Output: The user should be logged out of the application.
 
@@ -526,7 +530,7 @@ Control: Manual
 					
 Initial State: The user has searched for trials, and has been given a list of trials.
 					
-Input: N/A
+Input: The user clicks the trial result.
 					
 Output: A customized email template.
 
@@ -546,9 +550,9 @@ Control: Manual
 					
 Initial State: The user is at the home screen.
 					
-Input: N/A
+Input: The uses clicks the FAQ.
 					
-Output: FAQ menu.
+Output: FAQ menu page.
 
 Test Case Derivation: From FR-12, the system shall include frequently asked questions and trial information.
 
@@ -597,9 +601,9 @@ Control: Manual
 					
 Initial State: The user is logged in, either as themselves or as a guest, and is at the search function.
 					
-Input: N/A
+Input: No search fields are filled out.
 					
-Output: N/A
+Output: Message informing user of failure.
 
 Test Case Derivation: From FR-15, the system shall allow a signed-in user to automatically enter their conditions into the search parameters.
 
@@ -648,9 +652,9 @@ Control: Manual
 					
 Initial State: The user is signed in, and has conducted a search for trials.
 					
-Input: Bookmark a trial.
+Input: The users clicks the option to bookmark a trial.
 					
-Output: The trial indicates that it has been saved.
+Output: The user interface gives feedback indicating that it has been saved.
 
 Test Case Derivation: From FR-16, FR-18, a user must be able to save a trial, and access the trials that they have saved.
 
@@ -870,7 +874,7 @@ Type: Dynamic, Manual
 					
 Initial State: User has entered their information for their and is about to search for eligible trials.
 					
-Input/Condition: All possible information filled in.
+Input/Condition: The user has populated any number of the search fields with valid values.
 					
 Output/Result: The system should load the trials and display them to the user in less than 5 seconds.
 					
@@ -914,7 +918,7 @@ Type: Dynamic, Manual
 					
 Initial State: User is on home screen, on a variety of devices
 					
-Output/Result: The user should report satisfactory performance on all devices ($>7$)
+Output/Result: The user should report satisfactory performance on all devices ($>7$ on the 10 point usability survey included in the appendix).
 					
 How test will be performed: Give the user multiple devices from the last 5 years (ex. iphone 15, windows laptop, chromebook, etc)
 and ask them to rate the performance of the application compared to a desktop pc from 1-10.
@@ -929,7 +933,7 @@ and ask them to rate the performance of the application compared to a desktop pc
 
 Type: Static, Manual
 					
-How test will be performed: Manually run linters on code before merging a PR.
+How test will be performed: Manually run linters on code before merging a PR. The test is considered to pass if the linter does not return any errors, and is considered to have failed if it does.
 
 Rationale: This will ensure code is following the proper standards, which will help increase the maintainability of the system.
 Also, this will be performed manually for the reason of conserving resources (i.e., could setup some workflow to automatically lint 
@@ -988,15 +992,15 @@ code every time some code is pushed to the GitHub Repo, however this could be co
 
 Control: Dynamic, Manual
 					
-Initial State: The user is at the search screen.
+Initial State: The user is logged in, and is at the search screen.
 
-Input: User search criteria.
+Input: User search criteria - the set of health parameters a given user wants to search with.
 
-Output: Option prompting user for consent.
+Output: Display providing the user info regarding data collection and consent.
 
 Test Case Derivation: From NFR-18, regarding the collection of user consent before using or storing user data.
 
-How test will be performed: Users are asked to input their search criteria, and should see a message prompting them to provide consent for the collection of data when they try to search.
+How test will be performed: Users are asked to input their search criteria, and should see a message prompting them to provide consent for the collection of data when they try to search. If the user sees the message, the test passes.
 
 \end{enumerate}
 
@@ -1243,6 +1247,10 @@ the task was on a scale of 1 to 5, where 1 is difficult and 5 is simple.}
   \item  Is there any feature or part of the process which you found frustrating? (Y/N)
     \begin{itemize}
       \item If yes, explain what was frustrating and why.
+    \end{itemize}
+  \item Do you have any additional feedback or concerns? (Y/N)
+    \begin{itemize}
+      \item If yes, explain what part of the interface you were concerned with and why.
     \end{itemize}
 \end{enumerate}
 
