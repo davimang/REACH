@@ -7,8 +7,10 @@ import pandas as pd
 from geopy.geocoders import Nominatim
 from .trial_filterer import TrialFilterer
 
+# locator for generating GPS coordinates from home address
 locator = Nominatim(user_agent="my_request")
 
+# base search URL
 API_URL2 = (
     r"https://clinicaltrials.gov/api/v2/studies?format=json&countTotal=true"
     r"&filter.overallStatus=RECRUITING&fields=NCTId,Condition,"
@@ -19,7 +21,7 @@ API_URL2 = (
     r"OverallOfficialName,LocationContactName&"
 )
 
-TIMEOUT_SEC = 10
+TIMEOUT_SEC = 10 # set timeout in case API is nonresponsive
 
 
 class TrialFetcher:
@@ -61,8 +63,9 @@ class TrialFetcher:
 
         home_geo = locator.geocode(home_address, timeout=10)
 
-        # put expression together
+        # add conditions to seach
         search_template = API_URL2 + "query.cond=" + condition_search
+        # add max distance to search string
         search_template = (
             search_template
             + "&filter.geo=distance("
@@ -74,6 +77,7 @@ class TrialFetcher:
             + "km)"
         )
 
+        # generate keyword string, add to url
         keywords = TrialFilterer.generate_keywords(input_params)
         if len(keywords) > 0:
             search_template = search_template + "&query.term=" + keywords
@@ -81,7 +85,7 @@ class TrialFetcher:
         # start one rank up from the last rank returned by a previous call
         studies = pd.DataFrame()
 
-        # keep pulling trials until you hit 5 or
+        # keep pulling trials until you hit 30 or there are no more results
         next_page = input_params.get("next_page")
         while studies.shape[0] < 30:
             temp = pd.DataFrame()
@@ -90,13 +94,14 @@ class TrialFetcher:
                 if next_page
                 else search_template
             )
-            # timed section
+
             response = requests.get(search_url, timeout=TIMEOUT_SEC)
 
             json_response = response.json()
             next_page = json_response.get("nextPageToken")
             content = build_study_dict(json_response)
-            try:  # break if the timeout is reached (or the api returns unreadable data)
+            # break if the timeout is reached (or the api returns unreadable data)
+            try:
                 buffer = io.StringIO(content)
                 temp = pd.read_json(buffer)
             except ValueError:  # if data can't be read
@@ -111,11 +116,14 @@ class TrialFetcher:
             if temp.shape[0] > 0:  # if not empty, add to accepted trials
                 studies = pd.concat([studies, temp], ignore_index=True)
 
+            #remove duplicates
             studies.drop_duplicates(subset=["NCTId"], inplace=True)
 
+            #exit if at end of results
             if not next_page:
                 break
 
+        #if no results exist, return empty dataframe
         if studies.shape[0] == 0:
             return pd.DataFrame(
                 columns=[
@@ -135,12 +143,13 @@ class TrialFetcher:
                     "ResponsiblePartyInvestigatorFullName",
                 ]
             )
-        studies = studies.head(30)
+        studies = studies.head(30) #take first 30 studies in case >30 are fetched
         studies["url"] = (
             "https://clinicaltrials.gov/study/" + studies["NCTId"]
         )  # create url
         studies["nextPage"] = next_page
 
+        #generate addresses for each study
         studies = TrialFilterer.generate_address(studies)
 
         print(studies["NCTId"].tolist())
@@ -182,9 +191,11 @@ def build_study_dict(response):
 
     list_of_new_study_formats = []
 
+    #this loop runs once for each study to extract relevant data fields
     for study in studies:
-        study = study["protocolSection"]
 
+        #destructure relevant fields from the API
+        study = study["protocolSection"]
         study_id_module = study["identificationModule"]
         study_conditions_module = study["conditionsModule"]
         description_module = study["descriptionModule"]
@@ -209,7 +220,7 @@ def build_study_dict(response):
 
         central_contacts = contacts_locations_module.get(
             "centralContacts", []
-        )  # maybe change
+        )
         contacts = []
         for contact in central_contacts:
             contacts.append(contact.get("email", ""))
@@ -223,6 +234,7 @@ def build_study_dict(response):
         names = []
         facilities = []
 
+        #compile all entries of the given category into respective list
         for location in locations:
             if city := location.get("city"):
                 cities.append(city)
@@ -251,6 +263,7 @@ def build_study_dict(response):
 
             break
 
+        #setting up dict to match prior formatting
         new_study_format = {
             "NCTId": nctid,
             "Condition": "|".join(conditions),
