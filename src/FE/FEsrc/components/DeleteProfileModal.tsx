@@ -29,14 +29,12 @@ const DeleteProfileModal: React.FC<ModalProps> = ({ isOpen, handleModal, profile
             };
             fetch(`${API_URL}${endpoint}`, requestOptions).then(response => {
                 console.log(response);
+                const newProfiles = Object.values(profileList).filter((profile) => profile.id !== profileId);
+                setProfileList(newProfiles);
                 handleModal();
             });
         } catch (error) {
             console.error('Error deleting profile:', error.message);
-        }
-        if (profileList) {
-            const newProfiles = Object.values(profileList).filter((profile) => profile.id !== profileId);
-            setProfileList(newProfiles);
         }
     }
 
