@@ -51,11 +51,7 @@ const ListProfiles: React.FC = () => {
         setIsProfileSnackBarOpen(true);
         localStorage.removeItem('openProfileSnack');
     }
-}
-
-useEffect(() => {
-  checkProfileSuccess();
-}, []);
+  }
 
   const fetchProfilesList = async () => {
     try {
@@ -75,6 +71,7 @@ useEffect(() => {
   }, [localStorage.getItem('accessToken')]);
 
   useEffect(() => {
+    checkProfileSuccess();
     fetchProfilesList();
   }, []);
 
@@ -89,7 +86,7 @@ useEffect(() => {
       <Header>Profiles</Header>
       <ProfileListContainer>
         {profiles.map((profile, index) => (
-          <UserProfileCard key={index} profile={profile} />
+          <UserProfileCard key={index} profile={profile} profileList={profiles} setProfileList={setProfiles} />
         ))}
       </ProfileListContainer>
       <AddProfileButtonContainer>
