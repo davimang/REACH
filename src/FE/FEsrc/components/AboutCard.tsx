@@ -33,11 +33,9 @@ const CardTitle = styled.div`
 interface AboutCardProps {
     name: string;
     email: string;
-    linkedin: string;
-    phone: string;
 }
 
-const AboutCard: React.FC<AboutCardProps> = ({ name, email, linkedin, phone }) => {
+const AboutCard: React.FC<AboutCardProps> = ({ name, email }) => {
     return (
         <AboutCardBox>
             <CardTitle>
@@ -45,8 +43,6 @@ const AboutCard: React.FC<AboutCardProps> = ({ name, email, linkedin, phone }) =
             </CardTitle>
             <ContactUsText>
                 <p>Email: {email}</p>
-                <p>Linkedin: {linkedin}</p>
-                <p>Phone: {phone}</p>
             </ContactUsText>
         </AboutCardBox>
     );

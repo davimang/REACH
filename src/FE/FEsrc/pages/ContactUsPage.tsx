@@ -25,13 +25,13 @@ const ContactUsPage = () => {
     return (
         <FlexContainer>
             <ContactUsContainer>
-                <AboutCard name="Aamina Hussain" email="hussaa54@mcmaster.ca" linkedin="link to linkedin" phone="905-523-9145" />
-                <AboutCard name="Alan Scott" email="scotta30@mcmaster.ca" linkedin="link to linkedin" phone="905-489-8472" />
-                <AboutCard name="Anika Peer" email="peera1@mcmaster.ca" linkedin="link to linkedin" phone="416-689-2923" />
-                <AboutCard name="David Moroniti" email="moronitd@mcmaster.ca" linkedin="link to linkedin" phone="905-843-1763" />
-                <AboutCard name="Deep Raj" email="rajd@mcmaster.ca" linkedin="link to linkedin" phone="647-926-7093" />
-                <AboutCard name="Dr. Terence Ho" email="hot4@mcmaster.ca" linkedin="link to linkedin" phone="--- --- ----" />
-                <AboutCard name="Dr. Ciaran Scallan" email="scallc@mcmaster.ca" linkedin="link to linkedin" phone="--- --- ----" />
+                <AboutCard name="Aamina Hussain" email="hussaa54@mcmaster.ca" />
+                <AboutCard name="Alan Scott" email="scotta30@mcmaster.ca" />
+                <AboutCard name="Anika Peer" email="peera1@mcmaster.ca" />
+                <AboutCard name="David Moroniti" email="moronitd@mcmaster.ca" />
+                <AboutCard name="Deep Raj" email="rajd@mcmaster.ca" />
+                <AboutCard name="Dr. Terence Ho" email="hot4@mcmaster.ca" />
+                <AboutCard name="Dr. Ciaran Scallan" email="scallc@mcmaster.ca" />
             </ContactUsContainer>
         </FlexContainer>
     );
