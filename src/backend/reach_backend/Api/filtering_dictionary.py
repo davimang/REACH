@@ -21,8 +21,8 @@ filtering_dict_boolean = {
     "Benralizumab+OR+Tezepelumab",
     "isSmoker": "smoker+OR+smoking+OR+pack",
     "isEosinophilic": "eosinophilic+OR+eosinophilia",
-    "usesPillsTablets": "pill+OR+oral+OR+azithromycin+OR+N+acetylcysteine+OR+"
-    "roflumilast",
+    "usesPillsTablets": "pill+OR+oral+OR+tablet+OR+azithromycin+OR+"
+    "N+acetylcysteine+OR+roflumilast+OR+NAC",
     "onMonotherapy": "monotherapy+OR+mono+therapy",
     "onDualTherapy": "dual+therapy+OR+therapy",
     "onTripleTherapy": "triple+therapy+OR+therapy",

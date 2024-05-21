@@ -211,11 +211,11 @@ class TrialFilterer:
             search_str.append("overweight+OR+over+weight+OR+high+BMI")
 
         # keyword based on cough severity
-        if (
-            input_params.get("coughSeverity") is not None
-            and input_params.get("coughSeverity", 0) > 4
-        ):
-            search_str.append("severe+cough+OR+heavy+cough+OR+VAS+40mm")
+        #if (
+        #    input_params.get("coughSeverity") is not None
+        #    and input_params.get("coughSeverity", 0) > 4
+        #):
+        #    search_str.append("severe+cough+OR+heavy+cough+OR+VAS+40mm")
 
         # return formatted string if there are search strings compiled
         if len(search_str) > 0:
