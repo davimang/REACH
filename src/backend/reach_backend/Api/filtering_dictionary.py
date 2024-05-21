@@ -82,6 +82,7 @@ filtering_dict_boolean = {
     "onAsthmaBiologic": "biologic",
     "dailyCough": "daily+cough+OR+frequent+cough",
     "triedInhalersEtc": "inhaler+OR+nasal+spray+OR+anti+acid",
+    "respiratoryDisease": "respiratory+disease+OR+significant+respiratory+disease",
 }
 
 # calculations are hard-coded in trial_filterer.py. FEV, FEVPercent, FVC,

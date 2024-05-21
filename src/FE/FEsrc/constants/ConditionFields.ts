@@ -32,7 +32,7 @@ const healthy = {
             },
         }
     },
-    respDisease: {
+    respiratoryDisease: {
         label: "Current or previous history of respiratory disease",
         initial: false,
         inputType: 'checkbox',
