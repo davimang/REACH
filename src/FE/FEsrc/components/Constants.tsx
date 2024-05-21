@@ -5,6 +5,7 @@ export const conditions: readonly String[] = [
     "Chronic Cough",
     "Pulmonary Hypertension",
     "Sleep Disorders",
+    "Healthy Volunteer",
     "Meningitis - fungal",
     "Coma - hyperosmolar nonketotic (HONK)",
     "Filtering bleb failed",
