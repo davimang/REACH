@@ -45,17 +45,14 @@ const ListProfiles: React.FC = () => {
   const [profiles, setProfiles] = useState<PatientInfo[]>([]);
   const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
   const [isProfileSnackBarOpen, setIsProfileSnackBarOpen] = useState(false);
+  const [isDeleteProfileSnackBarOpen, setIsDeleteProfileSnackBarOpen] = useState(false);
 
   const checkProfileSuccess = () => {
     if(localStorage.getItem('openProfileSnack')) {
         setIsProfileSnackBarOpen(true);
         localStorage.removeItem('openProfileSnack');
     }
-}
-
-useEffect(() => {
-  checkProfileSuccess();
-}, []);
+  }
 
   const fetchProfilesList = async () => {
     try {
@@ -75,6 +72,7 @@ useEffect(() => {
   }, [localStorage.getItem('accessToken')]);
 
   useEffect(() => {
+    checkProfileSuccess();
     fetchProfilesList();
   }, []);
 
@@ -86,10 +84,21 @@ useEffect(() => {
           setIsOpen={setIsProfileSnackBarOpen}
           snackText={"Profile Edited Successfully!"}
       />
+      <CustomizedSnackbars
+          isOpen={isDeleteProfileSnackBarOpen}
+          setIsOpen={setIsDeleteProfileSnackBarOpen}
+          snackText={"Profile Deleted Successfully!"}
+      />
       <Header>Profiles</Header>
       <ProfileListContainer>
         {profiles.map((profile, index) => (
-          <UserProfileCard key={index} profile={profile} />
+          <UserProfileCard
+            key={index}
+            profile={profile}
+            profileList={profiles}
+            setProfileList={setProfiles}
+            setIsDeleteProfileSnackBarOpen={setIsDeleteProfileSnackBarOpen}
+          />
         ))}
       </ProfileListContainer>
       <AddProfileButtonContainer>

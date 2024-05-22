@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PatientInfo } from './types';
+import { Tooltip } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import styled from '@emotion/styled';
+import DeleteProfileModal from './DeleteProfileModal';
+
 interface UserProfileCardProps {
   profile: PatientInfo;
+  profileList: PatientInfo[];
+  setProfileList: (profileLife: Object) => void;
+  setIsDeleteProfileSnackBarOpen: (isSnackBarOpen: boolean) => void;
 }
 
-const UserProfileCard: React.FC<UserProfileCardProps> = ({ profile }) => {
+const DeleteIconStyled = styled(DeleteIcon)`
+  color: #039D5F;
+  font-size: 35px;
+  cursor: pointer;
+`;
+
+const UserProfileCard: React.FC<UserProfileCardProps> = ({
+  profile,
+  profileList,
+  setProfileList,
+  setIsDeleteProfileSnackBarOpen,
+}) => {
+
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className='cards' style={cardStyle} >
       <div className='name-circle' style={circleStyle} >
@@ -15,24 +37,38 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({ profile }) => {
         <div className='profile-name' style={nameStyle}>
           Condition: {profile.condition}
         </div>
-        <Link to='/editProfile' state={{
-          defaultProfileName: profile.title, 
-          defaultStreet: profile.address.street,
-          defaultCity: profile.address.city,
-          defaultPostalCode: profile.address.postalCode,
-          defaultProvince: profile.address.province, 
-          defaultGender: profile.gender,
-          defaultCondition: profile.condition,
-          defaultDateOfBirth: profile.date_of_birth, 
-          defaultAdvancedInfo: profile.advanced_info,
-          profileId: profile.id}
-        }
-        >
-          <div className='saved-trails-link'>
-            Edit Profile
-          </div>
-        </Link>
+        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+          <Link to='/editProfile' state={{
+            defaultProfileName: profile.title, 
+            defaultStreet: profile.address.street,
+            defaultCity: profile.address.city,
+            defaultPostalCode: profile.address.postalCode,
+            defaultProvince: profile.address.province, 
+            defaultGender: profile.gender,
+            defaultCondition: profile.condition,
+            defaultDateOfBirth: profile.date_of_birth, 
+            defaultAdvancedInfo: profile.advanced_info,
+            profileId: profile.id}
+          }
+          >
+            <div className='saved-trails-link'>
+              Edit Profile
+            </div>
+          </Link>
+          <Tooltip title={"Delete Profile"} placement='top' arrow>
+            <DeleteIconStyled onClick={() => setIsOpen(true)} />
+          </Tooltip> 
+        </div>
       </div>
+
+      <DeleteProfileModal
+        isOpen={isOpen}
+        handleModal={() => setIsOpen(false)}
+        profile={profile}
+        profileList={profileList}
+        setProfileList={setProfileList}
+        setIsDeleteProfileSnackBarOpen={setIsDeleteProfileSnackBarOpen}
+      />
     </div>
   );
 };
