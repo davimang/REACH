@@ -1,3 +1,45 @@
+const healthy = {
+    literate: {
+        label: "Able to read and/or understand english",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: "both"
+    },
+    isSmoker: {
+        label: "Current or Ex-Smoker",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: "both",
+        children: {
+            yearsSmoked: {
+                label: "How many Years have you Smoked?",
+                initial: 0,
+                inputType: 'number',
+                clinician: false,
+            },
+            dailySmokes: {
+                label: "How many Cigarettes did you Smoke per day while Smoking?",
+                initial: 0,
+                inputType: 'number',
+                clinician: false,
+            },
+            packYears: {
+                label: "Pack-Years",
+                initial: 0,
+                inputType: 'number',
+                clinician: true,
+                i: "number of years you smoked for multiplied by number of packs of cigarettes smoked per day",
+            },
+        }
+    },
+    respiratoryDisease: {
+        label: "Current or previous history of respiratory disease",
+        initial: false,
+        inputType: 'checkbox',
+        clinician: "both",
+    }
+}
+
 const asthma = {
     numFlares: {
         label: "Number of Flares (in the last 1-year)",
@@ -773,4 +815,5 @@ export const Conditions = {
     "Chronic Cough": chronicCough,
     "Pulmonary Hypertension": pulmonaryHypertension,
     "Sleep Disorders": sleepDisorders,
+    "Healthy Volunteer": healthy,
 };
