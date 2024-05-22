@@ -10,6 +10,7 @@ interface UserProfileCardProps {
   profile: PatientInfo;
   profileList: PatientInfo[];
   setProfileList: (profileLife: Object) => void;
+  setIsDeleteProfileSnackBarOpen: (isSnackBarOpen: boolean) => void;
 }
 
 const DeleteIconStyled = styled(DeleteIcon)`
@@ -18,7 +19,12 @@ const DeleteIconStyled = styled(DeleteIcon)`
   cursor: pointer;
 `;
 
-const UserProfileCard: React.FC<UserProfileCardProps> = ({ profile, profileList, setProfileList}) => {
+const UserProfileCard: React.FC<UserProfileCardProps> = ({
+  profile,
+  profileList,
+  setProfileList,
+  setIsDeleteProfileSnackBarOpen,
+}) => {
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -61,6 +67,7 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({ profile, profileList,
         profile={profile}
         profileList={profileList}
         setProfileList={setProfileList}
+        setIsDeleteProfileSnackBarOpen={setIsDeleteProfileSnackBarOpen}
       />
     </div>
   );

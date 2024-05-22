@@ -13,9 +13,17 @@ interface ModalProps {
     profile: PatientInfo;
     profileList: PatientInfo[];
     setProfileList: (profileLife: Object) => void;
+    setIsDeleteProfileSnackBarOpen: (isSnackBarOpen: boolean) => void;
 }
 
-const DeleteProfileModal: React.FC<ModalProps> = ({ isOpen, handleModal, profile, profileList, setProfileList }) => {
+const DeleteProfileModal: React.FC<ModalProps> = ({
+    isOpen,
+    handleModal,
+    profile,
+    profileList,
+    setProfileList,
+    setIsDeleteProfileSnackBarOpen,
+}) => {
 
     const [authToken, setAuthToken] = useState(localStorage.getItem('accessToken'));
 
@@ -31,6 +39,7 @@ const DeleteProfileModal: React.FC<ModalProps> = ({ isOpen, handleModal, profile
                 console.log(response);
                 const newProfiles = Object.values(profileList).filter((profile) => profile.id !== profileId);
                 setProfileList(newProfiles);
+                setIsDeleteProfileSnackBarOpen(true);
                 handleModal();
             });
         } catch (error) {
