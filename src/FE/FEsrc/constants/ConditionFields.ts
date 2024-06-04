@@ -43,14 +43,14 @@ const healthy = {
 const asthma = {
     numFlares: {
         label: "Number of Flares (in the last 1-year)",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: false,
         i: "a flare is defined by use of prednisone for asthma",
     },
     numHospitalVisits: {
         label: "Number of Hospital Visits for Asthma Flare (in the last 1-year)",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: false,
     },
@@ -97,13 +97,13 @@ const asthma = {
     },
     FEV: {
         label: "FEV\u2081 in Litres",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: true,
     },
     FEVPercent: {
         label: "FEV\u2081 in %Predicted",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: true,
     },
@@ -136,13 +136,13 @@ const asthma = {
     },
     numExacerbations: {
         label: "Number of Exacerbations (in the last 1-year)",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: true,
     },
     numSevereExacerbations: {
         label: "Number of Severe Exacerbations (in the last 1-year)",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: true,
         i: "severe exacerbation defined by hospitalization",
@@ -152,14 +152,14 @@ const asthma = {
 const copd = {
     numCOPDFlares: {
         label: "Number of COPD Flares (in the last 1-year)",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: false,
         i: "a flare is defined by use of prednisone and/or antibiotics for COPD",
     },
     numHospitalVisits: {
         label: "Number of Hospital Visits for COPD Flare (in the last 1-year)",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: false,
     },
@@ -206,13 +206,13 @@ const copd = {
     },
     FEV: {
         label: "FEV\u2081 in Litres",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: true,
     },
     FEVPercent: {
         label: "FEV\u2081 in %Predicted",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: true,
     },
@@ -246,13 +246,13 @@ const copd = {
     },
     numExacerbations: {
         label: "Number of Exacerbations (in the last 1-year)",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: true,
     },
     numSevereExacerbations: {
         label: "Number of Severe Exacerbations (in the last 1-year)",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: true,
         i: "severe exacerbation defined by hospitalization",
@@ -314,19 +314,19 @@ const ild = {
     },
     FVC: {
         label: "Forced Vital Capacity (FVC) in Litres",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: true,
     },
     FVCPercent: {
         label: "Forced Vital Capacity (FVC) as %Predicted",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: true,
     },
     DLCO: {
         label: "Diffusing Capacity for Carbon Monoxide (DLCO) as %Predicted",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: true,
     },
@@ -527,7 +527,7 @@ const pulmonaryHypertension = {
     },
     pulmonaryVascularResistance: {
         label: "Pulmonary Vascular Resistance (dyn\u22c5s/cm\u2075)",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: true,
     },
@@ -542,13 +542,13 @@ const pulmonaryHypertension = {
 const primarySleepDisorderChildren = {
     apneadIndex: {
         label: "Apnea Hypopnea Index (events/hour)",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: true,
     },
     nadirO2Saturation: {
         label: "Nadir O\u2082 Saturation (%)",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: true,
     },
@@ -772,7 +772,7 @@ const sleepDisorders = {
     },
     BMI: {
         label: "Body mass Index (kg/m\u00b2)",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: true,
     },
