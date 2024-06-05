@@ -13,19 +13,19 @@ const healthy = {
         children: {
             yearsSmoked: {
                 label: "How many Years have you Smoked?",
-                initial: 0,
+                initial: null,
                 inputType: 'number',
                 clinician: false,
             },
             dailySmokes: {
                 label: "How many Cigarettes did you Smoke per day while Smoking?",
-                initial: 0,
+                initial: null,
                 inputType: 'number',
                 clinician: false,
             },
             packYears: {
                 label: "Pack-Years",
-                initial: 0,
+                initial: null,
                 inputType: 'number',
                 clinician: true,
                 i: "number of years you smoked for multiplied by number of packs of cigarettes smoked per day",
@@ -76,19 +76,19 @@ const asthma = {
         children: {
             yearsSmoked: {
                 label: "How many Years have you Smoked?",
-                initial: 0,
+                initial: null,
                 inputType: 'number',
                 clinician: false,
             },
             dailySmokes: {
                 label: "How many Cigarettes did you Smoke per day while Smoking?",
-                initial: 0,
+                initial: null,
                 inputType: 'number',
                 clinician: false,
             },
             packYears: {
                 label: "Pack-Years",
-                initial: 0,
+                initial: null,
                 inputType: 'number',
                 clinician: true,
                 i: "number of years you smoked for multiplied by number of packs of cigarettes smoked per day",
@@ -128,7 +128,7 @@ const asthma = {
         children: {
             bloodEosinophil: {
                 label: "Blood Eosinophils in Cells/Microlitre",
-                initial: 0,
+                initial: null,
                 inputType: 'number',
                 clinician: true,
             },
@@ -185,19 +185,19 @@ const copd = {
         children: {
             yearsSmoked: {
                 label: "How many Years have you Smoked?",
-                initial: 0,
+                initial: null,
                 inputType: 'number',
                 clinician: false,
             },
             dailySmokes: {
                 label: "How many Cigarettes did you Smoke per day while Smoking?",
-                initial: 0,
+                initial: null,
                 inputType: 'number',
                 clinician: false,
             },
             packYears: {
                 label: "Pack-Years",
-                initial: 0,
+                initial: null,
                 inputType: 'number',
                 clinician: true,
                 i: "number of years you smoked for multiplied by number of packs of cigarettes smoked per day",
@@ -238,7 +238,7 @@ const copd = {
         children: {
             bloodEosinophil: {
                 label: "Blood Eosinophils in Cells/Microlitre",
-                initial: 0,
+                initial: null,
                 inputType: 'number',
                 clinician: true,
             },
@@ -293,19 +293,19 @@ const ild = {
         children: {
             yearsSmoked: {
                 label: "How many Years have you Smoked?",
-                initial: 0,
+                initial: null,
                 inputType: 'number',
                 clinician: false,
             },
             dailySmokes: {
                 label: "How many Cigarettes did you Smoke per day while Smoking?",
-                initial: 0,
+                initial: null,
                 inputType: 'number',
                 clinician: false,
             },
             packYears: {
                 label: "Pack-Years",
-                initial: 0,
+                initial: null,
                 inputType: 'number',
                 clinician: true,
                 i: "number of years you smoked for multiplied by number of packs of cigarettes smoked per day",
@@ -348,7 +348,7 @@ const chronicCough = {
         children: {
             chronicCoughYears: {
                 label: "If so, approximately how many years?",
-                initial: 0,
+                initial: null,
                 inputType: 'number',
                 clinician: false,
             },
@@ -368,7 +368,7 @@ const chronicCough = {
     },
     coughSeverity: {
         label: "On a scale of 0 to 10, where 0 is no cough, and 10 is maximal or worst possible cough, how would you rate the severity of your cough overall (over the last 1-month)?",
-        initial: 0,
+        initial: null,
         inputType: 'number',
         clinician: false,
     },
@@ -417,7 +417,7 @@ const chronicCough = {
         children: {
             packYears: {
                 label: "Pack-Years",
-                initial: 0,
+                initial: null,
                 inputType: 'number',
                 clinician: true,
                 i: "number of years you smoked for multiplied by number of packs of cigarettes smoked per day",
